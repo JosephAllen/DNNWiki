@@ -1,0 +1,6 @@
+C:\websites\dnndev\bin\DotNetNuke.Modules.WikiUnitOfWork.xml
+C:\websites\dnndev\bin\DotNetNuke.Modules.WikiUnitOfWork.dll
+C:\websites\dnndev\bin\DotNetNuke.Modules.WikiUnitOfWork.pdb
+C:\websites\dnndev\DesktopModules\DNNWikiUnitOfWork\obj\Debug\DNNWikiUnitOfWork.csprojResolveAssemblyReference.cache
+C:\websites\dnndev\DesktopModules\DNNWikiUnitOfWork\obj\Debug\DotNetNuke.Modules.WikiUnitOfWork.dll
+C:\websites\dnndev\DesktopModules\DNNWikiUnitOfWork\obj\Debug\DotNetNuke.Modules.WikiUnitOfWork.pdb
