@@ -15,7 +15,7 @@ using DotNetNuke.Entities.Modules;
 
 namespace DotNetNuke.Modules.DNNWikiUnitOfWork.Components
 {
-    public class DDNNWikiUnitOfWorkModuleSettingsBase : ModuleSettingsBase
+    public class DNNWikiUnitOfWorkModuleSettingsBase : ModuleSettingsBase
     {
     }
 }
