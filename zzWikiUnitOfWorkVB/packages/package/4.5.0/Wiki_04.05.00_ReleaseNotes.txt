@@ -1,0 +1,36 @@
+﻿<h3>Wiki 4.5.0</h3>
+<p class="Contributor">
+	DotNetNuke&reg; <br />
+	<a href="mailto:support@9dotnetnuke.com">support@dotnetnuke.com</a><br />
+	<a href=http://www.dotnetnuke.com>http://www.dotnetnuke.com</a><br />
+</p>
+<hr/>
+<div class="License">
+	<h3>About the Core Wiki</h3>
+	<p class="Owner">
+		<b>Version 4.5.0</b><br /><br />
+	</p>
+	<p>This version of the Wiki module is compiled against DotNetNuke 5.6.2 and is intended for production use. As always backup everything before installation/upgrade, and always test in a test environment.</p>
+	
+	<h4>Bug Fixes</h4>
+	<ul>
+			<li>Question Marks in the title create uneditable pages</li>
+			<li>RSS Feed - Doesn't refer to the topic address</li>
+			<li>Add Delete Confirmation</li>
+			<li>Bad characters in page name when editing or adding a page</li>
+			<li>Cancel when editing a wiki page does not work (wiki version 4.2.0)</li>
+			<li>Topics get lost when titles use dashes ("-")</li>
+			<li>Leading spaces are deleted when a sentence begins with [[Another topic]]</li>
+			<li>Can't delete pages with special characters</li>
+	</ul>
+	
+	<h4>Enhancements</h4>
+	<ul>
+		<li>The "index" is no longer on the left in the menu, it is now "show all pages" and takes you to another page that lists off all pages. </li>
+		<li>the left menu is no longer being built in a table, it should allow you to customize things better with CSS now, though I believe it will still display like it used to until you customize the CSS (that was the goal)</li>
+		<li>Lots of code refactoring, moving things around, trying to streamline the code to make it easier to add enhancements. Let me know if you run into anything that doesn't work.</li>
+		<li>Moved the Edit/Add/ViewHistory links out into a separate control that allows for display in other situations.</li>
+		<li>Refactoring of Comments and Ratings code courtesy of Oliver Hine.</li>
+	</ul>
+
+</div>
