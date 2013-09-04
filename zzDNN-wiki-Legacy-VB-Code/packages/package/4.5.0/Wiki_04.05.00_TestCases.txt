@@ -1,0 +1,67 @@
+Host Actions
+Host should install module as a new module instance on DNN 5.6.2 or higher.
+Host should install module as an upgrade on DNN 5.6.2 or higher.
+
+FIRST STEP for all items below setup the Wiki module on a DNN page.
+
+
+Bug Fixs: 
+	Question Marks in the title create uneditable pages
+	Bad characters in page name when editing or adding a page
+	Topics get lost when titles use dashes ("-")
+	Can't delete pages with special characters
+	
+Steps to Test:
+	Edit a Wiki page and create the following new page links
+	[[test swedish едц]]
+	test swedish едц1]]
+	[[test a dash - here]]
+	Visit each of those new pages, EDIT each page, make sure that the Title is still correct
+	Save each page
+	View the originally edited page (with links to the new pages) make sure the links work, pointing to the recently edited pages
+	View the Show All Pages link
+	Ensure that the pages you created are listed, and the links work
+	View one of the "Special" pages and delete, confirm that the deletion works
+------------------------------------------------------------------------------------------------
+Bug Fix: 
+	Add Delete Confirmation
+
+Steps to Test:
+	Create a Wiki Page
+	Attempted to Delete a Wiki page
+------------------------------------------------------------------------------------------------
+Bug Fix:
+	RSS Feed - Doesn't refer to the topic address
+
+Steps to Test:
+	Create a few Wiki pages
+	Make sure the Search Indexer has run
+	Enable Syndication on the module settings
+	Consume RSS feed from module to see content
+	Ensure that the links in RSS point to the actual wiki page/topic
+------------------------------------------------------------------------------------------------
+Bug Fix:
+	Cancel when editing a wiki page does not work (wiki version 4.2.0)
+Steps to Test:
+	Edit a Wiki page.
+	Press Cancel
+	It should return to your to the VIEW for the page, not remain in edit mode
+------------------------------------------------------------------------------------------------	
+Bug Fix:
+	Leading spaces are deleted when a sentence begins with [[Another topic]]
+Steps to Test
+	Edit a Wiki page, in the content add a new topic link [[NEW TOPIC LINK]] in front of a sentance, and after another sentance.
+	Save wiki page
+	View the new content/link, ensure that the SPACE between sentances still exists
+------------------------------------------------------------------------------------------------
+Enhancements
+
+The "index" is no longer on the left in the menu, it is now "show all pages" and takes you to another page that lists off all pages.
+
+the left menu is no longer being built in a table, it should allow you to customize things better with CSS now, though I believe it will still display like it used to until you customize the CSS (that was the goal)
+
+Lots of code refactoring, moving things around, trying to streamline the code to make it easier to add enhancements.
+
+Moved the Edit/Add/ViewHistory links out into a separate control that allows for display in other situations.
+
+Refactoring of Comments and Ratings code courtesy of Oliver Hine.

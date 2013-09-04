@@ -1,0 +1,915 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DotNetNuke.Modules.Wiki
+</name>
+</assembly>
+<members>
+<member name="F:DotNetNuke.Modules.Wiki.SearchPage.Label2">
+	<summary>
+Label2 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.SearchPage.Label1">
+	<summary>
+Label1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.SearchPage.txtTextToSearch">
+	<summary>
+txtTextToSearch control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.SearchPage.cmdSearch">
+	<summary>
+cmdSearch control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.SearchPage.HitTable">
+	<summary>
+HitTable control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.PageRatings.RatingLbl">
+	<summary>
+RatingLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.PageRatings.RatingBar">
+	<summary>
+RatingBar control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.PageRatings.NoRating">
+	<summary>
+NoRating control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.RecentChanges.TitleLbl">
+	<summary>
+TitleLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.RecentChanges.HitTable">
+	<summary>
+HitTable control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.RecentChanges.cmdLast24Hrs">
+	<summary>
+cmdLast24Hrs control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.RecentChanges.cmdLast7Days">
+	<summary>
+cmdLast7Days control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.RecentChanges.cmdLastMonth">
+	<summary>
+cmdLastMonth control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.lblMessage">
+	<summary>
+lblMessage control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.divWikiEdit">
+	<summary>
+divWikiEdit control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.plPageName">
+	<summary>
+plPageName control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.txtPageName">
+	<summary>
+txtPageName control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.PageNameValidator">
+	<summary>
+PageNameValidator control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.shSeo">
+	<summary>
+shSeo control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.wikiSeo">
+	<summary>
+wikiSeo control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.plTitle">
+	<summary>
+plTitle control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.txtTitle">
+	<summary>
+txtTitle control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.plDescription">
+	<summary>
+plDescription control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.txtDescription">
+	<summary>
+txtDescription control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.plKeywords">
+	<summary>
+plKeywords control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.txtKeywords">
+	<summary>
+txtKeywords control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.TextDirections">
+	<summary>
+TextDirections control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.WikiDirectionsDetails">
+	<summary>
+WikiDirectionsDetails control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.AllowDiscuss">
+	<summary>
+AllowDiscuss control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.AllowRating">
+	<summary>
+AllowRating control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.lblPageCreationError">
+	<summary>
+lblPageCreationError control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.cmdSave">
+	<summary>
+cmdSave control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.cmdSaveAndContinue">
+	<summary>
+cmdSaveAndContinue control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.cmdCancel">
+	<summary>
+cmdCancel control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.DeleteBtn">
+	<summary>
+DeleteBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Edit.DeleteLbl">
+	<summary>
+DeleteLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Router.phWikiMenu">
+	<summary>
+phWikiMenu control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Router.phWikiContent">
+	<summary>
+phWikiContent control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.lblPageTopic">
+	<summary>
+lblPageTopic control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.CommentCount1">
+	<summary>
+CommentCount1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.lblPageContent">
+	<summary>
+lblPageContent control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.ratingTbl">
+	<summary>
+ratingTbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.CommentsTbl">
+	<summary>
+CommentsTbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.AddCommentCommand">
+	<summary>
+AddCommentCommand control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.Comments2">
+	<summary>
+Comments2 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.AddCommentPane">
+	<summary>
+AddCommentPane control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.PostCommentLbl">
+	<summary>
+PostCommentLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Start.AddCommentsForm1">
+	<summary>
+AddCommentsForm1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.AddPipe">
+	<summary>
+AddPipe control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.cmdAdd">
+	<summary>
+cmdAdd control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.EditPipe">
+	<summary>
+EditPipe control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.lnkEdit">
+	<summary>
+lnkEdit control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.ViewPipe1">
+	<summary>
+ViewPipe1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.txtViewHistory">
+	<summary>
+txtViewHistory control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.WikiButton.ViewPipe2">
+	<summary>
+ViewPipe2 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.Label1">
+	<summary>
+Label1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.lblPageTopic">
+	<summary>
+lblPageTopic control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.lblDateTime">
+	<summary>
+lblDateTime control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.lblPageContent">
+	<summary>
+lblPageContent control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.BackBtn">
+	<summary>
+BackBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.cmdRestore">
+	<summary>
+cmdRestore control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.TopicHistory.RestoreLbl">
+	<summary>
+RestoreLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.SecuritySettings">
+	<summary>
+SecuritySettings control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.DNNSecurityChk">
+	<summary>
+DNNSecurityChk control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.WikiSecurity">
+	<summary>
+WikiSecurity control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblNotifyMethodEditRoles">
+	<summary>
+lblNotifyMethodEditRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.NotifyMethodEditRoles">
+	<summary>
+NotifyMethodEditRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblNotifyMethodViewRoles">
+	<summary>
+lblNotifyMethodViewRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.NotifyMethodViewRoles">
+	<summary>
+NotifyMethodViewRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblNotifyMethodCustomRoles">
+	<summary>
+lblNotifyMethodCustomRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.NotifyMethodCustomRoles">
+	<summary>
+NotifyMethodCustomRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblNotifyRoles">
+	<summary>
+lblNotifyRoles control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblAllowPageComments">
+	<summary>
+lblAllowPageComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.AllowPageComments">
+	<summary>
+AllowPageComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblActivateComments">
+	<summary>
+lblActivateComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.ActivateComments">
+	<summary>
+ActivateComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblDefaultCommentsMode">
+	<summary>
+lblDefaultCommentsMode control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.DefaultCommentsMode">
+	<summary>
+DefaultCommentsMode control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblNotifyMethodUserComments">
+	<summary>
+lblNotifyMethodUserComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.NotifyMethodUserComments">
+	<summary>
+NotifyMethodUserComments control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblAllowPageRatings">
+	<summary>
+lblAllowPageRatings control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.AllowPageRatings">
+	<summary>
+AllowPageRatings control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblActivateRatings">
+	<summary>
+lblActivateRatings control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.ActivateRatings">
+	<summary>
+ActivateRatings control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.lblDefaultRatingMode">
+	<summary>
+lblDefaultRatingMode control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.DefaultRatingMode">
+	<summary>
+DefaultRatingMode control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.SaveButton">
+	<summary>
+SaveButton control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Administration.CancelButton">
+	<summary>
+CancelButton control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.Index.TitleLbl">
+	<summary>
+TitleLbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.Index.IndexPanel">
+	<summary>
+IndexPanel control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.Index.IndexList">
+	<summary>
+IndexList control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.WikiMenu.LinksPanel">
+	<summary>
+LinksPanel control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.WikiMenu.HomeBtn">
+	<summary>
+HomeBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.WikiMenu.SearchBtn">
+	<summary>
+SearchBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.WikiMenu.RecChangeBtn">
+	<summary>
+RecChangeBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Controls.WikiMenu.IndexBtn">
+	<summary>
+IndexBtn control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.pnlCastVote">
+	<summary>
+pnlCastVote control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.RatingsTable">
+	<summary>
+RatingsTable control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.RatePagelbl">
+	<summary>
+RatePagelbl control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.LowRating">
+	<summary>
+LowRating control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.rating1">
+	<summary>
+rating1 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.rating2">
+	<summary>
+rating2 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.rating3">
+	<summary>
+rating3 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.rating4">
+	<summary>
+rating4 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.rating5">
+	<summary>
+rating5 control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.HighRating">
+	<summary>
+HighRating control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.btnSubmit">
+	<summary>
+btnSubmit control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.pnlVoteCast">
+	<summary>
+pnlVoteCast control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.lblVoteCastMessage">
+	<summary>
+lblVoteCastMessage control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.lblAverageRatingMessage">
+	<summary>
+lblAverageRatingMessage control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.lblAverageRating">
+	<summary>
+lblAverageRating control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.RatingsGraphTable">
+	<summary>
+RatingsGraphTable control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member><member name="F:DotNetNuke.Modules.Wiki.Ratings.lblRatingCount">
+	<summary>
+lblRatingCount control.
+</summary>
+	<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+</members>
+</doc>

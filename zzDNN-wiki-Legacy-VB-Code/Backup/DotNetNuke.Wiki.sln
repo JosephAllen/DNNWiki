@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DotNetNuke.Wiki", "DotNetNuke.Wiki.vbproj", "{BD7B2943-D76B-477E-966D-93D3427BCD2E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs03
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DotNetNuke.Wiki.vbproj
+		SccLocalPath1 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD7B2943-D76B-477E-966D-93D3427BCD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7B2943-D76B-477E-966D-93D3427BCD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7B2943-D76B-477E-966D-93D3427BCD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7B2943-D76B-477E-966D-93D3427BCD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
