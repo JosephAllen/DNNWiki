@@ -1,0 +1,5 @@
+C:\websites\dnnwikidev\bin\DotNetNuke.Modules.Wiki.dll
+C:\websites\dnnwikidev\bin\DotNetNuke.Modules.Wiki.pdb
+C:\websites\dnnwikidev\DesktopModules\Wiki\obj\Release\DotNetNuke.Modules.Wiki.dll
+C:\websites\dnnwikidev\DesktopModules\Wiki\obj\Release\DotNetNuke.Modules.Wiki.pdb
+C:\websites\dnnwikidev\DesktopModules\Wiki\obj\Release\DotNetNuke.Wiki.csprojResolveAssemblyReference.cache
