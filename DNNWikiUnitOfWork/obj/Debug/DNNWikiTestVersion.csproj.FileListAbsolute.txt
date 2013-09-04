@@ -1,4 +1,0 @@
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\bin\DNNWikiTestVersion.dll
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\bin\DNNWikiTestVersion.pdb
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\DesktopModules\DNNWikiTestVersion\obj\Debug\DNNWikiTestVersion.dll
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\DesktopModules\DNNWikiTestVersion\obj\Debug\DNNWikiTestVersion.pdb
