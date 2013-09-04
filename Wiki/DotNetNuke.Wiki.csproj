@@ -88,10 +88,10 @@
     <Compile Include="BusinessObjects\Models\Item.cs" />
     <Compile Include="BusinessObjects\UnitOfWork.cs" />
     <Compile Include="Interfaces\IBusinessObject.cs" />
-    <Compile Include="Utilities\DNNUnitOfWorkModuleBase.cs">
+    <Compile Include="Utilities\WikiModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Utilities\DNNUnitOfWorkModuleSettingsBase.cs">
+    <Compile Include="Utilities\WikiModuleSettingsBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Utilities\FeatureController.cs" />
