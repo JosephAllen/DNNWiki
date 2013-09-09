@@ -59,7 +59,7 @@ namespace DotNetNuke.Modules.Wiki.Views
                     {
                         using (UnitOfWork uof = new UnitOfWork())
                         {
-                            var tc = new ItemBO(uof);
+                            var tc = new CommentBO(uof);
 
                             var t = tc.Get(ItemId);
                             if (t != null)
@@ -82,8 +82,8 @@ namespace DotNetNuke.Modules.Wiki.Views
         {
             using (UnitOfWork uof = new UnitOfWork())
             {
-                var t = new Item();
-                var tc = new ItemBO(uof);
+                var t = new Topic();
+                var tc = new CommentBO(uof);
 
                 if (ItemId > 0)
                 {
@@ -96,7 +96,7 @@ namespace DotNetNuke.Modules.Wiki.Views
                 }
                 else
                 {
-                    t = new Item()
+                    t = new Topic()
                     {
                         AssignedUserId = Convert.ToInt32(ddlAssignedUser.SelectedValue),
                         CreatedByUserId = UserId,

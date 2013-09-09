@@ -40,7 +40,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             {
                 using (UnitOfWork uof = new UnitOfWork())
                 {
-                    var itemBo = new ItemBO(uof);
+                    var itemBo = new CommentBO(uof);
                     rptItemList.DataSource = itemBo.GetAll();
                     rptItemList.DataBind();
                 }
@@ -60,7 +60,7 @@ namespace DotNetNuke.Modules.Wiki.Views
 
                 var pnlAdminControls = e.Item.FindControl("pnlAdmin") as Panel;
 
-                var t = (Item)e.Item.DataItem;
+                var t = (Topic)e.Item.DataItem;
 
                 if (IsEditable && lnkDelete != null && lnkEdit != null && pnlAdminControls != null)
                 {
@@ -90,8 +90,8 @@ namespace DotNetNuke.Modules.Wiki.Views
                     uof.BeginTransaction();
                     try
                     {
-                        var itemBo = new ItemBO(uof);
-                        itemBo.Delete(new Item { ItemId = Convert.ToInt32(e.CommandArgument), ModuleId = ModuleId });
+                        var itemBo = new CommentBO(uof);
+                        itemBo.Delete(new Topic { ItemId = Convert.ToInt32(e.CommandArgument), ModuleId = ModuleId });
                         uof.CommitTransaction();
                     }
                     catch (Exception)
