@@ -26,7 +26,7 @@ using System.Diagnostics;
 
 using System.Text.RegularExpressions;
 
-namespace DotNetNuke.Modules.Wiki.Entities
+namespace DotNetNuke.Modules.Wiki.Utilities
 {
 
     public abstract class WikiData
