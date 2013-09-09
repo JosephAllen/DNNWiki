@@ -4,32 +4,31 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+
 //
-// DotNetNuke® - http://www.dotnetnuke.com
-// Copyright (c) 2002-2013
-// by DotNetNuke Corporation
+// DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
-// of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-// DEALINGS IN THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 using System.Text.RegularExpressions;
 
 namespace DotNetNuke.Modules.Wiki.Entities
 {
-
-    public abstract class WikiData
+    public abstract class WikiMarkup
     {
         public const string OPEN_BRACKET = "[[";
         public const string CLOSE_BRACKET = "]]";
@@ -37,7 +36,11 @@ namespace DotNetNuke.Modules.Wiki.Entities
         public DotNetNuke.Entities.Portals.PortalSettings PortalSettings;
 
         protected const RegexOptions C_C_Options = RegexOptions.Compiled | RegexOptions.Multiline;
+
+        #region Properties
+
         public abstract string Content { get; set; }
+
         public string RenderedContent
         {
             get { return WikiText(Content); }
@@ -57,6 +60,8 @@ namespace DotNetNuke.Modules.Wiki.Entities
                 }
             }
         }
+
+        #endregion Properties
 
         protected string WikiText(string RawText)
         {
@@ -111,7 +116,8 @@ namespace DotNetNuke.Modules.Wiki.Entities
         {
             val.Replace("\\b\\r\\n", "<br />");
             val = Regex.Replace(val, "([^\\>])\\r\\n", "$1<br />", C_C_Options);
-            // ...not prefixed with a > (because we don't want to add it after most HTML closing tags)
+            // ...not prefixed with a > (because we don't want to add it after most HTML closing
+            // tags)
             val = Regex.Replace(val, "([biua]\\>)\\r\\n", "$1<br />", C_C_Options);
             // ...prefixed by b> i> u> a> (because we do want it after these HTML tags)
             val = Regex.Replace(val, "\\<br\\>\\r\\n", "<br /><br />", C_C_Options);
@@ -127,8 +133,10 @@ namespace DotNetNuke.Modules.Wiki.Entities
             {
                 case 1:
                     return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+
                 case 2:
                     return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+
                 case 3:
                     if (Information.IsNumeric(Vals[2]))
                     {
@@ -167,6 +175,7 @@ namespace DotNetNuke.Modules.Wiki.Entities
                 return title;
             }
         }
+
         public static string RemoveHost(string val)
         {
             if ((val.ToLower().StartsWith("http://")))
@@ -186,6 +195,7 @@ namespace DotNetNuke.Modules.Wiki.Entities
                 return val;
             }
         }
+
         public static string EncodeTitle(string val)
         {
             return HttpUtility.UrlEncode(val);
@@ -197,12 +207,10 @@ namespace DotNetNuke.Modules.Wiki.Entities
 
             //For Each character In val.ToCharArray()
 
-            //    Select Case character
-            //        Case "+", "=", "~", "#", "%", "&", "*", "\", ":", """", "<", ">", ".", "?", "/", "-"
-            //            returnval = returnval + "--" + Convert.ToByte(character).ToString() + "-"
-            //        Case Else
-            //            returnval = returnval + character
-            //    End Select
+            // Select Case character Case "+", "=", "~", "#", "%", "&", "*", "\", ":", """",
+            // "<", ">", ".", "?", "/", "-" returnval = returnval + "--" +
+            // Convert.ToByte(character).ToString() + "-" Case Else returnval = returnval +
+            // character End Select
 
             //Next
             //Return returnval
@@ -210,7 +218,6 @@ namespace DotNetNuke.Modules.Wiki.Entities
 
         public static string DecodeTitle(string val)
         {
-
             return HttpUtility.UrlDecode(val);
             //If (val.IndexOf("-") > -1) Then
             //    Dim encoding As New System.Text.ASCIIEncoding
@@ -240,6 +247,4 @@ namespace DotNetNuke.Modules.Wiki.Entities
             //End If
         }
     }
-
-
 }
