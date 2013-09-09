@@ -81,6 +81,21 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessObjects\CommentBO.cs" />
+    <Compile Include="BusinessObjects\CommentParentBO.cs" />
+    <Compile Include="BusinessObjects\Exceptions\CommentParentValidationException.cs" />
+    <Compile Include="BusinessObjects\Exceptions\CommentValidationException.cs" />
+    <Compile Include="BusinessObjects\Exceptions\SettingValidationException.cs" />
+    <Compile Include="BusinessObjects\Exceptions\TopicHistoryValidationException.cs" />
+    <Compile Include="BusinessObjects\Exceptions\TopicValidationException.cs" />
+    <Compile Include="BusinessObjects\Models\Comment.cs" />
+    <Compile Include="BusinessObjects\Models\CommentParent.cs" />
+    <Compile Include="BusinessObjects\Models\Setting.cs" />
+    <Compile Include="BusinessObjects\Models\Topic.cs" />
+    <Compile Include="BusinessObjects\Models\TopicHistory.cs" />
+    <Compile Include="BusinessObjects\SettingBO.cs" />
+    <Compile Include="BusinessObjects\TopicBO.cs" />
+    <Compile Include="BusinessObjects\TopicHistoryBO.cs" />
     <Compile Include="BusinessObjects\_AbstractBusinessObject.cs" />
     <Compile Include="BusinessObjects\_AbstractValidationException.cs" />
     <Compile Include="BusinessObjects\Exceptions\ItemValidationException.cs" />
