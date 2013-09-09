@@ -17,7 +17,6 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///<summary>
         /// The ID of the Comment
         ///</summary>
-        //Test
         public int CommentId { get; set; }
 
         ///<summary>
