@@ -1,6 +1,5 @@
-﻿using DotNetNuke.Common.Utilities;
-using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Entities.Content;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Modules.Wiki.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
@@ -14,7 +13,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
     [Cacheable("Wiki_Topics", CacheItemPriority.Default, 20)]
     //scope the objects to the ModuleId of a module on a page (or copy of a module on a page)
     [Scope("ModuleId")]
-    public class Topic
+    public class Topic : WikiMarkup
     {
         ///<summary>
         /// The ID of the topic
@@ -52,7 +51,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///</summary>
         [Required]
         [StringLength(101)]
-        public int UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; }
 
         ///<summary>
         /// An integer for the user id of the user who last updated the object

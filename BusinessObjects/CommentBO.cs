@@ -1,20 +1,26 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class CommentBO : _AbstractBusinessObject<Comment, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public CommentBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -30,11 +36,24 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
+        #region Methods
+
+        public override Comment Add(Comment entity)
+        {
+            var comment = base.Add(entity);
+
+            //send emails to any user that might of opted in to email notifications
+            //TODO - SendNotifications(ParentId, Name, Email, Comment, Ip);
+            return comment;
+        }
+
         public override void Entity_EvaluateSqlException(
             SqlException exc,
             SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

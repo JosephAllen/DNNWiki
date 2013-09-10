@@ -10,231 +10,258 @@
 namespace DotNetNuke.Modules.Wiki.Views {
     
     
-    public partial class Edit {
+    public partial class Administration {
         
         /// <summary>
-        /// lblMessage control.
+        /// SecuritySettings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::System.Web.UI.UserControl SecuritySettings;
         
         /// <summary>
-        /// divWikiEdit control.
+        /// DNNSecurityChk control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWikiEdit;
+        protected global::System.Web.UI.WebControls.CheckBox DNNSecurityChk;
         
         /// <summary>
-        /// plPageName control.
+        /// WikiSecurity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl plPageName;
+        protected global::System.Web.UI.UserControl WikiSecurity;
         
         /// <summary>
-        /// txtPageName control.
+        /// ContentEditors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPageName;
+        protected global::System.Web.UI.UserControl ContentEditors;
         
         /// <summary>
-        /// PageNameValidator control.
+        /// lblNotifyMethodEditRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator PageNameValidator;
+        protected global::System.Web.UI.UserControl lblNotifyMethodEditRoles;
         
         /// <summary>
-        /// shSeo control.
+        /// NotifyMethodEditRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl shSeo;
+        protected global::System.Web.UI.WebControls.CheckBox NotifyMethodEditRoles;
         
         /// <summary>
-        /// wikiSeo control.
+        /// lblNotifyMethodViewRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl wikiSeo;
+        protected global::System.Web.UI.UserControl lblNotifyMethodViewRoles;
         
         /// <summary>
-        /// plTitle control.
+        /// NotifyMethodViewRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl plTitle;
+        protected global::System.Web.UI.WebControls.CheckBox NotifyMethodViewRoles;
         
         /// <summary>
-        /// txtTitle control.
+        /// lblNotifyMethodCustomRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTitle;
+        protected global::System.Web.UI.UserControl lblNotifyMethodCustomRoles;
         
         /// <summary>
-        /// plDescription control.
+        /// NotifyMethodCustomRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl plDescription;
+        protected global::System.Web.UI.WebControls.CheckBox NotifyMethodCustomRoles;
         
         /// <summary>
-        /// txtDescription control.
+        /// lblNotifyRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
+        protected global::System.Web.UI.UserControl lblNotifyRoles;
         
         /// <summary>
-        /// plKeywords control.
+        /// NotifyRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl plKeywords;
+        protected global::System.Web.UI.UserControl NotifyRoles;
         
         /// <summary>
-        /// txtKeywords control.
+        /// lblAllowPageComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtKeywords;
+        protected global::System.Web.UI.UserControl lblAllowPageComments;
         
         /// <summary>
-        /// teContent control.
+        /// AllowPageComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl teContent;
+        protected global::System.Web.UI.WebControls.CheckBox AllowPageComments;
         
         /// <summary>
-        /// WikiTextDirections control.
+        /// lblActivateComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl WikiTextDirections;
+        protected global::System.Web.UI.UserControl lblActivateComments;
         
         /// <summary>
-        /// TextDirections control.
+        /// ActivateComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable TextDirections;
+        protected global::System.Web.UI.WebControls.CheckBox ActivateComments;
         
         /// <summary>
-        /// WikiDirectionsDetails control.
+        /// lblDefaultCommentsMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal WikiDirectionsDetails;
+        protected global::System.Web.UI.UserControl lblDefaultCommentsMode;
         
         /// <summary>
-        /// AllowDiscuss control.
+        /// DefaultCommentsMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox AllowDiscuss;
+        protected global::System.Web.UI.WebControls.CheckBox DefaultCommentsMode;
         
         /// <summary>
-        /// AllowRating control.
+        /// lblNotifyMethodUserComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox AllowRating;
+        protected global::System.Web.UI.UserControl lblNotifyMethodUserComments;
         
         /// <summary>
-        /// lblPageCreationError control.
+        /// NotifyMethodUserComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPageCreationError;
+        protected global::System.Web.UI.WebControls.CheckBox NotifyMethodUserComments;
         
         /// <summary>
-        /// cmdSave control.
+        /// lblAllowPageRatings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton cmdSave;
+        protected global::System.Web.UI.UserControl lblAllowPageRatings;
         
         /// <summary>
-        /// cmdSaveAndContinue control.
+        /// AllowPageRatings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton cmdSaveAndContinue;
+        protected global::System.Web.UI.WebControls.CheckBox AllowPageRatings;
         
         /// <summary>
-        /// cmdCancel control.
+        /// lblActivateRatings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton cmdCancel;
+        protected global::System.Web.UI.UserControl lblActivateRatings;
         
         /// <summary>
-        /// DeleteBtn control.
+        /// ActivateRatings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton DeleteBtn;
+        protected global::System.Web.UI.WebControls.CheckBox ActivateRatings;
         
         /// <summary>
-        /// DeleteLbl control.
+        /// lblDefaultRatingMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label DeleteLbl;
+        protected global::System.Web.UI.UserControl lblDefaultRatingMode;
+        
+        /// <summary>
+        /// DefaultRatingMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox DefaultRatingMode;
+        
+        /// <summary>
+        /// SaveButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton SaveButton;
+        
+        /// <summary>
+        /// CancelButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton CancelButton;
     }
 }
