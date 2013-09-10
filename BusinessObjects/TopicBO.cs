@@ -1,7 +1,7 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
@@ -35,6 +35,16 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
             SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets all topics associated to the module id
+        /// </summary>
+        /// <param name="moduleId">the module id the topics are associated to</param>
+        /// <returns>returns collection of Topics</returns>
+        internal IEnumerable<Topic> GetAllByModuleID(int moduleId)
+        {
+            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleID", moduleId);
         }
     }
 }

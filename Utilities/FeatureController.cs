@@ -1,6 +1,3 @@
-using DotNetNuke.Entities.Modules;
-using DotNetNuke.Services.Search;
-
 /*
 ' Copyright (c) 2013 DotNetNuke
 ' http://www.dotnetnuke.com
@@ -14,7 +11,20 @@ using DotNetNuke.Services.Search;
 '
 */
 
-using System.Collections.Generic;
+using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Modules.Wiki.BusinessObjects;
+using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+using DotNetNuke.Services.Localization;
+using DotNetNuke.Services.Search;
+using System;
+using System.Collections;
+using System.IO;
+using System.Web;
+using System.Xml;
 
 namespace DotNetNuke.Modules.Wiki.Utilities
 {
@@ -36,94 +46,211 @@ namespace DotNetNuke.Modules.Wiki.Utilities
     /// -----------------------------------------------------------------------------
 
     //uncomment the interfaces to add the support.
-    public class FeatureController //: IPortable, ISearchable, IUpgradeable
+    public class FeatureController : IPortable, ISearchable//, IUpgradeable
     {
-        #region Optional Interfaces
+        //Implements IUpgradeable
 
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        /// ExportModule implements the IPortable ExportModule Interface
-        /// </summary>
-        /// <param name="ModuleID">The Id of the module to be exported</param>
-        /// -----------------------------------------------------------------------------
-        //public string ExportModule(int ModuleID)
-        //{
-        //string strXML = "";
+        private string SharedResourceFile =
+            DotNetNuke.Common.Globals.ApplicationPath + "/DesktopModules/Wiki/" + Localization.LocalResourceDirectory + "/" + Localization.LocalSharedResourceFile;
 
-        //List<DNNModule1Info> colDNNModule1s = GetDNNModule1s(ModuleID);
-        //if (colDNNModule1s.Count != 0)
-        //{
-        //    strXML += "<DNNModule1s>";
+        public SearchItemInfoCollection GetSearchItems(ModuleInfo ModInfo)
+        {
+            using (UnitOfWork uof = new UnitOfWork())
+            {
+                TopicBO topicBo = new TopicBO(uof);
 
-        // foreach (DNNModule1Info objDNNModule1 in colDNNModule1s) { strXML += "<DNNModule1>";
-        // strXML += "<content>" +
-        // DotNetNuke.Common.Utilities.XmlUtils.XMLEncode(objDNNModule1.Content) + "</content>";
-        // strXML += "</DNNModule1>"; } strXML += "</DNNModule1s>";
-        //}
+                SearchItemInfoCollection SearchItemCollection = new SearchItemInfoCollection();
+                var topics = topicBo.GetAllByModuleID(ModInfo.ModuleID);
+                UserController uc = new UserController();
 
-        //return strXML;
+                foreach (var topic in topics)
+                {
+                    SearchItemInfo SearchItem = new SearchItemInfo();
 
-        //	throw new System.NotImplementedException("The method or operation is not implemented.");
-        //}
+                    string strContent = null;
+                    string strDescription = null;
+                    string strTitle = null;
+                    if (!topic.Title.Trim().Equals(string.Empty))
+                    {
+                        strTitle = topic.Title;
+                    }
+                    else
+                    {
+                        strTitle = topic.Name;
+                    }
 
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        /// ImportModule implements the IPortable ImportModule Interface
-        /// </summary>
-        /// <param name="ModuleID">The Id of the module to be imported</param>
-        /// <param name="Content">The content to be imported</param>
-        /// <param name="Version">The version of the module to be imported</param>
-        /// <param name="UserId">The Id of the user performing the import</param>
-        /// -----------------------------------------------------------------------------
-        //public void ImportModule(int ModuleID, string Content, string Version, int UserID)
-        //{
-        //XmlNode xmlDNNModule1s = DotNetNuke.Common.Globals.GetContent(Content, "DNNModule1s");
-        //foreach (XmlNode xmlDNNModule1 in xmlDNNModule1s.SelectNodes("DNNModule1"))
-        //{
-        //    DNNModule1Info objDNNModule1 = new DNNModule1Info();
-        //    objDNNModule1.ModuleId = ModuleID;
-        //    objDNNModule1.Content = xmlDNNModule1.SelectSingleNode("content").InnerText;
-        //    objDNNModule1.CreatedByUser = UserID;
-        //    AddDNNModule1(objDNNModule1);
-        //}
+                    if ((topic.Cache != null))
+                    {
+                        strContent = topic.Cache;
+                        strContent += " " + topic.Keywords;
+                        strContent += " " + topic.Description;
 
-        //	throw new System.NotImplementedException("The method or operation is not implemented.");
-        //}
+                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Cache), false), 100,
+                            Localization.GetString("Dots", SharedResourceFile));
+                    }
+                    else
+                    {
+                        strContent = topic.Content;
+                        strContent += " " + topic.Keywords;
+                        strContent += " " + topic.Description;
 
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        /// GetSearchItems implements the ISearchable Interface
-        /// </summary>
-        /// <param name="ModInfo">The ModuleInfo for the module to be Indexed</param>
-        /// -----------------------------------------------------------------------------
-        //public DotNetNuke.Services.Search.SearchItemInfoCollection GetSearchItems(DotNetNuke.Entities.Modules.ModuleInfo ModInfo)
-        //{
-        //SearchItemInfoCollection SearchItemCollection = new SearchItemInfoCollection();
+                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Content), false), 100,
+                            Localization.GetString("Dots", SharedResourceFile));
+                    }
+                    int userID = 0;
 
-        //List<DNNModule1Info> colDNNModule1s = GetDNNModule1s(ModInfo.ModuleID);
+                    userID = Null.NullInteger;
+                    if (topic.UpdatedByUserID != -9999)
+                    {
+                        userID = topic.UpdatedByUserID;
+                    }
+                    SearchItem = new SearchItemInfo(strTitle, strDescription, userID, topic.UpdateDate, ModInfo.ModuleID, topic.Name, strContent,
+                        "topic=" + WikiMarkup.EncodeTitle(topic.Name));
 
-        //foreach (DNNModule1Info objDNNModule1 in colDNNModule1s)
-        //{
-        //    SearchItemInfo SearchItem = new SearchItemInfo(ModInfo.ModuleTitle, objDNNModule1.Content, objDNNModule1.CreatedByUser, objDNNModule1.CreatedDate, ModInfo.ModuleID, objDNNModule1.ItemId.ToString(), objDNNModule1.Content, "ItemId=" + objDNNModule1.ItemId.ToString());
-        //    SearchItemCollection.Add(SearchItem);
-        //}
+                    // New SearchItemInfo(ModInfo.ModuleTitle & "-" & strTitle, strDescription,
+                    // userID, topic.UpdateDate, ModInfo.ModuleID, topic.Name, strContent, _
+                    // "topic=" & WikiMarkup.EncodeTitle(topic.Name))
 
-        //return SearchItemCollection;
+                    SearchItemCollection.Add(SearchItem);
+                }
 
-        //	throw new System.NotImplementedException("The method or operation is not implemented.");
-        //}
+                return SearchItemCollection;
+            }
+        }
 
-        /// -----------------------------------------------------------------------------
-        /// <summary>
-        /// UpgradeModule implements the IUpgradeable Interface
-        /// </summary>
-        /// <param name="Version">The current version of the module</param>
-        /// -----------------------------------------------------------------------------
-        //public string UpgradeModule(string Version)
-        //{
-        //	throw new System.NotImplementedException("The method or operation is not implemented.");
-        //}
+        public string ExportModule(int ModuleID)
+        {
+            using (UnitOfWork uof = new UnitOfWork())
+            {
+                TopicBO topicBo = new TopicBO(uof);
+                var topics = topicBo.GetAllByModuleID(ModuleID);
 
-        #endregion Optional Interfaces
+                ModuleController mc = new ModuleController();
+                Hashtable Settings = mc.GetModuleSettings(ModuleID);
+
+                StringWriter strXML = new StringWriter();
+                XmlWriter Writer = new XmlTextWriter(strXML);
+                Writer.WriteStartElement("Wiki");
+
+                Writer.WriteStartElement("Settings");
+                foreach (DictionaryEntry item in Settings)
+                {
+                    Writer.WriteStartElement("Setting");
+                    Writer.WriteAttributeString("Name", Convert.ToString(item.Key));
+                    Writer.WriteAttributeString("Value", Convert.ToString(item.Value));
+                    Writer.WriteEndElement();
+                }
+                Writer.WriteEndElement();
+
+                Writer.WriteStartElement("Topics");
+                foreach (var topic in topics)
+                {
+                    Writer.WriteStartElement("Topic");
+                    Writer.WriteAttributeString("AllowDiscussions", topic.AllowDiscussions.ToString());
+                    Writer.WriteAttributeString("AllowRatings", topic.AllowRatings.ToString());
+                    Writer.WriteAttributeString("Content", topic.Content);
+                    Writer.WriteAttributeString("Description", topic.Description);
+                    Writer.WriteAttributeString("Keywords", topic.Keywords);
+                    Writer.WriteAttributeString("Name", topic.Name);
+                    Writer.WriteAttributeString("Title", topic.Title);
+                    Writer.WriteAttributeString("UpdateDate", topic.UpdateDate.ToString("g"));
+                    Writer.WriteAttributeString("UpdatedBy", topic.UpdatedBy);
+                    Writer.WriteAttributeString("UpdatedByUserID", topic.UpdatedByUserID.ToString("g"));
+                    Writer.WriteEndElement();
+                }
+                Writer.WriteEndElement();
+
+                Writer.WriteEndElement();
+                Writer.Close();
+
+                return strXML.ToString();
+            }
+        }
+
+        public void ImportModule(int ModuleID, string Content, string Version, int UserID)
+        {
+            using (UnitOfWork uof = new UnitOfWork())
+            {
+                XmlNode node = null;
+                XmlNode nodes = Globals.GetContent(Content, "Wiki");
+                ModuleController objModules = new ModuleController();
+                foreach (XmlNode node_loopVariable in nodes.SelectSingleNode("Settings"))
+                {
+                    node = node_loopVariable;
+                    objModules.UpdateModuleSetting(ModuleID, node.Attributes["Name"].Value, node.Attributes["Value"].Value);
+                }
+                TopicBO topicBo = new TopicBO(uof);
+
+                //clean up
+                var topics = topicBo.GetAllByModuleID(ModuleID);
+                foreach (var topic in topics)
+                {
+                    //TODO - On the old version topics where deleted via the SPROC [Wiki_TopicDelete], it should be dropped in this new version
+                    topicBo.Delete(new Topic { TopicID = topic.TopicID });
+                }
+
+                try
+                {
+                    foreach (XmlNode node_loopVariable in nodes.SelectNodes("Topics/Topic"))
+                    {
+                        node = node_loopVariable;
+                        var topic = new Topic();
+                        topic.PortalSettings = PortalController.GetCurrentPortalSettings();
+                        topic.AllowDiscussions = bool.Parse(node.Attributes["AllowDiscussions"].Value);
+                        topic.AllowRatings = bool.Parse(node.Attributes["AllowRatings"].Value);
+                        topic.Content = node.Attributes["Content"].Value;
+                        topic.Description = node.Attributes["Description"].Value;
+                        topic.Keywords = node.Attributes["Keywords"].Value;
+                        topic.ModuleId = ModuleID;
+                        //Here we need to define the TabID otherwise the import won't work until the content is saved again.
+                        ModuleController mc = new ModuleController();
+                        ModuleInfo mi = mc.GetModule(ModuleID, -1);
+                        topic.TabID = mi.TabID;
+
+                        topic.Name = node.Attributes["Name"].Value;
+                        topic.RatingOneCount = 0;
+                        topic.RatingTwoCount = 0;
+                        topic.RatingThreeCount = 0;
+                        topic.RatingFourCount = 0;
+                        topic.RatingFiveCount = 0;
+                        topic.RatingSixCount = 0;
+                        topic.RatingSevenCount = 0;
+                        topic.RatingEightCount = 0;
+                        topic.RatingNineCount = 0;
+                        topic.RatingTenCount = 0;
+                        topic.Title = node.Attributes["Title"].Value;
+                        topic.UpdateDate = DateTime.Parse(node.Attributes["UpdateDate"].Value);
+                        topic.UpdatedBy = node.Attributes["UpdatedBy"].Value;
+                        topic.UpdatedByUserID = int.Parse(node.Attributes["UpdatedByUserID"].Value);
+                        topicBo.Add(topic);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
+        }
+
+        //Public Function UpgradeModule(ByVal Version As String) As String Implements IUpgradeable.UpgradeModule
+        //    InitPermissions()
+        //    Return Version
+        //End Function
+
+        //Private Sub InitPermissions()
+        //    Dim EditContent As Boolean
+
+        // Dim moduleDefId As Integer Dim pc As New PermissionController Dim permissions As
+        // ArrayList = pc.GetPermissionByCodeAndKey("WIKI", Nothing) Dim dc As New
+        // DesktopModuleController Dim desktopInfo As DesktopModuleInfo desktopInfo =
+        // dc.GetDesktopModuleByModuleName("Wiki") Dim mc As New ModuleDefinitionController Dim
+        // mInfo As ModuleDefinitionInfo mInfo =
+        // mc.GetModuleDefinitionByName(desktopInfo.DesktopModuleID, "Wiki") moduleDefId =
+        // mInfo.ModuleDefID For Each p As PermissionInfo In permissions If p.PermissionKey =
+        // "EDIT_CONTENT" And p.ModuleDefID = moduleDefId Then _ EditContent = True Next If Not
+        // EditContent Then Dim p As New PermissionInfo p.ModuleDefID = moduleDefId p.PermissionCode
+        // = "WIKI" p.PermissionKey = "EDIT_CONTENT" p.PermissionName = "Edit Content"
+        // pc.AddPermission(p) End If
+        //End Sub
     }
 }

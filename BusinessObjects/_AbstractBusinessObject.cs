@@ -5,14 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public abstract class _AbstractBusinessObject<T, I> : IBusinessObject<T, I> where T : class
     {
-        private IDataContext db;
+        internal IDataContext db;
         private readonly IRepository<T> rep;
 
         public _AbstractBusinessObject(IDataContext _context)
@@ -79,7 +77,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// </summary>
         /// <param name="entity">entity to create</param>
         /// <returns>returns the entity that was created</returns>
-        public T Add(T entity)
+        public virtual T Add(T entity)
         {
             try
             {
@@ -111,7 +109,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// method
         /// </summary>
         /// <param name="entity"></param>
-        public T Delete(T entity)
+        public virtual T Delete(T entity)
         {
             try
             {
@@ -144,7 +142,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// </summary>
         /// <param name="entityCollection">entity to update</param>
         /// <param name="entity">returns the entity that was updated</param>
-        public T Update(T entity)
+        public virtual T Update(T entity)
         {
             try
             {
