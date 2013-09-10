@@ -163,6 +163,24 @@
     <Compile Include="Views\Settings.ascx.designer.cs">
       <DependentUpon>Settings.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\SharedControls\Index.ascx.cs">
+      <DependentUpon>Index.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharedControls\Index.ascx.designer.cs">
+      <DependentUpon>Index.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharedControls\WikiButton.ascx.cs">
+      <DependentUpon>WikiButton.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharedControls\WikiButton.ascx.designer.cs">
+      <DependentUpon>WikiButton.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharedControls\WikiMenu.ascx.cs">
+      <DependentUpon>WikiMenu.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SharedControls\WikiMenu.ascx.designer.cs">
+      <DependentUpon>WikiMenu.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Start.ascx.cs">
       <DependentUpon>Start.ascx</DependentUpon>
     </Compile>
@@ -198,6 +216,9 @@
     <Content Include="Views\Router.ascx" />
     <Content Include="Views\Search.ascx" />
     <Content Include="Views\Settings.ascx" />
+    <Content Include="Views\SharedControls\Index.ascx" />
+    <Content Include="Views\SharedControls\WikiButton.ascx" />
+    <Content Include="Views\SharedControls\WikiMenu.ascx" />
     <Content Include="Views\Start.ascx" />
     <Content Include="Views\TopicHistory.ascx" />
     <Content Include="Views\View.ascx" />
@@ -224,7 +245,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Js\" />
-    <Folder Include="Views\SharedControls\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SqlDataProvider\01.00.00.SqlDataProvider" />
