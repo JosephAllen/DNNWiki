@@ -112,6 +112,12 @@
     </Compile>
     <Compile Include="Utilities\FeatureController.cs" />
     <Compile Include="Utilities\SharedEnum.cs" />
+    <Compile Include="Views\Administration.ascx.cs">
+      <DependentUpon>Administration.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Administration.ascx.designer.cs">
+      <DependentUpon>Administration.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Edit.ascx.cs">
       <DependentUpon>Edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -120,12 +126,54 @@
       <DependentUpon>Edit.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\PageRatings.ascx.cs">
+      <DependentUpon>PageRatings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PageRatings.ascx.designer.cs">
+      <DependentUpon>PageRatings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ratings.ascx.cs">
+      <DependentUpon>Ratings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ratings.ascx.designer.cs">
+      <DependentUpon>Ratings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecentChanges.ascx.cs">
+      <DependentUpon>RecentChanges.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecentChanges.ascx.designer.cs">
+      <DependentUpon>RecentChanges.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Router.ascx.cs">
+      <DependentUpon>Router.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Router.ascx.designer.cs">
+      <DependentUpon>Router.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search.ascx.cs">
+      <DependentUpon>Search.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Search.ascx.designer.cs">
+      <DependentUpon>Search.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings.ascx.cs">
       <DependentUpon>Settings.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Settings.ascx.designer.cs">
       <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Start.ascx.cs">
+      <DependentUpon>Start.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Start.ascx.designer.cs">
+      <DependentUpon>Start.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TopicHistory.ascx.cs">
+      <DependentUpon>TopicHistory.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TopicHistory.ascx.designer.cs">
+      <DependentUpon>TopicHistory.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\View.ascx.cs">
       <DependentUpon>View.ascx</DependentUpon>
@@ -140,8 +188,18 @@
     <Content Include="Resources\Css\module.css" />
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\ReleaseNotes.txt" />
+    <Content Include="Resources\SqlDataProvider\FullInstallSQL.txt" />
+    <Content Include="Resources\SqlDataProvider\SqlDataProvider.vb" />
+    <Content Include="Views\Administration.ascx" />
     <Content Include="Views\Edit.ascx" />
+    <Content Include="Views\PageRatings.ascx" />
+    <Content Include="Views\Ratings.ascx" />
+    <Content Include="Views\RecentChanges.ascx" />
+    <Content Include="Views\Router.ascx" />
+    <Content Include="Views\Search.ascx" />
     <Content Include="Views\Settings.ascx" />
+    <Content Include="Views\Start.ascx" />
+    <Content Include="Views\TopicHistory.ascx" />
     <Content Include="Views\View.ascx" />
   </ItemGroup>
   <ItemGroup>
@@ -165,12 +223,21 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\SqlDataProvider\00.00.01.SqlDataProvider" />
-    <Content Include="Resources\SqlDataProvider\Uninstall.SqlDataProvider" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Resources\Js\" />
     <Folder Include="Views\SharedControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SqlDataProvider\01.00.00.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\01.00.01.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\01.00.02.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\01.00.03.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\01.00.04.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\04.00.02.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\04.01.00.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\04.02.00.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\04.02.01.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\04.05.03.SqlDataProvider" />
+    <Content Include="Resources\SqlDataProvider\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
