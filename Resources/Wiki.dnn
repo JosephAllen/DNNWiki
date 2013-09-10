@@ -1,41 +1,84 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DotNetNuke.Wiki" type="Module" version="00.00.01">
+    <package name="DotNetNuke.Wiki" type="Module" version="04.05.04">
       <friendlyName>Wiki</friendlyName>
-      <description>Wiki</description>
-      <iconFile>Images/icon_extensions.gif</iconFile>
+      <description>The DotNetNuke Wiki module, more information available at www.dotnetnuke.com</description>
       <owner>
-        <name>DotNetNuke</name>
-        <organization>DotNetNuke</organization>
-        <url>http://www.dotnetnuke.com</url>
-        <email>training@dnnsoft.com</email>
+        <name>DotNetNuke.com</name>
+        <organization>DotNetNuke.com</organization>
+        <url>http://www.DotNetNuke.com</url>
+        <email>training@dotnetnuke.com</email>
       </owner>
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.00</dependency>
+        <dependency type="CoreVersion">07.00.02</dependency>
       </dependencies>
-
       <components>
         <component type="Script">
           <scripts>
-            <basePath>DesktopModules\Wiki</basePath>
+            <basePath>DesktopModules\wiki</basePath>
             <script type="Install">
-              <path>Resources\SqlDataProvider\</path>
-              <name>00.00.01.SqlDataProvider</name>
-              <version>00.00.01</version>
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.00.00.SqlDataProvider</name>
+              <version>01.00.00</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.00.01.SqlDataProvider</name>
+              <version>01.00.01</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.00.02.SqlDataProvider</name>
+              <version>01.00.02</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.00.03.SqlDataProvider</name>
+              <version>01.00.03</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>01.00.04.SqlDataProvider</name>
+              <version>01.00.04</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>04.00.02.SqlDataProvider</name>
+              <version>04.00.02</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>04.01.00.SqlDataProvider</name>
+              <version>04.01.00</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>04.02.00.SqlDataProvider</name>
+              <version>04.02.00</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>04.02.01.SqlDataProvider</name>
+              <version>04.02.01</version>
+            </script>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>04.05.03.SqlDataProvider</name>
+              <version>04.05.03</version>
             </script>
             <script type="UnInstall">
-              <path>Resources\SqlDataProvider\</path>
+              <path>Providers\DataProviders\SqlDataProvider</path>
               <name>Uninstall.SqlDataProvider</name>
-              <version>00.00.01</version>
+              <version>04.02.01</version>
             </script>
           </scripts>
         </component>
 
         <component type="ResourceFile">
           <resourceFiles>
-            <basePath>DesktopModules/Wiki</basePath>
+            <basePath>DesktopModules/wiki</basePath>
             <resourceFile>
               <name>Resources.zip</name>
             </resourceFile>
@@ -46,7 +89,7 @@
           <desktopModule>
             <moduleName>Wiki</moduleName>
             <foldername>Wiki</foldername>
-            <businessControllerClass>DotNetNuke.Modules.Wiki.Utilities.FeatureController</businessControllerClass>
+            <businessControllerClass>DotNetNuke.Modules.Wiki.Controller</businessControllerClass>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -55,7 +98,7 @@
                 <moduleControls>
                   <moduleControl>
                     <controlKey />
-                    <controlSrc>DesktopModules/Wiki/Views/View.ascx</controlSrc>
+                    <controlSrc>DesktopModules/Wiki/Router.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>View</controlType>
@@ -64,25 +107,15 @@
                     <viewOrder>0</viewOrder>
                   </moduleControl>
                   <moduleControl>
-                    <controlKey>Edit</controlKey>
-                    <controlSrc>DesktopModules/Wiki/Views/Edit.ascx</controlSrc>
+                    <controlKey>Administration</controlKey>
+                    <controlSrc>DesktopModules/Wiki/Administration.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle>Edit Content</controlTitle>
+                    <controlTitle>Administration</controlTitle>
                     <controlType>Edit</controlType>
                     <iconFile />
                     <helpUrl />
                     <viewOrder>0</viewOrder>
                     <supportsPopUps>True</supportsPopUps>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>Settings</controlKey>
-                    <controlSrc>DesktopModules/Wiki/Views/Settings.ascx</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle>Wiki Settings</controlTitle>
-                    <controlType>Edit</controlType>
-                    <iconFile />
-                    <helpUrl />
-                    <viewOrder>0</viewOrder>
                   </moduleControl>
                 </moduleControls>
               </moduleDefinition>
@@ -91,12 +124,14 @@
         </component>
         <component type="Assembly">
           <assemblies>
+            <basePath>bin</basePath>
             <assembly>
               <name>DotNetNuke.Modules.Wiki.dll</name>
-              <sourceFileName>DotNetNuke.Modules.Wiki.dll</sourceFileName>
             </assembly>
           </assemblies>
         </component>
+
+        <component type="Cleanup" version="04.05.04" fileName="04.05.04.txt" />
       </components>
     </package>
   </packages>
