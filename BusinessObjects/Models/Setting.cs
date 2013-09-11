@@ -1,6 +1,4 @@
-﻿using DotNetNuke.Common.Utilities;
-using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Entities.Content;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
@@ -39,7 +37,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///<summary>
         /// A boolean value that indicates if rattings is allowed in the setting
         ///</summary>
-        public bool AllowRattings { get; set; }
+        public bool AllowRatings { get; set; }
 
         /// <summary>
         ///

@@ -1,130 +1,285 @@
-﻿using DotNetNuke.Entities.Users;
-using DotNetNuke.Modules.Wiki.BusinessObjects;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
-using DotNetNuke.Services.Exceptions;
-using DotNetNuke.Web.Client.ClientResourceManagement;
-using DotNetNuke.Web.Mvp;
+﻿using DotNetNuke.Modules.Wiki.Utilities;
 
-/*
-' Copyright (c) 2013 DotNetNuke
-' http://www.dotnetnuke.com
-' All rights reserved.
-'
-' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-' TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-' THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-' CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-' DEALINGS IN THE SOFTWARE.
-'
-*/
+//
+// DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2012 by DotNetNuke Corporation
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
 
-using System;
+using DotNetNuke.Services.Localization;
+using DotNetNuke.UI.Utilities;
+using System.Collections;
 
 namespace DotNetNuke.Modules.Wiki.Views
 {
     /// -----------------------------------------------------------------------------
-    /// <summary> The Edit class is used to manage content
-    ///
-    /// Typically your edit control would be used to create new content, or edit existing content
-    /// within your module. The ControlKey for this control is "Edit", and is defined in the
-    /// manifest (.dnn) file.
-    ///
-    /// Because the control inherits from DNNModule1ModuleBase you have access to any custom
-    /// properties defined there, as well as properties from DNN such as PortalId, ModuleId, TabId,
-    /// UserId and many more.
+    /// <summary>
     ///
     /// </summary>
     /// -----------------------------------------------------------------------------
 
     public partial class Edit : WikiModuleBase
     {
-        protected void Page_Load(object sender, EventArgs e)
+        #region " Web Form Designer Generated Code "
+
+        //This call is required by the Web Form Designer.
+        [System.Diagnostics.DebuggerStepThrough()]
+        private void InitializeComponent()
         {
-            try
+        }
+
+        private void Page_Init(System.Object sender, System.EventArgs e)
+        {
+            //CODEGEN: This method call is required by the Web Form Designer
+            //Do not modify it using the code editor.
+            InitializeComponent();
+        }
+
+        #endregion " Web Form Designer Generated Code "
+
+        #region "Form Events"
+
+        public new void Page_Load(System.Object sender, System.EventArgs e)
+        {
+            LoadLocalization();
+
+            if ((CanEdit))
             {
-                //Implement your edit logic for your module
-                if (!Page.IsPostBack)
+                if ((teContent != null))
                 {
-                    //get a list of users to assign the user to the Object
-                    ddlAssignedUser.DataSource = UserController.GetUsers(PortalId);
-                    ddlAssignedUser.DataTextField = "Username";
-                    ddlAssignedUser.DataValueField = "UserId";
-                    ddlAssignedUser.DataBind();
+                    teContent.HtmlEncode = false;
+                }
 
-                    //check if we have an ID passed in via a querystring parameter, if so, load that item to edit.
-                    //ItemId is defined in the ItemModuleBase.cs file
-
-                    if (ItemId > 0)
+                LoadTopic();
+                if ((topic.Name == string.Empty))
+                {
+                    if ((this.Request.QueryString.Item("topic") == null))
                     {
-                        using (UnitOfWork uof = new UnitOfWork())
-                        {
-                            var tc = new CommentBO(uof);
-
-                            var t = tc.Get(ItemId);
-                            if (t != null)
-                            {
-                                txtName.Text = t.ItemName;
-                                txtDescription.Text = t.ItemDescription;
-                                ddlAssignedUser.Items.FindByValue(t.AssignedUserId.ToString()).Selected = true;
-                            }
-                        }
+                        PageTopic = WikiHomeName.Replace("[L]", "");
+                        topic.Name = PageTopic;
+                    }
+                    else
+                    {
+                        PageTopic = Entities.WikiData.DecodeTitle(this.Request.QueryString.Item("topic").ToString()).Replace("[L]", "");
+                        topic.Name = PageTopic;
                     }
                 }
-            }
-            catch (Exception exc) //Module failed to load
-            {
-                Exceptions.ProcessModuleLoadException(this, exc);
-            }
-        }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-            using (UnitOfWork uof = new UnitOfWork())
-            {
-                var t = new Topic();
-                var tc = new CommentBO(uof);
+                this.EditPage();
 
-                if (ItemId > 0)
+                //CommentsSec.IsExpanded = FalseB
+                if ((this.Request.QueryString.Item("add") != null))
                 {
-                    t = tc.Get(ItemId);
-                    t.ItemName = txtName.Text.Trim();
-                    t.ItemDescription = txtDescription.Text.Trim();
-                    t.LastModifiedByUserId = UserId;
-                    t.LastModifiedOnDate = DateTime.Now;
-                    t.AssignedUserId = Convert.ToInt32(ddlAssignedUser.SelectedValue);
+                    PageTopic = "";
+                    LoadTopic();
+                    this.EditPage();
                 }
                 else
                 {
-                    t = new Topic()
-                    {
-                        AssignedUserId = Convert.ToInt32(ddlAssignedUser.SelectedValue),
-                        CreatedByUserId = UserId,
-                        CreatedOnDate = DateTime.Now,
-                        ItemName = txtName.Text.Trim(),
-                        ItemDescription = txtDescription.Text.Trim(),
-                    };
                 }
-
-                t.LastModifiedOnDate = DateTime.Now;
-                t.LastModifiedByUserId = UserId;
-                t.ModuleId = ModuleId;
-
-                if (t.ItemId > 0)
-                {
-                    tc.Update(t);
-                }
-                else
-                {
-                    tc.Add(t);
-                }
+                //add confirmation to the delete button
+                ClientAPI.AddButtonConfirm(DeleteBtn, Localization.GetString("ConfirmDelete", LocalResourceFile));
             }
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL());
+            else
+            {
+                //user doesn't have edit rights to this module, load up a message stating so.
+                lblMessage.Text = Localization.GetString("NoEditAccess", LocalResourceFile);
+                divWikiEdit.Visible = false;
+            }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
+        //Protected Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
+        //    'TODO: none of this is currently working..... not sure why
+
+        // PageTopic = "" LoadTopic() Me.EditPage()
+        //End Sub
+
+        private void cmdSave_Click(System.Object sender, System.EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL());
+            //if we've change the Topic Name we need to create a new topic
+            TopicInfo ti = null;
+            if (PageTopic == string.Empty | PageTopic != WikiData.DecodeTitle(txtPageName.Text.Trim()))
+            {
+                PageTopic = WikiData.DecodeTitle(txtPageName.Text.Trim());
+                topic.TopicID = 0;
+                ti = TC.GetByNameForModule(ModuleId, PageTopic);
+            }
+            if (ti == null)
+            {
+                this.SaveChanges();
+                if ((PageTopic == WikiHomeName))
+                {
+                    Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId));
+                }
+                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiData.EncodeTitle(this.PageTopic)), false);
+            }
+            else
+            {
+                lblPageCreationError.Text = Localization.GetString("lblPageCreationError", LocalResourceFile);
+            }
+        }
+
+        private void cmdCancel_Click(System.Object sender, System.EventArgs e)
+        {
+            this.CancelChanges();
+        }
+
+        private void cmdSaveAndContinue_Click(System.Object sender, System.EventArgs e)
+        {
+            PageTopic = txtPageName.Text.Trim();
+            this.SaveAndContinue();
+            //Response.Redirect(DotNetNuke.Common.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & Entities.WikiData.EncodeTitle(Me.PageTopic)), False)
+        }
+
+        #endregion "Form Events"
+
+        private void LoadLocalization()
+        {
+            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", LocalResourceFile);
+            AllowRating.Text = Localization.GetString("StartAllowRatings", LocalResourceFile);
+            cmdCancel.Text = Localization.GetString("StartCancel", LocalResourceFile);
+            //CommentsSec.Text = Localization.GetString("StartCommentsSection", LocalResourceFile)
+            DeleteBtn.Text = Localization.GetString("StartDelete", LocalResourceFile);
+            cmdSave.Text = Localization.GetString("StartSave", LocalResourceFile);
+            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", LocalResourceFile);
+            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", LocalResourceFile);
+            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", LocalResourceFile);
+            //RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
+        }
+
+        private void DisplayTopic()
+        {
+            this.cmdSave.Visible = true;
+            this.cmdSaveAndContinue.Visible = true;
+            this.cmdCancel.Visible = true;
+            this.teContent.Text = ReadTopicForEdit();
+
+            if (this.wikiSettings.AllowDiscussions)
+            {
+                this.AllowDiscuss.Enabled = true;
+                this.AllowDiscuss.Checked = this.topic.AllowDiscussions || this.wikiSettings.DefaultDiscussionMode;
+            }
+            else
+            {
+                this.AllowDiscuss.Enabled = false;
+                this.AllowDiscuss.Checked = false;
+            }
+
+            if (this.wikiSettings.AllowRatings)
+            {
+                this.AllowRating.Enabled = true;
+                this.AllowRating.Checked = this.topic.AllowRatings || this.wikiSettings.DefaultRatingMode;
+            }
+            else
+            {
+                this.AllowRating.Enabled = false;
+                this.AllowRating.Checked = false;
+            }
+
+            this.DeleteBtn.Visible = false;
+            this.DeleteLbl.Visible = false;
+            if (this.topic.Name != WikiHomeName)
+            {
+                this.DeleteBtn.Visible = true;
+                this.DeleteLbl.Visible = true;
+            }
+
+            if (this.topic.Name.Trim().Length < 1)
+            {
+                txtPageName.Text = string.Empty;
+                txtPageName.ReadOnly = false;
+            }
+            else
+            {
+                txtPageName.Text = HttpUtility.HtmlDecode(topic.Name.Trim().Replace("[L]", ""));
+                txtPageName.ReadOnly = true;
+            }
+
+            if (this.topic.Title.Trim().Length > 0)
+            {
+                txtTitle.Text = HttpUtility.HtmlDecode(topic.Title.Replace("[L]", ""));
+            }
+
+            if ((this.topic.Description != null))
+            {
+                txtDescription.Text = topic.Description;
+            }
+
+            if ((this.topic.Keywords != null))
+            {
+                txtKeywords.Text = topic.Keywords;
+            }
+
+            //TODO: Fix Printer Friendly
+        }
+
+        private void CancelChanges()
+        {
+            //SEND BACK TO THE VIEW PAGE
+            if (string.IsNullOrEmpty(this.PageTopic))
+            {
+                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId), false);
+            }
+            else
+            {
+                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + Entities.WikiData.EncodeTitle(this.PageTopic)), false);
+            }
+        }
+
+        private void SaveChanges()
+        {
+            SaveAndContinue();
+            //redirect to the topic's url
+        }
+
+        private void SaveAndContinue()
+        {
+            DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
+            SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked, objSec.InputFilter(WikiData.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
+        }
+
+        private void EditPage()
+        {
+            //redirect back to the topic url
+            DisplayTopic();
+        }
+
+        private void DeleteBtn_Click(System.Object sender, System.EventArgs e)
+        {
+            ArrayList thlist = this.GetHistory();
+            foreach (Entities.TopicHistoryInfo th in thlist)
+            {
+                topicHistoryBo.Delete(th.TopicHistoryID);
+            }
+            TC.Delete(this.TopicID);
+            Response.Redirect(this.HomeURL, true);
+        }
+
+        private void Page_PreRender(object sender, System.EventArgs e)
+        {
+            //If ratings.HasVoted Then
+            //    RatingSec.IsExpanded = False
+            //End If
+        }
+
+        public Edit()
+        {
+            PreRender += Page_PreRender;
+            Load += Page_Load;
+            Init += Page_Init;
         }
     }
 }

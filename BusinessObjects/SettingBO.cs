@@ -1,7 +1,6 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
-using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
@@ -35,6 +34,16 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
             SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets a setting entity based on the module id passed
+        /// </summary>
+        /// <param name="moduleId">the module id the setting is associated to</param>
+        /// <returns>returns a setting</returns>
+        internal Setting GetByModuleID(int moduleId)
+        {
+            return this.db.ExecuteScalar<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId);
         }
     }
 }

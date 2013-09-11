@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetNuke.Modules.Wiki.Views {
-    
-    
-    public partial class Administration {
-        
+namespace DotNetNuke.Modules.Wiki.Views
+{
+
+
+    public partial class Administration
+    {
+
         /// <summary>
         /// SecuritySettings control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl SecuritySettings;
-        
+
         /// <summary>
         /// DNNSecurityChk control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox DNNSecurityChk;
-        
+
         /// <summary>
         /// WikiSecurity control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl WikiSecurity;
-        
+
         /// <summary>
         /// ContentEditors control.
         /// </summary>
@@ -46,8 +48,8 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl ContentEditors;
-        
+        protected global::DotNetNuke.UI.UserControls.DualListControl ContentEditors;
+
         /// <summary>
         /// lblNotifyMethodEditRoles control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblNotifyMethodEditRoles;
-        
+
         /// <summary>
         /// NotifyMethodEditRoles control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox NotifyMethodEditRoles;
-        
+
         /// <summary>
         /// lblNotifyMethodViewRoles control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblNotifyMethodViewRoles;
-        
+
         /// <summary>
         /// NotifyMethodViewRoles control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox NotifyMethodViewRoles;
-        
+
         /// <summary>
         /// lblNotifyMethodCustomRoles control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblNotifyMethodCustomRoles;
-        
+
         /// <summary>
         /// NotifyMethodCustomRoles control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox NotifyMethodCustomRoles;
-        
+
         /// <summary>
         /// lblNotifyRoles control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblNotifyRoles;
-        
+
         /// <summary>
         /// NotifyRoles control.
         /// </summary>
@@ -118,8 +120,8 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl NotifyRoles;
-        
+        protected global::DotNetNuke.UI.UserControls.DualListControl NotifyRoles;
+
         /// <summary>
         /// lblAllowPageComments control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblAllowPageComments;
-        
+
         /// <summary>
         /// AllowPageComments control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox AllowPageComments;
-        
+
         /// <summary>
         /// lblActivateComments control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblActivateComments;
-        
+
         /// <summary>
         /// ActivateComments control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ActivateComments;
-        
+
         /// <summary>
         /// lblDefaultCommentsMode control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblDefaultCommentsMode;
-        
+
         /// <summary>
         /// DefaultCommentsMode control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox DefaultCommentsMode;
-        
+
         /// <summary>
         /// lblNotifyMethodUserComments control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblNotifyMethodUserComments;
-        
+
         /// <summary>
         /// NotifyMethodUserComments control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox NotifyMethodUserComments;
-        
+
         /// <summary>
         /// lblAllowPageRatings control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblAllowPageRatings;
-        
+
         /// <summary>
         /// AllowPageRatings control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox AllowPageRatings;
-        
+
         /// <summary>
         /// lblActivateRatings control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblActivateRatings;
-        
+
         /// <summary>
         /// ActivateRatings control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ActivateRatings;
-        
+
         /// <summary>
         /// lblDefaultRatingMode control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblDefaultRatingMode;
-        
+
         /// <summary>
         /// DefaultRatingMode control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox DefaultRatingMode;
-        
+
         /// <summary>
         /// SaveButton control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton SaveButton;
-        
+
         /// <summary>
         /// CancelButton control.
         /// </summary>

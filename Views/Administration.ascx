@@ -6,20 +6,19 @@
 <div class="dnnForm dnnWikiSettings dnnClear" id="dnnWikiSettings">
     <div class="dnnFormExpandContent">
         <a href="">
-            <%=LocalizeString("ExpandAll")%></a></div>
+            <%=LocalizeString("ExpandAll")%></a>
+    </div>
     <h2 id="dnnSitePanel-SecuritySettings" class="dnnFormSectionHead">
         <a href="" class="dnnSectionExpanded">
             <%=LocalizeString("SecuritySettings")%></a></h2>
     <fieldset>
         <div class="dnnFormItem">
             <dnn:Label ID="SecuritySettings" runat="server" resourcekey="DNNSecurityChk" />
-            <asp:CheckBox ID="DNNSecurityChk" runat="server" Checked="True" AutoPostBack="True">
-            </asp:CheckBox>
+            <asp:CheckBox ID="DNNSecurityChk" runat="server" Checked="True" AutoPostBack="True"></asp:CheckBox>
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="WikiSecurity" runat="server" resourcekey="WikiSecurity" />
-            <uc1:DualListControl ID="ContentEditors" runat="server" ListBoxWidth="170" ListBoxHeight="130" ></uc1:DualListControl>
-            
+            <uc1:DualListControl ID="ContentEditors" runat="server" ListBoxWidth="170" ListBoxHeight="130"></uc1:DualListControl>
         </div>
     </fieldset>
     <h2 id="dnnSitePanel-NotificationSettings" class="dnnFormSectionHead">
@@ -40,7 +39,7 @@
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="lblNotifyRoles" runat="server" />
-            <uc1:DualListControl ID="NotifyRoles" runat="server" ListBoxWidth="170" ListBoxHeight="130" >
+            <uc1:DualListControl ID="NotifyRoles" runat="server" ListBoxWidth="170" ListBoxHeight="130">
             </uc1:DualListControl>
         </div>
     </fieldset>

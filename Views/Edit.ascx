@@ -48,6 +48,7 @@
             <tr>
                 <td>
                     <asp:CheckBox ID="AllowDiscuss" runat="server" CssClass="NormalBold"></asp:CheckBox>&nbsp;
+
                     <asp:CheckBox ID="AllowRating" runat="server" CssClass="NormalBold"></asp:CheckBox>
                 </td>
             </tr>
