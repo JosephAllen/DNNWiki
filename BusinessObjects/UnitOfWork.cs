@@ -1,17 +1,19 @@
 ﻿using DotNetNuke.Data;
 using DotNetNuke.Entities.Users;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class UnitOfWork : IDisposable
     {
+        #region Variables
+
         private IDataContext _context;
         private bool disposed = false;
         private UserInfo _currentUser = null;
+
+        #endregion Variables
 
         #region properties
 

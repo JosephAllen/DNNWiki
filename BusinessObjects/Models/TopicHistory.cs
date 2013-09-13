@@ -1,6 +1,5 @@
-﻿using DotNetNuke.Common.Utilities;
-using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Entities.Content;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Modules.Wiki.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
@@ -12,7 +11,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
     [PrimaryKey("TopicHistoryId", AutoIncrement = true)]
     //configure caching using PetaPoco
     [Cacheable("Wiki_TopicHistory", CacheItemPriority.Default, 20)]
-    public class TopicHistory
+    public class TopicHistory : WikiMarkup
     {
         ///<summary>
         /// The ID of the Topic History
@@ -20,7 +19,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         public int TopicHistoryId { get; set; }
 
         /// <summary>
-        /// The topic id to where the topic history is acossiated to
+        /// The topic id to where the topic history is associated to
         /// </summary>
         public int TopicId { get; set; }
 
@@ -50,7 +49,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///</summary>
         [Required]
         [StringLength(101)]
-        public int UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; }
 
         ///<summary>
         /// An integer for the user id of the user who last updated the object
@@ -74,5 +73,11 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         /// </summary>
         [StringLength(500)]
         public string Keywords { get; set; }
+
+        /// <summary>
+        /// The user name of the user that made the last update
+        /// </summary>
+        [IgnoreColumn]
+        public string UpdatedByUsername { get; set; }
     }
 }

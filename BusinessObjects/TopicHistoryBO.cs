@@ -1,20 +1,28 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class TopicHistoryBO : _AbstractBusinessObject<TopicHistory, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public TopicHistoryBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -30,11 +38,30 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
-        public override void Entity_EvaluateSqlException(
+        #region Methods
+
+        internal override void RepositoryDelete(ref TopicHistory entity)
+        {
+            this.db.Execute(CommandType.StoredProcedure, "Wiki_TopicHistoryDelete", entity.TopicId);
+        }
+
+        internal override void Entity_EvaluateSqlException(
             SqlException exc,
             SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
         }
+
+        /// <summary>
+        /// Gets the previous versions of the topic passed has parameter
+        /// </summary>
+        /// <param name="topicID">the topic to evaluate</param>
+        /// <returns>returns collection of topics</returns>
+        internal IEnumerable<TopicHistory> GetHistoryForTopic(int topicID)
+        {
+            return this.db.ExecuteQuery<TopicHistory>(CommandType.StoredProcedure, "Wiki_TopicHistoryGetHistoryForTopic", topicID);
+        }
+
+        #endregion Methods
     }
 }

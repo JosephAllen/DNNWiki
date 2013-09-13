@@ -7,13 +7,21 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class SettingBO : _AbstractBusinessObject<Setting, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public SettingBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -29,12 +37,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
-        public override void Entity_EvaluateSqlException(
-            SqlException exc,
-            SharedEnum.CrudOperation crudOperation)
-        {
-            throw new System.NotImplementedException();
-        }
+        #region Methods
 
         /// <summary>
         /// Gets a setting entity based on the module id passed
@@ -45,5 +48,14 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         {
             return this.db.ExecuteScalar<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId);
         }
+
+        internal override void Entity_EvaluateSqlException(
+                    SqlException exc,
+                    SharedEnum.CrudOperation crudOperation)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        #endregion Methods
     }
 }

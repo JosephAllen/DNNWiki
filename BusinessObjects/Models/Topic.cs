@@ -135,5 +135,11 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         /// </summary>
         [StringLength(500)]
         public string Keywords { get; set; }
+
+        /// <summary>
+        /// The user name of the user that made the last update
+        /// </summary>
+        [IgnoreColumn]
+        public string UpdatedByUsername { get; set; }
     }
 }

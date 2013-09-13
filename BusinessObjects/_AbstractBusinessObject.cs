@@ -49,7 +49,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// to be created, can be changed before being submitted
         /// </summary>
         /// <param name="entity"></param>
-        public virtual void OnBeforeInsertOperation(T entity)
+        internal virtual void OnBeforeInsertOperation(T entity)
         {
         }
 
@@ -58,7 +58,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// to be created, can be changed before being submitted
         /// </summary>
         /// <param name="entity"></param>
-        public virtual void OnBeforeUpdateOperation(T entity)
+        internal virtual void OnBeforeUpdateOperation(T entity)
         {
         }
 
@@ -67,7 +67,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// to be created, can be changed before being submitted
         /// </summary>
         /// <param name="entity"></param>
-        public virtual void OnBeforeDeleteOperation(T entity)
+        internal virtual void OnBeforeDeleteOperation(T entity)
         {
         }
 
@@ -99,7 +99,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// overriden if the insertion mechanism in the database has to be changed
         /// </summary>
         /// <param name="entity">entity to create</param>
-        public virtual void RepositoryAdd(ref T entity)
+        internal virtual void RepositoryAdd(ref T entity)
         {
             rep.Insert(entity);
         }
@@ -131,7 +131,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// if the deletion mechanism in the database has to be changed
         /// </summary>
         /// <param name="entity">entity to delete</param>
-        public virtual void RepositoryDelete(ref T entity)
+        internal virtual void RepositoryDelete(ref T entity)
         {
             rep.Delete(entity);
         }
@@ -164,7 +164,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// if the update mechanism in the database has to be changed
         /// </summary>
         /// <param name="entity">entity to delete</param>
-        public virtual void RepositoryUpdate(ref T entity)
+        internal virtual void RepositoryUpdate(ref T entity)
         {
             rep.Update(entity);
         }
@@ -192,17 +192,17 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         /// Method called when a sql operation happens after a crud operation
         /// </summary>
         /// <param name="objectStateEntryChangedCollection"></param>
-        public abstract void Entity_EvaluateSqlException(SqlException exc, SharedEnum.CrudOperation crudOperation);
+        internal abstract void Entity_EvaluateSqlException(SqlException exc, SharedEnum.CrudOperation crudOperation);
 
-        public virtual void ParseUserAbleToInsert(T entity)
+        internal virtual void ParseUserAbleToInsert(T entity)
         {
         }
 
-        public virtual void ParseUserAbleToUpdate(T entity)
+        internal virtual void ParseUserAbleToUpdate(T entity)
         {
         }
 
-        public virtual void ParseUserAbleToDelete(T entity)
+        internal virtual void ParseUserAbleToDelete(T entity)
         {
         }
 

@@ -8,13 +8,21 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class TopicBO : _AbstractBusinessObject<Topic, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public TopicBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -30,11 +38,22 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
-        public override void Entity_EvaluateSqlException(
-            SqlException exc,
-            SharedEnum.CrudOperation crudOperation)
+        #region Methods
+
+        internal IEnumerable<Topic> GetAllByModuleChangedWhen(int moduleId, int daysBack)
         {
-            throw new System.NotImplementedException();
+            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleChangedWhen", moduleId, daysBack);
+        }
+
+        /// <summary>
+        /// Gets a topic associated to the module id and have the passed name
+        /// </summary>
+        /// <param name="moduleId">the module id the topics are associated to</param>
+        /// <param name="name">the topic name</param>
+        /// <returns>returns a Topic</returns>
+        internal Topic GetByNameForModule(int moduleId, string name)
+        {
+            return this.db.ExecuteScalar<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name);
         }
 
         /// <summary>
@@ -46,5 +65,24 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         {
             return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleID", moduleId);
         }
+
+        internal override void Entity_EvaluateSqlException(
+                    SqlException exc,
+                    SharedEnum.CrudOperation crudOperation)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal IEnumerable<Topic> SearchWiki(string searchString, int moduleId)
+        {
+            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicSearchWiki", searchString, moduleId);
+        }
+
+        internal override void RepositoryDelete(ref Topic entity)
+        {
+            this.db.Execute(CommandType.StoredProcedure, "Wiki_TopicDelete", entity.TopicID);
+        }
+
+        #endregion Methods
     }
 }

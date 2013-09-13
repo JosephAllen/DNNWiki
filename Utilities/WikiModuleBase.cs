@@ -1,334 +1,460 @@
 ﻿using DotNetNuke.Entities.Modules;
+using DotNetNuke.Modules.Wiki.BusinessObjects;
 using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Services.Localization;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Web;
 
 namespace DotNetNuke.Modules.Wiki.Utilities
 {
     public class WikiModuleBase : PortalModuleBase
-	{
-		public string UserName;
-		public string FirstName;
+    {
+        #region Variables
 
-		public string LastName;
-		public bool IsAdmin = false;
-		public string PageTopic;
-		public string PageTitle;
+        public string UserName;
+        public string FirstName;
 
-		public int TopicID;
-		public Topic topic;
+        public string LastName;
+        public bool IsAdmin = false;
+        public string PageTopic;
+        public string PageTitle;
 
-		public string HomeURL;
+        public int TopicID;
+        public Topic topic;
 
-		public Setting wikiSettings;
-		public bool CanEdit = false;
-		public readonly string WikiHomeName = "WikiHomePage";
+        public string HomeURL;
 
-		private DotNetNuke.Entities.Modules.PortalModuleBase mModule;
+        public Setting wikiSettings;
+        public bool CanEdit = false;
+        public readonly string WikiHomeName = "WikiHomePage";
 
-		public WikiControlBase myPage;
+        private DotNetNuke.Entities.Modules.PortalModuleBase mModule;
 
-		public Entities.TopicController TC {
-			get {
-				if (topicBo == null) {
-					topicBo = new Entities.TopicController(this.Cache);
-				}
-				return topicBo;
-			}
-		}
+        private UnitOfWork uof;
+        private TopicBO topicBo;
+        private TopicHistoryBO topicHistoryBo;
 
-		protected void Page_Load(System.Object sender, System.EventArgs e)
-		{
-			//congfigure the URL to the home page (the wiki without any parameters)
-			HomeURL = DotNetNuke.Common.NavigateURL();
+        #endregion Variables
 
-			if (this.Request.QueryString.Item("topic") == null) {
-				if (this.Request.QueryString.Item("add") == null & this.Request.QueryString.Item("loc") == null) {
-					PageTopic = WikiHomeName;
-				} else {
-					PageTopic = "";
-				}
-			} else {
-				PageTopic = Entities.WikiData.DecodeTitle(this.Request.QueryString.Item("topic").ToString());
-			}
+        #region Ctor
 
-			if (wikiSettings == null) {
-				Entities.SettingsController WikiController = new Entities.SettingsController();
-				wikiSettings = WikiController.GetByModuleID(ModuleId);
-				if (wikiSettings == null) {
-					wikiSettings = new Entities.SettingsInfo();
-					wikiSettings.ContentEditorRoles = "UseDNNSettings";
-				}
-			}
+        public WikiModuleBase()
+        {
+            Load += Page_Load;
+            Unload += Page_Unload;
+        }
 
-			if (wikiSettings.ContentEditorRoles == "UseDNNSettings") {
-				CanEdit = this.IsEditable;
-			} else {
-				if (Request.IsAuthenticated) {
-					if (this.UserInfo.IsSuperUser) {
-						CanEdit = true;
-						IsAdmin = true;
-					} else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) {
-						CanEdit = true;
-					} else {
-						string[] Roles = wikiSettings.ContentEditorRoles.Split("|")(0).Split(";");
-						foreach (string role in Roles) {
-							if (UserInfo.IsInRole(role)) {
-								CanEdit = true;
-								break; // TODO: might not be correct. Was : Exit For
-							}
-						}
-					}
-				} else {
-					if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1)) {
-						CanEdit = true;
-					}
-				}
-			}
-			LoadTopic();
-		}
+        #endregion Ctor
 
-		protected void LoadTopic()
-		{
-			topic = TC.GetByNameForModule(ModuleID, PageTopic);
-			if (topic == null) {
-				topic = new Entities.TopicInfo();
-				topic.TopicID = 0;
-			}
-			topic.TabID = tabID;
-			topic.PortalSettings = portalSettings;
-			TopicID = topic.TopicID;
-		}
+        #region Properties
 
-		protected string ReadTopic()
-		{
-			return HttpUtility.HtmlEncode(topic.Cache);
-		}
+        public string RouterResourceFile
+        {
+            get { return DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "Router.ascx.resx"); }
+            set { value = value; }
+        }
 
-		protected string ReadTopicForEdit()
-		{
-			return topic.Content;
-		}
+        /// <summary>
+        /// Gets an instance of the topic history business object
+        /// </summary>
+        internal TopicHistoryBO TopicHistoryBo
+        {
+            get
+            {
+                if (topicHistoryBo == null)
+                {
+                    topicHistoryBo = new TopicHistoryBO(uof);
+                }
+                return topicHistoryBo;
+            }
+        }
 
-		protected void SaveTopic(string Content, bool AllowDiscuss, bool AllowRating, string Title, string Description, string Keywords)
-		{
-			Entities.TopicHistoryInfo th = new Entities.TopicHistoryInfo();
-			th.TabID = tabID;
-			th.PortalSettings = portalSettings;
-			if (topic.TopicID != 0) {
-				if ((!Content.Equals(topic.Content) | !Title.Equals(topic.Title) | !Description.Equals(topic.Description) | !Keywords.Equals(topic.Keywords))) {
-					th.Name = topic.Name;
-					th.TopicID = topic.TopicID;
-					th.Content = topic.Content;
-					th.UpdatedBy = topic.UpdatedBy;
-					th.UpdateDate = DateTime.Now;
-					th.UpdatedByUserID = topic.UpdatedByUserID;
-					th.Title = topic.Title;
-					th.Description = topic.Description;
-					th.Keywords = topic.Keywords;
+        /// <summary>
+        /// Gets an instance of the topic business object
+        /// </summary>
+        internal TopicBO TopicBo
+        {
+            get
+            {
+                if (topicBo == null)
+                {
+                    topicBo = new TopicBO(uof);
+                }
+                return topicBo;
+            }
+        }
 
-					topic.UpdateDate = DateTime.Now;
-					if ((UserInfo.UserID == -1)) {
-						topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
-					} else {
-						topic.UpdatedBy = UserInfo.Username;
-					}
+        /// <summary>
+        /// Gets an instance of the unit of work object
+        /// </summary>
+        internal UnitOfWork Uof
+        {
+            get
+            {
+                if (this.uof == null)
+                {
+                    uof = new UnitOfWork();
+                }
+                return uof;
+            }
+        }
 
-					topic.UpdatedByUserID = UserId;
-					topic.Content = Content;
-					topic.Title = Title;
-					topic.Description = Description;
-					topic.Keywords = Keywords;
+        #endregion Properties
 
-					topicHistoryBo.Add(th);
-				}
-				topic.Name = PageTopic;
-				topic.Title = Title;
-				topic.Description = Description;
-				topic.Keywords = Keywords;
-				topic.AllowDiscussions = AllowDiscuss;
-				topic.AllowRatings = AllowRating;
-				topic.Content = Content;
+        #region Events
 
-				TC.Update(topic);
-			} else {
-				topic = new Entities.TopicInfo();
-				topic.TabID = tabID;
-				topic.PortalSettings = portalSettings;
-				topic.Content = Content;
-				topic.Name = PageTopic;
-				topic.ModuleID = ModuleID;
-				if ((UserInfo.UserID == -1)) {
-					topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
-				} else {
-					topic.UpdatedBy = UserInfo.Username;
-				}
+        /// <summary>
+        /// Get ride of initiated objects on the page startup
+        /// </summary>
+        /// <param name="e"></param>
+        protected void Page_Unload(object sender, EventArgs e)
+        {
+            base.OnUnload(e);
+            if (this.uof != null)
+            {
+                this.uof.Dispose();
+                this.uof = null;
+            }
 
-				topic.UpdatedByUserID = UserID;
-				topic.UpdateDate = DateTime.Now;
-				topic.AllowDiscussions = AllowDiscuss;
-				topic.AllowRatings = AllowRating;
-				topic.Title = Title;
-				topic.Description = Description;
-				topic.Keywords = Keywords;
+            if (this.topicBo != null)
+            {
+                this.topicBo = null;
+            }
 
-				topic.TopicID = TC.Add(topic);
+            if (this.topicHistoryBo != null)
+            {
+                this.topicHistoryBo = null;
+            }
+        }
 
-				TopicID = topic.TopicID;
-			}
-		}
+        protected void Page_Load(System.Object sender, System.EventArgs e)
+        {
+            //congfigure the URL to the home page (the wiki without any parameters)
+            HomeURL = DotNetNuke.Common.Globals.NavigateURL();
 
-		public ArrayList GetIndex()
-		{
-			return TC.GetAllByModuleID(ModuleID);
-		}
+            if (this.Request.QueryString["topic"] == null)
+            {
+                if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
+                {
+                    PageTopic = WikiHomeName;
+                }
+                else
+                {
+                    PageTopic = "";
+                }
+            }
+            else
+            {
+                PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
+            }
 
-		protected object GetRecentlyChanged(int DaysBack)
-		{
-			return TC.GetAllByModuleChangedWhen(ModuleID, DaysBack);
-		}
+            if (wikiSettings == null)
+            {
+                SettingBO WikiController = new SettingBO(uof);
+                wikiSettings = WikiController.GetByModuleID(ModuleId);
+                if (wikiSettings == null)
+                {
+                    wikiSettings = new Setting();
+                    wikiSettings.ContentEditorRoles = "UseDNNSettings";
+                }
+            }
 
-		protected ArrayList GetHistory()
-		{
-			return topicHistoryBo.GetHistoryForTopic(TopicID);
-		}
+            if (wikiSettings.ContentEditorRoles == "UseDNNSettings")
+            {
+                CanEdit = this.IsEditable;
+            }
+            else
+            {
+                if (Request.IsAuthenticated)
+                {
+                    if (this.UserInfo.IsSuperUser)
+                    {
+                        CanEdit = true;
+                        IsAdmin = true;
+                    }
+                    else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
+                    {
+                        CanEdit = true;
+                    }
+                    else
+                    {
+                        string[] Roles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
+                            StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string role in Roles)
+                        {
+                            if (UserInfo.IsInRole(role))
+                            {
+                                CanEdit = true;
+                                break; // TODO: might not be correct. Was : Exit For
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
+                    {
+                        CanEdit = true;
+                    }
+                }
+            }
+            LoadTopic();
+        }
 
-		protected ArrayList Search(string SearchString)
-		{
-			return TC.SearchWiki(SearchString, ModuleID);
-		}
+        #endregion Events
 
-		//Protected Function ReadTopicHistory(ByVal TopicHistoryID As Integer) As String
-		//    Dim th As Entities.TopicHistoryInfo
-		//    th = THC.GetItem(TopicHistoryID)
-		//    If Not th Is Nothing Then
-		//        Return th.Content
-		//    Else
-		//        Return ""
-		//    End If
-		//End Function
+        #region Aux Functions
 
-		protected string CreateTable(ref ArrayList ts)
-		{
-			System.Text.StringBuilder TableTxt = new System.Text.StringBuilder("<table><tr><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
-			TableTxt.Append("</th><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
-			TableTxt.Append("</th><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
-			TableTxt.Append("</th></tr>");
-			//Dim TopicTable As String
-			Entities.TopicInfo t = default(Entities.TopicInfo);
-			int i = 0;
-			if (ts.Count > 0) {
-				for (i = 0; i <= ts.Count - 1; i++) {
-					t = (Entities.TopicInfo)ts[i];
-					t.TabID = tabID;
-					t.PortalSettings = portalSettings;
+        protected void LoadTopic()
+        {
+            topic = TopicBo.GetByNameForModule(ModuleId, PageTopic);
+            if (topic == null)
+            {
+                topic = new Topic();
+                topic.TopicID = 0;
+            }
+            topic.TabID = TabId;
+            topic.PortalSettings = PortalSettings;
+            TopicID = topic.TopicID;
+        }
 
-					string nameToUse = string.Empty;
-					if (t.Title.ToString != string.Empty) {
-						nameToUse = t.Title.Replace(this.WikiHomeName, "Home");
-					} else {
-						nameToUse = t.Name.Replace(this.WikiHomeName, "Home");
-					}
+        protected string ReadTopic()
+        {
+            return HttpUtility.HtmlEncode(topic.Cache);
+        }
 
-					TableTxt.Append("<tr>");
-					TableTxt.Append("<td><a class=\"CommandButton\" href=\"");
-					TableTxt.Append(DotNetNuke.Common.NavigateURL(this.tabID, this.portalSettings, string.Empty, "topic=" + Entities.WikiData.EncodeTitle(t.Name)));
-					TableTxt.Append("\">");
-					TableTxt.Append(nameToUse);
-					TableTxt.Append("</a></td>");
-					TableTxt.Append("<td class=\"Normal\">");
-					TableTxt.Append(t.UpdatedByUsername);
-					TableTxt.Append("</td>");
-					TableTxt.Append("<td class=\"Normal\">");
-					TableTxt.Append(t.UpdateDate.ToString(CultureInfo.CurrentCulture));
-					TableTxt.Append("</td>");
-					TableTxt.Append("</tr>");
-				}
-			} else {
-				TableTxt.Append("<tr><td colspan=3 class=\"Normal\">");
-				TableTxt.Append(Localization.GetString("BaseCreateTableNoResults", RouterResourceFile));
-				TableTxt.Append("</td></tr>");
-			}
-			TableTxt.Append("</table>");
-			return TableTxt.ToString();
-		}
+        protected string ReadTopicForEdit()
+        {
+            return topic.Content;
+        }
 
-		protected string CreateRecentChangeTable(int DaysBack)
-		{
-			return CreateTable(ref GetRecentlyChanged(DaysBack));
-		}
+        protected void SaveTopic(string Content, bool AllowDiscuss, bool AllowRating, string Title, string Description, string Keywords)
+        {
+            TopicHistory topicHistory = new TopicHistory();
+            topicHistory.TabID = TabId;
+            topicHistory.PortalSettings = PortalSettings;
+            if (topic.TopicID != 0)
+            {
+                if ((!Content.Equals(topic.Content) | !Title.Equals(topic.Title) | !Description.Equals(topic.Description) | !Keywords.Equals(topic.Keywords)))
+                {
+                    topicHistory.Name = topic.Name;
+                    topicHistory.TopicId = topic.TopicID;
+                    topicHistory.Content = topic.Content;
+                    topicHistory.UpdatedBy = topic.UpdatedBy;
+                    topicHistory.UpdateDate = DateTime.Now;
+                    topicHistory.UpdatedByUserID = topic.UpdatedByUserID;
+                    topicHistory.Title = topic.Title;
+                    topicHistory.Description = topic.Description;
+                    topicHistory.Keywords = topic.Keywords;
 
-		protected string CreateSearchTable(string SearchString)
-		{
-			return CreateTable(ref Search(SearchString));
-		}
+                    topic.UpdateDate = DateTime.Now;
+                    if ((UserInfo.UserID == -1))
+                    {
+                        topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                    }
+                    else
+                    {
+                        topic.UpdatedBy = UserInfo.Username;
+                    }
 
-		protected string CreateHistoryTable()
-		{
-			System.Text.StringBuilder TableTxt = new System.Text.StringBuilder(1000);
-			TableTxt.Append("<table><tr><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
-			TableTxt.Append("</th><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableTitle", RouterResourceFile));
-			TableTxt.Append("</th><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
-			TableTxt.Append("</th><th>");
-			TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
-			TableTxt.Append("</th></tr>");
-			ArrayList th = GetHistory();
-			//Dim TopicTable As StringBuilder = New StringBuilder(500)
-			Entities.TopicHistoryInfo history = default(Entities.TopicHistoryInfo);
-			int i = 0;
-			if (th.Count > 0) {
-				i = th.Count;
-				while ((i > 0)) {
-					history = (Entities.TopicHistoryInfo)th[i - 1];
-					history.TabID = tabID;
-					history.PortalSettings = portalSettings;
-					TableTxt.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
-					TableTxt.Append(DotNetNuke.Common.NavigateURL(this.tabID, this.portalSettings, string.Empty, "topic=" + Entities.WikiData.EncodeTitle(PageTopic), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryID.ToString()));
-					TableTxt.Append("\">");
-					TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
+                    topic.UpdatedByUserID = UserId;
+                    topic.Content = Content;
+                    topic.Title = Title;
+                    topic.Description = Description;
+                    topic.Keywords = Keywords;
 
-					TableTxt.Append("</a></td>");
-					TableTxt.Append("<td class=\"Normal\">");
-					if (history.Title.ToString != string.Empty) {
-						TableTxt.Append(history.Title.Replace(this.WikiHomeName, "Home"));
-					} else {
-						TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
-					}
-					TableTxt.Append("</td>");
-					TableTxt.Append("<td class=\"Normal\">");
-					TableTxt.Append(history.UpdatedByUsername);
-					TableTxt.Append("</td>");
-					TableTxt.Append("<td Class=\"Normal\">");
-					TableTxt.Append(history.UpdateDate.ToString(CultureInfo.CurrentCulture));
-					TableTxt.Append("</td>");
-					TableTxt.Append("</tr>");
-					i = i - 1;
-				}
-			} else {
-				TableTxt.Append("<tr><td colspan=\"3\" class=\"Normal\">");
-				TableTxt.Append(Localization.GetString("BaseCreateHistoryTableEmpty", RouterResourceFile));
-				TableTxt.Append("</td></tr>");
-			}
-			TableTxt.Append("</table>");
-			return TableTxt.ToString();
-		}
+                    topicHistoryBo.Add(topicHistory);
+                }
+                topic.Name = PageTopic;
+                topic.Title = Title;
+                topic.Description = Description;
+                topic.Keywords = Keywords;
+                topic.AllowDiscussions = AllowDiscuss;
+                topic.AllowRatings = AllowRating;
+                topic.Content = Content;
 
-		public string RouterResourceFile {
-			get { return DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "Router.ascx.resx"); }
-			set { value = value; }
-		}
+                TopicBo.Update(topic);
+            }
+            else
+            {
+                topic = new Topic();
+                topic.TabID = TabId;
+                topic.PortalSettings = PortalSettings;
+                topic.Content = Content;
+                topic.Name = PageTopic;
+                topic.ModuleId = ModuleId;
+                if ((UserInfo.UserID == -1))
+                {
+                    topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                }
+                else
+                {
+                    topic.UpdatedBy = UserInfo.Username;
+                }
 
-		public WikiControlBase()
-		{
-			Load += Page_Load;
-		}
-	}
+                topic.UpdatedByUserID = UserId;
+                topic.UpdateDate = DateTime.Now;
+                topic.AllowDiscussions = AllowDiscuss;
+                topic.AllowRatings = AllowRating;
+                topic.Title = Title;
+                topic.Description = Description;
+                topic.Keywords = Keywords;
+
+                topic = TopicBo.Add(topic);
+
+                TopicID = topic.TopicID;
+            }
+        }
+
+        public IEnumerable<Topic> GetIndex()
+        {
+            return TopicBo.GetAllByModuleID(ModuleId);
+        }
+
+        protected IEnumerable<Topic> GetRecentlyChanged(int DaysBack)
+        {
+            return TopicBo.GetAllByModuleChangedWhen(ModuleId, DaysBack);
+        }
+
+        protected IEnumerable<TopicHistory> GetHistory()
+        {
+            return topicHistoryBo.GetHistoryForTopic(TopicID);
+        }
+
+        protected IEnumerable<Topic> Search(string SearchString)
+        {
+            return TopicBo.SearchWiki(SearchString, ModuleId);
+        }
+
+        protected string CreateTable(List<Topic> topicCollection)
+        {
+            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder("<table><tr><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            TableTxt.Append("</th><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            TableTxt.Append("</th><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            TableTxt.Append("</th></tr>");
+            //Dim TopicTable As String
+            Topic localTopic = new Topic();
+            int i = 0;
+            if (topicCollection.Count > 0)
+            {
+                for (i = 0; i <= topicCollection.Count - 1; i++)
+                {
+                    localTopic = (Topic)topicCollection[i];
+                    localTopic.TabID = TabId;
+                    localTopic.PortalSettings = PortalSettings;
+
+                    string nameToUse = string.Empty;
+                    if (!localTopic.Title.ToString().Equals(string.Empty))
+                    {
+                        nameToUse = localTopic.Title.Replace(this.WikiHomeName, "Home");
+                    }
+                    else
+                    {
+                        nameToUse = localTopic.Name.Replace(this.WikiHomeName, "Home");
+                    }
+
+                    TableTxt.Append("<tr>");
+                    TableTxt.Append("<td><a class=\"CommandButton\" href=\"");
+                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(localTopic.Name)));
+                    TableTxt.Append("\">");
+                    TableTxt.Append(nameToUse);
+                    TableTxt.Append("</a></td>");
+                    TableTxt.Append("<td class=\"Normal\">");
+                    TableTxt.Append(localTopic.UpdatedByUsername);
+                    TableTxt.Append("</td>");
+                    TableTxt.Append("<td class=\"Normal\">");
+                    TableTxt.Append(localTopic.UpdateDate.ToString(CultureInfo.CurrentCulture));
+                    TableTxt.Append("</td>");
+                    TableTxt.Append("</tr>");
+                }
+            }
+            else
+            {
+                TableTxt.Append("<tr><td colspan=3 class=\"Normal\">");
+                TableTxt.Append(Localization.GetString("BaseCreateTableNoResults", RouterResourceFile));
+                TableTxt.Append("</td></tr>");
+            }
+            TableTxt.Append("</table>");
+            return TableTxt.ToString();
+        }
+
+        protected string CreateRecentChangeTable(int DaysBack)
+        {
+            return CreateTable(GetRecentlyChanged(DaysBack).ToList());
+        }
+
+        protected string CreateSearchTable(string SearchString)
+        {
+            return CreateTable(Search(SearchString).ToList());
+        }
+
+        protected string CreateHistoryTable()
+        {
+            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder(1000);
+            TableTxt.Append("<table><tr><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            TableTxt.Append("</th><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableTitle", RouterResourceFile));
+            TableTxt.Append("</th><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            TableTxt.Append("</th><th>");
+            TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            TableTxt.Append("</th></tr>");
+            var topicHistoryCollection = GetHistory().ToArray();
+            //Dim TopicTable As StringBuilder = New StringBuilder(500)
+            TopicHistory history = default(TopicHistory);
+            int i = 0;
+            if (topicHistoryCollection.Any())
+            {
+                i = topicHistoryCollection.Count();
+                while ((i > 0))
+                {
+                    history = (TopicHistory)topicHistoryCollection[i - 1];
+                    history.TabID = TabId;
+                    history.PortalSettings = PortalSettings;
+                    TableTxt.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
+                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
+                    TableTxt.Append("\">");
+                    TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
+
+                    TableTxt.Append("</a></td>");
+                    TableTxt.Append("<td class=\"Normal\">");
+                    if (!history.Title.ToString().Equals(string.Empty))
+                    {
+                        TableTxt.Append(history.Title.Replace(this.WikiHomeName, "Home"));
+                    }
+                    else
+                    {
+                        TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
+                    }
+                    TableTxt.Append("</td>");
+                    TableTxt.Append("<td class=\"Normal\">");
+                    TableTxt.Append(history.UpdatedByUsername);
+                    TableTxt.Append("</td>");
+                    TableTxt.Append("<td Class=\"Normal\">");
+                    TableTxt.Append(history.UpdateDate.ToString(CultureInfo.CurrentCulture));
+                    TableTxt.Append("</td>");
+                    TableTxt.Append("</tr>");
+                    i = i - 1;
+                }
+            }
+            else
+            {
+                TableTxt.Append("<tr><td colspan=\"3\" class=\"Normal\">");
+                TableTxt.Append(Localization.GetString("BaseCreateHistoryTableEmpty", RouterResourceFile));
+                TableTxt.Append("</td></tr>");
+            }
+            TableTxt.Append("</table>");
+            return TableTxt.ToString();
+        }
+
+        #endregion Aux Functions
+    }
 }

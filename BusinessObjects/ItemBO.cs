@@ -1,18 +1,24 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using System.Collections.Generic;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class ItemBO : _AbstractBusinessObject<Item, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public ItemBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -28,9 +34,13 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
-        public override void Entity_EvaluateSqlException(System.Data.SqlClient.SqlException exc, Utilities.SharedEnum.CrudOperation crudOperation)
+        #region Methods
+
+        internal override void Entity_EvaluateSqlException(System.Data.SqlClient.SqlException exc, Utilities.SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

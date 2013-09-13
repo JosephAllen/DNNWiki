@@ -1,20 +1,26 @@
-﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
 {
     public class CommentParentBO : _AbstractBusinessObject<CommentParent, int>
     {
+        #region Variables
+
         private UnitOfWork _uof;
+
+        #endregion Variables
+
+        #region Ctor
 
         public CommentParentBO(UnitOfWork uof)
             : base(uof.Context)
         {
             this._uof = uof;
         }
+
+        #endregion Ctor
 
         #region Enums
 
@@ -30,11 +36,15 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
 
         #endregion Enums
 
-        public override void Entity_EvaluateSqlException(
-            SqlException exc,
-            SharedEnum.CrudOperation crudOperation)
+        #region Methods
+
+        internal override void Entity_EvaluateSqlException(
+                    SqlException exc,
+                    SharedEnum.CrudOperation crudOperation)
         {
             throw new System.NotImplementedException();
         }
+
+        #endregion Methods
     }
 }

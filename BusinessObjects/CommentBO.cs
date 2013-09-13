@@ -47,7 +47,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
             return comment;
         }
 
-        public override void Entity_EvaluateSqlException(
+        internal override void Entity_EvaluateSqlException(
             SqlException exc,
             SharedEnum.CrudOperation crudOperation)
         {

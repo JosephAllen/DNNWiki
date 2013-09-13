@@ -1,4 +1,6 @@
-﻿using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Security;
 
 //
 // DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2012 by DotNetNuke Corporation
@@ -21,7 +23,7 @@
 
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
-using System.Collections;
+using System.Web;
 
 namespace DotNetNuke.Modules.Wiki.Views
 {
@@ -66,14 +68,14 @@ namespace DotNetNuke.Modules.Wiki.Views
                 LoadTopic();
                 if ((topic.Name == string.Empty))
                 {
-                    if ((this.Request.QueryString.Item("topic") == null))
+                    if ((this.Request.QueryString["topic"] == null))
                     {
                         PageTopic = WikiHomeName.Replace("[L]", "");
                         topic.Name = PageTopic;
                     }
                     else
                     {
-                        PageTopic = Entities.WikiData.DecodeTitle(this.Request.QueryString.Item("topic").ToString()).Replace("[L]", "");
+                        PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", "");
                         topic.Name = PageTopic;
                     }
                 }
@@ -81,7 +83,7 @@ namespace DotNetNuke.Modules.Wiki.Views
                 this.EditPage();
 
                 //CommentsSec.IsExpanded = FalseB
-                if ((this.Request.QueryString.Item("add") != null))
+                if ((this.Request.QueryString["add"] != null))
                 {
                     PageTopic = "";
                     LoadTopic();
@@ -110,21 +112,21 @@ namespace DotNetNuke.Modules.Wiki.Views
         private void cmdSave_Click(System.Object sender, System.EventArgs e)
         {
             //if we've change the Topic Name we need to create a new topic
-            TopicInfo ti = null;
-            if (PageTopic == string.Empty | PageTopic != WikiData.DecodeTitle(txtPageName.Text.Trim()))
+            Topic ti = null;
+            if (PageTopic == string.Empty | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
             {
-                PageTopic = WikiData.DecodeTitle(txtPageName.Text.Trim());
+                PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
                 topic.TopicID = 0;
-                ti = TC.GetByNameForModule(ModuleId, PageTopic);
+                ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
             }
             if (ti == null)
             {
                 this.SaveChanges();
                 if ((PageTopic == WikiHomeName))
                 {
-                    Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId));
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId));
                 }
-                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiData.EncodeTitle(this.PageTopic)), false);
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
             }
             else
             {
@@ -141,7 +143,7 @@ namespace DotNetNuke.Modules.Wiki.Views
         {
             PageTopic = txtPageName.Text.Trim();
             this.SaveAndContinue();
-            //Response.Redirect(DotNetNuke.Common.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & Entities.WikiData.EncodeTitle(Me.PageTopic)), False)
+            //Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & WikiMarkup.EncodeTitle(Me.PageTopic)), False)
         }
 
         #endregion "Form Events"
@@ -170,7 +172,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             if (this.wikiSettings.AllowDiscussions)
             {
                 this.AllowDiscuss.Enabled = true;
-                this.AllowDiscuss.Checked = this.topic.AllowDiscussions || this.wikiSettings.DefaultDiscussionMode;
+                this.AllowDiscuss.Checked = this.topic.AllowDiscussions || this.wikiSettings.DefaultDiscussionMode == true;
             }
             else
             {
@@ -181,7 +183,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             if (this.wikiSettings.AllowRatings)
             {
                 this.AllowRating.Enabled = true;
-                this.AllowRating.Checked = this.topic.AllowRatings || this.wikiSettings.DefaultRatingMode;
+                this.AllowRating.Checked = this.topic.AllowRatings || this.wikiSettings.DefaultRatingMode == true;
             }
             else
             {
@@ -231,11 +233,11 @@ namespace DotNetNuke.Modules.Wiki.Views
             //SEND BACK TO THE VIEW PAGE
             if (string.IsNullOrEmpty(this.PageTopic))
             {
-                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId), false);
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId), false);
             }
             else
             {
-                Response.Redirect(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + Entities.WikiData.EncodeTitle(this.PageTopic)), false);
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
             }
         }
 
@@ -248,7 +250,7 @@ namespace DotNetNuke.Modules.Wiki.Views
         private void SaveAndContinue()
         {
             DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
-            SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked, objSec.InputFilter(WikiData.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
+            SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked, objSec.InputFilter(WikiMarkup.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
         }
 
         private void EditPage()
@@ -259,12 +261,12 @@ namespace DotNetNuke.Modules.Wiki.Views
 
         private void DeleteBtn_Click(System.Object sender, System.EventArgs e)
         {
-            ArrayList thlist = this.GetHistory();
-            foreach (Entities.TopicHistoryInfo th in thlist)
+            var topicHistoryList = GetHistory();
+            foreach (var th in topicHistoryList)
             {
-                topicHistoryBo.Delete(th.TopicHistoryID);
+                TopicHistoryBo.Delete(th);
             }
-            TC.Delete(this.TopicID);
+            TopicBo.Delete(this.topic);
             Response.Redirect(this.HomeURL, true);
         }
 
