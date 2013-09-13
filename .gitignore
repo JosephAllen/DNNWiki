@@ -4,3 +4,4 @@ obj/*
 Tests/bin/*
 *.suo
 *.csproj.user
+/StyleCop.Cache
