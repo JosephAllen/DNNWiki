@@ -63,5 +63,15 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         }
 
         #endregion Methods
+
+        /// <summary>
+        /// Gets a topic history, based on the topic history id
+        /// </summary>
+        /// <param name="topicHistoryId">the id of the topic history to collect</param>
+        /// <returns>returns a topic history object</returns>
+        internal TopicHistory GetItem(int topicHistoryId)
+        {
+            return this.db.ExecuteScalar<TopicHistory>(CommandType.StoredProcedure, "Wiki_TopicHistoryGet", topicHistoryId);
+        }
     }
 }

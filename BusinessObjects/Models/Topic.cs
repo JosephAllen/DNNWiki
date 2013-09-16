@@ -141,5 +141,29 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         /// </summary>
         [IgnoreColumn]
         public string UpdatedByUsername { get; set; }
+
+        [IgnoreColumn]
+        public int TenPointRatingsRecorded
+        {
+            get { return RatingOneCount + RatingTwoCount + RatingThreeCount + RatingFourCount + RatingFiveCount + RatingSixCount + RatingSevenCount + RatingEightCount + RatingNineCount + RatingTenCount; }
+        }
+
+        [IgnoreColumn]
+        public int FivePointRatingsRecorded
+        {
+            get { return RatingOneCount + RatingTwoCount + RatingThreeCount + RatingFourCount + RatingFiveCount; }
+        }
+
+        [IgnoreColumn]
+        public double FivePointAverage
+        {
+            get { return (Convert.ToDouble(RatingOneCount) + Convert.ToDouble(RatingTwoCount * 2) + Convert.ToDouble(RatingThreeCount * 3) + Convert.ToDouble(RatingFourCount * 4) + Convert.ToDouble(RatingFiveCount * 5)) / Convert.ToDouble(FivePointRatingsRecorded); }
+        }
+
+        [IgnoreColumn]
+        public double TenPointAverage
+        {
+            get { return (Convert.ToDouble(RatingOneCount) + Convert.ToDouble(RatingTwoCount * 2) + Convert.ToDouble(RatingThreeCount * 3) + Convert.ToDouble(RatingFourCount * 4) + Convert.ToDouble(RatingFiveCount * 5) + Convert.ToDouble(RatingSixCount * 6) + Convert.ToDouble(RatingSevenCount * 7) + Convert.ToDouble(RatingEightCount * 8) + Convert.ToDouble(RatingNineCount * 9) + Convert.ToDouble(RatingTenCount * 10)) / Convert.ToDouble(TenPointRatingsRecorded); }
+        }
     }
 }

@@ -14,23 +14,19 @@ namespace DotNetNuke.Modules.Wiki.Utilities
     {
         #region Variables
 
-        public string UserName;
-        public string FirstName;
+        public const string WikiHomeName = "WikiHomePage";
 
-        public string LastName;
-        public bool IsAdmin = false;
-        public string PageTopic;
-        public string PageTitle;
-
-        public int TopicID;
-        public Topic topic;
-
-        public string HomeURL;
-
-        public Setting wikiSettings;
-        public bool CanEdit = false;
-        public readonly string WikiHomeName = "WikiHomePage";
-
+        private string userName;
+        private string firstName;
+        private string lastName;
+        private bool isAdmin = false;
+        private string pageTopic;
+        private string pageTitle;
+        private int topicId;
+        private Topic topic;
+        private string homeURL;
+        private Setting wikiSettings;
+        private bool canEdit = false;
         private DotNetNuke.Entities.Modules.PortalModuleBase mModule;
 
         private UnitOfWork uof;
@@ -51,10 +47,70 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
         #region Properties
 
+        public string PageTitle
+        {
+            get { return pageTitle; }
+        }
+
+        public string LastName
+        {
+            get { return lastName; }
+            set
+            {
+                this.lastName = value;
+            }
+        }
+
+        public string FirstName
+        {
+            get { return firstName; }
+            set
+            {
+                this.firstName = value;
+            }
+        }
+
+        public string UserName
+        {
+            get { return userName; }
+            set
+            {
+                this.userName = value;
+            }
+        }
+
+        public bool IsAdmin
+        {
+            get { return isAdmin; }
+            set
+            {
+                this.isAdmin = value;
+            }
+        }
+
+        public string HomeURL
+        {
+            get { return homeURL; }
+        }
+
+        public int TopicId
+        {
+            get { return topicId; }
+        }
+
+        public bool CanEdit
+        {
+            get { return canEdit; }
+        }
+
+        public Topic _Topic
+        {
+            get { return topic; }
+        }
+
         public string RouterResourceFile
         {
             get { return DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "Router.ascx.resx"); }
-            set { value = value; }
         }
 
         /// <summary>
@@ -104,6 +160,18 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
         #endregion Properties
 
+        public string PageTopic
+        {
+            get { return pageTopic; }
+            set { pageTopic = value; }
+        }
+
+        public Setting WikiSettings
+        {
+            get { return wikiSettings; }
+            set { wikiSettings = value; }
+        }
+
         #region Events
 
         /// <summary>
@@ -133,22 +201,22 @@ namespace DotNetNuke.Modules.Wiki.Utilities
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
             //congfigure the URL to the home page (the wiki without any parameters)
-            HomeURL = DotNetNuke.Common.Globals.NavigateURL();
+            homeURL = DotNetNuke.Common.Globals.NavigateURL();
 
             if (this.Request.QueryString["topic"] == null)
             {
                 if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
                 {
-                    PageTopic = WikiHomeName;
+                    pageTopic = WikiHomeName;
                 }
                 else
                 {
-                    PageTopic = "";
+                    pageTopic = "";
                 }
             }
             else
             {
-                PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
+                pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
             }
 
             if (wikiSettings == null)
@@ -164,7 +232,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
             if (wikiSettings.ContentEditorRoles == "UseDNNSettings")
             {
-                CanEdit = this.IsEditable;
+                canEdit = this.IsEditable;
             }
             else
             {
@@ -172,12 +240,12 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                 {
                     if (this.UserInfo.IsSuperUser)
                     {
-                        CanEdit = true;
-                        IsAdmin = true;
+                        canEdit = true;
+                        isAdmin = true;
                     }
                     else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
                     {
-                        CanEdit = true;
+                        canEdit = true;
                     }
                     else
                     {
@@ -188,7 +256,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                         {
                             if (UserInfo.IsInRole(role))
                             {
-                                CanEdit = true;
+                                canEdit = true;
                                 break; // TODO: might not be correct. Was : Exit For
                             }
                         }
@@ -198,7 +266,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                 {
                     if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
                     {
-                        CanEdit = true;
+                        canEdit = true;
                     }
                 }
             }
@@ -211,7 +279,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
         protected void LoadTopic()
         {
-            topic = TopicBo.GetByNameForModule(ModuleId, PageTopic);
+            topic = TopicBo.GetByNameForModule(ModuleId, pageTopic);
             if (topic == null)
             {
                 topic = new Topic();
@@ -219,7 +287,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
             }
             topic.TabID = TabId;
             topic.PortalSettings = PortalSettings;
-            TopicID = topic.TopicID;
+            topicId = topic.TopicID;
         }
 
         protected string ReadTopic()
@@ -269,7 +337,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
                     topicHistoryBo.Add(topicHistory);
                 }
-                topic.Name = PageTopic;
+                topic.Name = pageTopic;
                 topic.Title = Title;
                 topic.Description = Description;
                 topic.Keywords = Keywords;
@@ -285,7 +353,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                 topic.TabID = TabId;
                 topic.PortalSettings = PortalSettings;
                 topic.Content = Content;
-                topic.Name = PageTopic;
+                topic.Name = pageTopic;
                 topic.ModuleId = ModuleId;
                 if ((UserInfo.UserID == -1))
                 {
@@ -306,7 +374,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
                 topic = TopicBo.Add(topic);
 
-                TopicID = topic.TopicID;
+                topicId = topic.TopicID;
             }
         }
 
@@ -322,7 +390,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
         protected IEnumerable<TopicHistory> GetHistory()
         {
-            return topicHistoryBo.GetHistoryForTopic(TopicID);
+            return topicHistoryBo.GetHistoryForTopic(topicId);
         }
 
         protected IEnumerable<Topic> Search(string SearchString)
@@ -353,11 +421,11 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     string nameToUse = string.Empty;
                     if (!localTopic.Title.ToString().Equals(string.Empty))
                     {
-                        nameToUse = localTopic.Title.Replace(this.WikiHomeName, "Home");
+                        nameToUse = localTopic.Title.Replace(WikiHomeName, "Home");
                     }
                     else
                     {
-                        nameToUse = localTopic.Name.Replace(this.WikiHomeName, "Home");
+                        nameToUse = localTopic.Name.Replace(WikiHomeName, "Home");
                     }
 
                     TableTxt.Append("<tr>");
@@ -420,19 +488,19 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     history.TabID = TabId;
                     history.PortalSettings = PortalSettings;
                     TableTxt.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
-                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
+                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(pageTopic), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
                     TableTxt.Append("\">");
-                    TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
+                    TableTxt.Append(history.Name.Replace(WikiHomeName, "Home"));
 
                     TableTxt.Append("</a></td>");
                     TableTxt.Append("<td class=\"Normal\">");
                     if (!history.Title.ToString().Equals(string.Empty))
                     {
-                        TableTxt.Append(history.Title.Replace(this.WikiHomeName, "Home"));
+                        TableTxt.Append(history.Title.Replace(WikiHomeName, "Home"));
                     }
                     else
                     {
-                        TableTxt.Append(history.Name.Replace(this.WikiHomeName, "Home"));
+                        TableTxt.Append(history.Name.Replace(WikiHomeName, "Home"));
                     }
                     TableTxt.Append("</td>");
                     TableTxt.Append("<td class=\"Normal\">");

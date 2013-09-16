@@ -117,90 +117,166 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblPageCreationError.Text" xml:space="preserve">
-    <value>There is already a page by that name.</value>
+  <data name="Administration.Text" xml:space="preserve">
+    <value>Wiki Configuration</value>
   </data>
-  <data name="NoEditAccess.Text" xml:space="preserve">
-    <value>You do not have permissions to edit content in this module.</value>
+  <data name="Anonymous.Text" xml:space="preserve">
+    <value>Anonymous</value>
   </data>
-  <data name="plDescription.Help" xml:space="preserve">
-    <value>This description will get used in the Meta-Description tag for the HTML of the DotNetNuke page.</value>
+  <data name="BaseCreateHistoryTableEmpty.Text" xml:space="preserve">
+    <value>This topic has no history...</value>
   </data>
-  <data name="plDescription.Text" xml:space="preserve">
-    <value>Description (500 Chars)</value>
+  <data name="BaseCreateTableModBy.Text" xml:space="preserve">
+    <value>Updated By</value>
   </data>
-  <data name="plKeywords.Help" xml:space="preserve">
-    <value>The Meta-Keywords associated with this topic.</value>
+  <data name="BaseCreateTableModDate.Text" xml:space="preserve">
+    <value>Updated On</value>
   </data>
-  <data name="plKeywords.Text" xml:space="preserve">
-    <value>Keywords (500 chars)</value>
+  <data name="BaseCreateTableNoResults.Text" xml:space="preserve">
+    <value>List has no results...</value>
   </data>
-  <data name="plPageName.Help" xml:space="preserve">
-    <value>Page Name is the name that will be used in the URL for your Wiki Entry</value>
+  <data name="BaseCreateTableTitle.Text" xml:space="preserve">
+    <value>Title</value>
   </data>
-  <data name="plPageName.Text" xml:space="preserve">
-    <value>Page Name:</value>
+  <data name="BaseCreateTableTopic.Text" xml:space="preserve">
+    <value>Topic</value>
   </data>
-  <data name="plTitle.Help" xml:space="preserve">
-    <value>This is the page title that will get Displayed in the browser title, but not used in the URL.</value>
-  </data>
-  <data name="plTitle.Text" xml:space="preserve">
-    <value>Title (256 chars)</value>
-  </data>
-  <data name="shSeo.Text" xml:space="preserve">
-    <value>Page Search Engine Optimization</value>
-  </data>
-  <data name="StartAllowDiscuss.Text" xml:space="preserve">
-    <value>Enable Page Comments</value>
-  </data>
-  <data name="StartAllowRatings.Text" xml:space="preserve">
-    <value>Enable Page Ratings</value>
-  </data>
-  <data name="StartCancel.Text" xml:space="preserve">
+  <data name="CancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="StartDelete.Text" xml:space="preserve">
-    <value>Delete</value>
+  <data name="Comment.Text" xml:space="preserve">
+    <value>Comments</value>
   </data>
-  <data name="StartSave.Text" xml:space="preserve">
-    <value>Save</value>
+  <data name="CommentsCount.Text" xml:space="preserve">
+    <value>[{0}] Comments</value>
   </data>
-  <data name="StartSaveAndContinue.Text" xml:space="preserve">
-    <value>Save &amp; Continue</value>
+  <data name="Email.Text" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="StartWikiDirectionDetails.Text" xml:space="preserve">
-    <value>* To add a page simply enter its name in text 
-            with double brackets surrounding it while writing out your content; 
-            your only limitation is it may not be longer than 50 characters. 
-            This is also how you make a link to an existing page. 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[My Link]] 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[Another Link In Wiki]] &lt;BR&gt;&lt;BR&gt;* 
-            Once you have added a page you can edit your new page by navigating 
-            to it and clicking "Edit". &lt;BR&gt;&lt;BR&gt;* There is no limit to the number 
-            of new pages you can add while creating new content. &lt;BR&gt;&lt;BR&gt;* New 
-            pages will not show up in the Index view nor will they be searchable 
-            until they have content created for them. &lt;BR&gt;&lt;BR&gt;* You can add a 
-            title to your link by adding a Pipe after the name. When you do this 
-            the title will show as a hyperlink instead of the page name. 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[My Link|A Title]] 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[Another Link In Wiki|I can say what 
-            ever I want]] &lt;BR&gt;&lt;BR&gt;* To link to Wiki Page&amp;nbsp;on another Tab you 
-            can add a Second Pipe after the Page title with the Number to the 
-            other Tab &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example using just the page name: 
-            [[My Page||35]] &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example with page title: [[My 
-            Page|My Title here|35]] &lt;BR&gt;&lt;BR&gt;* To link back to the home page make 
-            your bracket link to WikiHomePage &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: 
-            [[WikiHomePage]] &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: 
-            [[WikiHomePage|Home]] &lt;BR&gt;&lt;BR&gt;* Because we use the HTML WYSIWYG 
-            editor, email links and URLs can be added by typing them in and 
-            letting the editor handle them; or as normal&amp;nbsp;&amp;lt;a href&amp;gt; 
-            tags&amp;nbsp;in the HTML view of the 
-      editor</value>
+  <data name="ErrorPleaseEnterComments.Text" xml:space="preserve">
+    <value>Please enter some comments.</value>
   </data>
-  <data name="StartWikiDirections.Text" xml:space="preserve">
-    <value>Wiki Text Directions</value>
+  <data name="ErrorPleaseEnterEmail.Text" xml:space="preserve">
+    <value>Please enter an email address</value>
   </data>
-  <data name="SubmitButton.Text" xml:space="preserve">
-    <value>Post Comment</value>
+  <data name="ErrorPleaseEnterName.Text" xml:space="preserve">
+    <value>Please enter a name.</value>
+  </data>
+  <data name="ErrorPleaseEnterShorterComment.Text" xml:space="preserve">
+    <value>Please enter {0} or less characters for the comment.</value>
+  </data>
+  <data name="ErrorTotalFailure.Text" xml:space="preserve">
+    <value>Failed to Add Record! Please Resubmit or contact the site admin.</value>
+  </data>
+  <data name="HideNavigation.Text" xml:space="preserve">
+    <value>Hide Navigation</value>
+  </data>
+  <data name="HistoryAsOf.Text" xml:space="preserve">
+    <value>(history as of {0})</value>
+  </data>
+  <data name="HistoryBack.Text" xml:space="preserve">
+    <value>&lt;&lt; Back</value>
+  </data>
+  <data name="HistoryListHeader.Text" xml:space="preserve">
+    <value>Select what version of this topic you want to review.</value>
+  </data>
+  <data name="HistoryRestore.Text" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="HistoryRestoreNotice.Text" xml:space="preserve">
+    <value>* Restore will make this version the current version</value>
+  </data>
+  <data name="HistoryTitle.Text" xml:space="preserve">
+    <value>History for</value>
+  </data>
+  <data name="Home.Text" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="IndexOff.Text" xml:space="preserve">
+    <value>Index (Show)</value>
+  </data>
+  <data name="IndexOn.Text" xml:space="preserve">
+    <value>Index (Hide)</value>
+  </data>
+  <data name="Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PageRatingsNotRatedYet.Text" xml:space="preserve">
+    <value>Not Rated Yet</value>
+  </data>
+  <data name="PageRatingsTitle.Text" xml:space="preserve">
+    <value>Rating:</value>
+  </data>
+  <data name="RatingsAverageRatingTitle.Text" xml:space="preserve">
+    <value>Average rating:</value>
+  </data>
+  <data name="RatingsHighRating.Text" xml:space="preserve">
+    <value>Great</value>
+  </data>
+  <data name="RatingsLowRating.Text" xml:space="preserve">
+    <value>Poor</value>
+  </data>
+  <data name="RatingsNotRatedYet.Text" xml:space="preserve">
+    <value>No Ratings Yet</value>
+  </data>
+  <data name="RatingsNumberOf.Text" xml:space="preserve">
+    <value>Number of Ratings : {0}</value>
+  </data>
+  <data name="RatingsPageRated.Text" xml:space="preserve">
+    <value>Thank you for rating this Page!</value>
+  </data>
+  <data name="RatingsRateThisPage.Text" xml:space="preserve">
+    <value>Rate This Page:</value>
+  </data>
+  <data name="RatingsSubmitRating.Text" xml:space="preserve">
+    <value>Rate Content</value>
+  </data>
+  <data name="RCLast24h.Text" xml:space="preserve">
+    <value>Last 24 Hours</value>
+  </data>
+  <data name="RCLast7d.Text" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="RCLastMonth.Text" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="RCTitle.Text" xml:space="preserve">
+    <value>Recent Changes</value>
+  </data>
+  <data name="RecentChanges.Text" xml:space="preserve">
+    <value>Recent Changes</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchExec.Text" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="SearchFieldLabel.Text" xml:space="preserve">
+    <value>Search:</value>
+  </data>
+  <data name="SearchTitleBasic.Text" xml:space="preserve">
+    <value>Search Wiki</value>
+  </data>
+  <data name="ShowNavigation.Text" xml:space="preserve">
+    <value>Show Navigation</value>
+  </data>
+  <data name="StartAddComment.Text" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="StartCommentCount.Text" xml:space="preserve">
+    <value>Start Comment Count</value>
+  </data>
+  <data name="StartCommentsSection.Text" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="StartDeleteWarning.Text" xml:space="preserve">
+    <value>Deleting this page will remove it and all of its history. Do you want to continue with the delete?</value>
+  </data>
+  <data name="StartPostComment.Text" xml:space="preserve">
+    <value>Post a comment</value>
+  </data>
+  <data name="StartRatingSec.Text" xml:space="preserve">
+    <value>Rating</value>
   </data>
 </root>

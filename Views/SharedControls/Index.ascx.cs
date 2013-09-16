@@ -28,13 +28,13 @@ using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Modules.Wiki.Entities;
+
 
 
 namespace DotNetNuke.Modules.Wiki.Views.SharedControls
 {
 
-    public partial class Index : WikiControlBase
+    public partial class Index : WikiModuleBase
     {
 
 
@@ -69,10 +69,10 @@ namespace DotNetNuke.Modules.Wiki.Views.SharedControls
                         if (t.Name != WikiHomeName)
                         {
                             TableTxt.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
-                            TableTxt.Append(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + Entities.WikiData.EncodeTitle(t.Name)));
+                            TableTxt.Append(DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + Entities.WikiMarkup.EncodeTitle(t.Name)));
                             TableTxt.Append("\"><img src=\"");
                             TableTxt.Append(Parent.TemplateSourceDirectory);
-                            TableTxt.Append("/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + Entities.WikiData.EncodeTitle(t.Name) + "\" />&nbsp;");
+                            TableTxt.Append("/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + Entities.WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
                             TableTxt.Append(t.Name);
                             TableTxt.Append("</a><br />");
                         }

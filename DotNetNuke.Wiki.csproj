@@ -107,6 +107,7 @@
     <Compile Include="BusinessObjects\UnitOfWork.cs" />
     <Compile Include="Interfaces\IBusinessObject.cs" />
     <Compile Include="Utilities\AddCommentsForm.cs" />
+    <Compile Include="Utilities\Comments.cs" />
     <Compile Include="Utilities\WikiMarkup.cs" />
     <Compile Include="Utilities\WikiModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -133,40 +134,38 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\PageRatings.ascx.cs">
       <DependentUpon>PageRatings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\PageRatings.ascx.designer.cs">
       <DependentUpon>PageRatings.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Ratings.ascx.cs">
       <DependentUpon>Ratings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Ratings.ascx.designer.cs">
       <DependentUpon>Ratings.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\RecentChanges.ascx.cs">
       <DependentUpon>RecentChanges.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\RecentChanges.ascx.designer.cs">
       <DependentUpon>RecentChanges.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Router.ascx.cs">
       <DependentUpon>Router.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Router.ascx.designer.cs">
       <DependentUpon>Router.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Search.ascx.cs">
       <DependentUpon>Search.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Search.ascx.designer.cs">
       <DependentUpon>Search.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Settings.ascx.cs">
-      <DependentUpon>Settings.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Settings.ascx.designer.cs">
-      <DependentUpon>Settings.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\SharedControls\Index.ascx.cs">
       <DependentUpon>Index.ascx</DependentUpon>
@@ -188,12 +187,14 @@
     </Compile>
     <Compile Include="Views\Start.ascx.cs">
       <DependentUpon>Start.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\Start.ascx.designer.cs">
       <DependentUpon>Start.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\TopicHistory.ascx.cs">
       <DependentUpon>TopicHistory.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\TopicHistory.ascx.designer.cs">
       <DependentUpon>TopicHistory.ascx</DependentUpon>
@@ -220,7 +221,6 @@
     <Content Include="Views\RecentChanges.ascx" />
     <Content Include="Views\Router.ascx" />
     <Content Include="Views\Search.ascx" />
-    <Content Include="Views\Settings.ascx" />
     <Content Include="Views\SharedControls\Index.ascx" />
     <Content Include="Views\SharedControls\WikiButton.ascx" />
     <Content Include="Views\SharedControls\WikiMenu.ascx" />
@@ -234,19 +234,6 @@
   <ItemGroup>
     <Content Include="BuildScripts\ModulePackage.targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\App_LocalResources\View.ascx.resx">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\App_LocalResources\Edit.ascx.resx">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\App_LocalResources\Settings.ascx.resx">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Js\" />
@@ -263,6 +250,18 @@
     <Content Include="Resources\SqlDataProvider\04.02.01.SqlDataProvider" />
     <Content Include="Resources\SqlDataProvider\04.05.03.SqlDataProvider" />
     <Content Include="Resources\SqlDataProvider\Uninstall.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App_LocalResources\Administration.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App_LocalResources\Edit.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App_LocalResources\Router.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App_LocalResources\SharedResources.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

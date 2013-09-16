@@ -1,43 +1,33 @@
 ﻿//
-// DotNetNuke® - http://www.dotnetnuke.com
-// Copyright (c) 2002-2013
-// by DotNetNuke Corporation
+// DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
-// of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-// DEALINGS IN THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using DotNetNuke.Modules.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
-using DotNetNuke.Modules.Wiki.Entities;
+using System.Web;
 
 namespace DotNetNuke.Modules.Wiki.Views
 {
-
-    partial class Start : WikiControlBase
+    partial class Start : WikiModuleBase
     {
-
         protected System.Web.UI.WebControls.Button cmdHistory;
-        protected UI.UserControls.SectionHeadControl RatingSec;
-        protected DotNetNuke.Modules.Wiki.PageRatings pageRating;
-        protected DotNetNuke.Modules.Wiki.Ratings ratings;
-        protected UI.UserControls.SectionHeadControl CommentsSec;
+        protected PageRatings pageRating;
+        protected Ratings ratings;
 
         protected UI.UserControls.SectionHeadControl WikiTextDirections;
 
@@ -45,7 +35,6 @@ namespace DotNetNuke.Modules.Wiki.Views
 
         //This call is required by the Web Form Designer.
         [System.Diagnostics.DebuggerStepThrough()]
-
         private void InitializeComponent()
         {
         }
@@ -56,10 +45,10 @@ namespace DotNetNuke.Modules.Wiki.Views
             //Do not modify it using the code editor.
             InitializeComponent();
         }
-        #endregion
+
+        #endregion " Web Form Designer Generated Code "
 
         #region "Form Events"
-
 
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -82,33 +71,30 @@ namespace DotNetNuke.Modules.Wiki.Views
                 }
             }
 
-
             LoadLocalization();
             this.AddCommentPane.Visible = false;
             this.Comments2.Visible = true;
             this.AddCommentCommand.Visible = true;
             //Me.DeleteCommentCommand.Visible = True
 
-            this.lblPageTopic.Text = this.PageTopic.Replace(this.WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
+            this.lblPageTopic.Text = this.PageTopic.Replace(WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
 
-            if (this.Topic.Title.Trim().Length > 0)
+            if (_Topic.Title.Trim().Length > 0)
             {
-                this.lblPageTopic.Text = Topic.Title;
+                this.lblPageTopic.Text = _Topic.Title;
             }
 
-            this.AddCommentsForm1.ParentId = Topic.TopicID;
-            CommentCount1.ParentId = Topic.TopicID;
+            this.AddCommentsForm1.ParentId = _Topic.TopicID;
+            CommentCount1.ParentId = _Topic.TopicID;
 
             Comments2.IsAdmin = this.IsAdmin;
-            Comments2.ParentId = Topic.TopicID;
+            Comments2.ParentId = _Topic.TopicID;
 
             //CommentsSec.IsExpanded = False
             DisplayTopic();
-
         }
 
-
-        #endregion
+        #endregion "Form Events"
 
         private void LoadLocalization()
         {
@@ -120,57 +106,49 @@ namespace DotNetNuke.Modules.Wiki.Views
             PostCommentLbl.Text = Localization.GetString("StartPostComment", this.RouterResourceFile);
 
             RatingSec.Text = Localization.GetString("StartRatingSec.Text", this.RouterResourceFile);
-
-
         }
-
 
         private void DisplayTopic()
         {
-
             this.lblPageContent.Visible = true;
             string Content = ReadTopic();
             this.lblPageContent.Text = HttpUtility.HtmlDecode(Content).ToString();
-            this.ratingTbl.Visible = Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.RatingSec.Visible = Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.pageRating.Visible = Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.ratings.Visible = Topic.AllowRatings;
-            this.AddCommentCommand.Visible = Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.ratingTbl.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
+            this.RatingSec.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
+            this.pageRating.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
+            this.ratings.Visible = _Topic.AllowRatings;
+            this.AddCommentCommand.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
             this.CommentCount1.Visible = false;
-            this.Comments2.Visible = Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
-            this.CommentsSec.Visible = Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
-            this.CommentsTbl.Visible = Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.Comments2.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.CommentsSec.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.CommentsTbl.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
 
             DotNetNuke.Framework.CDefault p = default(DotNetNuke.Framework.CDefault);
             p = (DotNetNuke.Framework.CDefault)this.Page;
 
             //set the page title, check for the Topic.Title, Topic.Name, then use PageTopic parameter if all else fails
-            if (this.Topic.Title.Trim().Length > 0)
+            if (_Topic.Title.Trim().Length > 0)
             {
-                p.Title = p.Title + " > " + this.Topic.Title;
+                p.Title = p.Title + " > " + _Topic.Title;
             }
-            else if (this.Topic.Name.Trim().Length > 0)
+            else if (_Topic.Name.Trim().Length > 0)
             {
-                p.Title = p.Title + " > " + this.Topic.Name;
+                p.Title = p.Title + " > " + _Topic.Name;
             }
             else
             {
                 p.Title = p.Title + " > " + this.PageTopic;
             }
 
-            if ((this.Topic.Description != null) & !(this.Topic.Description == string.Empty))
+            if ((_Topic.Description != null) & !(_Topic.Description == string.Empty))
             {
-                p.Description = this.Topic.Description + " " + p.Description;
-
+                p.Description = _Topic.Description + " " + p.Description;
             }
 
-            if ((this.Topic.Keywords != null) & !(this.Topic.Keywords == string.Empty))
+            if ((_Topic.Keywords != null) & !(_Topic.Keywords == string.Empty))
             {
-                p.KeyWords = this.Topic.Keywords + " " + p.KeyWords;
-
+                p.KeyWords = _Topic.Keywords + " " + p.KeyWords;
             }
-
-
         }
 
         private void EditPage()
@@ -191,7 +169,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             {
                 this.AddCommentsForm1.NameText = UserInfo.DisplayName;
                 this.AddCommentsForm1.EnableName = false;
-                this.AddCommentsForm1.EmailText = UserInfo.Membership.Email;
+                this.AddCommentsForm1.EmailText = UserInfo.Email;
                 this.AddCommentsForm1.EnableEmail = false;
 
                 //Dim lstEmails As List(Of String) = New Entities.CommentsController().GetNotificationEmails(Me.Topic)
@@ -200,7 +178,6 @@ namespace DotNetNuke.Modules.Wiki.Views
                 //For Each s As String In lstEmails
                 //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & s & vbCrLf
                 //Next
-
             }
         }
 
@@ -210,7 +187,6 @@ namespace DotNetNuke.Modules.Wiki.Views
             this.Comments2.Visible = false;
             this.AddCommentCommand.Visible = false;
             CommentsSec.IsExpanded = true;
-
         }
 
         private void AddCommentsForm1_PostCanceled(ref object s)
@@ -226,6 +202,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             this.Comments2.Visible = true;
             this.AddCommentCommand.Visible = true;
         }
+
         public Start()
         {
             PreRender += Page_PreRender;

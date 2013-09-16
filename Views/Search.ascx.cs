@@ -1,50 +1,38 @@
 ﻿//
-// DotNetNuke® - http://www.dotnetnuke.com
-// Copyright (c) 2002-2013
-// by DotNetNuke Corporation
+// DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+// associated documentation files (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
-// of the Software.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-// DEALINGS IN THE SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+// description: Allows users to search for topics. Needs to be rewriten but for now this is OK.
 
-// description: Allows users to search for topics. 
-//              Needs to be rewriten but for now this is OK.
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using DotNetNuke.Modules.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
+using System.Linq;
 
 namespace DotNetNuke.Modules.Wiki.Views
 {
-
-    partial class SearchPage : WikiControlBase
+    partial class Search : WikiModuleBase
     {
-
         protected System.Web.UI.WebControls.Label lblPageContent;
-
 
         #region " Web Form Designer Generated Code "
 
         //This call is required by the Web Form Designer.
         [System.Diagnostics.DebuggerStepThrough()]
-
         private void InitializeComponent()
         {
         }
@@ -56,7 +44,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             InitializeComponent();
         }
 
-        #endregion
+        #endregion " Web Form Designer Generated Code "
 
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -75,17 +63,15 @@ namespace DotNetNuke.Modules.Wiki.Views
             cmdSearch.Text = Localization.GetString("SearchExec", RouterResourceFile);
         }
 
-
         private void SearchTopics()
         {
-            HitTable.Text = CreateTable(Search("%" + this.txtTextToSearch.Text + "%"));
-
+            HitTable.Text = CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
         }
-        public SearchPage()
+
+        public Search()
         {
             Load += Page_Load;
             Init += Page_Init;
         }
-
     }
 }

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetNuke.Modules.Wiki.Views {
-    
-    
-    public partial class Start {
-        
+namespace DotNetNuke.Modules.Wiki.Views
+{
+
+
+    public partial class Start
+    {
+
         /// <summary>
         /// lblPageTopic control.
         /// </summary>
@@ -20,16 +22,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPageTopic;
-        
-        /// <summary>
-        /// pageRating control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DotNetNuke.Modules.Wiki.Views.PageRatings pageRating;
-        
+
         /// <summary>
         /// CommentCount1 control.
         /// </summary>
@@ -38,7 +31,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.Modules.Wiki.Comments.CommentCount CommentCount1;
-        
+
         /// <summary>
         /// lblPageContent control.
         /// </summary>
@@ -47,7 +40,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal lblPageContent;
-        
+
         /// <summary>
         /// RatingSec control.
         /// </summary>
@@ -55,8 +48,8 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl RatingSec;
-        
+        protected global::DotNetNuke.UI.UserControls.SectionHeadControl RatingSec;
+
         /// <summary>
         /// ratingTbl control.
         /// </summary>
@@ -65,16 +58,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable ratingTbl;
-        
-        /// <summary>
-        /// ratings control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::DotNetNuke.Modules.Wiki.Views.Ratings ratings;
-        
+
         /// <summary>
         /// CommentsSec control.
         /// </summary>
@@ -82,8 +66,8 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl CommentsSec;
-        
+        protected global::DotNetNuke.UI.UserControls.SectionHeadControl CommentsSec;
+
         /// <summary>
         /// CommentsTbl control.
         /// </summary>
@@ -92,7 +76,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable CommentsTbl;
-        
+
         /// <summary>
         /// AddCommentCommand control.
         /// </summary>
@@ -101,7 +85,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton AddCommentCommand;
-        
+
         /// <summary>
         /// Comments2 control.
         /// </summary>
@@ -110,7 +94,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.Modules.Wiki.Comments.comments Comments2;
-        
+
         /// <summary>
         /// AddCommentPane control.
         /// </summary>
@@ -119,7 +103,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel AddCommentPane;
-        
+
         /// <summary>
         /// PostCommentLbl control.
         /// </summary>
@@ -128,7 +112,7 @@ namespace DotNetNuke.Modules.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label PostCommentLbl;
-        
+
         /// <summary>
         /// AddCommentsForm1 control.
         /// </summary>

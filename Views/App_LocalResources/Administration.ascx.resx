@@ -117,90 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblPageCreationError.Text" xml:space="preserve">
-    <value>There is already a page by that name.</value>
-  </data>
-  <data name="NoEditAccess.Text" xml:space="preserve">
-    <value>You do not have permissions to edit content in this module.</value>
-  </data>
-  <data name="plDescription.Help" xml:space="preserve">
-    <value>This description will get used in the Meta-Description tag for the HTML of the DotNetNuke page.</value>
-  </data>
-  <data name="plDescription.Text" xml:space="preserve">
-    <value>Description (500 Chars)</value>
-  </data>
-  <data name="plKeywords.Help" xml:space="preserve">
-    <value>The Meta-Keywords associated with this topic.</value>
-  </data>
-  <data name="plKeywords.Text" xml:space="preserve">
-    <value>Keywords (500 chars)</value>
-  </data>
-  <data name="plPageName.Help" xml:space="preserve">
-    <value>Page Name is the name that will be used in the URL for your Wiki Entry</value>
-  </data>
-  <data name="plPageName.Text" xml:space="preserve">
-    <value>Page Name:</value>
-  </data>
-  <data name="plTitle.Help" xml:space="preserve">
-    <value>This is the page title that will get Displayed in the browser title, but not used in the URL.</value>
-  </data>
-  <data name="plTitle.Text" xml:space="preserve">
-    <value>Title (256 chars)</value>
-  </data>
-  <data name="shSeo.Text" xml:space="preserve">
-    <value>Page Search Engine Optimization</value>
-  </data>
-  <data name="StartAllowDiscuss.Text" xml:space="preserve">
-    <value>Enable Page Comments</value>
-  </data>
-  <data name="StartAllowRatings.Text" xml:space="preserve">
-    <value>Enable Page Ratings</value>
-  </data>
-  <data name="StartCancel.Text" xml:space="preserve">
+  <data name="CancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="StartDelete.Text" xml:space="preserve">
-    <value>Delete</value>
+  <data name="CommentSettings.Text" xml:space="preserve">
+    <value>Comment Settings</value>
   </data>
-  <data name="StartSave.Text" xml:space="preserve">
+  <data name="ControlTitle_administration.Text" xml:space="preserve">
+    <value>Wiki Configuration</value>
+  </data>
+  <data name="DNNSecurityChk.Help" xml:space="preserve">
+    <value>Use DotNetNuke Security for edit content permissions</value>
+  </data>
+  <data name="DNNSecurityChk.Text" xml:space="preserve">
+    <value>Module Security</value>
+  </data>
+  <data name="ExpandAll.Text" xml:space="preserve">
+    <value>Expand All</value>
+  </data>
+  <data name="lblActivateComments.Help" xml:space="preserve">
+    <value>Activate comments on all existing entries.</value>
+  </data>
+  <data name="lblActivateComments.Text" xml:space="preserve">
+    <value>Enable on Existing</value>
+  </data>
+  <data name="lblActivateRatings.Help" xml:space="preserve">
+    <value>Activate ratings on all pages after settings are saved!</value>
+  </data>
+  <data name="lblActivateRatings.Text" xml:space="preserve">
+    <value>Enable on Existing</value>
+  </data>
+  <data name="lblAllowPageComments.Help" xml:space="preserve">
+    <value>Allow comments for the Wiki</value>
+  </data>
+  <data name="lblAllowPageComments.Text" xml:space="preserve">
+    <value>Allow Pages Comments</value>
+  </data>
+  <data name="lblAllowPageRatings.Help" xml:space="preserve">
+    <value>Allow page ratings</value>
+  </data>
+  <data name="lblAllowPageRatings.Text" xml:space="preserve">
+    <value>Allow Pages Ratings</value>
+  </data>
+  <data name="lblDefaultCommentsMode.Help" xml:space="preserve">
+    <value>Should commends be enabled by default when creating a topic?</value>
+  </data>
+  <data name="lblDefaultCommentsMode.Text" xml:space="preserve">
+    <value>Enable Comments by Default</value>
+  </data>
+  <data name="lblDefaultRatingMode.Help" xml:space="preserve">
+    <value>Enable ratings by default in add topic control</value>
+  </data>
+  <data name="lblDefaultRatingMode.Text" xml:space="preserve">
+    <value>Default Rating Mode</value>
+  </data>
+  <data name="lblNotifyMethodCustomRoles.Help" xml:space="preserve">
+    <value>Allow users from custom roles to subscribe to notifications.</value>
+  </data>
+  <data name="lblNotifyMethodCustomRoles.Text" xml:space="preserve">
+    <value>Custom Roles</value>
+  </data>
+  <data name="lblNotifyMethodEditRoles.Help" xml:space="preserve">
+    <value>Allow users with Edit rights to subscribe to notifications.</value>
+  </data>
+  <data name="lblNotifyMethodEditRoles.Text" xml:space="preserve">
+    <value>Edit Roles</value>
+  </data>
+  <data name="lblNotifyMethodUserComments.Help" xml:space="preserve">
+    <value>Allow users to be notified when new comments are added.</value>
+  </data>
+  <data name="lblNotifyMethodUserComments.Text" xml:space="preserve">
+    <value>User Comments</value>
+  </data>
+  <data name="lblNotifyMethodViewRoles.Help" xml:space="preserve">
+    <value>Allow users with View rights to subscribe to notifications.</value>
+  </data>
+  <data name="lblNotifyMethodViewRoles.Text" xml:space="preserve">
+    <value>View Roles</value>
+  </data>
+  <data name="lblNotifyRoles.Help" xml:space="preserve">
+    <value>Custom roles that are allowed to subscribe to notifications</value>
+  </data>
+  <data name="lblNotifyRoles.Text" xml:space="preserve">
+    <value>Custom Roles</value>
+  </data>
+  <data name="NotificationSettings.Text" xml:space="preserve">
+    <value>Notification Settings</value>
+  </data>
+  <data name="RatingSettings.Text" xml:space="preserve">
+    <value>Rating Settings</value>
+  </data>
+  <data name="SaveButton.Text" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="StartSaveAndContinue.Text" xml:space="preserve">
-    <value>Save &amp; Continue</value>
+  <data name="SecuritySettings.Text" xml:space="preserve">
+    <value>Security Settings</value>
   </data>
-  <data name="StartWikiDirectionDetails.Text" xml:space="preserve">
-    <value>* To add a page simply enter its name in text 
-            with double brackets surrounding it while writing out your content; 
-            your only limitation is it may not be longer than 50 characters. 
-            This is also how you make a link to an existing page. 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[My Link]] 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[Another Link In Wiki]] &lt;BR&gt;&lt;BR&gt;* 
-            Once you have added a page you can edit your new page by navigating 
-            to it and clicking "Edit". &lt;BR&gt;&lt;BR&gt;* There is no limit to the number 
-            of new pages you can add while creating new content. &lt;BR&gt;&lt;BR&gt;* New 
-            pages will not show up in the Index view nor will they be searchable 
-            until they have content created for them. &lt;BR&gt;&lt;BR&gt;* You can add a 
-            title to your link by adding a Pipe after the name. When you do this 
-            the title will show as a hyperlink instead of the page name. 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[My Link|A Title]] 
-            &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: [[Another Link In Wiki|I can say what 
-            ever I want]] &lt;BR&gt;&lt;BR&gt;* To link to Wiki Page&amp;nbsp;on another Tab you 
-            can add a Second Pipe after the Page title with the Number to the 
-            other Tab &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example using just the page name: 
-            [[My Page||35]] &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example with page title: [[My 
-            Page|My Title here|35]] &lt;BR&gt;&lt;BR&gt;* To link back to the home page make 
-            your bracket link to WikiHomePage &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: 
-            [[WikiHomePage]] &lt;BR&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Example: 
-            [[WikiHomePage|Home]] &lt;BR&gt;&lt;BR&gt;* Because we use the HTML WYSIWYG 
-            editor, email links and URLs can be added by typing them in and 
-            letting the editor handle them; or as normal&amp;nbsp;&amp;lt;a href&amp;gt; 
-            tags&amp;nbsp;in the HTML view of the 
-      editor</value>
+  <data name="WikiSecurity.Help" xml:space="preserve">
+    <value>If you disable Module Security you can assign which roles are allowed to edit your wiki.</value>
   </data>
-  <data name="StartWikiDirections.Text" xml:space="preserve">
-    <value>Wiki Text Directions</value>
-  </data>
-  <data name="SubmitButton.Text" xml:space="preserve">
-    <value>Post Comment</value>
+  <data name="WikiSecurity.Text" xml:space="preserve">
+    <value>Wiki Edit Roles</value>
   </data>
 </root>

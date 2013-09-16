@@ -25,14 +25,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Services.Localization;
-using DotNetNuke.Modules.Wiki.Entities;
+
 
 
 namespace DotNetNuke.Modules.Wiki.Views.SharedControls
 {
 
 
-    partial class WikiButton : WikiControlBase
+    partial class WikiButton : WikiModuleBase
     {
         protected void Page_Load(object sender, System.EventArgs e)
         {
@@ -71,8 +71,8 @@ namespace DotNetNuke.Modules.Wiki.Views.SharedControls
 
                 this.AddPipe.Visible = this.CanEdit;
                 this.txtViewHistory.Visible = true;
-                txtViewHistory.NavigateUrl = DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, "", "loc=TopicHistory", "topic=" + Entities.WikiData.EncodeTitle(PageTopic));
-                lnkEdit.NavigateUrl = NavigateURL(TabId, "", "topic=" + WikiData.EncodeTitle(PageTopic) + "&loc=edit");
+                txtViewHistory.NavigateUrl = DotNetNuke.Common.NavigateURL(this.TabId, this.PortalSettings, "", "loc=TopicHistory", "topic=" + Entities.WikiMarkup.EncodeTitle(PageTopic));
+                lnkEdit.NavigateUrl = NavigateURL(TabId, "", "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
             }
 
             cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "&loc=edit&add=true");

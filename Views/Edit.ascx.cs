@@ -66,17 +66,17 @@ namespace DotNetNuke.Modules.Wiki.Views
                 }
 
                 LoadTopic();
-                if ((topic.Name == string.Empty))
+                if ((_Topic.Name == string.Empty))
                 {
                     if ((this.Request.QueryString["topic"] == null))
                     {
                         PageTopic = WikiHomeName.Replace("[L]", "");
-                        topic.Name = PageTopic;
+                        _Topic.Name = PageTopic;
                     }
                     else
                     {
                         PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", "");
-                        topic.Name = PageTopic;
+                        _Topic.Name = PageTopic;
                     }
                 }
 
@@ -116,7 +116,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             if (PageTopic == string.Empty | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
             {
                 PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
-                topic.TopicID = 0;
+                _Topic.TopicID = 0;
                 ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
             }
             if (ti == null)
@@ -169,10 +169,10 @@ namespace DotNetNuke.Modules.Wiki.Views
             this.cmdCancel.Visible = true;
             this.teContent.Text = ReadTopicForEdit();
 
-            if (this.wikiSettings.AllowDiscussions)
+            if (this.WikiSettings.AllowDiscussions)
             {
                 this.AllowDiscuss.Enabled = true;
-                this.AllowDiscuss.Checked = this.topic.AllowDiscussions || this.wikiSettings.DefaultDiscussionMode == true;
+                this.AllowDiscuss.Checked = this._Topic.AllowDiscussions || this.WikiSettings.DefaultDiscussionMode == true;
             }
             else
             {
@@ -180,10 +180,10 @@ namespace DotNetNuke.Modules.Wiki.Views
                 this.AllowDiscuss.Checked = false;
             }
 
-            if (this.wikiSettings.AllowRatings)
+            if (this.WikiSettings.AllowRatings)
             {
                 this.AllowRating.Enabled = true;
-                this.AllowRating.Checked = this.topic.AllowRatings || this.wikiSettings.DefaultRatingMode == true;
+                this.AllowRating.Checked = this._Topic.AllowRatings || this.WikiSettings.DefaultRatingMode == true;
             }
             else
             {
@@ -193,36 +193,36 @@ namespace DotNetNuke.Modules.Wiki.Views
 
             this.DeleteBtn.Visible = false;
             this.DeleteLbl.Visible = false;
-            if (this.topic.Name != WikiHomeName)
+            if (this._Topic.Name != WikiHomeName)
             {
                 this.DeleteBtn.Visible = true;
                 this.DeleteLbl.Visible = true;
             }
 
-            if (this.topic.Name.Trim().Length < 1)
+            if (this._Topic.Name.Trim().Length < 1)
             {
                 txtPageName.Text = string.Empty;
                 txtPageName.ReadOnly = false;
             }
             else
             {
-                txtPageName.Text = HttpUtility.HtmlDecode(topic.Name.Trim().Replace("[L]", ""));
+                txtPageName.Text = HttpUtility.HtmlDecode(_Topic.Name.Trim().Replace("[L]", ""));
                 txtPageName.ReadOnly = true;
             }
 
-            if (this.topic.Title.Trim().Length > 0)
+            if (this._Topic.Title.Trim().Length > 0)
             {
-                txtTitle.Text = HttpUtility.HtmlDecode(topic.Title.Replace("[L]", ""));
+                txtTitle.Text = HttpUtility.HtmlDecode(_Topic.Title.Replace("[L]", ""));
             }
 
-            if ((this.topic.Description != null))
+            if ((this._Topic.Description != null))
             {
-                txtDescription.Text = topic.Description;
+                txtDescription.Text = _Topic.Description;
             }
 
-            if ((this.topic.Keywords != null))
+            if ((this._Topic.Keywords != null))
             {
-                txtKeywords.Text = topic.Keywords;
+                txtKeywords.Text = _Topic.Keywords;
             }
 
             //TODO: Fix Printer Friendly
@@ -266,7 +266,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             {
                 TopicHistoryBo.Delete(th);
             }
-            TopicBo.Delete(this.topic);
+            TopicBo.Delete(this._Topic);
             Response.Redirect(this.HomeURL, true);
         }
 

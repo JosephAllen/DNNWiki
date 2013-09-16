@@ -1,39 +1,15 @@
-﻿//
-// DotNetNuke® - http://www.dotnetnuke.com
-// Copyright (c) 2002-2013
-// by DotNetNuke Corporation
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
-// of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-// DEALINGS IN THE SOFTWARE.
-//
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+using DotNetNuke.Modules.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.Wiki.Views
 {
-    partial class PageRatings : WikiControlBase
+    partial class PageRatings : WikiModuleBase
     {
-        private DotNetNuke.Modules.Wiki.WikiControlBase mModule;
-        private DotNetNuke.Modules.Wiki.Entities.TopicInfo mTopic;
-        public DotNetNuke.Modules.Wiki.Entities.TopicInfo Topic
+        private WikiModuleBase mModule;
+        private Topic mTopic;
+
+        public Topic InnerTopic
         {
             get
             {
@@ -41,17 +17,17 @@ namespace DotNetNuke.Modules.Wiki.Views
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
-                    while (!uplevel is DotNetNuke.Modules.Wiki.WikiControlBase)
+                    while (!(uplevel is WikiModuleBase))
                     {
                         uplevel = uplevel.Parent;
                     }
-                    mTopic = ((DotNetNuke.Modules.Wiki.WikiControlBase)uplevel).Topic;
+                    mTopic = ((WikiModuleBase)uplevel)._Topic;
                 }
                 return mTopic;
             }
         }
 
-        public DotNetNuke.Modules.Wiki.WikiControlBase ParentModule
+        public WikiModuleBase ParentModule
         {
             get
             {
@@ -59,11 +35,11 @@ namespace DotNetNuke.Modules.Wiki.Views
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
-                    while (!uplevel is DotNetNuke.Modules.Wiki.WikiControlBase)
+                    while (!(uplevel is WikiModuleBase))
                     {
                         uplevel = uplevel.Parent;
                     }
-                    mModule = (DotNetNuke.Modules.Wiki.WikiControlBase)uplevel;
+                    mModule = (WikiModuleBase)uplevel;
                     mModule.ModuleConfiguration = this.ModuleConfiguration;
                 }
                 return mModule;
@@ -74,7 +50,6 @@ namespace DotNetNuke.Modules.Wiki.Views
 
         //This call is required by the Web Form Designer.
         [System.Diagnostics.DebuggerStepThrough()]
-
         private void InitializeComponent()
         {
         }
@@ -86,7 +61,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             InitializeComponent();
         }
 
-        #endregion
+        #endregion " Web Form Designer Generated Code "
 
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -95,7 +70,7 @@ namespace DotNetNuke.Modules.Wiki.Views
 
         private void Page_PreRender(object sender, System.EventArgs e)
         {
-            if (Topic.FivePointRatingsRecorded == 0)
+            if (InnerTopic.FivePointRatingsRecorded == 0)
             {
                 RatingBar.Visible = false;
                 NoRating.Visible = true;
@@ -104,8 +79,8 @@ namespace DotNetNuke.Modules.Wiki.Views
             {
                 RatingBar.Visible = true;
                 NoRating.Visible = false;
-                RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + Topic.FivePointAverage.ToString("#.#");
-                RatingBar.Alt = Topic.FivePointAverage.ToString("#.#");
+                RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + InnerTopic.FivePointAverage.ToString("#.#");
+                RatingBar.Alt = InnerTopic.FivePointAverage.ToString("#.#");
             }
         }
 
@@ -114,6 +89,7 @@ namespace DotNetNuke.Modules.Wiki.Views
             NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", RouterResourceFile);
             RatingLbl.Text = Localization.GetString("PageRatingsTitle", RouterResourceFile);
         }
+
         public PageRatings()
         {
             PreRender += Page_PreRender;

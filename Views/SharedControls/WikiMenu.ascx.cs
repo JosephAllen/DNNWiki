@@ -20,7 +20,7 @@
 
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Modules.Wiki.Entities;
+
 using DotNetNuke.Services.Localization;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ using System.Web.UI.WebControls;
 
 namespace DotNetNuke.Modules.Wiki.Views.SharedControls
 {
-    public partial class WikiMenu : WikiControlBase
+    public partial class WikiMenu : WikiModuleBase
     {
         private bool ShowIndex;
 

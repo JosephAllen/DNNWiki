@@ -1,5 +1,6 @@
 ﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Modules.Wiki.Utilities;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DotNetNuke.Modules.Wiki.BusinessObjects
@@ -37,6 +38,24 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         #endregion Enums
 
         #region Methods
+
+        /// <summary>
+        /// Deletes the comment with the passed id
+        /// </summary>
+        /// <param name="commentId">the comment id</param>
+        internal void DeleteComment(int commentId)
+        {
+            this.db.Execute(CommandType.StoredProcedure, "DELETE FROM Wiki_Comment WHERE CommentId=@0", commentId);
+        }
+
+        /// <summary>
+        /// Deletes all the comments with the parent id
+        /// </summary>
+        /// <param name="parentId">the parent id</param>
+        internal void DeleteComments(int parentId)
+        {
+            this.db.Execute(CommandType.StoredProcedure, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
+        }
 
         public override Comment Add(Comment entity)
         {
