@@ -19,11 +19,11 @@
 
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
 using System.Web.UI;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     //Implements ISearchable
     //Implements IPortable
@@ -121,10 +121,10 @@ namespace DotNetNuke.Modules.Wiki.Views
         // Me.ImageButton1.AlternateText = Localization.GetString("ShowNavigation",
         // LocalResourceFile) ' "Show Navigation" Me.ImageButton1.ImageUrl = TemplateSourceDirectory
         // + "/images/ShowNav.gif" Me.LinksPanel.Visible = False ShowNav = False Me.Session("wiki" +
-        // ModuleId.ToString + "ShowNav") = False Else Me.ImageButton1.AlternateText =
+        // ModuleId.ToString() + "ShowNav") = False Else Me.ImageButton1.AlternateText =
         // Localization.GetString("HideNavigation", LocalResourceFile) '"Hide Navigation"
         // Me.ImageButton1.ImageUrl = TemplateSourceDirectory + "/images/HideNav.gif"
-        // Me.LinksPanel.Visible = True ShowNav = False Me.Session("wiki" + ModuleId.ToString +
+        // Me.LinksPanel.Visible = True ShowNav = False Me.Session("wiki" + ModuleId.ToString() +
         // "ShowNav") = True End If
         //End Sub
 

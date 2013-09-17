@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Ratings.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.Ratings" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Ratings.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Ratings" %>
 <table width="100%" border="0">
 	<tr>
 		<td width="60%" align="left" valign="top">

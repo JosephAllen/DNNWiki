@@ -17,14 +17,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
 using System;
 using System.Web;
 using System.Web.UI.WebControls;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     partial class Ratings : WikiModuleBase
     {

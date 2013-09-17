@@ -1,10 +1,12 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Entities.Users;
+using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     public class TopicBO : _AbstractBusinessObject<Topic, int>
     {
@@ -81,6 +83,130 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         internal override void RepositoryDelete(ref Topic entity)
         {
             this.db.Execute(CommandType.StoredProcedure, "Wiki_TopicDelete", entity.TopicID);
+        }
+
+        public List<string> GetNotificationEmails(Topic topic)
+        {
+            Setting wikiSettings = new SettingBO(this._uof).GetByModuleID(topic.ModuleId);
+
+            List<string> lstUsers = new List<string>();
+
+            if (wikiSettings != null)
+            {
+                //gather the email address from the roles assigned to this module...
+
+                if (wikiSettings.CommentNotifyRoles.Length > 0)
+                {
+                    DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
+                    DotNetNuke.Entities.Modules.ModuleController objModules = new DotNetNuke.Entities.Modules.ModuleController();
+                    DotNetNuke.Entities.Modules.ModuleInfo objModule = objModules.GetModule(topic.ModuleId);
+
+                    if (objModule != null)
+                    {
+                        bool bFetchUsingDNNRoles = false;
+                        bool bFetchUsingCustomRoles = false;
+                        bool bFetchViewUsers = false;
+                        bool bFetchEditUsers = false;
+
+                        bFetchUsingDNNRoles = wikiSettings.ContentEditorRoles.StartsWith("UseDNNSettings;");
+                        bFetchUsingCustomRoles = !wikiSettings.CommentNotifyRoles.StartsWith("UseDNNSettings;");
+
+                        if (!bFetchUsingCustomRoles)
+                        {
+                            bFetchEditUsers = wikiSettings.CommentNotifyRoles.Contains(";Edit");
+                            bFetchViewUsers = wikiSettings.CommentNotifyRoles.Contains(";View");
+                        }
+
+                        //compile our view users, only if enabled
+                        if (bFetchViewUsers)
+                        {
+                            foreach (string role in objModule.AuthorizedViewRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
+                            {
+                                if (role.ToLower() == "all users")
+                                {
+                                    //trap against fake roles
+                                    var arrUsers =
+                                        DotNetNuke.Entities.Users.UserController.GetUsers(DotNetNuke.Entities.Portals.PortalController.GetCurrentPortalSettings().PortalId).OfType<UserInfo>();
+                                    foreach (DotNetNuke.Entities.Users.UserInfo objUser in arrUsers)
+                                    {
+                                        if (!lstUsers.Contains(objUser.Email))
+                                        {
+                                            lstUsers.Add(objUser.Email);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    //this role should be legit
+                                    foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
+                                    {
+                                        if (!lstUsers.Contains(objUserRole.Email))
+                                        {
+                                            lstUsers.Add(objUserRole.Email);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //compile our edit users, only if enabled
+                        if (bFetchEditUsers)
+                        {
+                            if (bFetchUsingDNNRoles)
+                            {
+                                //fetch using dnn edit roles
+                                foreach (string role in objModule.AuthorizedEditRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
+                                {
+                                    if (role.ToLower() == "all users")
+                                    {
+                                        //trap against fake roles
+                                    }
+                                    else
+                                    {
+                                        //this role should be legit
+                                        foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
+                                        {
+                                            if (!lstUsers.Contains(objUserRole.Email))
+                                            {
+                                                lstUsers.Add(objUserRole.Email);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //fetch using custom wiki edit roles
+                                foreach (string role in wikiSettings.ContentEditorRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
+                                {
+                                    foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
+                                    {
+                                        if (!lstUsers.Contains(objUserRole.Email))
+                                        {
+                                            lstUsers.Add(objUserRole.Email);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //gather any users emails address from comments in this topic...
+                if (wikiSettings.CommentNotifyUsers == true)
+                {
+                    List<CommentEmails> lstEmails = CBO.FillCollection<CommentEmails>(DataProvider.Instance().Wiki_GetCommentNotifyUsers(topic.TopicID));
+                    foreach (CommentEmails objCommentEmail in lstEmails)
+                    {
+                        if (!lstUsers.Contains(objCommentEmail.Email))
+                        {
+                            lstUsers.Add(objCommentEmail.Email);
+                        }
+                    }
+                }
+            }
+
+            return lstUsers;
         }
 
         #endregion Methods

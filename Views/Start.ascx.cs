@@ -17,11 +17,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using DotNetNuke.Modules.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.Utilities;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     partial class Start : WikiModuleBase
     {
@@ -61,7 +61,7 @@ namespace DotNetNuke.Modules.Wiki.Views
                 UserName = this.UserInfo.Username;
             }
 
-            this.AddCommentsForm1.EnableNotify = WikiSettings.CommentNotifyUsers;
+            this.AddCommentsForm1.EnableNotify = WikiSettings.CommentNotifyUsers == true;
 
             if (Request.IsAuthenticated)
             {

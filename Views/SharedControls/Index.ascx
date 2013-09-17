@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Index.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.SharedControls.Index" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Index.ascx.cs" Inherits="DotNetNuke.Wiki.Views.SharedControls.Index" %>
 <p><asp:Label id="TitleLbl" runat="server" CssClass="Head" resourcekey="TitleLbl"></asp:Label></p>
 
 <asp:Panel id="IndexPanel" runat="server" CssClass="WikiIndexPanel">

@@ -17,12 +17,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
 using System;
 using System.Globalization;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     partial class TopicHistory : WikiModuleBase
     {
@@ -107,7 +107,7 @@ namespace DotNetNuke.Modules.Wiki.Views
                 var th = TopicHistoryBo.GetItem(int.Parse(HistoryPK));
                 th.TabID = TabId;
                 th.PortalSettings = PortalSettings;
-                var tho = new DotNetNuke.Modules.Wiki.BusinessObjects.Models.TopicHistory();
+                var tho = new DotNetNuke.Wiki.BusinessObjects.Models.TopicHistory();
                 tho.TabID = TabId;
                 tho.PortalSettings = PortalSettings;
                 tho.Content = _Topic.Content;

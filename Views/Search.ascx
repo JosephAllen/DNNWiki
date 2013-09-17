@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Search.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.Search" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Search.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Search" %>
 <p>
     <asp:Label ID="Label2" runat="server" CssClass="Head"></asp:Label><br />
     <asp:Label ID="Label1" runat="server" CssClass="SubHead"></asp:Label>&nbsp;

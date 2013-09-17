@@ -16,17 +16,17 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
-using DotNetNuke.Modules.Wiki.BusinessObjects;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Search;
+using DotNetNuke.Wiki.BusinessObjects;
+using DotNetNuke.Wiki.BusinessObjects.Models;
 using System;
 using System.Collections;
 using System.IO;
 using System.Web;
 using System.Xml;
 
-namespace DotNetNuke.Modules.Wiki.Utilities
+namespace DotNetNuke.Wiki.Utilities
 {
     /// -----------------------------------------------------------------------------
     /// <summary> The Controller class for DNNModule1

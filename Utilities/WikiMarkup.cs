@@ -1,9 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+﻿using System;
 
 //
 // DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
@@ -25,8 +20,9 @@ using System.Diagnostics;
 //
 
 using System.Text.RegularExpressions;
+using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.Utilities
+namespace DotNetNuke.Wiki.Utilities
 {
     public abstract class WikiMarkup
     {
@@ -46,7 +42,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
             get { return WikiText(Content); }
         }
 
-        public object CanUseWikiText
+        public bool CanUseWikiText
         {
             get
             {
@@ -91,7 +87,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     if (fcb != -1 & (sob == -1 | fcb < sob))
                     {
                         workingText = RawText.Substring(fob, fcb - fob + OPEN_BRACKET.Length);
-                        RawText = RawText.Replace(workingText, new string("-", workingText.Length));
+                        RawText = RawText.Replace(workingText, new string('-', workingText.Length));
                         ParsedText.Replace(workingText, EvaluateCamelCaseWord(workingText.Substring(2, workingText.Length - 4)));
                         if (sob == -1)
                         {
@@ -127,40 +123,49 @@ namespace DotNetNuke.Modules.Wiki.Utilities
 
         protected string EvaluateCamelCaseWord(string val)
         {
-            string[] Vals = val.Split("|");
+            string[] Vals = val.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
             //TODO: we need to remove all non-ascii characters from the page links, allow them in the Title
             switch (Vals.Length)
             {
                 case 1:
-                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
 
                 case 2:
-                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
 
                 case 3:
-                    if (Information.IsNumeric(Vals[2]))
+                    int value;
+                    if (int.TryParse(Vals[2], out value))
                     {
                         if ((Vals[1].Trim().Length < 1))
                         {
-                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(Convert.ToInt32(Vals[2]), this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(Convert.ToInt32(Vals[2]),
+                                this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" +
+                                Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                         else
                         {
-                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(Convert.ToInt32(Vals[2]), this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(Convert.ToInt32(Vals[2]),
+                                this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" +
+                                Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                     }
                     else
                     {
                         if ((Vals[1].Trim().Length < 1))
                         {
-                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty,
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                         else
                         {
-                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                            return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty,
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                     }
-                    break;
+                default:
+                    return string.Empty;
             }
         }
 
@@ -181,13 +186,13 @@ namespace DotNetNuke.Modules.Wiki.Utilities
             if ((val.ToLower().StartsWith("http://")))
             {
                 string returnval = val.Substring(7);
-                returnval = returnval.Replace(returnval.Split("/")[0], "");
+                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], "");
                 return returnval;
             }
             else if ((val.ToLower().StartsWith("https://")))
             {
                 string returnval = val.Substring(8);
-                returnval = returnval.Replace(returnval.Split("/")[0], "");
+                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], "");
                 return returnval;
             }
             else

@@ -1,10 +1,10 @@
-﻿using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Wiki.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects.Exceptions
+namespace DotNetNuke.Wiki.BusinessObjects.Exceptions
 {
     public class SettingValidationException : _AbstractValidationException<SettingBO.SettingError>
     {

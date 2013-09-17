@@ -1,10 +1,10 @@
 ﻿using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
+namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
     [TableName("Wiki_TopicHistory")]
     //setup the primary key for table
@@ -13,6 +13,8 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
     [Cacheable("Wiki_TopicHistory", CacheItemPriority.Default, 20)]
     public class TopicHistory : WikiMarkup
     {
+        private string _content;
+
         ///<summary>
         /// The ID of the Topic History
         ///</summary>
@@ -26,7 +28,21 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///<summary>
         ///
         ///</summary>
-        public string Content { get; set; }
+        public override string Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                if (CanUseWikiText)
+                {
+                    Cache = RenderedContent;
+                }
+            }
+        }
 
         ///<summary>
         ///

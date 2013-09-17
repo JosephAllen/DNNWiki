@@ -1,9 +1,10 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     public class CommentBO : _AbstractBusinessObject<Comment, int>
     {
@@ -40,21 +41,12 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
         #region Methods
 
         /// <summary>
-        /// Deletes the comment with the passed id
-        /// </summary>
-        /// <param name="commentId">the comment id</param>
-        internal void DeleteComment(int commentId)
-        {
-            this.db.Execute(CommandType.StoredProcedure, "DELETE FROM Wiki_Comment WHERE CommentId=@0", commentId);
-        }
-
-        /// <summary>
         /// Deletes all the comments with the parent id
         /// </summary>
         /// <param name="parentId">the parent id</param>
         internal void DeleteComments(int parentId)
         {
-            this.db.Execute(CommandType.StoredProcedure, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
+            this.db.Execute(CommandType.Text, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
         }
 
         public override Comment Add(Comment entity)
@@ -62,7 +54,7 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
             var comment = base.Add(entity);
 
             //send emails to any user that might of opted in to email notifications
-            //TODO - SendNotifications(ParentId, Name, Email, Comment, Ip);
+            SendNotifications(ParentId, Name, Email, Comment, Ip);
             return comment;
         }
 
@@ -73,6 +65,46 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets all comments associated to the parent id passed has parameter
+        /// </summary>
+        /// <param name="parentid">the parent id of the comments</param>
+        /// <returns>returns collection of comments</returns>
+        internal IEnumerable<Comment> GetCommentsByParent(int parentid)
+        {
+            return this.db.ExecuteQuery<Comment>(CommandType.Text, "SELECT * FROM Wiki_Comments where ParentId=@0 order by Datetime desc", parentid);
+        }
+
+        /// <summary>
+        /// Gets the number of comments associated to the parentid passed has parameter
+        /// </summary>
+        /// <param name="parentid">the parent id of the comments</param>
+        /// <returns>returns a integer value representing the count</returns>
+        internal int GetCommentCount(int parentId)
+        {
+            return this.db.ExecuteScalar<int>(CommandType.Text, "SELECT Count(CommentId) FROM Wiki_Comments where ParentId=@0", parentId);
+        }
+
         #endregion Methods
+    }
+
+    public class CommentEmails
+    {
+        public CommentEmails()
+        {
+        }
+
+        public CommentEmails(string email)
+        {
+            this.Email = email;
+        }
+
+        private string _email;
+
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
     }
 }

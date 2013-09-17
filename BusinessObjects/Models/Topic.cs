@@ -1,10 +1,10 @@
 ﻿using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
+namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
     [TableName("Wiki_Topic")]
     //setup the primary key for table
@@ -15,6 +15,8 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
     [Scope("ModuleId")]
     public class Topic : WikiMarkup
     {
+        private string _content;
+
         ///<summary>
         /// The ID of the topic
         ///</summary>
@@ -28,7 +30,21 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         ///<summary>
         /// A string with the topic contents
         ///</summary>
-        public string Content { get; set; }
+        public override string Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                if (CanUseWikiText)
+                {
+                    Cache = RenderedContent;
+                }
+            }
+        }
 
         /// <summary>
         ///

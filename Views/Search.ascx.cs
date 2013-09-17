@@ -19,11 +19,11 @@
 
 // description: Allows users to search for topics. Needs to be rewriten but for now this is OK.
 
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
 using System.Linq;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     partial class Search : WikiModuleBase
     {

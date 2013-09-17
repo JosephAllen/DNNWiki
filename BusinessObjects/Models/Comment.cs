@@ -1,11 +1,9 @@
-﻿using DotNetNuke.Common.Utilities;
-using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Entities.Content;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
+namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
     [TableName("Wiki_Comment")]
     //setup the primary key for table
@@ -37,9 +35,11 @@ namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
         /// <summary>
         /// The comment data
         /// </summary>
+
         [Required]
         [StringLength(1024)]
-        public string Comment { get; set; }
+        [ColumnName("Comment")]
+        public string CommentText { get; set; }
 
         /// <summary>
         /// The date when it was created

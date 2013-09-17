@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
 
 
@@ -30,7 +30,7 @@ namespace DotNetNuke.Modules.Wiki.Views
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Wiki.Comments.CommentCount CommentCount1;
+        protected global::DotNetNuke.Wiki.Utilities.CommentCount CommentCount1;
 
         /// <summary>
         /// lblPageContent control.
@@ -93,7 +93,7 @@ namespace DotNetNuke.Modules.Wiki.Views
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Wiki.Comments.comments Comments2;
+        protected global::DotNetNuke.Wiki.Utilities.Comments Comments2;
 
         /// <summary>
         /// AddCommentPane control.
@@ -120,6 +120,6 @@ namespace DotNetNuke.Modules.Wiki.Views
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Wiki.Comments.addcommentsform AddCommentsForm1;
+        protected global::DotNetNuke.Wiki.Utilities.AddCommentsForm AddCommentsForm1;
     }
 }

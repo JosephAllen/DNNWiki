@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RecentChanges.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.RecentChanges" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RecentChanges.ascx.cs" Inherits="DotNetNuke.Wiki.Views.RecentChanges" %>
 <p><asp:Label id="TitleLbl" runat="server" CssClass="Head"></asp:Label></p>
 <div id="divHitTable">
 	<asp:literal id="HitTable" runat="server" Visible="True"></asp:literal>

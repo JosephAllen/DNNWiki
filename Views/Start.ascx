@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Start.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.Start" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Start.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Start" %>
 
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" %>
 
@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/sectionheadcontrol.ascx" %>
 <%@ Register TagPrefix="wiki" TagName="PageRating" Src="PageRatings.ascx" %>
 <%@ Register TagPrefix="wiki" TagName="Ratings" Src="Ratings.ascx" %>
-<%@ Register TagPrefix="comment" Namespace="DotNetNuke.Modules.Wiki.Comments" Assembly="DotNetnuke.Modules.Wiki" %>
+<%@ Register TagPrefix="comment" Namespace="DotNetNuke.Wiki.Comments" Assembly="DotNetNuke.Wiki" %>
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx" %>
 
 <div id="DnnWiki">

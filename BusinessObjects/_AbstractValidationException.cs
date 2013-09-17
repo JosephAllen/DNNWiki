@@ -1,10 +1,10 @@
-﻿using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Wiki.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     /// <summary>
     /// Generic abstract class for handling Business objects error

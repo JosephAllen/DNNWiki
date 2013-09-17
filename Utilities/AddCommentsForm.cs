@@ -1,13 +1,13 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Security;
+﻿using DotNetNuke.Security;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.BusinessObjects;
+using DotNetNuke.Wiki.BusinessObjects.Models;
 using System;
 using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace DotNetNuke.Modules.Wiki.Utilities
+namespace DotNetNuke.Wiki.Utilities
 {
     public delegate void CancelHandler(object s);
 
@@ -350,7 +350,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     ParentId = this.ParentId,
                     Name = objSec.InputFilter(Name.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
                     Email = objSec.InputFilter(Email.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    Comment = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
+                    CommentText = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
                     Ip = objSec.InputFilter(this.Context.Request.ServerVariables["REMOTE_ADDR"], DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
                     EmailNotify = SubscribeToNotifications.Checked
                 };

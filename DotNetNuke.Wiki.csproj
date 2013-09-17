@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotNetNuke.Modules.Wiki</RootNamespace>
-    <AssemblyName>DotNetNuke.Modules.Wiki</AssemblyName>
+    <RootNamespace>DotNetNuke.Wiki</RootNamespace>
+    <AssemblyName>DotNetNuke.Wiki</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -72,6 +72,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
@@ -101,13 +102,20 @@
     <Compile Include="BusinessObjects\TopicHistoryBO.cs" />
     <Compile Include="BusinessObjects\_AbstractBusinessObject.cs" />
     <Compile Include="BusinessObjects\_AbstractValidationException.cs" />
-    <Compile Include="BusinessObjects\Exceptions\ItemValidationException.cs" />
-    <Compile Include="BusinessObjects\ItemBO.cs" />
-    <Compile Include="BusinessObjects\Models\Item.cs" />
     <Compile Include="BusinessObjects\UnitOfWork.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Interfaces\IBusinessObject.cs" />
+    <Compile Include="RatingBar.aspx.cs">
+      <DependentUpon>RatingBar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RatingBar.aspx.designer.cs">
+      <DependentUpon>RatingBar.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AddCommentsForm.cs" />
+    <Compile Include="Utilities\CommentCount.cs" />
     <Compile Include="Utilities\Comments.cs" />
+    <Compile Include="Utilities\DNNUtils.cs" />
     <Compile Include="Utilities\WikiMarkup.cs" />
     <Compile Include="Utilities\WikiModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -169,18 +177,21 @@
     </Compile>
     <Compile Include="Views\SharedControls\Index.ascx.cs">
       <DependentUpon>Index.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\SharedControls\Index.ascx.designer.cs">
       <DependentUpon>Index.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\SharedControls\WikiButton.ascx.cs">
       <DependentUpon>WikiButton.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\SharedControls\WikiButton.ascx.designer.cs">
       <DependentUpon>WikiButton.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\SharedControls\WikiMenu.ascx.cs">
       <DependentUpon>WikiMenu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Views\SharedControls\WikiMenu.ascx.designer.cs">
       <DependentUpon>WikiMenu.ascx</DependentUpon>
@@ -199,17 +210,19 @@
     <Compile Include="Views\TopicHistory.ascx.designer.cs">
       <DependentUpon>TopicHistory.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Views\View.ascx.cs">
-      <DependentUpon>View.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\View.ascx.designer.cs">
-      <DependentUpon>View.ascx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DEVELOPER_README.txt" />
+    <Content Include="RatingBar.aspx" />
     <Content Include="Resources\Css\module.css" />
+    <Content Include="Resources\Images\bcImage.gif" />
+    <Content Include="Resources\Images\HideNav.gif" />
+    <Content Include="Resources\Images\Home.gif" />
+    <Content Include="Resources\Images\Index.gif" />
+    <Content Include="Resources\Images\page.gif" />
+    <Content Include="Resources\Images\RecentChanges.gif" />
+    <Content Include="Resources\Images\Search.gif" />
+    <Content Include="Resources\Images\ShowNav.gif" />
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\ReleaseNotes.txt" />
     <Content Include="Resources\SqlDataProvider\FullInstallSQL.txt" />
@@ -226,7 +239,6 @@
     <Content Include="Views\SharedControls\WikiMenu.ascx" />
     <Content Include="Views\Start.ascx" />
     <Content Include="Views\TopicHistory.ascx" />
-    <Content Include="Views\View.ascx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Wiki.dnn" />
@@ -262,6 +274,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\App_LocalResources\SharedResources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SharedControls\App_LocalResources\Index.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SharedControls\App_LocalResources\WikiButton.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SharedControls\App_LocalResources\WikiMenu.ascx.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

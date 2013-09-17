@@ -1,10 +1,10 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     public class TopicHistoryBO : _AbstractBusinessObject<TopicHistory, int>
     {

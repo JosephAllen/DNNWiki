@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Administration.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.Administration" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Administration.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Administration" %>
 <%@ Register TagPrefix="uc1" TagName="DualListControl" Src="~/controls/DualListControl.ascx" %>
 <%@ Register TagName="label" TagPrefix="dnn" Src="~/controls/labelcontrol.ascx" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>

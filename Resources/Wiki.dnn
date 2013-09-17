@@ -89,7 +89,7 @@
           <desktopModule>
             <moduleName>Wiki</moduleName>
             <foldername>Wiki</foldername>
-            <businessControllerClass>DotNetNuke.Modules.Wiki.Controller</businessControllerClass>
+            <businessControllerClass>DotNetNuke.Wiki.Controller</businessControllerClass>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -126,7 +126,7 @@
           <assemblies>
             <basePath>bin</basePath>
             <assembly>
-              <name>DotNetNuke.Modules.Wiki.dll</name>
+              <name>DotNetNuke.Wiki.dll</name>
             </assembly>
           </assemblies>
         </component>

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TopicHistory.ascx.cs" Inherits="DotNetNuke.Modules.Wiki.Views.TopicHistory" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TopicHistory.ascx.cs" Inherits="DotNetNuke.Wiki.Views.TopicHistory" %>
 <asp:label id="Label1" runat="server" CssClass="Head"></asp:label>
 <asp:label id="lblPageTopic" runat="server" CssClass="Head">DotWiki</asp:label>
 <asp:label id="lblDateTime" runat="server" CssClass="SubSubHead"></asp:label>

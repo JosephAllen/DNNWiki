@@ -3,7 +3,7 @@ using DotNetNuke.Entities.Users;
 using System;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     public class UnitOfWork : IDisposable
     {

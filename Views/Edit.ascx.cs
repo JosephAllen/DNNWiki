@@ -1,5 +1,5 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
-using DotNetNuke.Modules.Wiki.Utilities;
+﻿using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Security;
 
 //
@@ -25,7 +25,7 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     /// -----------------------------------------------------------------------------
     /// <summary>

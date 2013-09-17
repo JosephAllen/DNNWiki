@@ -1,14 +1,14 @@
 ﻿using DotNetNuke.Entities.Modules;
-using DotNetNuke.Modules.Wiki.BusinessObjects;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.BusinessObjects;
+using DotNetNuke.Wiki.BusinessObjects.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 
-namespace DotNetNuke.Modules.Wiki.Utilities
+namespace DotNetNuke.Wiki.Utilities
 {
     public class WikiModuleBase : PortalModuleBase
     {

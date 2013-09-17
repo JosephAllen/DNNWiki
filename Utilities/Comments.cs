@@ -1,9 +1,16 @@
-﻿using DotNetNuke.Modules.Wiki.BusinessObjects;
+﻿using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.BusinessObjects;
+using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Extensions;
 using System;
 using System.ComponentModel;
+using System.Data;
+using System.Globalization;
+using System.Text;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
-namespace DotNetNuke.Modules.Wiki.Utilities
+namespace DotNetNuke.Wiki.Utilities
 {
     [DefaultProperty("ID"), ToolboxData("<{0}:Comments runat=server></{0}:Comments>")]
     public class Comments : System.Web.UI.WebControls.Table
@@ -68,7 +75,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
             if (Context.Request.QueryString["cid"] != null & IsAdmin)
             {
                 int commentId = Convert.ToInt32(Context.Request.QueryString["cid"]);
-                commentBo.DeleteComment(Convert.ToInt32(commentId));
+                commentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
                 this.Context.Cache.Remove("WikiComments" + _parentId.ToString());
 
                 this.Context.Response.Redirect(ReconstructQueryStringWithoutId());
@@ -116,13 +123,13 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     }
                     else
                     {
-                        dataTable = commentBo.GetCommentsByParent(this._parentId);
+                        dataTable = commentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
                         this.Context.Cache.Insert("WikiComments" + this._parentId.ToString(), dataTable);
                     }
                 }
                 else
                 {
-                    dataTable = commentBo.GetCommentsByParent(this._parentId);
+                    dataTable = commentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
                 }
 
                 if ((dataTable != null))
@@ -131,7 +138,12 @@ namespace DotNetNuke.Modules.Wiki.Utilities
                     {
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
-                            this.renderRow(writer, Convert.ToInt32(dataRow["CommentId"]), Convert.ToString(dataRow["Name"]), Convert.ToString(dataRow["Email"]), Convert.ToString(dataRow["Comment"]), (DateTime)dataRow["Datetime"]);
+                            this.renderRow(writer,
+                                Convert.ToInt32(dataRow["CommentId"]),
+                                Convert.ToString(dataRow["Name"]),
+                                Convert.ToString(dataRow["Email"]),
+                                Convert.ToString(dataRow["Comment"]),
+                                (DateTime)dataRow["Datetime"]);
                         }
                     }
                     else
@@ -185,7 +197,7 @@ namespace DotNetNuke.Modules.Wiki.Utilities
             writer.RenderEndTag();
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             comments = System.Web.HttpUtility.HtmlDecode(comments);
-            comments = comments.Replace("" + Strings.Chr(10) + "", "<br />");
+            comments = comments.Replace("" + "\t" + "", "<br />");
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(comments);

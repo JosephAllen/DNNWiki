@@ -1,12 +1,12 @@
 ﻿using DotNetNuke.Data;
-using DotNetNuke.Modules.Wiki.Interfaces;
-using DotNetNuke.Modules.Wiki.Utilities;
+using DotNetNuke.Wiki.Interfaces;
+using DotNetNuke.Wiki.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects
+namespace DotNetNuke.Wiki.BusinessObjects
 {
     public abstract class _AbstractBusinessObject<T, I> : IBusinessObject<T, I> where T : class
     {

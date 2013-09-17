@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
-namespace DotNetNuke.Modules.Wiki.BusinessObjects.Models
+namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
     [TableName("Wiki_CommentParent")]
     //setup the primary key for table

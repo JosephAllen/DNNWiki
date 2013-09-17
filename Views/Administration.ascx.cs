@@ -1,13 +1,13 @@
 ﻿using DotNetNuke.Entities.Modules;
-using DotNetNuke.Modules.Wiki.BusinessObjects;
-using DotNetNuke.Modules.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.BusinessObjects;
+using DotNetNuke.Wiki.BusinessObjects.Models;
 using DotNetNuke.Security.Roles;
 using System;
 using System.Collections;
 using System.Linq;
 using System.Web.UI.WebControls;
 
-namespace DotNetNuke.Modules.Wiki.Views
+namespace DotNetNuke.Wiki.Views
 {
     public partial class Administration : PortalModuleBase
     {

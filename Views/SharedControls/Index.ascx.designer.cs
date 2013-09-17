@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNetNuke.Modules.Wiki.Views.SharedControls {
+namespace DotNetNuke.Wiki.Views.SharedControls {
     
     
     public partial class Index {
