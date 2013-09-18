@@ -51,7 +51,6 @@ namespace DotNetNuke.Wiki.Utilities
 
         protected override void OnUnload(EventArgs e)
         {
-            base.OnUnload(e);
             if (this.uof != null)
             {
                 this.uof.Dispose();
@@ -96,7 +95,7 @@ namespace DotNetNuke.Wiki.Utilities
             for (i = 0; i <= Context.Request.QueryString.Keys.Count - 1; i++)
             {
                 string key = Context.Request.QueryString.Keys[i].ToString();
-                if (key != "cid")
+                if (!key.Equals("cid"))
                 {
                     url.Append(key);
                     url.Append("=");
@@ -197,7 +196,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderEndTag();
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             comments = System.Web.HttpUtility.HtmlDecode(comments);
-            comments = comments.Replace("" + "\t" + "", "<br />");
+            comments = comments.Replace("" + "\t" + string.Empty, "<br />");
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(comments);
@@ -290,7 +289,7 @@ namespace DotNetNuke.Wiki.Utilities
                 while (i < this._breakCount)
                 {
                     writer.Write("<br />");
-                    writer.WriteLine("");
+                    writer.WriteLine(string.Empty);
                     System.Math.Min(System.Threading.Interlocked.Increment(ref i), i - 1);
                 }
             }

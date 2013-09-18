@@ -66,7 +66,7 @@ namespace DotNetNuke.Wiki.Utilities
             int fob = 0;
             int sob = 0;
             int fcb = 0;
-            string workingText = "";
+            string workingText = string.Empty;
             int NextSearchSpot = 0;
             parsing = true;
             while (parsing)
@@ -171,7 +171,7 @@ namespace DotNetNuke.Wiki.Utilities
 
         public static string make255(string title)
         {
-            if ((title.Length > 255))
+            if ((!string.IsNullOrWhiteSpace(title) && title.Length > 255))
             {
                 return title.Substring(0, 255);
             }
@@ -186,13 +186,13 @@ namespace DotNetNuke.Wiki.Utilities
             if ((val.ToLower().StartsWith("http://")))
             {
                 string returnval = val.Substring(7);
-                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], "");
+                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], string.Empty);
                 return returnval;
             }
             else if ((val.ToLower().StartsWith("https://")))
             {
                 string returnval = val.Substring(8);
-                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], "");
+                returnval = returnval.Replace(returnval.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[0], string.Empty);
                 return returnval;
             }
             else

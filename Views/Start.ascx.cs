@@ -79,7 +79,7 @@ namespace DotNetNuke.Wiki.Views
 
             this.lblPageTopic.Text = this.PageTopic.Replace(WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
 
-            if (_Topic.Title.Trim().Length > 0)
+            if (!string.IsNullOrWhiteSpace(_Topic.Title))
             {
                 this.lblPageTopic.Text = _Topic.Title;
             }
@@ -127,11 +127,11 @@ namespace DotNetNuke.Wiki.Views
             p = (DotNetNuke.Framework.CDefault)this.Page;
 
             //set the page title, check for the Topic.Title, Topic.Name, then use PageTopic parameter if all else fails
-            if (_Topic.Title.Trim().Length > 0)
+            if (!string.IsNullOrWhiteSpace(_Topic.Title))
             {
                 p.Title = p.Title + " > " + _Topic.Title;
             }
-            else if (_Topic.Name.Trim().Length > 0)
+            else if (!string.IsNullOrWhiteSpace(_Topic.Name))
             {
                 p.Title = p.Title + " > " + _Topic.Name;
             }

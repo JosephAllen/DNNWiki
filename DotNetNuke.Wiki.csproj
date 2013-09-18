@@ -226,7 +226,6 @@
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\ReleaseNotes.txt" />
     <Content Include="Resources\SqlDataProvider\FullInstallSQL.txt" />
-    <Content Include="Resources\SqlDataProvider\SqlDataProvider.vb" />
     <Content Include="Views\Administration.ascx" />
     <Content Include="Views\Edit.ascx" />
     <Content Include="Views\PageRatings.ascx" />

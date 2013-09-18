@@ -49,15 +49,6 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.db.Execute(CommandType.Text, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
         }
 
-        public override Comment Add(Comment entity)
-        {
-            var comment = base.Add(entity);
-
-            //send emails to any user that might of opted in to email notifications
-            SendNotifications(ParentId, Name, Email, Comment, Ip);
-            return comment;
-        }
-
         internal override void Entity_EvaluateSqlException(
             SqlException exc,
             SharedEnum.CrudOperation crudOperation)
@@ -83,6 +74,11 @@ namespace DotNetNuke.Wiki.BusinessObjects
         internal int GetCommentCount(int parentId)
         {
             return this.db.ExecuteScalar<int>(CommandType.Text, "SELECT Count(CommentId) FROM Wiki_Comments where ParentId=@0", parentId);
+        }
+
+        internal IEnumerable<CommentEmails> GetCommentNotifyUsers(int parentId)
+        {
+            return this.db.ExecuteQuery<CommentEmails>(CommandType.Text, "select DISTINCT(Email) from Wiki_Comments where ParentId=@0 AND EmailNotify = 1", parentId);
         }
 
         #endregion Methods

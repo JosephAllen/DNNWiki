@@ -172,7 +172,7 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.WriteLine("<script language=\"JavaScript\">");
                 writer.WriteLine("function wikiFormCheck(form)");
                 writer.WriteLine("{");
-                string clause = "";
+                string clause = string.Empty;
                 if (this._checkName)
                 {
                     writer.WriteLine("\tif ( form." + Name.ClientID + ".value == \"\" )");
@@ -356,13 +356,16 @@ namespace DotNetNuke.Wiki.Utilities
                 };
                 comment = commentBo.Add(comment);
 
+                //send the notification
+                var topic = new TopicBO(uof).Get(ParentId);
+                DNNUtils.SendNotifications(uof, topic, comment.Name, comment.Email, comment.CommentText, comment.Ip);
                 Success = comment.CommentId > 0;
 
                 if (Success)
                 {
-                    Name.Text = "";
-                    Email.Text = "";
-                    Comment.Text = "";
+                    Name.Text = string.Empty;
+                    Email.Text = string.Empty;
+                    Comment.Text = string.Empty;
                     this.Context.Cache.Remove("WikiComments" + this.ParentId.ToString());
                     if (PostSubmitted != null)
                     {
@@ -374,9 +377,9 @@ namespace DotNetNuke.Wiki.Utilities
 
         private void CancelButton_Click(object sender, System.EventArgs e)
         {
-            Name.Text = "";
-            Email.Text = "";
-            Comment.Text = "";
+            Name.Text = string.Empty;
+            Email.Text = string.Empty;
+            Comment.Text = string.Empty;
             if (PostCanceled != null)
             {
                 PostCanceled(this);

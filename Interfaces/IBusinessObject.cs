@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DotNetNuke.Modules.Wiki.Interfaces
+namespace DotNetNuke.Wiki.Interfaces
 {
     public interface IBusinessObject<T, I> where T : class
     {

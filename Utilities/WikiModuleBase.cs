@@ -1,4 +1,5 @@
 ﻿using DotNetNuke.Entities.Modules;
+using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Wiki.BusinessObjects;
 using DotNetNuke.Wiki.BusinessObjects.Models;
@@ -12,6 +13,17 @@ namespace DotNetNuke.Wiki.Utilities
 {
     public class WikiModuleBase : PortalModuleBase
     {
+        /// <summary>
+        /// The path for the module
+        /// </summary>
+        public string DNNWikiModuleRootPath
+        {
+            get
+            {
+                return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views/"));
+            }
+        }
+
         #region Variables
 
         public const string WikiHomeName = "WikiHomePage";
@@ -29,7 +41,7 @@ namespace DotNetNuke.Wiki.Utilities
         private bool canEdit = false;
         private DotNetNuke.Entities.Modules.PortalModuleBase mModule;
 
-        private UnitOfWork uof;
+        private UnitOfWork _uof;
         private TopicBO topicBo;
         private TopicHistoryBO topicHistoryBo;
 
@@ -122,7 +134,7 @@ namespace DotNetNuke.Wiki.Utilities
             {
                 if (topicHistoryBo == null)
                 {
-                    topicHistoryBo = new TopicHistoryBO(uof);
+                    topicHistoryBo = new TopicHistoryBO(Uof);
                 }
                 return topicHistoryBo;
             }
@@ -137,7 +149,7 @@ namespace DotNetNuke.Wiki.Utilities
             {
                 if (topicBo == null)
                 {
-                    topicBo = new TopicBO(uof);
+                    topicBo = new TopicBO(Uof);
                 }
                 return topicBo;
             }
@@ -150,11 +162,11 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (this.uof == null)
+                if (this._uof == null)
                 {
-                    uof = new UnitOfWork();
+                    _uof = new UnitOfWork();
                 }
-                return uof;
+                return _uof;
             }
         }
 
@@ -180,11 +192,10 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="e"></param>
         protected void Page_Unload(object sender, EventArgs e)
         {
-            base.OnUnload(e);
-            if (this.uof != null)
+            if (this._uof != null)
             {
-                this.uof.Dispose();
-                this.uof = null;
+                this._uof.Dispose();
+                this._uof = null;
             }
 
             if (this.topicBo != null)
@@ -200,77 +211,84 @@ namespace DotNetNuke.Wiki.Utilities
 
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
-            //congfigure the URL to the home page (the wiki without any parameters)
-            homeURL = DotNetNuke.Common.Globals.NavigateURL();
+            try
+            {
+                //congfigure the URL to the home page (the wiki without any parameters)
+                homeURL = DotNetNuke.Common.Globals.NavigateURL();
 
-            if (this.Request.QueryString["topic"] == null)
-            {
-                if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
+                if (this.Request.QueryString["topic"] == null)
                 {
-                    pageTopic = WikiHomeName;
-                }
-                else
-                {
-                    pageTopic = "";
-                }
-            }
-            else
-            {
-                pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
-            }
-
-            if (wikiSettings == null)
-            {
-                SettingBO WikiController = new SettingBO(uof);
-                wikiSettings = WikiController.GetByModuleID(ModuleId);
-                if (wikiSettings == null)
-                {
-                    wikiSettings = new Setting();
-                    wikiSettings.ContentEditorRoles = "UseDNNSettings";
-                }
-            }
-
-            if (wikiSettings.ContentEditorRoles == "UseDNNSettings")
-            {
-                canEdit = this.IsEditable;
-            }
-            else
-            {
-                if (Request.IsAuthenticated)
-                {
-                    if (this.UserInfo.IsSuperUser)
+                    if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
                     {
-                        canEdit = true;
-                        isAdmin = true;
-                    }
-                    else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
-                    {
-                        canEdit = true;
+                        pageTopic = WikiHomeName;
                     }
                     else
                     {
-                        string[] Roles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
-                            StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' },
-                            StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string role in Roles)
-                        {
-                            if (UserInfo.IsInRole(role))
-                            {
-                                canEdit = true;
-                                break; // TODO: might not be correct. Was : Exit For
-                            }
-                        }
+                        pageTopic = string.Empty;
                     }
                 }
                 else
                 {
-                    if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
+                    pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
+                }
+
+                if (wikiSettings == null)
+                {
+                    SettingBO WikiController = new SettingBO(Uof);
+                    wikiSettings = WikiController.GetByModuleID(ModuleId);
+                    if (wikiSettings == null)
                     {
-                        canEdit = true;
+                        wikiSettings = new Setting();
+                        wikiSettings.ContentEditorRoles = "UseDNNSettings";
                     }
                 }
+
+                if (wikiSettings.ContentEditorRoles.Equals("UseDNNSettings"))
+                {
+                    canEdit = this.IsEditable;
+                }
+                else
+                {
+                    if (Request.IsAuthenticated)
+                    {
+                        if (this.UserInfo.IsSuperUser)
+                        {
+                            canEdit = true;
+                            isAdmin = true;
+                        }
+                        else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
+                        {
+                            canEdit = true;
+                        }
+                        else
+                        {
+                            string[] Roles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
+                                StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' },
+                                StringSplitOptions.RemoveEmptyEntries);
+                            foreach (string role in Roles)
+                            {
+                                if (UserInfo.IsInRole(role))
+                                {
+                                    canEdit = true;
+                                    break; // TODO: might not be correct. Was : Exit For
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
+                        {
+                            canEdit = true;
+                        }
+                    }
+                }
+                LoadTopic();
             }
-            LoadTopic();
+            catch (Exception exc)
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
+            }
         }
 
         #endregion Events
@@ -292,7 +310,7 @@ namespace DotNetNuke.Wiki.Utilities
 
         protected string ReadTopic()
         {
-            return HttpUtility.HtmlEncode(topic.Cache);
+            return HttpUtility.HtmlEncode(topic.Cache) ?? string.Empty;
         }
 
         protected string ReadTopicForEdit()

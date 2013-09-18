@@ -7,7 +7,7 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/sectionheadcontrol.ascx" %>
 <%@ Register TagPrefix="wiki" TagName="PageRating" Src="PageRatings.ascx" %>
 <%@ Register TagPrefix="wiki" TagName="Ratings" Src="Ratings.ascx" %>
-<%@ Register TagPrefix="comment" Namespace="DotNetNuke.Wiki.Comments" Assembly="DotNetNuke.Wiki" %>
+<%@ Register TagPrefix="comment" Namespace="DotNetNuke.Wiki.Utilities" Assembly="DotNetNuke.Wiki" %>
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx" %>
 
 <div id="DnnWiki">

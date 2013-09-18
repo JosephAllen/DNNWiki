@@ -12,7 +12,7 @@ namespace DotNetNuke.Wiki
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!((Request.QueryString["rating"] == null) | Request.QueryString["rating"] == "NaN"))
+            if (!((Request.QueryString["rating"] == null) | Request.QueryString["rating"].Equals("NaN")))
             {
                 double ratingpoints = Convert.ToDouble(Request.QueryString["rating"]);
                 int MaxImageLength = 0;

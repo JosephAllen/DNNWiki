@@ -1,7 +1,8 @@
 ﻿using DotNetNuke.Entities.Modules;
+using DotNetNuke.Security.Roles;
+using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Wiki.BusinessObjects;
 using DotNetNuke.Wiki.BusinessObjects.Models;
-using DotNetNuke.Security.Roles;
 using System;
 using System.Collections;
 using System.Linq;
@@ -39,97 +40,106 @@ namespace DotNetNuke.Wiki.Views
 
         private void CtrlPage_Load(System.Object sender, System.EventArgs e)
         {
-            using (UnitOfWork uof = new UnitOfWork())
+            try
             {
-                var settingsBo = new SettingBO(uof);
-
-                //Put user code to initialize the page here
-
-                ContentEditors.DataTextField = "Text";
-                ContentEditors.DataValueField = "Text";
-                NotifyRoles.DataTextField = "Text";
-                NotifyRoles.DataValueField = "Text";
-
-                if (settings == null)
+                using (UnitOfWork uof = new UnitOfWork())
                 {
-                    settings = settingsBo.GetByModuleID(ModuleId);
+                    var settingsBo = new SettingBO(uof);
+
+                    //Put user code to initialize the page here
+
+                    ContentEditors.DataTextField = "Text";
+                    ContentEditors.DataValueField = "Text";
+                    NotifyRoles.DataTextField = "Text";
+                    NotifyRoles.DataValueField = "Text";
+
                     if (settings == null)
                     {
-                        settings = new Setting();
-                        settings.ModuleId = -1;
-                        settings.ContentEditorRoles = "UseDNNSettings";
+                        settings = settingsBo.GetByModuleID(ModuleId);
+                        if (settings == null)
+                        {
+                            settings = new Setting();
+                            settings.ModuleId = -1;
+                            settings.ContentEditorRoles = "UseDNNSettings";
+                        }
+                    }
+                    if (!IsPostBack)
+                    {
+                        DNNSecurityChk.Checked = settings.ContentEditorRoles.Equals("UseDNNSettings");
+                        AllowPageComments.Checked = settings.AllowDiscussions;
+                        AllowPageRatings.Checked = settings.AllowRatings;
+                        DefaultCommentsMode.Checked = settings.DefaultDiscussionMode == true;
+                        DefaultRatingMode.Checked = settings.DefaultRatingMode == true;
+                        NotifyMethodUserComments.Checked = settings.CommentNotifyUsers == true;
+
+                        NotifyMethodCustomRoles.Checked =
+                            !string.IsNullOrWhiteSpace(settings.CommentNotifyRoles) &&
+                            settings.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(settings.CommentNotifyRoles);
+                        if (NotifyMethodCustomRoles.Checked)
+                        {
+                            NotifyMethodEditRoles.Checked = settings.CommentNotifyRoles.Contains(";Edit");
+                            NotifyMethodViewRoles.Checked = settings.CommentNotifyRoles.Contains(";View");
+                        }
+
+                        BindRights();
+                        if (DNNSecurityChk.Checked == true)
+                        {
+                            ContentEditors.Visible = false;
+                            WikiSecurity.Visible = false;
+                        }
+                        else
+                        {
+                            ContentEditors.Visible = true;
+                            WikiSecurity.Visible = true;
+                        }
+                        if (AllowPageComments.Checked)
+                        {
+                            this.ActivateComments.Enabled = true;
+                            this.DefaultCommentsMode.Enabled = true;
+                        }
+                        else
+                        {
+                            this.ActivateComments.Enabled = false;
+                            this.ActivateComments.Checked = false;
+                            this.DefaultCommentsMode.Enabled = false;
+                            this.DefaultCommentsMode.Checked = false;
+                        }
+
+                        if (AllowPageRatings.Checked)
+                        {
+                            this.ActivateRatings.Enabled = true;
+                            this.DefaultRatingMode.Enabled = true;
+                        }
+                        else
+                        {
+                            this.ActivateRatings.Enabled = false;
+                            this.ActivateRatings.Checked = false;
+                            this.DefaultRatingMode.Enabled = false;
+                            this.DefaultRatingMode.Checked = false;
+                        }
+                        if (NotifyMethodCustomRoles.Checked)
+                        {
+                            NotifyRoles.Visible = true;
+                            lblNotifyRoles.Visible = true;
+                            this.NotifyMethodEditRoles.Enabled = false;
+                            this.NotifyMethodViewRoles.Enabled = false;
+                            this.NotifyMethodViewRoles.Checked = false;
+                            this.NotifyMethodEditRoles.Checked = false;
+                        }
+                        else
+                        {
+                            this.NotifyMethodEditRoles.Enabled = true;
+                            this.NotifyMethodViewRoles.Enabled = true;
+
+                            NotifyRoles.Visible = false;
+                            lblNotifyRoles.Visible = false;
+                        }
                     }
                 }
-                if (!IsPostBack)
-                {
-                    DNNSecurityChk.Checked = settings.ContentEditorRoles.Equals("UseDNNSettings");
-                    AllowPageComments.Checked = settings.AllowDiscussions;
-                    AllowPageRatings.Checked = settings.AllowRatings;
-                    DefaultCommentsMode.Checked = settings.DefaultDiscussionMode == true;
-                    DefaultRatingMode.Checked = settings.DefaultRatingMode == true;
-                    NotifyMethodUserComments.Checked = settings.CommentNotifyUsers == true;
-
-                    NotifyMethodCustomRoles.Checked = !settings.CommentNotifyRoles.StartsWith("UseDNNSettings;") && settings.CommentNotifyRoles.Length > 0;
-                    if (NotifyMethodCustomRoles.Checked)
-                    {
-                        NotifyMethodEditRoles.Checked = settings.CommentNotifyRoles.Contains(";Edit");
-                        NotifyMethodViewRoles.Checked = settings.CommentNotifyRoles.Contains(";View");
-                    }
-
-                    BindRights();
-                    if (DNNSecurityChk.Checked == true)
-                    {
-                        ContentEditors.Visible = false;
-                        WikiSecurity.Visible = false;
-                    }
-                    else
-                    {
-                        ContentEditors.Visible = true;
-                        WikiSecurity.Visible = true;
-                    }
-                    if (AllowPageComments.Checked)
-                    {
-                        this.ActivateComments.Enabled = true;
-                        this.DefaultCommentsMode.Enabled = true;
-                    }
-                    else
-                    {
-                        this.ActivateComments.Enabled = false;
-                        this.ActivateComments.Checked = false;
-                        this.DefaultCommentsMode.Enabled = false;
-                        this.DefaultCommentsMode.Checked = false;
-                    }
-
-                    if (AllowPageRatings.Checked)
-                    {
-                        this.ActivateRatings.Enabled = true;
-                        this.DefaultRatingMode.Enabled = true;
-                    }
-                    else
-                    {
-                        this.ActivateRatings.Enabled = false;
-                        this.ActivateRatings.Checked = false;
-                        this.DefaultRatingMode.Enabled = false;
-                        this.DefaultRatingMode.Checked = false;
-                    }
-                    if (NotifyMethodCustomRoles.Checked)
-                    {
-                        NotifyRoles.Visible = true;
-                        lblNotifyRoles.Visible = true;
-                        this.NotifyMethodEditRoles.Enabled = false;
-                        this.NotifyMethodViewRoles.Enabled = false;
-                        this.NotifyMethodViewRoles.Checked = false;
-                        this.NotifyMethodEditRoles.Checked = false;
-                    }
-                    else
-                    {
-                        this.NotifyMethodEditRoles.Enabled = true;
-                        this.NotifyMethodViewRoles.Enabled = true;
-
-                        NotifyRoles.Visible = false;
-                        lblNotifyRoles.Visible = false;
-                    }
-                }
+            }
+            catch (Exception exc)
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
         }
 
@@ -176,7 +186,7 @@ namespace DotNetNuke.Wiki.Views
 
             Array arrAuthViewRoles = null;
             Array arrAuthNotifyRoles = null;
-            if (settings.ContentEditorRoles == "UseDNNSettings")
+            if (settings.ContentEditorRoles.Equals("UseDNNSettings"))
             {
                 arrAuthViewRoles = settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
             }
@@ -186,55 +196,60 @@ namespace DotNetNuke.Wiki.Views
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             }
-            if (settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
-            {
-                settings.CommentNotifyRoles = settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
-                arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string s in arrAuthNotifyRoles)
+            if (!string.IsNullOrWhiteSpace(settings.CommentNotifyRoles))
+                if (settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
                 {
-                    if (s == "View")
-                    {
-                        NotifyMethodViewRoles.Checked = true;
-                    }
-                    else if (s == "Edit")
-                    {
-                        NotifyMethodEditRoles.Checked = true;
-                    }
-                }
-            }
-            else
-            {
-                arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
-            }
+                    settings.CommentNotifyRoles = settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
+                    arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (string strRole in arrAuthViewRoles)
-            {
-                if (!string.IsNullOrEmpty(strRole))
-                {
-                    foreach (ListItem objListItem in arrAvailableAuthViewRoles)
+                    foreach (string s in arrAuthNotifyRoles)
                     {
-                        if (objListItem.Value == strRole)
+                        if (s.Equals("View"))
                         {
-                            arrAssignedAuthViewRoles.Add(objListItem);
-                            arrAvailableAuthViewRoles.Remove(objListItem);
-                            break; // TODO: might not be correct. Was : Exit For
+                            NotifyMethodViewRoles.Checked = true;
+                        }
+                        else if (s.Equals("Edit"))
+                        {
+                            NotifyMethodEditRoles.Checked = true;
                         }
                     }
                 }
-            }
-
-            foreach (string strRole in arrAuthNotifyRoles)
-            {
-                if (!string.IsNullOrEmpty(strRole))
+                else
                 {
-                    foreach (ListItem objListItem in arrAvailableNotifyRoles)
+                    arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
+                }
+
+            if (arrAuthViewRoles != null)
+                foreach (string strRole in arrAuthViewRoles)
+                {
+                    if (!string.IsNullOrEmpty(strRole))
                     {
-                        if (objListItem.Value == strRole)
+                        foreach (ListItem objListItem in arrAvailableAuthViewRoles)
                         {
-                            arrAssignedNotifyRoles.Add(objListItem);
-                            arrAvailableNotifyRoles.Remove(objListItem);
-                            break; // TODO: might not be correct. Was : Exit For
+                            if (objListItem.Value == strRole)
+                            {
+                                arrAssignedAuthViewRoles.Add(objListItem);
+                                arrAvailableAuthViewRoles.Remove(objListItem);
+                                break; // TODO: might not be correct. Was : Exit For
+                            }
+                        }
+                    }
+                }
+
+            if (arrAuthNotifyRoles != null)
+            {
+                foreach (string strRole in arrAuthNotifyRoles)
+                {
+                    if (!string.IsNullOrEmpty(strRole))
+                    {
+                        foreach (ListItem objListItem in arrAvailableNotifyRoles)
+                        {
+                            if (objListItem.Value == strRole)
+                            {
+                                arrAssignedNotifyRoles.Add(objListItem);
+                                arrAvailableNotifyRoles.Remove(objListItem);
+                                break; // TODO: might not be correct. Was : Exit For
+                            }
                         }
                     }
                 }
@@ -249,13 +264,13 @@ namespace DotNetNuke.Wiki.Views
             NotifyRoles.Available = arrAvailableNotifyRoles;
         }
 
-        private void SaveButton_Click(System.Object sender, System.EventArgs e)
+        protected void SaveButton_Click(object sender, EventArgs e)
         {
             SaveSettings();
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }
 
-        private void CancelButton_Click(System.Object sender, System.EventArgs e)
+        protected void CancelButton_Click(object sender, EventArgs e)
         {
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }

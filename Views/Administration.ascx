@@ -83,8 +83,8 @@
     </fieldset>
 </div>
 <br />
-<asp:LinkButton ID="SaveButton" resourcekey="SaveButton" runat="server" CssClass="dnnPrimaryAction" />
-<asp:LinkButton ID="CancelButton" resourcekey="CancelButton" runat="server" CssClass="dnnSecondaryAction" />
+<asp:LinkButton ID="SaveButton" resourcekey="SaveButton" OnClick="SaveButton_Click" runat="server" CssClass="dnnPrimaryAction" />
+<asp:LinkButton ID="CancelButton" resourcekey="CancelButton" OnClick="CancelButton_Click" runat="server" CssClass="dnnSecondaryAction" />
 <script language="javascript" type="text/javascript">
     /*globals jQuery, window, Sys */
     (function ($, Sys) {

@@ -35,14 +35,14 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         {
             this.Session["wiki" + ModuleId.ToString() + "ShowIndex"] = true;
             var topics = GetIndex().ToArray();
-            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder("");
+            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder();
             //Dim TopicTable As String
             Topic t = default(Topic);
             int i = 0;
             TableTxt.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
             TableTxt.Append(HomeURL + "\"><img src=\"");
-            TableTxt.Append(Parent.TemplateSourceDirectory);
-            TableTxt.Append("/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
+            TableTxt.Append(DNNWikiModuleRootPath);
+            TableTxt.Append("/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
             TableTxt.Append(Localization.GetString("Home", this.LocalResourceFile));
             TableTxt.Append("</a><br />");
             if ((topics != null))
@@ -57,15 +57,15 @@ namespace DotNetNuke.Wiki.Views.SharedControls
                             TableTxt.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
                             TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(t.Name)));
                             TableTxt.Append("\"><img src=\"");
-                            TableTxt.Append(Parent.TemplateSourceDirectory);
-                            TableTxt.Append("/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
+                            TableTxt.Append(DNNWikiModuleRootPath);
+                            TableTxt.Append("/Resources/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
                             TableTxt.Append(t.Name);
                             TableTxt.Append("</a><br />");
                         }
                     }
                 }
             }
-            TableTxt.Append("");
+            TableTxt.Append(string.Empty);
             this.IndexList.Text = TableTxt.ToString();
             this.IndexList.Visible = true;
         }

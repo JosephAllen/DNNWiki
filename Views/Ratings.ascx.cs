@@ -17,9 +17,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using DotNetNuke.Services.Localization;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using DotNetNuke.Wiki.Utilities;
-using DotNetNuke.Services.Localization;
 using System;
 using System.Web;
 using System.Web.UI.WebControls;
@@ -206,7 +206,7 @@ namespace DotNetNuke.Wiki.Views
                     for (i = 0; i <= 4; i++)
                     {
                         System.Web.UI.WebControls.Image bcImg = new System.Web.UI.WebControls.Image();
-                        bcImg.ImageUrl = this.TemplateSourceDirectory + "/images/bcImage.gif";
+                        bcImg.ImageUrl = DNNWikiModuleRootPath + "/Resources/images/bcImage.gif";
                         bcImg.Width = Unit.Pixel(10);
 
                         int currentCount = 0;

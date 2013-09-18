@@ -55,7 +55,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a Topic</returns>
         internal Topic GetByNameForModule(int moduleId, string name)
         {
-            return this.db.ExecuteScalar<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name);
+            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name).FirstOrDefault();
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             {
                 //gather the email address from the roles assigned to this module...
 
-                if (wikiSettings.CommentNotifyRoles.Length > 0)
+                if (!string.IsNullOrWhiteSpace(wikiSettings.CommentNotifyRoles))
                 {
                     DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
                     DotNetNuke.Entities.Modules.ModuleController objModules = new DotNetNuke.Entities.Modules.ModuleController();
@@ -108,8 +108,8 @@ namespace DotNetNuke.Wiki.BusinessObjects
                         bool bFetchViewUsers = false;
                         bool bFetchEditUsers = false;
 
-                        bFetchUsingDNNRoles = wikiSettings.ContentEditorRoles.StartsWith("UseDNNSettings;");
-                        bFetchUsingCustomRoles = !wikiSettings.CommentNotifyRoles.StartsWith("UseDNNSettings;");
+                        bFetchUsingDNNRoles = !string.IsNullOrWhiteSpace(wikiSettings.ContentEditorRoles) && wikiSettings.ContentEditorRoles.StartsWith("UseDNNSettings;");
+                        bFetchUsingCustomRoles = !string.IsNullOrWhiteSpace(wikiSettings.CommentNotifyRoles) && !wikiSettings.CommentNotifyRoles.StartsWith("UseDNNSettings;");
 
                         if (!bFetchUsingCustomRoles)
                         {
@@ -122,7 +122,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
                         {
                             foreach (string role in objModule.AuthorizedViewRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                             {
-                                if (role.ToLower() == "all users")
+                                if (role.ToLower().Equals("all users"))
                                 {
                                     //trap against fake roles
                                     var arrUsers =
@@ -157,7 +157,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
                                 //fetch using dnn edit roles
                                 foreach (string role in objModule.AuthorizedEditRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                                 {
-                                    if (role.ToLower() == "all users")
+                                    if (role.ToLower().Equals("all users"))
                                     {
                                         //trap against fake roles
                                     }
@@ -195,7 +195,8 @@ namespace DotNetNuke.Wiki.BusinessObjects
                 //gather any users emails address from comments in this topic...
                 if (wikiSettings.CommentNotifyUsers == true)
                 {
-                    List<CommentEmails> lstEmails = CBO.FillCollection<CommentEmails>(DataProvider.Instance().Wiki_GetCommentNotifyUsers(topic.TopicID));
+                    IEnumerable<CommentEmails> lstEmails = new CommentBO(this._uof).GetCommentNotifyUsers(topic.TopicID);
+
                     foreach (CommentEmails objCommentEmail in lstEmails)
                     {
                         if (!lstUsers.Contains(objCommentEmail.Email))

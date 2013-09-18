@@ -71,15 +71,15 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         private void setURLs()
         {
             this.HomeBtn.NavigateUrl = Common.Globals.NavigateURL();
-            this.HomeBtn.Text = "<img src=\"" + Parent.TemplateSourceDirectory + "/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Home", this.LocalResourceFile);
+            this.HomeBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Home", this.LocalResourceFile);
             this.SearchBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=search");
-            this.SearchBtn.Text = "<img src=\"" + Parent.TemplateSourceDirectory + "/images/Search.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Search", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Search", this.LocalResourceFile);
+            this.SearchBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Search.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Search", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Search", this.LocalResourceFile);
             this.RecChangeBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=recentchanges");
-            this.RecChangeBtn.Text = "<img src=\"" + Parent.TemplateSourceDirectory + "/images/RecentChanges.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("RecentChanges", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("RecentChanges", this.LocalResourceFile);
+            this.RecChangeBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/RecentChanges.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("RecentChanges", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("RecentChanges", this.LocalResourceFile);
 
             this.IndexBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=index");
 
-            this.IndexBtn.Text = "<img src=\"" + Parent.TemplateSourceDirectory + "/images/Index.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Index", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Index", this.LocalResourceFile);
+            this.IndexBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Index.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Index", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Index", this.LocalResourceFile);
         }
 
         public WikiMenu()

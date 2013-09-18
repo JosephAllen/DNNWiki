@@ -60,11 +60,11 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
                 this.AddPipe.Visible = this.CanEdit;
                 this.txtViewHistory.Visible = true;
-                txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(PageTopic));
-                lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
+                txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(PageTopic));
+                lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
             }
 
-            cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "&loc=edit&add=true");
+            cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "&loc=edit&add=true");
         }
 
         public WikiButton()

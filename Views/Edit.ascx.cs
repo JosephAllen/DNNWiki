@@ -1,6 +1,4 @@
-﻿using DotNetNuke.Wiki.BusinessObjects.Models;
-using DotNetNuke.Wiki.Utilities;
-using DotNetNuke.Security;
+﻿using DotNetNuke.Security;
 
 //
 // DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2012 by DotNetNuke Corporation
@@ -23,6 +21,8 @@ using DotNetNuke.Security;
 
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
+using DotNetNuke.Wiki.BusinessObjects.Models;
+using DotNetNuke.Wiki.Utilities;
 using System.Web;
 
 namespace DotNetNuke.Wiki.Views
@@ -70,12 +70,12 @@ namespace DotNetNuke.Wiki.Views
                 {
                     if ((this.Request.QueryString["topic"] == null))
                     {
-                        PageTopic = WikiHomeName.Replace("[L]", "");
+                        PageTopic = WikiHomeName.Replace("[L]", string.Empty);
                         _Topic.Name = PageTopic;
                     }
                     else
                     {
-                        PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", "");
+                        PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", string.Empty);
                         _Topic.Name = PageTopic;
                     }
                 }
@@ -85,7 +85,7 @@ namespace DotNetNuke.Wiki.Views
                 //CommentsSec.IsExpanded = FalseB
                 if ((this.Request.QueryString["add"] != null))
                 {
-                    PageTopic = "";
+                    PageTopic = string.Empty;
                     LoadTopic();
                     this.EditPage();
                 }
@@ -106,7 +106,7 @@ namespace DotNetNuke.Wiki.Views
         //Protected Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
         //    'TODO: none of this is currently working..... not sure why
 
-        // PageTopic = "" LoadTopic() Me.EditPage()
+        // PageTopic = string.Empty LoadTopic() Me.EditPage()
         //End Sub
 
         private void cmdSave_Click(System.Object sender, System.EventArgs e)
@@ -126,7 +126,7 @@ namespace DotNetNuke.Wiki.Views
                 {
                     Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId));
                 }
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
             }
             else
             {
@@ -199,20 +199,20 @@ namespace DotNetNuke.Wiki.Views
                 this.DeleteLbl.Visible = true;
             }
 
-            if (this._Topic.Name.Trim().Length < 1)
+            if (string.IsNullOrWhiteSpace(this._Topic.Name))
             {
                 txtPageName.Text = string.Empty;
                 txtPageName.ReadOnly = false;
             }
             else
             {
-                txtPageName.Text = HttpUtility.HtmlDecode(_Topic.Name.Trim().Replace("[L]", ""));
+                txtPageName.Text = HttpUtility.HtmlDecode(_Topic.Name.Trim().Replace("[L]", string.Empty));
                 txtPageName.ReadOnly = true;
             }
 
-            if (this._Topic.Title.Trim().Length > 0)
+            if (!string.IsNullOrWhiteSpace(this._Topic.Title))
             {
-                txtTitle.Text = HttpUtility.HtmlDecode(_Topic.Title.Replace("[L]", ""));
+                txtTitle.Text = HttpUtility.HtmlDecode(_Topic.Title.Replace("[L]", string.Empty));
             }
 
             if ((this._Topic.Description != null))
@@ -237,7 +237,7 @@ namespace DotNetNuke.Wiki.Views
             }
             else
             {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
             }
         }
 

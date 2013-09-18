@@ -19,67 +19,88 @@
 
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Wiki.Utilities;
+using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.Utilities;
+using System;
 using System.Web.UI;
 
 namespace DotNetNuke.Wiki.Views
 {
-    //Implements ISearchable
-    //Implements IPortable
     partial class Router : WikiModuleBase, IActionable
     {
-        #region " Web Form Designer Generated Code "
+        #region Properties
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public DotNetNuke.Entities.Modules.Actions.ModuleActionCollection ModuleActions
         {
+            get
+            {
+                DotNetNuke.Entities.Modules.Actions.ModuleActionCollection Actions = new DotNetNuke.Entities.Modules.Actions.ModuleActionCollection();
+                Actions.Add(GetNextActionID(),
+                    Localization.GetString("Administration", LocalResourceFile).ToString(), string.Empty, string.Empty, string.Empty, EditUrl("Administration"), false, Security.SecurityAccessLevel.Admin, true, false);
+                return Actions;
+            }
         }
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
+        #endregion Properties
+
+        #region Ctor
+
+        public Router()
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
+            Load += Router_Page_Load;
         }
 
-        #endregion " Web Form Designer Generated Code "
+        #endregion Ctor
+
+        #region Events
 
         private void Router_Page_Load(System.Object sender, System.EventArgs e)
         {
-            //load the menu on the left
-            string leftControl = "Controls/WikiMenu.ascx";
-            WikiModuleBase mbl = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
-            mbl.ModuleConfiguration = ModuleConfiguration;
-            mbl.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
-            phWikiMenu.Controls.Add(mbl);
-
-            string controlToLoad = GetControlString(Request.QueryString["loc"]);
-            WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
-            wikiContent.ModuleConfiguration = ModuleConfiguration;
-            wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
-            phWikiContent.Controls.Add(wikiContent);
-
-            if ((controlToLoad.ToLower().Equals("start.ascx")))
+            try
             {
-                string buttonControlToLoad = "Controls/WikiButton.ascx";
-                WikiModuleBase wikiButton = (WikiModuleBase)LoadControl(buttonControlToLoad);
+                //load the menu on the left
+                string leftControl = "SharedControls//WikiMenu.ascx";
+                WikiModuleBase mbl = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
+                mbl.ModuleConfiguration = ModuleConfiguration;
+                mbl.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
+                phWikiMenu.Controls.Add(mbl);
 
-                wikiButton.ModuleConfiguration = ModuleConfiguration;
-                wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
-                phWikiContent.Controls.Add(wikiButton);
-            }
+                string controlToLoad = GetControlString(Request.QueryString["loc"]);
+                WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
+                wikiContent.ModuleConfiguration = ModuleConfiguration;
+                wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
+                phWikiContent.Controls.Add(wikiContent);
 
-            //print
-            foreach (ModuleAction objAction in Actions)
-            {
-                if (objAction.CommandName.Equals(ModuleActionType.PrintModule))
+                if ((controlToLoad.ToLower().Equals("start.ascx")))
                 {
-                    objAction.Url += "&topic=" + WikiMarkup.EncodeTitle(PageTopic);
+                    string buttonControlToLoad = "SharedControls//WikiButton.ascx";
+                    WikiModuleBase wikiButton = (WikiModuleBase)LoadControl(buttonControlToLoad);
+
+                    wikiButton.ModuleConfiguration = ModuleConfiguration;
+                    wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
+                    phWikiContent.Controls.Add(wikiButton);
+                }
+
+                //print
+                foreach (ModuleAction objAction in Actions)
+                {
+                    if (objAction.CommandName.Equals(ModuleActionType.PrintModule))
+                    {
+                        objAction.Url += "&topic=" + WikiMarkup.EncodeTitle(PageTopic);
+                    }
                 }
             }
+
+            catch (Exception exc)
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
+            }
         }
+
+        #endregion Events
+
+        #region Methods
 
         private string GetControlString(string loc)
         {
@@ -107,13 +128,15 @@ namespace DotNetNuke.Wiki.Views
                         return "recentchanges.ascx";
 
                     case "index":
-                        return "controls/index.ascx";
+                        return "SharedControls//index.ascx";
 
                     default:
                         return "start.ascx";
                 }
             }
         }
+
+        #endregion Methods
 
         //Private Sub ImageButton1_Click(ByVal sender As System.Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles ImageButton1.Click
         //    If ShowNav Then
@@ -127,22 +150,5 @@ namespace DotNetNuke.Wiki.Views
         // Me.LinksPanel.Visible = True ShowNav = False Me.Session("wiki" + ModuleId.ToString() +
         // "ShowNav") = True End If
         //End Sub
-
-        public DotNetNuke.Entities.Modules.Actions.ModuleActionCollection ModuleActions
-        {
-            get
-            {
-                DotNetNuke.Entities.Modules.Actions.ModuleActionCollection Actions = new DotNetNuke.Entities.Modules.Actions.ModuleActionCollection();
-                Actions.Add(GetNextActionID(),
-                    Localization.GetString("Administration", LocalResourceFile).ToString(), "", "", "", EditUrl("Administration"), false, Security.SecurityAccessLevel.Admin, true, false);
-                return Actions;
-            }
-        }
-
-        public Router()
-        {
-            Load += Router_Page_Load;
-            Init += Page_Init;
-        }
     }
 }

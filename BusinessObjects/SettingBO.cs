@@ -2,6 +2,7 @@
 using DotNetNuke.Wiki.Utilities;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace DotNetNuke.Wiki.BusinessObjects
 {
@@ -46,7 +47,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a setting</returns>
         internal Setting GetByModuleID(int moduleId)
         {
-            return this.db.ExecuteScalar<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId);
+            return this.db.ExecuteQuery<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId).FirstOrDefault();
         }
 
         internal override void Entity_EvaluateSqlException(

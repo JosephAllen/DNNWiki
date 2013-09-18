@@ -89,7 +89,7 @@
           <desktopModule>
             <moduleName>Wiki</moduleName>
             <foldername>Wiki</foldername>
-            <businessControllerClass>DotNetNuke.Wiki.Controller</businessControllerClass>
+            <businessControllerClass>DotNetNuke.Wiki.Utilities.FeatureController</businessControllerClass>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -98,7 +98,7 @@
                 <moduleControls>
                   <moduleControl>
                     <controlKey />
-                    <controlSrc>DesktopModules/Wiki/Router.ascx</controlSrc>
+                    <controlSrc>DesktopModules/Wiki/Views/Router.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>View</controlType>
@@ -108,7 +108,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Administration</controlKey>
-                    <controlSrc>DesktopModules/Wiki/Administration.ascx</controlSrc>
+                    <controlSrc>DesktopModules/Wiki/Views/Administration.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle>Administration</controlTitle>
                     <controlType>Edit</controlType>
