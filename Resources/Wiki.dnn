@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DotNetNuke.Wiki" type="Module" version="04.05.04">
+    <package name="DotNetNuke.Wiki" type="Module" version="04.05.05">
       <friendlyName>Wiki</friendlyName>
       <description>The DotNetNuke Wiki module, more information available at www.dotnetnuke.com</description>
       <owner>
@@ -130,8 +130,7 @@
             </assembly>
           </assemblies>
         </component>
-
-        <component type="Cleanup" version="04.05.04" fileName="04.05.04.txt" />
+        <component type="Cleanup" version="04.05.05" fileName="04.05.05.txt" />
       </components>
     </package>
   </packages>
