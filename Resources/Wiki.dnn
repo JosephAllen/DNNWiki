@@ -9,8 +9,8 @@
         <url>http://www.DotNetNuke.com</url>
         <email>training@dotnetnuke.com</email>
       </owner>
-      <license src="Resources\License.txt"></license>
-      <releaseNotes src="Resources\ReleaseNotes.txt"></releaseNotes>
+      <license src="License.txt"></license>
+      <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <dependencies>
         <dependency type="CoreVersion">07.00.02</dependency>
       </dependencies>
@@ -127,6 +127,7 @@
             <basePath>bin</basePath>
             <assembly>
               <name>DotNetNuke.Wiki.dll</name>
+              <sourceFileName>DotNetNuke.Wiki.dll</sourceFileName>
             </assembly>
           </assemblies>
         </component>
