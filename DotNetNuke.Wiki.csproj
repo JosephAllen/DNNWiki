@@ -283,6 +283,9 @@
   <ItemGroup>
     <Content Include="Views\SharedControls\App_LocalResources\WikiMenu.ascx.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\04.05.02.txt" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
