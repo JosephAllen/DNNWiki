@@ -17,7 +17,7 @@
       <components>
         <component type="Script">
           <scripts>
-            <basePath>DesktopModules\wiki</basePath>
+            <basePath>DesktopModules\Wiki</basePath>
             <script type="Install">
               <path>Resources\SqlDataProvider</path>
               <name>01.00.00.SqlDataProvider</name>
