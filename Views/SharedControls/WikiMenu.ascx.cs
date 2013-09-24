@@ -25,9 +25,23 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 {
     public partial class WikiMenu : WikiModuleBase
     {
-        private bool ShowIndex;
+        #region Ctor
+
+        public WikiMenu()
+        {
+            Load += Menu_Page_Load;
+        }
+
+        #endregion Ctor
+
+        #region Variables
 
         private bool ShowNav;
+        private bool ShowIndex;
+
+        #endregion Variables
+
+        #region Events
 
         private void Menu_Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -68,6 +82,10 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             setURLs();
         }
 
+        #endregion Events
+
+        #region Methods
+
         private void setURLs()
         {
             this.HomeBtn.NavigateUrl = Common.Globals.NavigateURL();
@@ -82,9 +100,6 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             this.IndexBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Index.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Index", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Index", this.LocalResourceFile);
         }
 
-        public WikiMenu()
-        {
-            Load += Menu_Page_Load;
-        }
+        #endregion Methods
     }
 }

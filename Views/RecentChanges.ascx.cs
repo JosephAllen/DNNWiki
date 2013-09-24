@@ -17,43 +17,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.Utilities;
 
 namespace DotNetNuke.Wiki.Views
 {
     partial class RecentChanges : WikiModuleBase
     {
-        #region " Web Form Designer Generated Code "
+        #region Ctor
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public RecentChanges()
         {
+            Load += Page_Load;
         }
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        #endregion " Web Form Designer Generated Code "
+        #endregion Ctor
 
         #region Events
 
-        private void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
+        protected void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(31);
         }
 
-        private void cmdLast7Days_Click(System.Object sender, System.EventArgs e)
+        protected void cmdLast7Days_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(7);
         }
 
-        private void cmdLast24Hrs_Click(System.Object sender, System.EventArgs e)
+        protected void cmdLast24Hrs_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(1);
         }
@@ -80,15 +72,5 @@ namespace DotNetNuke.Wiki.Views
         }
 
         #endregion Methods
-
-        #region Ctor
-
-        public RecentChanges()
-        {
-            Load += Page_Load;
-            Init += Page_Init;
-        }
-
-        #endregion Ctor
     }
 }

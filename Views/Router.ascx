@@ -4,6 +4,6 @@
         <asp:PlaceHolder ID="phWikiMenu" runat="server" />
     </div>
     <div class="WikiContent">
-        <asp:PlaceHolder id="phWikiContent" runat="server" />
+        <asp:PlaceHolder ID="phWikiContent" runat="server" />
     </div>
 </div>

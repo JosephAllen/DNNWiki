@@ -35,24 +35,17 @@ namespace DotNetNuke.Wiki.Views
 
     public partial class Edit : WikiModuleBase
     {
-        #region " Web Form Designer Generated Code "
+        #region Ctor
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public Edit()
         {
+            PreRender += Page_PreRender;
+            Load += Page_Load;
         }
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
+        #endregion Ctor
 
-        #endregion " Web Form Designer Generated Code "
-
-        #region "Form Events"
+        #region Events
 
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -66,7 +59,7 @@ namespace DotNetNuke.Wiki.Views
                 }
 
                 LoadTopic();
-                if ((_Topic.Name == string.Empty))
+                if (string.IsNullOrWhiteSpace(_Topic.Name))
                 {
                     if ((this.Request.QueryString["topic"] == null))
                     {
@@ -103,17 +96,21 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        //Protected Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
-        //    'TODO: none of this is currently working..... not sure why
+        protected void cmdCancel_Click(System.Object sender, System.EventArgs e)
+        {
+            this.CancelChanges();
+        }
 
-        // PageTopic = string.Empty LoadTopic() Me.EditPage()
-        //End Sub
-
-        private void cmdSave_Click(System.Object sender, System.EventArgs e)
+        /// <summary>
+        /// Creates/updates a topic
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void cmdSave_Click(System.Object sender, System.EventArgs e)
         {
             //if we've change the Topic Name we need to create a new topic
             Topic ti = null;
-            if (PageTopic == string.Empty | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(PageTopic) | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
             {
                 PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
                 _Topic.TopicID = 0;
@@ -134,32 +131,48 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        private void cmdCancel_Click(System.Object sender, System.EventArgs e)
-        {
-            this.CancelChanges();
-        }
-
-        private void cmdSaveAndContinue_Click(System.Object sender, System.EventArgs e)
+        // PageTopic = string.Empty LoadTopic() Me.EditPage()
+        //End Sub
+        protected void cmdSaveAndContinue_Click(System.Object sender, System.EventArgs e)
         {
             PageTopic = txtPageName.Text.Trim();
             this.SaveAndContinue();
             //Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & WikiMarkup.EncodeTitle(Me.PageTopic)), False)
         }
 
-        #endregion "Form Events"
-
-        private void LoadLocalization()
+        protected void DeleteBtn_Click(System.Object sender, System.EventArgs e)
         {
-            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", LocalResourceFile);
-            AllowRating.Text = Localization.GetString("StartAllowRatings", LocalResourceFile);
-            cmdCancel.Text = Localization.GetString("StartCancel", LocalResourceFile);
-            //CommentsSec.Text = Localization.GetString("StartCommentsSection", LocalResourceFile)
-            DeleteBtn.Text = Localization.GetString("StartDelete", LocalResourceFile);
-            cmdSave.Text = Localization.GetString("StartSave", LocalResourceFile);
-            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", LocalResourceFile);
-            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", LocalResourceFile);
-            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", LocalResourceFile);
-            //RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
+            var topicHistoryList = GetHistory();
+            foreach (var th in topicHistoryList)
+            {
+                TopicHistoryBo.Delete(th);
+            }
+            TopicBo.Delete(this._Topic);
+            Response.Redirect(this.HomeURL, true);
+        }
+
+        private void Page_PreRender(object sender, System.EventArgs e)
+        {
+        }
+
+        //Protected Sub cmdAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
+        //    'TODO: none of this is currently working..... not sure why
+
+        #endregion Events
+
+        #region Methods
+
+        private void CancelChanges()
+        {
+            //SEND BACK TO THE VIEW PAGE
+            if (string.IsNullOrEmpty(this.PageTopic))
+            {
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId), false);
+            }
+            else
+            {
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
+            }
         }
 
         private void DisplayTopic()
@@ -228,23 +241,24 @@ namespace DotNetNuke.Wiki.Views
             //TODO: Fix Printer Friendly
         }
 
-        private void CancelChanges()
+        private void EditPage()
         {
-            //SEND BACK TO THE VIEW PAGE
-            if (string.IsNullOrEmpty(this.PageTopic))
-            {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId), false);
-            }
-            else
-            {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
-            }
+            //redirect back to the topic url
+            DisplayTopic();
         }
 
-        private void SaveChanges()
+        private void LoadLocalization()
         {
-            SaveAndContinue();
-            //redirect to the topic's url
+            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", LocalResourceFile);
+            AllowRating.Text = Localization.GetString("StartAllowRatings", LocalResourceFile);
+            cmdCancel.Text = Localization.GetString("StartCancel", LocalResourceFile);
+            //CommentsSec.Text = Localization.GetString("StartCommentsSection", LocalResourceFile)
+            DeleteBtn.Text = Localization.GetString("StartDelete", LocalResourceFile);
+            cmdSave.Text = Localization.GetString("StartSave", LocalResourceFile);
+            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", LocalResourceFile);
+            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", LocalResourceFile);
+            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", LocalResourceFile);
+            //RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
         }
 
         private void SaveAndContinue()
@@ -253,35 +267,12 @@ namespace DotNetNuke.Wiki.Views
             SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked, objSec.InputFilter(WikiMarkup.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
         }
 
-        private void EditPage()
+        private void SaveChanges()
         {
-            //redirect back to the topic url
-            DisplayTopic();
+            SaveAndContinue();
+            //redirect to the topic's url
         }
 
-        private void DeleteBtn_Click(System.Object sender, System.EventArgs e)
-        {
-            var topicHistoryList = GetHistory();
-            foreach (var th in topicHistoryList)
-            {
-                TopicHistoryBo.Delete(th);
-            }
-            TopicBo.Delete(this._Topic);
-            Response.Redirect(this.HomeURL, true);
-        }
-
-        private void Page_PreRender(object sender, System.EventArgs e)
-        {
-            //If ratings.HasVoted Then
-            //    RatingSec.IsExpanded = False
-            //End If
-        }
-
-        public Edit()
-        {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
-            Init += Page_Init;
-        }
+        #endregion Methods
     }
 }

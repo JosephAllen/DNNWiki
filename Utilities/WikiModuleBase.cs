@@ -8,22 +8,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace DotNetNuke.Wiki.Utilities
 {
     public class WikiModuleBase : PortalModuleBase
     {
-        /// <summary>
-        /// The path for the module
-        /// </summary>
-        public string DNNWikiModuleRootPath
-        {
-            get
-            {
-                return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views/"));
-            }
-        }
-
         #region Variables
 
         public const string WikiHomeName = "WikiHomePage";
@@ -33,17 +23,18 @@ namespace DotNetNuke.Wiki.Utilities
         private string lastName;
         private bool isAdmin = false;
         private string pageTopic;
-        private string pageTitle;
         private int topicId;
         private Topic topic;
         private string homeURL;
         private Setting wikiSettings;
         private bool canEdit = false;
-        private DotNetNuke.Entities.Modules.PortalModuleBase mModule;
 
         private UnitOfWork _uof;
         private TopicBO topicBo;
         private TopicHistoryBO topicHistoryBo;
+
+        private const string CSS_WikiModuleCssId = "WikiModuleCss";
+        private const string CSS_WikiModuleCssPath = "/Resources/Css/module.css";
 
         #endregion Variables
 
@@ -59,9 +50,31 @@ namespace DotNetNuke.Wiki.Utilities
 
         #region Properties
 
-        public string PageTitle
+        /// <summary>
+        /// The path for the module
+        /// </summary>
+        public string DNNWikiModuleRootPath
         {
-            get { return pageTitle; }
+            get
+            {
+                if (this.TemplateSourceDirectory.EndsWith(@"/Views"))
+                    return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views"));
+                else if (this.TemplateSourceDirectory.IndexOf(@"/Views/") > 0)
+                    return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views/"));
+                return this.TemplateSourceDirectory;
+            }
+        }
+
+        public Setting WikiSettings
+        {
+            get { return wikiSettings; }
+            set { wikiSettings = value; }
+        }
+
+        public string PageTopic
+        {
+            get { return pageTopic; }
+            set { pageTopic = value; }
         }
 
         public string LastName
@@ -172,18 +185,6 @@ namespace DotNetNuke.Wiki.Utilities
 
         #endregion Properties
 
-        public string PageTopic
-        {
-            get { return pageTopic; }
-            set { pageTopic = value; }
-        }
-
-        public Setting WikiSettings
-        {
-            get { return wikiSettings; }
-            set { wikiSettings = value; }
-        }
-
         #region Events
 
         /// <summary>
@@ -213,6 +214,9 @@ namespace DotNetNuke.Wiki.Utilities
         {
             try
             {
+                //Include Css files
+                AddStylePageHeader(CSS_WikiModuleCssId, CSS_WikiModuleCssPath);
+
                 //congfigure the URL to the home page (the wiki without any parameters)
                 homeURL = DotNetNuke.Common.Globals.NavigateURL();
 
@@ -295,6 +299,26 @@ namespace DotNetNuke.Wiki.Utilities
 
         #region Aux Functions
 
+        /// <summary>
+        /// Adds a page header of type css
+        /// </summary>
+        /// <param name="cssId">the id of the header tag</param>
+        /// <param name="cssPath">the css path to the source file</param>
+        private void AddStylePageHeader(string cssId, string cssPath)
+        {
+            HtmlGenericControl scriptInclude = (HtmlGenericControl)Page.Header.FindControl(cssId);
+            if (scriptInclude == null)
+            {
+                scriptInclude = new HtmlGenericControl("link");
+                scriptInclude.Attributes["rel"] = "stylesheet";
+                scriptInclude.Attributes["type"] = "text/css";
+                scriptInclude.Attributes["href"] = this.DNNWikiModuleRootPath + cssPath;
+                scriptInclude.ID = cssId;
+
+                Page.Header.Controls.Add(scriptInclude);
+            }
+        }
+
         protected void LoadTopic()
         {
             topic = TopicBo.GetByNameForModule(ModuleId, pageTopic);
@@ -353,7 +377,7 @@ namespace DotNetNuke.Wiki.Utilities
                     topic.Description = Description;
                     topic.Keywords = Keywords;
 
-                    topicHistoryBo.Add(topicHistory);
+                    TopicHistoryBo.Add(topicHistory);
                 }
                 topic.Name = pageTopic;
                 topic.Title = Title;
@@ -408,7 +432,7 @@ namespace DotNetNuke.Wiki.Utilities
 
         protected IEnumerable<TopicHistory> GetHistory()
         {
-            return topicHistoryBo.GetHistoryForTopic(topicId);
+            return TopicHistoryBo.GetHistoryForTopic(topicId);
         }
 
         protected IEnumerable<Topic> Search(string SearchString)

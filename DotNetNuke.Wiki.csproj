@@ -266,7 +266,9 @@
     <Content Include="Views\App_LocalResources\Administration.ascx.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\App_LocalResources\Edit.ascx.resx" />
+    <Content Include="Views\App_LocalResources\Edit.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\App_LocalResources\Router.ascx.resx" />
@@ -297,13 +299,15 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://www.dnnwikidev.me/desktopmodules/Wiki</IISUrl>
+          <IISUrl>http://localhost:8006/DesktopModules/Wiki</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:8006</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://www.dnnwikidev.me</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>

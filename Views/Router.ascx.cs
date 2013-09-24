@@ -29,6 +29,15 @@ namespace DotNetNuke.Wiki.Views
 {
     partial class Router : WikiModuleBase, IActionable
     {
+        #region Ctor
+
+        public Router()
+        {
+            Load += Router_Page_Load;
+        }
+
+        #endregion Ctor
+
         #region Properties
 
         public DotNetNuke.Entities.Modules.Actions.ModuleActionCollection ModuleActions
@@ -43,15 +52,6 @@ namespace DotNetNuke.Wiki.Views
         }
 
         #endregion Properties
-
-        #region Ctor
-
-        public Router()
-        {
-            Load += Router_Page_Load;
-        }
-
-        #endregion Ctor
 
         #region Events
 
@@ -137,18 +137,5 @@ namespace DotNetNuke.Wiki.Views
         }
 
         #endregion Methods
-
-        //Private Sub ImageButton1_Click(ByVal sender As System.Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles ImageButton1.Click
-        //    If ShowNav Then
-
-        // Me.ImageButton1.AlternateText = Localization.GetString("ShowNavigation",
-        // LocalResourceFile) ' "Show Navigation" Me.ImageButton1.ImageUrl = TemplateSourceDirectory
-        // + "/images/ShowNav.gif" Me.LinksPanel.Visible = False ShowNav = False Me.Session("wiki" +
-        // ModuleId.ToString() + "ShowNav") = False Else Me.ImageButton1.AlternateText =
-        // Localization.GetString("HideNavigation", LocalResourceFile) '"Hide Navigation"
-        // Me.ImageButton1.ImageUrl = TemplateSourceDirectory + "/images/HideNav.gif"
-        // Me.LinksPanel.Visible = True ShowNav = False Me.Session("wiki" + ModuleId.ToString() +
-        // "ShowNav") = True End If
-        //End Sub
     }
 }

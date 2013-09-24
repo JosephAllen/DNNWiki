@@ -28,8 +28,55 @@ namespace DotNetNuke.Wiki.Views
 {
     partial class Ratings : WikiModuleBase
     {
+        #region Ctor
+
+        public Ratings()
+        {
+            PreRender += Page_PreRender;
+            Load += Page_Load;
+        }
+
+        #endregion Ctor
+
+        #region Variables
+
         private WikiModuleBase mModule;
         private Topic mTopic;
+
+        #endregion Variables
+
+        #region Properties
+
+        public bool HasVoted
+        {
+            get
+            {
+                if (Request.Cookies["WikiRating"] == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (Request.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            set
+            {
+                if (Request.Cookies["WikiRating"] == null)
+                {
+                    Response.Cookies.Add(new HttpCookie("WikiRating"));
+                }
+                Response.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] = "true";
+                Response.Cookies["WikiRating"].Expires = DateTime.Now.AddYears(1);
+            }
+        }
 
         public Topic InnerTopic
         {
@@ -68,52 +115,9 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        public bool HasVoted
-        {
-            get
-            {
-                if (Request.Cookies["WikiRating"] == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (Request.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] == null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            set
-            {
-                if (Request.Cookies["WikiRating"] == null)
-                {
-                    Response.Cookies.Add(new HttpCookie("WikiRating"));
-                }
-                Response.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] = "true";
-                Response.Cookies["WikiRating"].Expires = DateTime.Now.AddYears(1);
-            }
-        }
+        #endregion Properties
 
-        #region " Web Form Designer Generated Code "
-
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        #endregion " Web Form Designer Generated Code "
+        #region Events
 
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -132,29 +136,7 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        private void LoadLocalization()
-        {
-            RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", RouterResourceFile);
-            LowRating.Text = Localization.GetString("RatingsLowRating", RouterResourceFile);
-            HighRating.Text = Localization.GetString("RatingsHighRating", RouterResourceFile);
-            lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", RouterResourceFile);
-            lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", RouterResourceFile);
-            btnSubmit.Text = Localization.GetString("RatingsSubmitRating", RouterResourceFile);
-        }
-
-        private void DisplayHasVoted()
-        {
-            pnlCastVote.Visible = false;
-            pnlVoteCast.Visible = true;
-        }
-
-        private void DisplayCanVote()
-        {
-            pnlCastVote.Visible = true;
-            pnlVoteCast.Visible = false;
-        }
-
-        private void btnSubmit_Click(object sender, System.EventArgs e)
+        protected void btnSubmit_Click(object sender, System.EventArgs e)
         {
             bool save = false;
             save = false;
@@ -248,11 +230,32 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        public Ratings()
+        #endregion Events
+
+        #region Methods
+
+        private void DisplayCanVote()
         {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
-            Init += Page_Init;
+            pnlCastVote.Visible = true;
+            pnlVoteCast.Visible = false;
         }
+
+        private void DisplayHasVoted()
+        {
+            pnlCastVote.Visible = false;
+            pnlVoteCast.Visible = true;
+        }
+
+        private void LoadLocalization()
+        {
+            RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", RouterResourceFile);
+            LowRating.Text = Localization.GetString("RatingsLowRating", RouterResourceFile);
+            HighRating.Text = Localization.GetString("RatingsHighRating", RouterResourceFile);
+            lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", RouterResourceFile);
+            lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", RouterResourceFile);
+            btnSubmit.Text = Localization.GetString("RatingsSubmitRating", RouterResourceFile);
+        }
+
+        #endregion Methods
     }
 }

@@ -55,10 +55,10 @@
         </table>
         <asp:Label ID="lblPageCreationError" CssClass="NormalRed" runat="server"></asp:Label>
         <br />
-        <asp:LinkButton ID="cmdSave" runat="server" CssClass="dnnPrimaryAction"></asp:LinkButton>
-        <asp:LinkButton ID="cmdSaveAndContinue" runat="server" CssClass="dnnSecondaryAction"></asp:LinkButton>
-        <asp:LinkButton ID="cmdCancel" runat="server" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
-        <asp:LinkButton ID="DeleteBtn" runat="server" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
+        <asp:LinkButton ID="cmdSave" OnClick="cmdSave_Click" runat="server" CssClass="dnnPrimaryAction"></asp:LinkButton>
+        <asp:LinkButton ID="cmdSaveAndContinue" OnClick="cmdSaveAndContinue_Click" runat="server" CssClass="dnnSecondaryAction"></asp:LinkButton>
+        <asp:LinkButton ID="cmdCancel" runat="server" OnClick="cmdCancel_Click" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
+        <asp:LinkButton ID="DeleteBtn" runat="server" OnClick="DeleteBtn_Click" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
         <asp:Label ID="DeleteLbl" runat="server"></asp:Label>
     </div>
 </div>

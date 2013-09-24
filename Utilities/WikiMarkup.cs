@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using System;
 
 //
 // DotNetNuke® - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
@@ -26,22 +27,28 @@ namespace DotNetNuke.Wiki.Utilities
 {
     public abstract class WikiMarkup
     {
-        public const string OPEN_BRACKET = "[[";
-        public const string CLOSE_BRACKET = "]]";
-        public int TabID = -9999;
-        public DotNetNuke.Entities.Portals.PortalSettings PortalSettings;
+        #region Variables
 
         protected const RegexOptions C_C_Options = RegexOptions.Compiled | RegexOptions.Multiline;
+        public const string CLOSE_BRACKET = "]]";
+        public const string OPEN_BRACKET = "[[";
+        public DotNetNuke.Entities.Portals.PortalSettings PortalSettings;
+        public int TabID = -9999;
+
+        #endregion Variables
 
         #region Properties
 
+        [IgnoreColumn]
         public abstract string Content { get; set; }
 
+        [IgnoreColumn]
         public string RenderedContent
         {
             get { return WikiText(Content); }
         }
 
+        [IgnoreColumn]
         public bool CanUseWikiText
         {
             get
@@ -58,6 +65,8 @@ namespace DotNetNuke.Wiki.Utilities
         }
 
         #endregion Properties
+
+        #region Methods
 
         protected string WikiText(string RawText)
         {
@@ -251,5 +260,7 @@ namespace DotNetNuke.Wiki.Utilities
             //    Return val
             //End If
         }
+
+        #endregion Methods
     }
 }

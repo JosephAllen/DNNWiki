@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Administration.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Administration" %>
+
+<%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="DualListControl" Src="~/controls/DualListControl.ascx" %>
-<%@ Register TagName="label" TagPrefix="dnn" Src="~/controls/labelcontrol.ascx" %>
 <%@ Import Namespace="DotNetNuke.Services.Localization" %>
 <%@ Register TagPrefix="dnnweb" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
 <div class="dnnForm dnnWikiSettings dnnClear" id="dnnWikiSettings">
@@ -14,7 +15,7 @@
     <fieldset>
         <div class="dnnFormItem">
             <dnn:Label ID="SecuritySettings" runat="server" resourcekey="DNNSecurityChk" />
-            <asp:CheckBox ID="DNNSecurityChk" runat="server" Checked="True" AutoPostBack="True"></asp:CheckBox>
+            <asp:CheckBox ID="DNNSecurityChk" runat="server" Checked="True" OnCheckedChanged="DNNSecurityChk_CheckedChanged" AutoPostBack="True"></asp:CheckBox>
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="WikiSecurity" runat="server" resourcekey="WikiSecurity" />
@@ -35,7 +36,7 @@
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="lblNotifyMethodCustomRoles" runat="server" />
-            <asp:CheckBox ID="NotifyMethodCustomRoles" runat="server" AutoPostBack="True" />
+            <asp:CheckBox ID="NotifyMethodCustomRoles" runat="server" OnCheckedChanged="NotifyMethodCustomRoles_CheckedChanged" AutoPostBack="True" />
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="lblNotifyRoles" runat="server" />
@@ -49,7 +50,7 @@
     <fieldset>
         <div class="dnnFormItem">
             <dnn:Label ID="lblAllowPageComments" runat="server" />
-            <asp:CheckBox ID="AllowPageComments" runat="server" AutoPostBack="True" />
+            <asp:CheckBox ID="AllowPageComments" runat="server" OnCheckedChanged="AllowPageComments_CheckedChanged" AutoPostBack="True" />
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="lblActivateComments" runat="server" />
@@ -70,7 +71,7 @@
     <fieldset>
         <div class="dnnFormItem">
             <dnn:Label ID="lblAllowPageRatings" runat="server" />
-            <asp:CheckBox ID="AllowPageRatings" AutoPostBack="True" runat="server" />
+            <asp:CheckBox ID="AllowPageRatings" OnCheckedChanged="AllowPageRatings_CheckedChanged" AutoPostBack="True" runat="server" />
         </div>
         <div class="dnnFormItem">
             <dnn:Label ID="lblActivateRatings" runat="server" />

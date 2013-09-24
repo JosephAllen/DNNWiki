@@ -131,7 +131,7 @@
             </assembly>
           </assemblies>
         </component>
-        <component type="Cleanup" version="04.05.05" fileName="04.05.02.txt" />
+        <component type="Cleanup" version="04.05.05" fileName="Resources\04.05.02.txt" />
       </components>
     </package>
   </packages>

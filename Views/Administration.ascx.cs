@@ -12,31 +12,108 @@ namespace DotNetNuke.Wiki.Views
 {
     public partial class Administration : PortalModuleBase
     {
-        protected Setting settings;
+        #region Ctor
 
-        #region " Web Form Designer Generated Code "
-
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public Administration()
         {
+            Load += CtrlPage_Load;
+            Init += Page_Init;
         }
 
-        //NOTE: The following placeholder declaration is required by the Web Form Designer.
-        //Do not delete or move it.
+        #endregion Ctor
+
+        #region Variables
 
         private System.Object designerPlaceholderDeclaration;
+        protected Setting settings;
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
+        #endregion Variables
+
+        #region Events
+
+        protected void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
         {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-            Framework.jQuery.RequestUIRegistration();
-            Framework.jQuery.RequestDnnPluginsRegistration();
+            if (NotifyMethodCustomRoles.Checked)
+            {
+                NotifyRoles.Visible = true;
+                lblNotifyRoles.Visible = true;
+
+                this.NotifyMethodEditRoles.Enabled = false;
+                this.NotifyMethodViewRoles.Enabled = false;
+                this.NotifyMethodViewRoles.Checked = false;
+                this.NotifyMethodEditRoles.Checked = false;
+            }
+            else
+            {
+                this.NotifyMethodEditRoles.Enabled = true;
+                this.NotifyMethodViewRoles.Enabled = true;
+                lblNotifyRoles.Visible = false;
+                NotifyRoles.Visible = false;
+            }
         }
 
-        #endregion " Web Form Designer Generated Code "
+        protected void AllowPageRatings_CheckedChanged(System.Object sender, System.EventArgs e)
+        {
+            if (AllowPageComments.Checked)
+            {
+                this.ActivateRatings.Enabled = true;
+                this.ActivateRatings.Checked = true;
+
+                this.DefaultRatingMode.Enabled = true;
+            }
+            else
+            {
+                this.ActivateRatings.Enabled = false;
+                this.ActivateRatings.Checked = false;
+
+                this.DefaultRatingMode.Enabled = false;
+                this.DefaultRatingMode.Checked = false;
+            }
+        }
+
+        protected void AllowPageComments_CheckedChanged(System.Object sender, System.EventArgs e)
+        {
+            if (AllowPageComments.Checked)
+            {
+                this.ActivateComments.Enabled = true;
+                this.ActivateComments.Checked = true;
+
+                this.DefaultCommentsMode.Enabled = true;
+            }
+            else
+            {
+                this.ActivateComments.Enabled = false;
+                this.ActivateComments.Checked = false;
+
+                this.DefaultCommentsMode.Enabled = false;
+                this.DefaultCommentsMode.Checked = false;
+            }
+        }
+
+        protected void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
+        {
+            if (DNNSecurityChk.Checked == true)
+            {
+                ContentEditors.Visible = false;
+                WikiSecurity.Visible = false;
+            }
+            else
+            {
+                ContentEditors.Visible = true;
+                WikiSecurity.Visible = true;
+            }
+        }
+
+        protected void CancelButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+        }
+
+        protected void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
+        }
 
         private void CtrlPage_Load(System.Object sender, System.EventArgs e)
         {
@@ -143,17 +220,98 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        private void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
+        //NOTE: The following placeholder declaration is required by the Web Form Designer.
+        //Do not delete or move it.
+        private void Page_Init(System.Object sender, System.EventArgs e)
         {
-            if (DNNSecurityChk.Checked == true)
+            Framework.jQuery.RequestUIRegistration();
+            Framework.jQuery.RequestDnnPluginsRegistration();
+        }
+
+        #endregion Events
+
+        #region Methods
+
+        private void ActivateItems(UnitOfWork uof)
+        {
+            if (ActivateComments.Checked | ActivateRatings.Checked)
             {
-                ContentEditors.Visible = false;
-                WikiSecurity.Visible = false;
+                TopicBO topicBo = new TopicBO(uof);
+
+                var alltopics = topicBo.GetAllByModuleID(this.ModuleId);
+
+                foreach (var topic in alltopics)
+                {
+                    if (topic.AllowDiscussions == false & ActivateComments.Checked)
+                    {
+                        topic.AllowDiscussions = true;
+                    }
+                    if (topic.AllowRatings == false & ActivateRatings.Checked)
+                    {
+                        topic.AllowRatings = true;
+                    }
+                    topicBo.Update(topic);
+                }
             }
-            else
+        }
+
+        private void SaveSettings()
+        {
+            using (UnitOfWork uof = new UnitOfWork())
             {
-                ContentEditors.Visible = true;
-                WikiSecurity.Visible = true;
+                var settingsBo = new SettingBO(uof);
+                if (DNNSecurityChk.Checked == true)
+                {
+                    settings.ContentEditorRoles = "UseDNNSettings";
+                }
+                else
+                {
+                    string list = ";";
+                    foreach (ListItem li in ContentEditors.Assigned)
+                    {
+                        list = list + li.Value + ";";
+                    }
+                    settings.ContentEditorRoles = list;
+                }
+
+                if (NotifyMethodCustomRoles.Checked == false)
+                {
+                    settings.CommentNotifyRoles = "UseDNNSettings";
+                    if (NotifyMethodEditRoles.Checked == true)
+                    {
+                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";Edit";
+                    }
+                    if (NotifyMethodViewRoles.Checked == true)
+                    {
+                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";View";
+                    }
+                }
+                else
+                {
+                    string list = ";";
+                    foreach (ListItem li in NotifyRoles.Assigned)
+                    {
+                        list = list + li.Value + ";";
+                    }
+                    settings.CommentNotifyRoles = list;
+                }
+
+                settings.AllowDiscussions = AllowPageComments.Checked;
+                settings.AllowRatings = AllowPageRatings.Checked;
+                settings.DefaultDiscussionMode = DefaultCommentsMode.Checked;
+                settings.DefaultRatingMode = DefaultRatingMode.Checked;
+                settings.CommentNotifyUsers = NotifyMethodUserComments.Checked;
+
+                if (settings.ModuleId == -1)
+                {
+                    settings.ModuleId = ModuleId;
+                    settingsBo.Add(settings);
+                }
+                else
+                {
+                    settingsBo.Update(settings);
+                }
+                ActivateItems(uof);
             }
         }
 
@@ -264,163 +422,6 @@ namespace DotNetNuke.Wiki.Views
             NotifyRoles.Available = arrAvailableNotifyRoles;
         }
 
-        protected void SaveButton_Click(object sender, EventArgs e)
-        {
-            SaveSettings();
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
-        }
-
-        protected void CancelButton_Click(object sender, EventArgs e)
-        {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
-        }
-
-        private void AllowPageComments_CheckedChanged(System.Object sender, System.EventArgs e)
-        {
-            if (AllowPageComments.Checked)
-            {
-                this.ActivateComments.Enabled = true;
-                this.ActivateComments.Checked = true;
-
-                this.DefaultCommentsMode.Enabled = true;
-            }
-            else
-            {
-                this.ActivateComments.Enabled = false;
-                this.ActivateComments.Checked = false;
-
-                this.DefaultCommentsMode.Enabled = false;
-                this.DefaultCommentsMode.Checked = false;
-            }
-        }
-
-        private void SaveSettings()
-        {
-            using (UnitOfWork uof = new UnitOfWork())
-            {
-                var settingsBo = new SettingBO(uof);
-                if (DNNSecurityChk.Checked == true)
-                {
-                    settings.ContentEditorRoles = "UseDNNSettings";
-                }
-                else
-                {
-                    string list = ";";
-                    foreach (ListItem li in ContentEditors.Assigned)
-                    {
-                        list = list + li.Value + ";";
-                    }
-                    settings.ContentEditorRoles = list;
-                }
-
-                if (NotifyMethodCustomRoles.Checked == false)
-                {
-                    settings.CommentNotifyRoles = "UseDNNSettings";
-                    if (NotifyMethodEditRoles.Checked == true)
-                    {
-                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";Edit";
-                    }
-                    if (NotifyMethodViewRoles.Checked == true)
-                    {
-                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";View";
-                    }
-                }
-                else
-                {
-                    string list = ";";
-                    foreach (ListItem li in NotifyRoles.Assigned)
-                    {
-                        list = list + li.Value + ";";
-                    }
-                    settings.CommentNotifyRoles = list;
-                }
-
-                settings.AllowDiscussions = AllowPageComments.Checked;
-                settings.AllowRatings = AllowPageRatings.Checked;
-                settings.DefaultDiscussionMode = DefaultCommentsMode.Checked;
-                settings.DefaultRatingMode = DefaultRatingMode.Checked;
-                settings.CommentNotifyUsers = NotifyMethodUserComments.Checked;
-
-                if (settings.ModuleId == -1)
-                {
-                    settings.ModuleId = ModuleId;
-                    settingsBo.Add(settings);
-                }
-                else
-                {
-                    settingsBo.Update(settings);
-                }
-                ActivateItems(uof);
-            }
-        }
-
-        private void ActivateItems(UnitOfWork uof)
-        {
-            if (ActivateComments.Checked | ActivateRatings.Checked)
-            {
-                TopicBO topicBo = new TopicBO(uof);
-
-                var alltopics = topicBo.GetAllByModuleID(this.ModuleId);
-
-                foreach (var topic in alltopics)
-                {
-                    if (topic.AllowDiscussions == false & ActivateComments.Checked)
-                    {
-                        topic.AllowDiscussions = true;
-                    }
-                    if (topic.AllowRatings == false & ActivateRatings.Checked)
-                    {
-                        topic.AllowRatings = true;
-                    }
-                    topicBo.Update(topic);
-                }
-            }
-        }
-
-        private void AllowPageRatings_CheckedChanged(System.Object sender, System.EventArgs e)
-        {
-            if (AllowPageComments.Checked)
-            {
-                this.ActivateRatings.Enabled = true;
-                this.ActivateRatings.Checked = true;
-
-                this.DefaultRatingMode.Enabled = true;
-            }
-            else
-            {
-                this.ActivateRatings.Enabled = false;
-                this.ActivateRatings.Checked = false;
-
-                this.DefaultRatingMode.Enabled = false;
-                this.DefaultRatingMode.Checked = false;
-            }
-        }
-
-        private void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if (NotifyMethodCustomRoles.Checked)
-            {
-                NotifyRoles.Visible = true;
-                lblNotifyRoles.Visible = true;
-
-                this.NotifyMethodEditRoles.Enabled = false;
-                this.NotifyMethodViewRoles.Enabled = false;
-                this.NotifyMethodViewRoles.Checked = false;
-                this.NotifyMethodEditRoles.Checked = false;
-            }
-            else
-            {
-                this.NotifyMethodEditRoles.Enabled = true;
-                this.NotifyMethodViewRoles.Enabled = true;
-                lblNotifyRoles.Visible = false;
-                NotifyRoles.Visible = false;
-            }
-        }
-
-        public Administration()
-        {
-            Load += CtrlPage_Load;
-            Init += Page_Init;
-        }
+        #endregion Methods
     }
 }

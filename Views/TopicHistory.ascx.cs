@@ -17,8 +17,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.Utilities;
 using System;
 using System.Globalization;
 
@@ -26,80 +26,18 @@ namespace DotNetNuke.Wiki.Views
 {
     partial class TopicHistory : WikiModuleBase
     {
-        #region " Web Form Designer Generated Code "
+        #region Ctor
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public TopicHistory()
         {
+            Load += Page_Load;
         }
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
+        #endregion Ctor
 
-        #endregion " Web Form Designer Generated Code "
+        #region Events
 
-        public new void Page_Load(System.Object sender, System.EventArgs e)
-        {
-            LoadLocalization();
-
-            if (!this.IsPostBack)
-            {
-                this.RestoreLbl.Visible = false;
-                this.cmdRestore.Visible = false;
-                if ((this.Request.QueryString["ShowHistory"] != null))
-                {
-                    this.ShowOldVersion();
-                }
-                else
-                {
-                    this.ShowTopicHistoryList();
-                }
-            }
-        }
-
-        private void LoadLocalization()
-        {
-            Label1.Text = Localization.GetString("HistoryTitle", RouterResourceFile);
-            BackBtn.Text = Localization.GetString("HistoryBack", RouterResourceFile);
-            cmdRestore.Text = Localization.GetString("HistoryRestore", RouterResourceFile);
-            RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", RouterResourceFile);
-        }
-
-        private void ShowOldVersion()
-        {
-            if (this.CanEdit)
-            {
-                this.RestoreLbl.Visible = true;
-                this.cmdRestore.Visible = true;
-            }
-            string HistoryPK = null;
-            string DateTime = null;
-            string HomePage = null;
-            HistoryPK = this.Request.QueryString["ShowHistory"];
-            var topicHistory = TopicHistoryBo.GetItem(int.Parse(HistoryPK));
-            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
-            this.lblPageContent.Text = topicHistory.Cache;
-            this.lblDateTime.Text = string.Format(Localization.GetString("HistoryAsOf", RouterResourceFile), topicHistory.UpdateDate.ToString(CultureInfo.CurrentCulture));
-            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" +
-                WikiMarkup.EncodeTitle(this.PageTopic));
-        }
-
-        private void ShowTopicHistoryList()
-        {
-            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
-
-            this.lblDateTime.Text = "...";
-            this.lblPageContent.Text = Localization.GetString("HistoryListHeader", RouterResourceFile) + " <br /> " + CreateHistoryTable();
-            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" +
-                WikiMarkup.EncodeTitle(PageTopic));
-        }
-
-        private void cmdRestore_Click(System.Object sender, System.EventArgs e)
+        protected void cmdRestore_Click(System.Object sender, System.EventArgs e)
         {
             if ((this.Request.QueryString["ShowHistory"] != null))
             {
@@ -133,10 +71,64 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        public TopicHistory()
+        public new void Page_Load(System.Object sender, System.EventArgs e)
         {
-            Load += Page_Load;
-            Init += Page_Init;
+            LoadLocalization();
+
+            if (!this.IsPostBack)
+            {
+                this.RestoreLbl.Visible = false;
+                this.cmdRestore.Visible = false;
+                if ((this.Request.QueryString["ShowHistory"] != null))
+                {
+                    this.ShowOldVersion();
+                }
+                else
+                {
+                    this.ShowTopicHistoryList();
+                }
+            }
         }
+
+        #endregion Events
+
+        #region Methods
+
+        private void LoadLocalization()
+        {
+            Label1.Text = Localization.GetString("HistoryTitle", RouterResourceFile);
+            BackBtn.Text = Localization.GetString("HistoryBack", RouterResourceFile);
+            cmdRestore.Text = Localization.GetString("HistoryRestore", RouterResourceFile);
+            RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", RouterResourceFile);
+        }
+
+        private void ShowOldVersion()
+        {
+            if (this.CanEdit)
+            {
+                this.RestoreLbl.Visible = true;
+                this.cmdRestore.Visible = true;
+            }
+            string HistoryPK = null;
+            HistoryPK = this.Request.QueryString["ShowHistory"];
+            var topicHistory = TopicHistoryBo.GetItem(int.Parse(HistoryPK));
+            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
+            this.lblPageContent.Text = topicHistory.Cache;
+            this.lblDateTime.Text = string.Format(Localization.GetString("HistoryAsOf", RouterResourceFile), topicHistory.UpdateDate.ToString(CultureInfo.CurrentCulture));
+            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" +
+                WikiMarkup.EncodeTitle(this.PageTopic));
+        }
+
+        private void ShowTopicHistoryList()
+        {
+            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
+
+            this.lblDateTime.Text = "...";
+            this.lblPageContent.Text = Localization.GetString("HistoryListHeader", RouterResourceFile) + " <br /> " + CreateHistoryTable();
+            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" +
+                WikiMarkup.EncodeTitle(PageTopic));
+        }
+
+        #endregion Methods
     }
 }

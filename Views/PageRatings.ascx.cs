@@ -1,31 +1,29 @@
-﻿using DotNetNuke.Wiki.BusinessObjects.Models;
+﻿using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.BusinessObjects.Models;
 using DotNetNuke.Wiki.Utilities;
-using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Wiki.Views
 {
     partial class PageRatings : WikiModuleBase
     {
-        private WikiModuleBase mModule;
-        private Topic mTopic;
+        #region Ctor
 
-        public Topic InnerTopic
+        public PageRatings()
         {
-            get
-            {
-                if (mTopic == null)
-                {
-                    System.Web.UI.Control uplevel = default(System.Web.UI.Control);
-                    uplevel = this.Parent;
-                    while (!(uplevel is WikiModuleBase))
-                    {
-                        uplevel = uplevel.Parent;
-                    }
-                    mTopic = ((WikiModuleBase)uplevel)._Topic;
-                }
-                return mTopic;
-            }
+            PreRender += Page_PreRender;
+            Load += Page_Load;
         }
+
+        #endregion Ctor
+
+        #region Variables
+
+        private Topic mTopic;
+        private WikiModuleBase mModule;
+
+        #endregion Variables
+
+        #region Properties
 
         public WikiModuleBase ParentModule
         {
@@ -46,27 +44,27 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        #region " Web Form Designer Generated Code "
-
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
+        public Topic InnerTopic
         {
+            get
+            {
+                if (mTopic == null)
+                {
+                    System.Web.UI.Control uplevel = default(System.Web.UI.Control);
+                    uplevel = this.Parent;
+                    while (!(uplevel is WikiModuleBase))
+                    {
+                        uplevel = uplevel.Parent;
+                    }
+                    mTopic = ((WikiModuleBase)uplevel)._Topic;
+                }
+                return mTopic;
+            }
         }
 
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
+        #endregion Properties
 
-        #endregion " Web Form Designer Generated Code "
-
-        protected void Page_Load(System.Object sender, System.EventArgs e)
-        {
-            LoadLocalization();
-        }
+        #region Events
 
         private void Page_PreRender(object sender, System.EventArgs e)
         {
@@ -84,17 +82,21 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        protected void Page_Load(System.Object sender, System.EventArgs e)
+        {
+            LoadLocalization();
+        }
+
+        #endregion Events
+
+        #region Methods
+
         private void LoadLocalization()
         {
             NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", RouterResourceFile);
             RatingLbl.Text = Localization.GetString("PageRatingsTitle", RouterResourceFile);
         }
 
-        public PageRatings()
-        {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
-            Init += Page_Init;
-        }
+        #endregion Methods
     }
 }

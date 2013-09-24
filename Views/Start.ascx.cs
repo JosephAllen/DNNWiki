@@ -25,30 +25,28 @@ namespace DotNetNuke.Wiki.Views
 {
     partial class Start : WikiModuleBase
     {
+        #region Ctor
+
+        public Start()
+        {
+            PreRender += Page_PreRender;
+            Load += Page_Load;
+            Init += Page_Init;
+        }
+
+        #endregion Ctor
+
+        #region Variables
+
         protected System.Web.UI.WebControls.Button cmdHistory;
         protected PageRatings pageRating;
         protected Ratings ratings;
 
         protected UI.UserControls.SectionHeadControl WikiTextDirections;
 
-        #region " Web Form Designer Generated Code "
+        #endregion Variables
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        #endregion " Web Form Designer Generated Code "
-
-        #region "Form Events"
+        #region Events
 
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
@@ -94,18 +92,68 @@ namespace DotNetNuke.Wiki.Views
             DisplayTopic();
         }
 
-        #endregion "Form Events"
-
-        private void LoadLocalization()
+        private void Page_Init(object sender, System.EventArgs e)
         {
-            AddCommentCommand.Text = Localization.GetString("StartAddComment", this.RouterResourceFile);
+            AddCommentsForm1.PostCanceled += AddCommentsForm1_PostCanceled;
+            AddCommentsForm1.PostSubmitted += AddCommentsForm1_PostSubmitted;
+        }
 
-            CommentCount1.Text = Localization.GetString("StartCommentCount", this.RouterResourceFile);
-            CommentsSec.Text = Localization.GetString("StartCommentsSection", this.RouterResourceFile);
+        private void Page_PreRender(object sender, System.EventArgs e)
+        {
+            if (ratings.HasVoted)
+            {
+                RatingSec.IsExpanded = false;
+            }
 
-            PostCommentLbl.Text = Localization.GetString("StartPostComment", this.RouterResourceFile);
+            this.CommentCount1.Visible = false;
+            //CommentsSec.IsExpanded = False
 
-            RatingSec.Text = Localization.GetString("StartRatingSec.Text", this.RouterResourceFile);
+            if (Request.IsAuthenticated)
+            {
+                this.AddCommentsForm1.NameText = UserInfo.DisplayName;
+                this.AddCommentsForm1.EnableName = false;
+                this.AddCommentsForm1.EmailText = UserInfo.Email;
+                this.AddCommentsForm1.EnableEmail = false;
+
+                //Dim lstEmails As List(Of String) = New Entities.CommentsController().GetNotificationEmails(Me.Topic)
+                //Me.AddCommentsForm1.CommentText = "Total: " & lstEmails.Count & vbCrLf
+                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & "-----------" & vbCrLf
+                //For Each s As String In lstEmails
+                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & s & vbCrLf
+                //Next
+            }
+        }
+
+        protected void AddCommentCommand_Click(System.Object sender, System.EventArgs e)
+        {
+            this.AddCommentPane.Visible = true;
+            this.Comments2.Visible = false;
+            this.AddCommentCommand.Visible = false;
+            CommentsSec.IsExpanded = true;
+        }
+
+        protected void AddCommentsForm1_PostCanceled(object s)
+        {
+            this.AddCommentPane.Visible = false;
+            this.Comments2.Visible = true;
+            this.AddCommentCommand.Visible = true;
+        }
+
+        protected void AddCommentsForm1_PostSubmitted(object s)
+        {
+            this.AddCommentPane.Visible = false;
+            this.Comments2.Visible = true;
+            this.AddCommentCommand.Visible = true;
+        }
+
+        #endregion Events
+
+        #region Methods
+
+        private void EditPage()
+        {
+            //Me.chkPageInEditMode.Checked = True
+            this.DisplayTopic();
         }
 
         private void DisplayTopic()
@@ -140,74 +188,29 @@ namespace DotNetNuke.Wiki.Views
                 p.Title = p.Title + " > " + this.PageTopic;
             }
 
-            if ((_Topic.Description != null) & !(_Topic.Description == string.Empty))
+            if ((_Topic.Description != null) & !(string.IsNullOrWhiteSpace(_Topic.Description)))
             {
                 p.Description = _Topic.Description + " " + p.Description;
             }
 
-            if ((_Topic.Keywords != null) & !(_Topic.Keywords == string.Empty))
+            if ((_Topic.Keywords != null) & !(string.IsNullOrWhiteSpace(_Topic.Keywords)))
             {
                 p.KeyWords = _Topic.Keywords + " " + p.KeyWords;
             }
         }
 
-        private void EditPage()
+        private void LoadLocalization()
         {
-            //Me.chkPageInEditMode.Checked = True
-            this.DisplayTopic();
+            AddCommentCommand.Text = Localization.GetString("StartAddComment", this.RouterResourceFile);
+
+            CommentCount1.Text = Localization.GetString("StartCommentCount", this.RouterResourceFile);
+            CommentsSec.Text = Localization.GetString("StartCommentsSection", this.RouterResourceFile);
+
+            PostCommentLbl.Text = Localization.GetString("StartPostComment", this.RouterResourceFile);
+
+            RatingSec.Text = Localization.GetString("StartRatingSec.Text", this.RouterResourceFile);
         }
 
-        private void Page_PreRender(object sender, System.EventArgs e)
-        {
-            if (ratings.HasVoted)
-            {
-                RatingSec.IsExpanded = false;
-            }
-            this.CommentCount1.Visible = false;
-            //CommentsSec.IsExpanded = False
-            if (Request.IsAuthenticated)
-            {
-                this.AddCommentsForm1.NameText = UserInfo.DisplayName;
-                this.AddCommentsForm1.EnableName = false;
-                this.AddCommentsForm1.EmailText = UserInfo.Email;
-                this.AddCommentsForm1.EnableEmail = false;
-
-                //Dim lstEmails As List(Of String) = New Entities.CommentsController().GetNotificationEmails(Me.Topic)
-                //Me.AddCommentsForm1.CommentText = "Total: " & lstEmails.Count & vbCrLf
-                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & "-----------" & vbCrLf
-                //For Each s As String In lstEmails
-                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & s & vbCrLf
-                //Next
-            }
-        }
-
-        private void AddCommentCommand_Click(System.Object sender, System.EventArgs e)
-        {
-            this.AddCommentPane.Visible = true;
-            this.Comments2.Visible = false;
-            this.AddCommentCommand.Visible = false;
-            CommentsSec.IsExpanded = true;
-        }
-
-        private void AddCommentsForm1_PostCanceled(ref object s)
-        {
-            this.AddCommentPane.Visible = false;
-            this.Comments2.Visible = true;
-            this.AddCommentCommand.Visible = true;
-        }
-
-        private void AddCommentsForm1_PostSubmitted(ref object s)
-        {
-            this.AddCommentPane.Visible = false;
-            this.Comments2.Visible = true;
-            this.AddCommentCommand.Visible = true;
-        }
-
-        public Start()
-        {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
-            Init += Page_Init;
-        }
+        #endregion Methods
     }
 }

@@ -44,7 +44,7 @@
     <table id="CommentsTbl" cellspacing="0" cellpadding="0" width="100%" border="0" runat="server">
         <tr>
             <td>
-                <asp:LinkButton ID="AddCommentCommand" runat="server" CssClass="CommandButton"></asp:LinkButton>
+                <asp:LinkButton ID="AddCommentCommand" OnClick="AddCommentCommand_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>
                 <br />
                 <comment:comments id="Comments2" runat="server" parentid="1" dateformat="dd-MM-yyyy HH:mm:ss" cacheitems="true"
                     hideemailaddress="False" cellspacing="5" hideemailurl="/getemail.aspx?commentid={0}" useoledb="True"

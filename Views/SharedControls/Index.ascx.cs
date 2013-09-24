@@ -26,10 +26,25 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 {
     public partial class Index : WikiModuleBase
     {
+        #region Ctor
+
+        public Index()
+        {
+            Load += Page_Load;
+        }
+
+        #endregion Ctor
+
+        #region Events
+
         protected void Page_Load(object sender, System.EventArgs e)
         {
             DisplayIndex();
         }
+
+        #endregion Events
+
+        #region Methods
 
         private void DisplayIndex()
         {
@@ -70,9 +85,6 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             this.IndexList.Visible = true;
         }
 
-        public Index()
-        {
-            Load += Page_Load;
-        }
+        #endregion Methods
     }
 }

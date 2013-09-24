@@ -2,8 +2,8 @@
 <p>
     <asp:Label ID="Label2" runat="server" CssClass="Head"></asp:Label><br />
     <asp:Label ID="Label1" runat="server" CssClass="SubHead"></asp:Label>&nbsp;
-	<asp:TextBox ID="txtTextToSearch" runat="server" Width="104px"></asp:TextBox>
-    <asp:LinkButton ID="cmdSearch" runat="server" CssClass="CommandButton"></asp:LinkButton>
+    <asp:TextBox ID="txtTextToSearch" runat="server" Width="104px"></asp:TextBox>
+    <asp:LinkButton ID="cmdSearch" OnClick="cmdSearch_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>
 </p>
 <p>
     <asp:Literal ID="HitTable" runat="server"></asp:Literal>

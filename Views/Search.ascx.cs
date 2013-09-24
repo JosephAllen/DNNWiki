@@ -19,42 +19,44 @@
 
 // description: Allows users to search for topics. Needs to be rewriten but for now this is OK.
 
-using DotNetNuke.Wiki.Utilities;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Wiki.Utilities;
 using System.Linq;
 
 namespace DotNetNuke.Wiki.Views
 {
     partial class Search : WikiModuleBase
     {
+        #region Ctor
+
+        public Search()
+        {
+            Load += Page_Load;
+        }
+
+        #endregion Ctor
+
+        #region Variables
+
         protected System.Web.UI.WebControls.Label lblPageContent;
 
-        #region " Web Form Designer Generated Code "
+        #endregion Variables
 
-        //This call is required by the Web Form Designer.
-        [System.Diagnostics.DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
-
-        private void Page_Init(System.Object sender, System.EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        #endregion " Web Form Designer Generated Code "
+        #region Events
 
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
         }
 
-        private void cmdSearch_Click(System.Object sender, System.EventArgs e)
+        protected void cmdSearch_Click(System.Object sender, System.EventArgs e)
         {
             this.SearchTopics();
         }
+
+        #endregion Events
+
+        #region Methods
 
         private void LoadLocalization()
         {
@@ -68,10 +70,6 @@ namespace DotNetNuke.Wiki.Views
             HitTable.Text = CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
         }
 
-        public Search()
-        {
-            Load += Page_Load;
-            Init += Page_Init;
-        }
+        #endregion Methods
     }
 }

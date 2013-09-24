@@ -24,6 +24,17 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 {
     partial class WikiButton : WikiModuleBase
     {
+        #region Ctor
+
+        public WikiButton()
+        {
+            Load += Page_Load;
+        }
+
+        #endregion Ctor
+
+        #region Events
+
         protected void Page_Load(object sender, System.EventArgs e)
         {
             LocalResourceFile = DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "WikiButton.ascx.resx");
@@ -34,6 +45,10 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
             SetDisplay();
         }
+
+        #endregion Events
+
+        #region Events
 
         private void SetDisplay()
         {
@@ -67,9 +82,6 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "&loc=edit&add=true");
         }
 
-        public WikiButton()
-        {
-            Load += Page_Load;
-        }
+        #endregion Events
     }
 }
