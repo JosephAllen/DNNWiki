@@ -1,7 +1,5 @@
-﻿using DotNetNuke.Common.Utilities;
-using DotNetNuke.ComponentModel.DataAnnotations;
-using DotNetNuke.Entities.Content;
-using System;
+﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Wiki.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
@@ -14,6 +12,8 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
     [Cacheable("Wiki_CommentParents", CacheItemPriority.Default, 20)]
     public class CommentParent
     {
+        private string _name;
+
         ///<summary>
         /// The ID of the CommentParent
         ///</summary>
@@ -24,7 +24,17 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         ///</summary>
         [Required]
         [StringLength(64)]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value.TruncateString(50);
+            }
+        }
 
         ///<summary>
         /// The id of the parent

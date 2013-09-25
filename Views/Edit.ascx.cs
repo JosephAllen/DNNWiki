@@ -21,6 +21,7 @@
 
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
+using DotNetNuke.Wiki.BusinessObjects.Exceptions;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using DotNetNuke.Wiki.Utilities;
 using System.Web;
@@ -110,12 +111,15 @@ namespace DotNetNuke.Wiki.Views
         {
             //if we've change the Topic Name we need to create a new topic
             Topic ti = null;
-            if (string.IsNullOrWhiteSpace(PageTopic) | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
-            {
-                PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
-                _Topic.TopicID = 0;
-                ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
-            }
+            //if (string.IsNullOrWhiteSpace(PageTopic) | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
+            //{
+            //    PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
+            //    _Topic.TopicID = 0;
+            //    ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
+            //}
+
+            PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
+
             if (ti == null)
             {
                 this.SaveChanges();
@@ -220,7 +224,7 @@ namespace DotNetNuke.Wiki.Views
             else
             {
                 txtPageName.Text = HttpUtility.HtmlDecode(_Topic.Name.Trim().Replace("[L]", string.Empty));
-                txtPageName.ReadOnly = true;
+                txtPageName.ReadOnly = PageTopic.Equals(WikiHomeName);
             }
 
             if (!string.IsNullOrWhiteSpace(this._Topic.Title))
@@ -263,8 +267,24 @@ namespace DotNetNuke.Wiki.Views
 
         private void SaveAndContinue()
         {
-            DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
-            SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked, objSec.InputFilter(WikiMarkup.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
+            try
+            {
+                DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
+                SaveTopic(HttpUtility.HtmlDecode(objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup),
+                    PortalSecurity.FilterFlag.NoScripting)), this.AllowDiscuss.Checked, this.AllowRating.Checked,
+                    objSec.InputFilter(WikiMarkup.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup), objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
+            }
+            catch (TopicValidationException exc)
+            {
+                switch (exc.CrudError)
+                {
+                    case DotNetNuke.Wiki.BusinessObjects.TopicBO.TopicError.DUPLICATENAME:
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         private void SaveChanges()

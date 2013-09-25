@@ -33,9 +33,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// </summary>
         public enum TopicError
         {
-            Error1 = 1,
-            Error2 = 2,
-            Error3 = 3
+            DUPLICATENAME = 1
         }
 
         #endregion Enums

@@ -1,4 +1,5 @@
 ﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Wiki.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
@@ -12,6 +13,9 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
     [Cacheable("Wiki_Settings", CacheItemPriority.Default, 20)]
     public class Setting
     {
+        private string _commentNotifyRoles;
+        private string _contentEditorRoles;
+
         ///<summary>
         /// The ID of the Setting
         ///</summary>
@@ -27,7 +31,17 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         ///</summary>
         [Required]
         [StringLength(255)]
-        public string ContentEditorRoles { get; set; }
+        public string ContentEditorRoles
+        {
+            get
+            {
+                return _contentEditorRoles;
+            }
+            set
+            {
+                _contentEditorRoles = value.TruncateString(255);
+            }
+        }
 
         ///<summary>
         /// A boolean value that indicates if discussions is allowed in the setting
@@ -53,7 +67,17 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         ///
         /// </summary>
         [StringLength(255)]
-        public string CommentNotifyRoles { get; set; }
+        public string CommentNotifyRoles
+        {
+            get
+            {
+                return _commentNotifyRoles;
+            }
+            set
+            {
+                _commentNotifyRoles = value.TruncateString(255);
+            }
+        }
 
         /// <summary>
         ///

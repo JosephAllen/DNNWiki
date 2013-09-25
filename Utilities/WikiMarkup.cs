@@ -178,18 +178,6 @@ namespace DotNetNuke.Wiki.Utilities
             }
         }
 
-        public static string make255(string title)
-        {
-            if ((!string.IsNullOrWhiteSpace(title) && title.Length > 255))
-            {
-                return title.Substring(0, 255);
-            }
-            else
-            {
-                return title;
-            }
-        }
-
         public static string RemoveHost(string val)
         {
             if ((val.ToLower().StartsWith("http://")))

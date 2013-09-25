@@ -104,6 +104,7 @@
     <Compile Include="BusinessObjects\_AbstractValidationException.cs" />
     <Compile Include="BusinessObjects\UnitOfWork.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IBusinessObject.cs" />
     <Compile Include="RatingBar.aspx.cs">
       <DependentUpon>RatingBar.aspx</DependentUpon>
@@ -288,6 +289,9 @@
   <ItemGroup>
     <Content Include="Resources\04.05.02.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SqlDataProvider\04.05.05.SqlDataProvider" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -303,9 +307,9 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8006/DesktopModules/Wiki</IISUrl>
+          <IISUrl>http://dnnwikidev.me/DesktopModules/Wiki</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:8006</IISAppRootUrl>
+          <IISAppRootUrl>http://dnnwikidev.me</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://www.dnnwikidev.me</CustomServerUrl>

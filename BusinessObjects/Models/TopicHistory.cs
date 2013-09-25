@@ -1,4 +1,5 @@
 ﻿using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Wiki.Extensions;
 using DotNetNuke.Wiki.Utilities;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,11 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
     public class TopicHistory : WikiMarkup
     {
         private string _content;
+        private string _name;
+        private string _updatedBy;
+        private string _title;
+        private string _description;
+        private string _keywords;
 
         ///<summary>
         /// The ID of the Topic History
@@ -50,10 +56,20 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         public string Cache { get; set; }
 
         ///<summary>
-        ///
+        ///The topic name
         ///</summary>
-        [StringLength(50)]
-        public string Name { get; set; }
+        [StringLength(255)]
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value.TruncateString(255);
+            }
+        }
 
         /// <summary>
         /// The date the topic was last updated
@@ -65,7 +81,17 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         ///</summary>
         [Required]
         [StringLength(101)]
-        public string UpdatedBy { get; set; }
+        public string UpdatedBy
+        {
+            get
+            {
+                return _updatedBy;
+            }
+            set
+            {
+                _updatedBy = value.TruncateString(101);
+            }
+        }
 
         ///<summary>
         /// An integer for the user id of the user who last updated the object
@@ -76,19 +102,49 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         /// The topic title
         /// </summary>
         [StringLength(256)]
-        public string Title { get; set; }
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value.TruncateString(256);
+            }
+        }
 
         /// <summary>
         /// The topic description
         /// </summary>
         [StringLength(500)]
-        public string Description { get; set; }
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value.TruncateString(500);
+            }
+        }
 
         /// <summary>
         /// The topic keywords
         /// </summary>
         [StringLength(500)]
-        public string Keywords { get; set; }
+        public string Keywords
+        {
+            get
+            {
+                return _keywords;
+            }
+            set
+            {
+                _keywords = value.TruncateString(500);
+            }
+        }
 
         /// <summary>
         /// The user name of the user that made the last update
