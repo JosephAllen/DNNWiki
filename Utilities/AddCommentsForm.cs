@@ -180,7 +180,6 @@ namespace DotNetNuke.Wiki.Utilities
             set { this.SubscribeToNotifications.Visible = value; }
         }
 
-        private int _parentId;
         private bool _checkComments = true;
         private bool _checkName = true;
         private bool _checkEmail = true;

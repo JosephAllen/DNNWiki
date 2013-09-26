@@ -46,7 +46,6 @@ namespace DotNetNuke.Wiki.Utilities
             set { this._text = value; }
         }
 
-        private string _linkClass;
         private string _text;
 
         private int _parentId;

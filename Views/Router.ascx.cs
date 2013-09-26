@@ -77,10 +77,10 @@ namespace DotNetNuke.Wiki.Views
             {
                 //load the menu on the left
                 string leftControl = "SharedControls//WikiMenu.ascx";
-                WikiModuleBase mbl = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
-                mbl.ModuleConfiguration = ModuleConfiguration;
-                mbl.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
-                phWikiMenu.Controls.Add(mbl);
+                WikiModuleBase _wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
+                _wikiModuleBase.ModuleConfiguration = ModuleConfiguration;
+                _wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
+                phWikiMenu.Controls.Add(_wikiModuleBase);
 
                 string controlToLoad = GetControlString(Request.QueryString["loc"]);
                 WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
