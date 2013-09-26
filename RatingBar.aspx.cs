@@ -28,10 +28,21 @@ namespace DotNetNuke.Wiki
 {
     public partial class RatingBar : System.Web.UI.Page
     {
+        #region Variables
+
         private Color foreColor = Color.Blue;
         private Color backColor = Color.Silver;
         private Color ratingBackColor = Color.White;
 
+        #endregion Variables
+
+        #region Events
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!((Request.QueryString["rating"] == null) | Request.QueryString["rating"].Equals("NaN")))
@@ -89,6 +100,15 @@ namespace DotNetNuke.Wiki
             }
         }
 
+        #endregion Events
+
+        #region Aux Functions
+
+        /// <summary>
+        /// Maximums the int.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public int maxInt(int value)
         {
             if ((value > 255))
@@ -107,5 +127,7 @@ namespace DotNetNuke.Wiki
                 }
             }
         }
+
+        #endregion Aux Functions
     }
 }
