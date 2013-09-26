@@ -291,10 +291,10 @@ namespace DotNetNuke.Wiki.Utilities
                         }
                         else
                         {
-                            string[] Roles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
+                            string[] editorRoles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
                                 StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' },
                                 StringSplitOptions.RemoveEmptyEntries);
-                            foreach (string role in Roles)
+                            foreach (string role in editorRoles)
                             {
                                 if (UserInfo.IsInRole(role))
                                 {
