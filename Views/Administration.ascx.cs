@@ -36,6 +36,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Administration"/> class.
+        /// </summary>
         public Administration()
         {
             Load += CtrlPage_Load;
