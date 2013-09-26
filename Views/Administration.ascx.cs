@@ -49,8 +49,10 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
+        protected Setting settings; //Data from the WikiSettings Busines Object
+
+        // TODO Do we need this? This is legacy code from VB conversion
         private System.Object designerPlaceholderDeclaration;
-        protected Setting settings;
 
         #endregion Variables
 
@@ -178,15 +180,15 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Load event of the CtrlPage control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
         private void CtrlPage_Load(System.Object sender, System.EventArgs e)
         {
             try
             {
-                using (UnitOfWork uof = new UnitOfWork())
+                using (UnitOfWork uow = new UnitOfWork())
                 {
-                    var settingsBo = new SettingBO(uof);
+                    var settingsBo = new SettingBO(uow);
 
                     //Put user code to initialize the page here
 
@@ -223,7 +225,8 @@ namespace DotNetNuke.Wiki.Views
                             NotifyMethodViewRoles.Checked = settings.CommentNotifyRoles.Contains(";View");
                         }
 
-                        BindRights();
+                        //Call the BindRights method
+                        this.BindRights();
                         if (DNNSecurityChk.Checked == true)
                         {
                             ContentEditors.Visible = false;
@@ -301,11 +304,11 @@ namespace DotNetNuke.Wiki.Views
         /// Activates the items.
         /// </summary>
         /// <param name="uof">The uof.</param>
-        private void ActivateItems(UnitOfWork uof)
+        private void ActivateItems(UnitOfWork uow)
         {
             if (ActivateComments.Checked | ActivateRatings.Checked)
             {
-                TopicBO topicBo = new TopicBO(uof);
+                TopicBO topicBo = new TopicBO(uow);
 
                 var alltopics = topicBo.GetAllByModuleID(this.ModuleId);
 
@@ -329,9 +332,9 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SaveSettings()
         {
-            using (UnitOfWork uof = new UnitOfWork())
+            using (UnitOfWork uow = new UnitOfWork())
             {
-                var settingsBo = new SettingBO(uof);
+                var settingsBo = new SettingBO(uow);
                 if (DNNSecurityChk.Checked == true)
                 {
                     settings.ContentEditorRoles = "UseDNNSettings";
@@ -383,12 +386,12 @@ namespace DotNetNuke.Wiki.Views
                 {
                     settingsBo.Update(settings);
                 }
-                ActivateItems(uof);
+                ActivateItems(uow);
             }
         }
 
         /// <summary>
-        /// Binds the rights.
+        /// Gets the edit rights for user roles and binds them to the respective list control
         /// </summary>
         private void BindRights()
         {
@@ -400,7 +403,6 @@ namespace DotNetNuke.Wiki.Views
             arrAvailableAuthViewRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
             // add an entry of Unauthenticated Users for the View roles
             arrAvailableAuthViewRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
-            // add an entry of All Users for the Edit roles
 
             // process portal roles
             DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
@@ -463,7 +465,7 @@ namespace DotNetNuke.Wiki.Views
                             {
                                 arrAssignedAuthViewRoles.Add(objListItem);
                                 arrAvailableAuthViewRoles.Remove(objListItem);
-                                break; // TODO: might not be correct. Was : Exit For
+                                break;
                             }
                         }
                     }
@@ -481,15 +483,15 @@ namespace DotNetNuke.Wiki.Views
                             {
                                 arrAssignedNotifyRoles.Add(objListItem);
                                 arrAvailableNotifyRoles.Remove(objListItem);
-                                break; // TODO: might not be correct. Was : Exit For
+                                break;
                             }
                         }
                     }
                 }
             }
 
-            int x = arrAvailableAuthViewRoles.Count;
-            int y = arrAssignedAuthViewRoles.Count;
+            int x = arrAvailableAuthViewRoles.Count; // TODO Do we need this?
+            int y = arrAssignedAuthViewRoles.Count; // TODO Do we need this?
             ContentEditors.Available = arrAvailableAuthViewRoles;
             ContentEditors.Assigned = arrAssignedAuthViewRoles;
 

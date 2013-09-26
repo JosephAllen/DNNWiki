@@ -56,7 +56,7 @@ namespace DotNetNuke.Wiki.Views
         /// <summary>
         /// Gets or sets a value indicating whether [has voted].
         /// </summary>
-        /// <value><c>true</c> if [has voted]; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if [has voted]; otherwise, /c>.</value>
         public bool HasVoted
         {
             get
@@ -232,24 +232,23 @@ namespace DotNetNuke.Wiki.Views
                         {
                             case 0:
                                 currentCount = InnerTopic.RatingOneCount;
-
-                                break; // TODO: might not be correct. Was : Exit Select
+                                break;
 
                             case 1:
                                 currentCount = InnerTopic.RatingTwoCount;
-                                break; // TODO: might not be correct. Was : Exit Select
+                                break;
 
                             case 2:
                                 currentCount = InnerTopic.RatingThreeCount;
-                                break; // TODO: might not be correct. Was : Exit Select
+                                break;
 
                             case 3:
                                 currentCount = InnerTopic.RatingFourCount;
-                                break; // TODO: might not be correct. Was : Exit Select
+                                break;
 
                             case 4:
                                 currentCount = InnerTopic.RatingFiveCount;
-                                break; // TODO: might not be correct. Was : Exit Select
+                                break;
                         }
                         bcImg.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / (Convert.ToDouble(InnerTopic.FivePointRatingsRecorded)))));
                         bcImg.AlternateText = currentCount.ToString();
