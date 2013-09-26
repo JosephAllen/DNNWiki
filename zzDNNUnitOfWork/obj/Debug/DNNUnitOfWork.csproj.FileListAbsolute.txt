@@ -1,4 +1,0 @@
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\bin\DNNUnitOfWork.dll
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\bin\DNNUnitOfWork.pdb
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\DesktopModules\DNNUnitOfWork\obj\Debug\DNNUnitOfWork.dll
-C:\Area de Trabalho\Pessoal\DnnWiki\Source\DesktopModules\DNNUnitOfWork\obj\Debug\DNNUnitOfWork.pdb

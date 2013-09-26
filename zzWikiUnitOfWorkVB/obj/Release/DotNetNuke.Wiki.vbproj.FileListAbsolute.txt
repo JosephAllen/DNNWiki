@@ -1,7 +1,0 @@
-C:\websites\dnnwiki454dev\bin\DotNetNuke.Modules.Wiki.dll
-C:\websites\dnnwiki454dev\bin\DotNetNuke.Modules.Wiki.pdb
-C:\websites\dnnwiki454dev\bin\DotNetNuke.Modules.Wiki.xml
-C:\websites\dnnwiki454dev\DesktopModules\wiki\obj\Release\DotNetNuke.Wiki.vbprojResolveAssemblyReference.cache
-C:\websites\dnnwiki454dev\DesktopModules\wiki\obj\Release\DotNetNuke.Modules.Wiki.dll
-C:\websites\dnnwiki454dev\DesktopModules\wiki\obj\Release\DotNetNuke.Modules.Wiki.xml
-C:\websites\dnnwiki454dev\DesktopModules\wiki\obj\Release\DotNetNuke.Modules.Wiki.pdb
