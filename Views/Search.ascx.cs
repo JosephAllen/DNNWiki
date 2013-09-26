@@ -32,6 +32,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Search"/> class.
+        /// </summary>
         public Search()
         {
             Load += Page_Load;
@@ -47,11 +50,23 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
         }
 
+        /// <summary>
+        /// Handles the Click event of the cmdSearch control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdSearch_Click(System.Object sender, System.EventArgs e)
         {
             this.SearchTopics();
@@ -61,6 +76,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             Label2.Text = Localization.GetString("SearchTitleBasic", RouterResourceFile);

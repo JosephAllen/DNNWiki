@@ -33,6 +33,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ratings"/> class.
+        /// </summary>
         public Ratings()
         {
             PreRender += Page_PreRender;
@@ -50,6 +53,10 @@ namespace DotNetNuke.Wiki.Views
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [has voted].
+        /// </summary>
+        /// <value><c>true</c> if [has voted]; otherwise, <c>false</c>.</value>
         public bool HasVoted
         {
             get
@@ -81,6 +88,10 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Gets the inner topic.
+        /// </summary>
+        /// <value>The inner topic.</value>
         public Topic InnerTopic
         {
             get
@@ -99,6 +110,10 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Gets my module.
+        /// </summary>
+        /// <value>My module.</value>
         public WikiModuleBase MyModule
         {
             get
@@ -122,6 +137,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
@@ -139,6 +160,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnSubmit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void btnSubmit_Click(object sender, System.EventArgs e)
         {
             bool save = false;
@@ -176,6 +203,12 @@ namespace DotNetNuke.Wiki.Views
             DisplayHasVoted();
         }
 
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
             if (this.Visible)
@@ -237,18 +270,27 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Displays the can vote.
+        /// </summary>
         private void DisplayCanVote()
         {
             pnlCastVote.Visible = true;
             pnlVoteCast.Visible = false;
         }
 
+        /// <summary>
+        /// Displays the has voted.
+        /// </summary>
         private void DisplayHasVoted()
         {
             pnlCastVote.Visible = false;
             pnlVoteCast.Visible = true;
         }
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", RouterResourceFile);

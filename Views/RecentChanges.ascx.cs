@@ -29,6 +29,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecentChanges"/> class.
+        /// </summary>
         public RecentChanges()
         {
             Load += Page_Load;
@@ -38,21 +41,45 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Click event of the cmdLastMonth control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(31);
         }
 
+        /// <summary>
+        /// Handles the Click event of the cmdLast7Days control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdLast7Days_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(7);
         }
 
+        /// <summary>
+        /// Handles the Click event of the cmdLast24Hrs control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdLast24Hrs_Click(System.Object sender, System.EventArgs e)
         {
             HitTable.Text = CreateRecentChangeTable(1);
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
@@ -66,6 +93,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             TitleLbl.Text = Localization.GetString("RCTitle", RouterResourceFile);

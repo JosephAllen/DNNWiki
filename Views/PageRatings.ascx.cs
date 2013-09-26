@@ -30,6 +30,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PageRatings"/> class.
+        /// </summary>
         public PageRatings()
         {
             PreRender += Page_PreRender;
@@ -47,6 +50,10 @@ namespace DotNetNuke.Wiki.Views
 
         #region Properties
 
+        /// <summary>
+        /// Gets the parent module.
+        /// </summary>
+        /// <value>The parent module.</value>
         public WikiModuleBase ParentModule
         {
             get
@@ -66,6 +73,10 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Gets the inner topic.
+        /// </summary>
+        /// <value>The inner topic.</value>
         public Topic InnerTopic
         {
             get
@@ -88,6 +99,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
             if (InnerTopic.FivePointRatingsRecorded == 0)
@@ -104,6 +121,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
@@ -113,6 +136,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", RouterResourceFile);

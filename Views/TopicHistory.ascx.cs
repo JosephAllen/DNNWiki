@@ -31,6 +31,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TopicHistory"/> class.
+        /// </summary>
         public TopicHistory()
         {
             Load += Page_Load;
@@ -40,6 +43,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Click event of the cmdRestore control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdRestore_Click(System.Object sender, System.EventArgs e)
         {
             if ((this.Request.QueryString["ShowHistory"] != null))
@@ -74,6 +83,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
@@ -97,6 +112,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             Label1.Text = Localization.GetString("HistoryTitle", RouterResourceFile);
@@ -105,6 +123,9 @@ namespace DotNetNuke.Wiki.Views
             RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", RouterResourceFile);
         }
 
+        /// <summary>
+        /// Shows the old version.
+        /// </summary>
         private void ShowOldVersion()
         {
             if (this.CanEdit)
@@ -122,6 +143,9 @@ namespace DotNetNuke.Wiki.Views
                 WikiMarkup.EncodeTitle(this.PageTopic));
         }
 
+        /// <summary>
+        /// Shows the topic history list.
+        /// </summary>
         private void ShowTopicHistoryList()
         {
             this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");

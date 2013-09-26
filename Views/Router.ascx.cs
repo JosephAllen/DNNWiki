@@ -34,6 +34,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Router"/> class.
+        /// </summary>
         public Router()
         {
             Load += Router_Page_Load;
@@ -43,6 +46,10 @@ namespace DotNetNuke.Wiki.Views
 
         #region Properties
 
+        /// <summary>
+        /// Gets the module actions.
+        /// </summary>
+        /// <value>The module actions.</value>
         public DotNetNuke.Entities.Modules.Actions.ModuleActionCollection ModuleActions
         {
             get
@@ -58,6 +65,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Router_Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Router_Page_Load(System.Object sender, System.EventArgs e)
         {
             try
@@ -105,6 +118,11 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Gets the control string.
+        /// </summary>
+        /// <param name="loc">The loc.</param>
+        /// <returns></returns>
         private string GetControlString(string loc)
         {
             if (loc == null)

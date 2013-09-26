@@ -210,9 +210,11 @@ namespace DotNetNuke.Wiki.Utilities
         #region Events
 
         /// <summary>
-        /// Get ride of initiated objects on the page startup
+        /// Handles the Unload event of the Page control and gets rid of initiated objects on the
+        /// page startup.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Page_Unload(object sender, EventArgs e)
         {
             if (this._uof != null)
@@ -232,6 +234,12 @@ namespace DotNetNuke.Wiki.Utilities
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
             try

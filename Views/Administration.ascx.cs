@@ -53,6 +53,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the NotifyMethodCustomRoles control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
         {
             if (NotifyMethodCustomRoles.Checked)
@@ -74,6 +80,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the AllowPageRatings control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void AllowPageRatings_CheckedChanged(System.Object sender, System.EventArgs e)
         {
             if (AllowPageComments.Checked)
@@ -93,6 +105,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the AllowPageComments control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void AllowPageComments_CheckedChanged(System.Object sender, System.EventArgs e)
         {
             if (AllowPageComments.Checked)
@@ -112,6 +130,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the DNNSecurityChk control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
         {
             if (DNNSecurityChk.Checked == true)
@@ -126,17 +150,33 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the CancelButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void CancelButton_Click(object sender, EventArgs e)
         {
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }
 
+        /// <summary>
+        /// Handles the Click event of the SaveButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void SaveButton_Click(object sender, EventArgs e)
         {
             SaveSettings();
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }
 
+        /// <summary>
+        /// Handles the Load event of the CtrlPage control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void CtrlPage_Load(System.Object sender, System.EventArgs e)
         {
             try
@@ -254,6 +294,10 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Activates the items.
+        /// </summary>
+        /// <param name="uof">The uof.</param>
         private void ActivateItems(UnitOfWork uof)
         {
             if (ActivateComments.Checked | ActivateRatings.Checked)
@@ -277,6 +321,9 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
         private void SaveSettings()
         {
             using (UnitOfWork uof = new UnitOfWork())
@@ -337,6 +384,9 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Binds the rights.
+        /// </summary>
         private void BindRights()
         {
             // declare roles

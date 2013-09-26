@@ -40,6 +40,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Edit"/> class.
+        /// </summary>
         public Edit()
         {
             PreRender += Page_PreRender;
@@ -50,6 +53,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             LoadLocalization();
@@ -99,6 +108,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the cmdCancel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void cmdCancel_Click(System.Object sender, System.EventArgs e)
         {
             this.CancelChanges();
@@ -139,6 +154,11 @@ namespace DotNetNuke.Wiki.Views
 
         // PageTopic = string.Empty LoadTopic() Me.EditPage()
         //End Sub
+        /// <summary>
+        /// Handles the Click event of the cmdSaveAndContinue control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void cmdSaveAndContinue_Click(System.Object sender, System.EventArgs e)
         {
             PageTopic = txtPageName.Text.Trim();
@@ -146,6 +166,12 @@ namespace DotNetNuke.Wiki.Views
             //Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & WikiMarkup.EncodeTitle(Me.PageTopic)), False)
         }
 
+        /// <summary>
+        /// Handles the Click event of the DeleteBtn control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void DeleteBtn_Click(System.Object sender, System.EventArgs e)
         {
             var topicHistoryList = GetHistory();
@@ -157,6 +183,12 @@ namespace DotNetNuke.Wiki.Views
             Response.Redirect(this.HomeURL, true);
         }
 
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
         }
@@ -168,6 +200,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Cancels the changes.
+        /// </summary>
         private void CancelChanges()
         {
             //SEND BACK TO THE VIEW PAGE
@@ -181,6 +216,9 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Displays the topic.
+        /// </summary>
         private void DisplayTopic()
         {
             this.cmdSave.Visible = true;
@@ -247,12 +285,18 @@ namespace DotNetNuke.Wiki.Views
             //TODO: Fix Printer Friendly
         }
 
+        /// <summary>
+        /// Edits the page.
+        /// </summary>
         private void EditPage()
         {
             //redirect back to the topic url
             DisplayTopic();
         }
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", LocalResourceFile);
@@ -267,6 +311,9 @@ namespace DotNetNuke.Wiki.Views
             //RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
         }
 
+        /// <summary>
+        /// Saves the and continue.
+        /// </summary>
         private void SaveAndContinue()
         {
             try
@@ -289,6 +336,9 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Saves the changes.
+        /// </summary>
         private void SaveChanges()
         {
             SaveAndContinue();

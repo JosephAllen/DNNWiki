@@ -30,6 +30,9 @@ namespace DotNetNuke.Wiki.Views
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Start"/> class.
+        /// </summary>
         public Start()
         {
             PreRender += Page_PreRender;
@@ -51,6 +54,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
             if (UserId == -1)
@@ -95,12 +104,24 @@ namespace DotNetNuke.Wiki.Views
             DisplayTopic();
         }
 
+        /// <summary>
+        /// Handles the Init event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_Init(object sender, System.EventArgs e)
         {
             AddCommentsForm1.PostCanceled += AddCommentsForm1_PostCanceled;
             AddCommentsForm1.PostSubmitted += AddCommentsForm1_PostSubmitted;
         }
 
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
             if (ratings.HasVoted)
@@ -127,6 +148,12 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the AddCommentCommand control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         protected void AddCommentCommand_Click(System.Object sender, System.EventArgs e)
         {
             this.AddCommentPane.Visible = true;
@@ -135,6 +162,10 @@ namespace DotNetNuke.Wiki.Views
             CommentsSec.IsExpanded = true;
         }
 
+        /// <summary>
+        /// Adds the comments form1_ post canceled.
+        /// </summary>
+        /// <param name="s">The arguments.</param>
         protected void AddCommentsForm1_PostCanceled(object s)
         {
             this.AddCommentPane.Visible = false;
@@ -142,6 +173,10 @@ namespace DotNetNuke.Wiki.Views
             this.AddCommentCommand.Visible = true;
         }
 
+        /// <summary>
+        /// Adds the comments form1_ post submitted.
+        /// </summary>
+        /// <param name="s">The arguments.</param>
         protected void AddCommentsForm1_PostSubmitted(object s)
         {
             this.AddCommentPane.Visible = false;
@@ -153,12 +188,18 @@ namespace DotNetNuke.Wiki.Views
 
         #region Methods
 
+        /// <summary>
+        /// Edits the page.
+        /// </summary>
         private void EditPage()
         {
             //Me.chkPageInEditMode.Checked = True
             this.DisplayTopic();
         }
 
+        /// <summary>
+        /// Displays the topic.
+        /// </summary>
         private void DisplayTopic()
         {
             this.lblPageContent.Visible = true;

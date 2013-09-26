@@ -38,6 +38,12 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
         protected void Page_Load(object sender, System.EventArgs e)
         {
             LocalResourceFile = DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "WikiButton.ascx.resx");
@@ -53,6 +59,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
         #region Events
 
+        /// <summary>
+        /// Sets the display.
+        /// </summary>
         private void SetDisplay()
         {
             this.ViewPipe1.Visible = false;
