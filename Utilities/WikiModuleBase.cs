@@ -267,17 +267,8 @@ namespace DotNetNuke.Wiki.Utilities
                     pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
                 }
 
-                //Get the wikiSettings
-                if (wikiSettings == null)
-                {
-                    SettingBO WikiController = new SettingBO(Uof);
-                    wikiSettings = WikiController.GetByModuleID(ModuleId);
-                    if (wikiSettings == null)
-                    {
-                        wikiSettings = new Setting();
-                        wikiSettings.ContentEditorRoles = "UseDNNSettings";
-                    }
-                }
+                //Sets the wikiSettings
+                SetWikiSettings();
 
                 //Get the edit rights
                 if (wikiSettings.ContentEditorRoles.Equals("UseDNNSettings"))
@@ -331,6 +322,23 @@ namespace DotNetNuke.Wiki.Utilities
         #endregion Events
 
         #region Aux Functions
+
+        /// <summary>
+        /// Sets the wiki settings entity
+        /// </summary>
+        private void SetWikiSettings()
+        {
+            //if (wikiSettings == null)
+            //{
+            SettingBO WikiController = new SettingBO(Uof);
+            wikiSettings = WikiController.GetByModuleID(ModuleId);
+            if (wikiSettings == null)
+            {
+                wikiSettings = new Setting();
+                wikiSettings.ContentEditorRoles = "UseDNNSettings";
+            }
+            //}
+        }
 
         /// <summary>
         /// Adds a page header of type css
