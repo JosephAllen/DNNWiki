@@ -242,6 +242,7 @@ namespace DotNetNuke.Wiki.Utilities
                 //congfigure the URL to the home page (the wiki without any parameters)
                 homeURL = DotNetNuke.Common.Globals.NavigateURL();
 
+                //Get the pageTopic
                 if (this.Request.QueryString["topic"] == null)
                 {
                     if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
@@ -258,6 +259,7 @@ namespace DotNetNuke.Wiki.Utilities
                     pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
                 }
 
+                //Get the wikiSettings
                 if (wikiSettings == null)
                 {
                     SettingBO WikiController = new SettingBO(Uof);
@@ -269,13 +271,14 @@ namespace DotNetNuke.Wiki.Utilities
                     }
                 }
 
+                //Get the edit rights
                 if (wikiSettings.ContentEditorRoles.Equals("UseDNNSettings"))
                 {
                     canEdit = this.IsEditable;
                 }
                 else
                 {
-                    if (Request.IsAuthenticated)
+                    if (Request.IsAuthenticated) //User is logged in
                     {
                         if (this.UserInfo.IsSuperUser)
                         {
@@ -301,7 +304,7 @@ namespace DotNetNuke.Wiki.Utilities
                             }
                         }
                     }
-                    else
+                    else //User is NOT logged in
                     {
                         if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
                         {
