@@ -2,12 +2,12 @@
   <packages>
     <package name="DotNetNuke.Wiki" type="Module" version="04.05.05">
       <friendlyName>Wiki</friendlyName>
-      <description>The DotNetNuke Wiki module, more information available at www.dotnetnuke.com</description>
+      <description>The DotNetNuke Wiki module, more information available at www.dnnsoftware.com</description>
       <owner>
-        <name>DotNetNuke.com</name>
-        <organization>DotNetNuke.com</organization>
-        <url>http://www.DotNetNuke.com</url>
-        <email>training@dotnetnuke.com</email>
+        <name>DNN Corp</name>
+        <organization>DNNSoftware.com</organization>
+        <url>http://www.dnnsoftware.com</url>
+        <email>training@dnnsoftware.com</email>
       </owner>
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
