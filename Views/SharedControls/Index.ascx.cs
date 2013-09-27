@@ -31,6 +31,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Index"/> class.
+        /// </summary>
         public Index()
         {
             Load += Page_Load;
