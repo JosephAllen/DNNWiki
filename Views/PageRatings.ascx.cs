@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 //--------------------------------------------------------------------------------------------------------
-// <copyright file="WikiBtton.ascx.cs" company="DNN Corp®">
+// <copyright file="PageRatings.ascx.cs" company="DNN Corp®">
 //      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
 //      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
