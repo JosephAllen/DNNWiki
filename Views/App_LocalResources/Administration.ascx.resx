@@ -130,7 +130,7 @@
     <value>Use DotNetNuke Security for edit content permissions</value>
   </data>
   <data name="DNNSecurityChk.Text" xml:space="preserve">
-    <value>Module Security</value>
+    <value>Use Module Security</value>
   </data>
   <data name="ExpandAll.Text" xml:space="preserve">
     <value>Expand All</value>
@@ -154,7 +154,7 @@
     <value>Allow Pages Comments</value>
   </data>
   <data name="lblAllowPageRatings.Help" xml:space="preserve">
-    <value>Allow page ratings</value>
+    <value>Allow Page Ratings</value>
   </data>
   <data name="lblAllowPageRatings.Text" xml:space="preserve">
     <value>Allow Pages Ratings</value>
@@ -169,19 +169,19 @@
     <value>Enable ratings by default in add topic control</value>
   </data>
   <data name="lblDefaultRatingMode.Text" xml:space="preserve">
-    <value>Default Rating Mode</value>
+    <value>Enable Ratings by Default</value>
   </data>
   <data name="lblNotifyMethodCustomRoles.Help" xml:space="preserve">
     <value>Allow users from custom roles to subscribe to notifications.</value>
   </data>
   <data name="lblNotifyMethodCustomRoles.Text" xml:space="preserve">
-    <value>Custom Roles</value>
+    <value>Use Custom Notify Roles</value>
   </data>
   <data name="lblNotifyMethodEditRoles.Help" xml:space="preserve">
     <value>Allow users with Edit rights to subscribe to notifications.</value>
   </data>
   <data name="lblNotifyMethodEditRoles.Text" xml:space="preserve">
-    <value>Edit Roles</value>
+    <value>Notify Editors</value>
   </data>
   <data name="lblNotifyMethodUserComments.Help" xml:space="preserve">
     <value>Allow users to be notified when new comments are added.</value>
@@ -193,13 +193,13 @@
     <value>Allow users with View rights to subscribe to notifications.</value>
   </data>
   <data name="lblNotifyMethodViewRoles.Text" xml:space="preserve">
-    <value>View Roles</value>
+    <value>Notify Viewers</value>
   </data>
   <data name="lblNotifyRoles.Help" xml:space="preserve">
     <value>Custom roles that are allowed to subscribe to notifications</value>
   </data>
   <data name="lblNotifyRoles.Text" xml:space="preserve">
-    <value>Custom Roles</value>
+    <value>Custom Notification Roles</value>
   </data>
   <data name="NotificationSettings.Text" xml:space="preserve">
     <value>Notification Settings</value>
@@ -217,6 +217,6 @@
     <value>If you disable Module Security you can assign which roles are allowed to edit your wiki.</value>
   </data>
   <data name="WikiSecurity.Text" xml:space="preserve">
-    <value>Wiki Edit Roles</value>
+    <value>Wiki Editor Roles</value>
   </data>
 </root>
