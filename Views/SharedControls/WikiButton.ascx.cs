@@ -29,6 +29,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WikiButton"/> class.
+        /// </summary>
         public WikiButton()
         {
             Load += Page_Load;
