@@ -157,7 +157,7 @@
     <value>Allow Page Ratings</value>
   </data>
   <data name="lblAllowPageRatings.Text" xml:space="preserve">
-    <value>Allow Pages Ratings</value>
+    <value>Allow Page Ratings</value>
   </data>
   <data name="lblDefaultCommentsMode.Help" xml:space="preserve">
     <value>Should commends be enabled by default when creating a topic?</value>
