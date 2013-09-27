@@ -30,6 +30,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     {
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WikiMenu"/> class.
+        /// </summary>
         public WikiMenu()
         {
             Load += Menu_Page_Load;
