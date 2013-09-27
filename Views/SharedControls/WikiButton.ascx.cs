@@ -60,7 +60,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
         #endregion Events
 
-        #region Events
+        #region Methods
 
         /// <summary>
         /// Sets the display.
@@ -97,6 +97,6 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "&loc=edit&add=true");
         }
 
-        #endregion Events
+        #endregion Methods
     }
 }
