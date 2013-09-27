@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="Administration.ascx.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+//--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -186,9 +189,9 @@ namespace DotNetNuke.Wiki.Views
         {
             try
             {
-                using (UnitOfWork uow = new UnitOfWork())
+                using (UnitOfWork currentUnitOfWork = new UnitOfWork())
                 {
-                    var settingsBo = new SettingBO(uow);
+                    var settingsBo = new SettingBO(currentUnitOfWork);
 
                     //Put user code to initialize the page here
 
@@ -303,12 +306,12 @@ namespace DotNetNuke.Wiki.Views
         /// <summary>
         /// Activates the items.
         /// </summary>
-        /// <param name="uof">The uof.</param>
-        private void ActivateItems(UnitOfWork uow)
+        /// <param name="currentUnitOfWork">The UnitOfWork.</param>
+        private void ActivateItems(UnitOfWork currentUnitOfWork)
         {
             if (ActivateComments.Checked | ActivateRatings.Checked)
             {
-                TopicBO topicBo = new TopicBO(uow);
+                TopicBO topicBo = new TopicBO(currentUnitOfWork);
 
                 var alltopics = topicBo.GetAllByModuleID(this.ModuleId);
 
@@ -332,9 +335,9 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SaveSettings()
         {
-            using (UnitOfWork uow = new UnitOfWork())
+            using (UnitOfWork currentUnitOfWork = new UnitOfWork())
             {
-                var settingsBo = new SettingBO(uow);
+                var settingsBo = new SettingBO(currentUnitOfWork);
                 if (DNNSecurityChk.Checked == true)
                 {
                     settings.ContentEditorRoles = "UseDNNSettings";
@@ -386,7 +389,7 @@ namespace DotNetNuke.Wiki.Views
                 {
                     settingsBo.Update(settings);
                 }
-                ActivateItems(uow);
+                ActivateItems(currentUnitOfWork);
             }
         }
 
@@ -395,12 +398,17 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void BindRights()
         {
-            // declare roles
+            // declare variables
             ArrayList arrAvailableAuthViewRoles = new ArrayList();
             ArrayList arrAvailableNotifyRoles = new ArrayList();
+            ArrayList arrAssignedAuthViewRoles = new ArrayList();
+            ArrayList arrAssignedNotifyRoles = new ArrayList();
+            Array arrAuthViewRoles = null;
+            Array arrAuthNotifyRoles = null;
 
             // add an entry of All Users for the View roles
             arrAvailableAuthViewRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
+
             // add an entry of Unauthenticated Users for the View roles
             arrAvailableAuthViewRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
 
@@ -415,12 +423,6 @@ namespace DotNetNuke.Wiki.Views
             }
 
             // populate view roles
-
-            ArrayList arrAssignedAuthViewRoles = new ArrayList();
-            ArrayList arrAssignedNotifyRoles = new ArrayList();
-
-            Array arrAuthViewRoles = null;
-            Array arrAuthNotifyRoles = null;
             if (settings.ContentEditorRoles.Equals("UseDNNSettings"))
             {
                 arrAuthViewRoles = settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
