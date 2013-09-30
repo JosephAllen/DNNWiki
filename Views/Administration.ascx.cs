@@ -30,6 +30,7 @@ using DotNetNuke.Wiki.BusinessObjects;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 
@@ -52,7 +53,7 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        protected Setting settings; //Data from the WikiSettings Busines Object
+        protected Setting m_settings; //Data from the WikiSettings Busines Object
 
         // TODO Do we need this? This is legacy code from VB conversion
         private System.Object designerPlaceholderDeclaration;
@@ -200,36 +201,36 @@ namespace DotNetNuke.Wiki.Views
                     NotifyRoles.DataTextField = "Text";
                     NotifyRoles.DataValueField = "Text";
 
-                    if (settings == null)
+                    if (m_settings == null)
                     {
-                        settings = settingsBo.GetByModuleID(ModuleId);
-                        if (settings == null)
+                        m_settings = settingsBo.GetByModuleID(ModuleId);
+                        if (m_settings == null)
                         {
-                            settings = new Setting();
-                            settings.ModuleId = -1;
-                            settings.ContentEditorRoles = "UseDNNSettings";
+                            m_settings = new Setting();
+                            m_settings.ModuleId = -1;
+                            m_settings.ContentEditorRoles = "UseDNNSettings";
                         }
                     }
                     if (!IsPostBack)
                     {
-                        DNNSecurityChk.Checked = settings.ContentEditorRoles.Equals("UseDNNSettings");
-                        AllowPageComments.Checked = settings.AllowDiscussions;
-                        AllowPageRatings.Checked = settings.AllowRatings;
-                        DefaultCommentsMode.Checked = settings.DefaultDiscussionMode == true;
-                        DefaultRatingMode.Checked = settings.DefaultRatingMode == true;
-                        NotifyMethodUserComments.Checked = settings.CommentNotifyUsers == true;
+                        DNNSecurityChk.Checked = m_settings.ContentEditorRoles.Equals("UseDNNSettings");
+                        AllowPageComments.Checked = m_settings.AllowDiscussions;
+                        AllowPageRatings.Checked = m_settings.AllowRatings;
+                        DefaultCommentsMode.Checked = m_settings.DefaultDiscussionMode == true;
+                        DefaultRatingMode.Checked = m_settings.DefaultRatingMode == true;
+                        NotifyMethodUserComments.Checked = m_settings.CommentNotifyUsers == true;
 
                         NotifyMethodCustomRoles.Checked =
-                            !string.IsNullOrWhiteSpace(settings.CommentNotifyRoles) &&
-                            settings.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(settings.CommentNotifyRoles);
+                            !string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles) &&
+                            m_settings.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles);
                         if (NotifyMethodCustomRoles.Checked)
                         {
-                            NotifyMethodEditRoles.Checked = settings.CommentNotifyRoles.Contains(";Edit");
-                            NotifyMethodViewRoles.Checked = settings.CommentNotifyRoles.Contains(";View");
+                            NotifyMethodEditRoles.Checked = m_settings.CommentNotifyRoles.Contains(";Edit");
+                            NotifyMethodViewRoles.Checked = m_settings.CommentNotifyRoles.Contains(";View");
                         }
 
-                        //Call the BindRights method
-                        this.BindRights();
+                        // Call the BindRights method this.BindRights();
+                        this.BindEditRights();
                         if (DNNSecurityChk.Checked == true)
                         {
                             ContentEditors.Visible = false;
@@ -340,7 +341,7 @@ namespace DotNetNuke.Wiki.Views
                 var settingsBo = new SettingBO(currentUnitOfWork);
                 if (DNNSecurityChk.Checked == true)
                 {
-                    settings.ContentEditorRoles = "UseDNNSettings";
+                    m_settings.ContentEditorRoles = "UseDNNSettings";
                 }
                 else
                 {
@@ -349,19 +350,19 @@ namespace DotNetNuke.Wiki.Views
                     {
                         list = list + li.Value + ";";
                     }
-                    settings.ContentEditorRoles = list;
+                    m_settings.ContentEditorRoles = list;
                 }
 
                 if (NotifyMethodCustomRoles.Checked == false)
                 {
-                    settings.CommentNotifyRoles = "UseDNNSettings";
+                    m_settings.CommentNotifyRoles = "UseDNNSettings";
                     if (NotifyMethodEditRoles.Checked == true)
                     {
-                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";Edit";
+                        m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles + ";Edit";
                     }
                     if (NotifyMethodViewRoles.Checked == true)
                     {
-                        settings.CommentNotifyRoles = settings.CommentNotifyRoles + ";View";
+                        m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles + ";View";
                     }
                 }
                 else
@@ -371,23 +372,23 @@ namespace DotNetNuke.Wiki.Views
                     {
                         list = list + li.Value + ";";
                     }
-                    settings.CommentNotifyRoles = list;
+                    m_settings.CommentNotifyRoles = list;
                 }
 
-                settings.AllowDiscussions = AllowPageComments.Checked;
-                settings.AllowRatings = AllowPageRatings.Checked;
-                settings.DefaultDiscussionMode = DefaultCommentsMode.Checked;
-                settings.DefaultRatingMode = DefaultRatingMode.Checked;
-                settings.CommentNotifyUsers = NotifyMethodUserComments.Checked;
+                m_settings.AllowDiscussions = AllowPageComments.Checked;
+                m_settings.AllowRatings = AllowPageRatings.Checked;
+                m_settings.DefaultDiscussionMode = DefaultCommentsMode.Checked;
+                m_settings.DefaultRatingMode = DefaultRatingMode.Checked;
+                m_settings.CommentNotifyUsers = NotifyMethodUserComments.Checked;
 
-                if (settings.ModuleId == -1)
+                if (m_settings.ModuleId == -1)
                 {
-                    settings.ModuleId = ModuleId;
-                    settingsBo.Add(settings);
+                    m_settings.ModuleId = ModuleId;
+                    settingsBo.Add(m_settings);
                 }
                 else
                 {
-                    settingsBo.Update(settings);
+                    settingsBo.Update(m_settings);
                 }
                 ActivateItems(currentUnitOfWork);
             }
@@ -423,22 +424,23 @@ namespace DotNetNuke.Wiki.Views
             }
 
             // populate view roles
-            if (settings.ContentEditorRoles.Equals("UseDNNSettings"))
+            if (m_settings.ContentEditorRoles.Equals("UseDNNSettings"))
             {
-                arrAuthViewRoles = settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
+                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
             }
             else
             {
-                arrAuthViewRoles = settings.ContentEditorRoles.Split(
+                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             }
 
-            if (!string.IsNullOrWhiteSpace(settings.CommentNotifyRoles))
-                if (settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
+            // populate the notify roles
+            if (!string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles))
+                if (m_settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
                 {
-                    settings.CommentNotifyRoles = settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
-                    arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
+                    arrAuthNotifyRoles = m_settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string s in arrAuthNotifyRoles)
                     {
@@ -454,7 +456,7 @@ namespace DotNetNuke.Wiki.Views
                 }
                 else
                 {
-                    arrAuthNotifyRoles = settings.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
+                    arrAuthNotifyRoles = m_settings.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
                 }
 
             if (arrAuthViewRoles != null)
@@ -500,6 +502,74 @@ namespace DotNetNuke.Wiki.Views
 
             NotifyRoles.Assigned = arrAssignedNotifyRoles;
             NotifyRoles.Available = arrAvailableNotifyRoles;
+        }
+
+        /// <summary>
+        /// Sets the list control data.
+        /// </summary>
+        private void BindEditRights()
+        {
+            // declare variables
+            Array arrAuthRoles = null;
+            ArrayList arrAssignedRoles = new ArrayList();
+            ArrayList arrAvailableRoles = new ArrayList();
+
+            // populate edit roles
+            if (m_settings.ContentEditorRoles.Equals("UseDNNSettings"))
+            {
+                arrAuthRoles = m_settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            else
+            {
+                arrAuthRoles = m_settings.ContentEditorRoles.Split(
+                    new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
+                    .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            // Convert the arrAuthRoles array to an array list
+            arrAssignedRoles.AddRange(arrAuthRoles);
+
+            // Call the BuildAllRolesArray method to Build an Array of All Roles
+            arrAvailableRoles = AvailableRoles(arrAssignedRoles);
+
+            ContentEditors.Available = arrAvailableRoles;
+            ContentEditors.Assigned = arrAssignedRoles;
+        }
+
+        /// <summary>
+        /// Builds an array of Available roles.
+        /// </summary>
+        /// <returns>An array of Available Roles in the portal</returns>
+        private ArrayList AvailableRoles(ArrayList arrAssignedRoles)
+        {
+            //Declare Variables
+            ArrayList arrAvailableRoles = new ArrayList();
+
+            // add an entry of All Users for the View roles
+            arrAvailableRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
+
+            // add an entry of Unauthenticated Users for the View roles
+            arrAvailableRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
+
+            // process portal roles
+            DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
+
+            var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>();
+            foreach (var objRole in arrRoles)
+            {
+                arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName));
+            }
+
+            // Remove the Assigned Roles from the Available Roles
+            //if (arrAvailableRoles.Count > 0)
+            //{
+            //   foreach (string curRole in arrAssignedRoles)
+            //    {
+            //        arrAvailableRoles.Remove(curRole);
+            //    }
+            //}
+
+            return arrAvailableRoles;
         }
 
         #endregion Methods
