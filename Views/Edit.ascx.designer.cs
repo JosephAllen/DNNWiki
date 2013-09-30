@@ -236,5 +236,14 @@ namespace DotNetNuke.Wiki.Views {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DeleteLbl;
+        
+        /// <summary>
+        /// Messages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DotNetNuke.Wiki.Views.SharedControls.Messages Messages;
     }
 }

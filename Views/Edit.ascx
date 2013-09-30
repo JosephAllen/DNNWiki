@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/labelControl.ascx" %>
+<%@ Register Src="SharedControls/Messages.ascx" TagName="Messages" TagPrefix="uc1" %>
 <div id="DnnWiki">
     <asp:Label ID="lblMessage" runat="server" />
     <div class="WikiTable" id="divWikiEdit" runat="server">
@@ -62,3 +63,4 @@
         <asp:Label ID="DeleteLbl" runat="server"></asp:Label>
     </div>
 </div>
+<uc1:Messages ID="Messages" runat="server" />

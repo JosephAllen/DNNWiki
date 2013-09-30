@@ -183,6 +183,13 @@
     <Compile Include="Views\SharedControls\Index.ascx.designer.cs">
       <DependentUpon>Index.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\SharedControls\Messages.ascx.cs">
+      <DependentUpon>Messages.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\SharedControls\Messages.ascx.designer.cs">
+      <DependentUpon>Messages.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\SharedControls\WikiButton.ascx.cs">
       <DependentUpon>WikiButton.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -235,6 +242,7 @@
     <Content Include="Views\Router.ascx" />
     <Content Include="Views\Search.ascx" />
     <Content Include="Views\SharedControls\Index.ascx" />
+    <Content Include="Views\SharedControls\Messages.ascx" />
     <Content Include="Views\SharedControls\WikiButton.ascx" />
     <Content Include="Views\SharedControls\WikiMenu.ascx" />
     <Content Include="Views\Start.ascx" />
@@ -277,7 +285,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\App_LocalResources\SharedResources.resx" />
+    <Content Include="Views\App_LocalResources\SharedResources.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SharedControls\App_LocalResources\Index.ascx.resx" />

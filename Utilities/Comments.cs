@@ -163,7 +163,7 @@ namespace DotNetNuke.Wiki.Utilities
                                 Convert.ToInt32(dataRow["CommentId"]),
                                 Convert.ToString(dataRow["Name"]),
                                 Convert.ToString(dataRow["Email"]),
-                                Convert.ToString(dataRow["Comment"]),
+                                Convert.ToString(dataRow["CommentText"]),
                                 (DateTime)dataRow["Datetime"]);
                         }
                     }

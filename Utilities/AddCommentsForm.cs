@@ -373,7 +373,8 @@ namespace DotNetNuke.Wiki.Utilities
                     Email = objSec.InputFilter(Email.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
                     CommentText = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
                     Ip = objSec.InputFilter(this.Context.Request.ServerVariables["REMOTE_ADDR"], DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    EmailNotify = SubscribeToNotifications.Checked
+                    EmailNotify = SubscribeToNotifications.Checked,
+                    Datetime = DateTime.UtcNow
                 };
                 comment = commentBo.Add(comment);
 

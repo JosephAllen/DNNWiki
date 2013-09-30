@@ -27,7 +27,7 @@ using System.Web.Caching;
 
 namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
-    [TableName("Wiki_CommentParent")]
+    [TableName("Wiki_CommentParents")]
     //setup the primary key for table
     [PrimaryKey("CommentParentId", AutoIncrement = true)]
     //configure caching using PetaPoco
