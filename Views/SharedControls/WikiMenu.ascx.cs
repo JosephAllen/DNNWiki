@@ -45,8 +45,8 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
         #region Variables
 
-        private bool ShowNav;
-        private bool ShowIndex;
+        private bool m_ShowNav;
+        private bool m_ShowIndex;
 
         #endregion Variables
 
@@ -59,23 +59,23 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             if ((Session["wiki" + ModuleId.ToString() + "ShowIndex"] == null))
             {
                 this.Session.Add("wiki" + ModuleId.ToString() + "ShowIndex", false);
-                ShowIndex = false;
+                m_ShowIndex = false;
             }
             else
             {
-                ShowIndex = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowIndex"]);
+                m_ShowIndex = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowIndex"]);
             }
             if ((this.Session["wiki" + ModuleId.ToString() + "ShowNav"] == null))
             {
                 this.Session.Add("wiki" + ModuleId.ToString() + "ShowNav", true);
-                ShowNav = true;
+                m_ShowNav = true;
             }
             else
             {
-                ShowNav = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowNav"]);
+                m_ShowNav = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowNav"]);
             }
 
-            if (ShowNav)
+            if (m_ShowNav)
             {
                 //Me.ImageButton1.AlternateText = Localization.GetString("HideNavigation", LocalResourceFile) ' "Show Navigation"
                 //Me.ImageButton1.ImageUrl = TemplateSourceDirectory + "/images/HideNav.gif"

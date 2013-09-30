@@ -47,9 +47,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        protected System.Web.UI.WebControls.Button cmdHistory;
-        protected PageRatings pageRating;
-        protected Ratings ratings;
+        protected System.Web.UI.WebControls.Button m_cmdHistory;
+        protected PageRatings m_pageRating;
+        protected Ratings m_ratings;
 
         protected UI.UserControls.SectionHeadControl WikiTextDirections;
 
@@ -127,7 +127,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
-            if (ratings.HasVoted)
+            if (m_ratings.HasVoted)
             {
                 RatingSec.IsExpanded = false;
             }
@@ -210,8 +210,8 @@ namespace DotNetNuke.Wiki.Views
             this.lblPageContent.Text = HttpUtility.HtmlDecode(Content).ToString();
             this.ratingTbl.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
             this.RatingSec.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.pageRating.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.ratings.Visible = _Topic.AllowRatings;
+            this.m_pageRating.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
+            this.m_ratings.Visible = _Topic.AllowRatings;
             this.AddCommentCommand.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
             this.CommentCount1.Visible = false;
             this.Comments2.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;

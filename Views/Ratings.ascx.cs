@@ -49,8 +49,8 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        private WikiModuleBase mModule;
-        private Topic mTopic;
+        private WikiModuleBase m_Module;
+        private Topic m_Topic;
 
         #endregion Variables
 
@@ -99,7 +99,7 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                if (mTopic == null)
+                if (m_Topic == null)
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
@@ -107,9 +107,9 @@ namespace DotNetNuke.Wiki.Views
                     {
                         uplevel = uplevel.Parent;
                     }
-                    mTopic = ((WikiModuleBase)uplevel)._Topic;
+                    m_Topic = ((WikiModuleBase)uplevel)._Topic;
                 }
-                return mTopic;
+                return m_Topic;
             }
         }
 
@@ -121,7 +121,7 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                if (mModule == null)
+                if (m_Module == null)
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
@@ -129,10 +129,10 @@ namespace DotNetNuke.Wiki.Views
                     {
                         uplevel = uplevel.Parent;
                     }
-                    mModule = (WikiModuleBase)uplevel;
-                    mModule.ModuleConfiguration = this.ModuleConfiguration;
+                    m_Module = (WikiModuleBase)uplevel;
+                    m_Module.ModuleConfiguration = this.ModuleConfiguration;
                 }
-                return mModule;
+                return m_Module;
             }
         }
 

@@ -47,7 +47,7 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        protected System.Web.UI.WebControls.Label lblPageContent;
+        protected System.Web.UI.WebControls.Label m_lblPageContent;
 
         #endregion Variables
 
