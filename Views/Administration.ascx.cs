@@ -433,6 +433,7 @@ namespace DotNetNuke.Wiki.Views
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             }
+
             if (!string.IsNullOrWhiteSpace(settings.CommentNotifyRoles))
                 if (settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
                 {

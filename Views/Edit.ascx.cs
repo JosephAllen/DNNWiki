@@ -24,13 +24,11 @@
 #endregion Copyright
 
 using DotNetNuke.Security;
-using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
 using DotNetNuke.Wiki.BusinessObjects.Exceptions;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using DotNetNuke.Wiki.Utilities;
-using System;
 using System.Web;
 
 namespace DotNetNuke.Wiki.Views
@@ -131,39 +129,29 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="e"></param>
         protected void cmdSave_Click(System.Object sender, System.EventArgs e)
         {
-            try
+            //if we've change the Topic Name we need to create a new topic
+            Topic ti = null;
+            //if (string.IsNullOrWhiteSpace(PageTopic) | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
+            //{
+            //    PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
+            //    _Topic.TopicID = 0;
+            //    ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
+            //}
+
+            PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
+
+            if (ti == null)
             {
-                throw new Exception();
-
-                //if we've change the Topic Name we need to create a new topic
-                Topic ti = null;
-                //if (string.IsNullOrWhiteSpace(PageTopic) | PageTopic != WikiMarkup.DecodeTitle(txtPageName.Text.Trim()))
-                //{
-                //    PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
-                //    _Topic.TopicID = 0;
-                //    ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
-                //}
-
-                PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
-
-                if (ti == null)
+                this.SaveChanges();
+                if ((PageTopic == WikiHomeName))
                 {
-                    this.SaveChanges();
-                    if ((PageTopic == WikiHomeName))
-                    {
-                        Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId));
-                    }
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId));
                 }
-                else
-                {
-                    lblPageCreationError.Text = Localization.GetString("lblPageCreationError", LocalResourceFile);
-                }
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)), false);
             }
-            catch (System.Exception exc)
+            else
             {
-                Messages.ShowError("Oops.");
-                Exceptions.LogException(exc);
+                lblPageCreationError.Text = Localization.GetString("lblPageCreationError", LocalResourceFile);
             }
         }
 
