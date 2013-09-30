@@ -18,7 +18,7 @@
             </h1>
         </div>
         <div class="WikiRating">
-            <wiki:pagerating id="pageRating" runat="server"></wiki:pagerating>
+            <wiki:pagerating id="m_pageRating" runat="server"></wiki:pagerating>
             <br />
             <comment:CommentCount id="CommentCount1" runat="server" cssClass="Normal"></comment:CommentCount>
         </div>
@@ -34,7 +34,7 @@
     <table id="ratingTbl" cellspacing="0" cellpadding="0" width="100%" border="0" runat="server">
         <tr>
             <td>
-                <wiki:Ratings id="ratings" runat="server"></wiki:Ratings>
+                <wiki:Ratings id="m_ratings" runat="server"></wiki:Ratings>
             </td>
         </tr>
     </table>

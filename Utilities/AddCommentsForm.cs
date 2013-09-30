@@ -94,7 +94,7 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                return this.TemplateSourceDirectory + "/" + "DesktopModules/Wiki/App_LocalResources/SharedResources.resx";
+                return this.TemplateSourceDirectory + "/" + "App_LocalResources/SharedResources.resx";
             }
         }
 

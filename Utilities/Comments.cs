@@ -46,11 +46,11 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (this.uof == null)
+                if (this.m_Uof == null)
                 {
-                    uof = new UnitOfWork();
+                    m_Uof = new UnitOfWork();
                 }
-                return uof;
+                return m_Uof;
             }
         }
 
@@ -61,11 +61,11 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (commentBo == null)
+                if (m_CommentBo == null)
                 {
-                    commentBo = new CommentBO(uof);
+                    m_CommentBo = new CommentBO(Uof);
                 }
-                return commentBo;
+                return m_CommentBo;
             }
         }
 
@@ -73,15 +73,15 @@ namespace DotNetNuke.Wiki.Utilities
 
         protected override void OnUnload(EventArgs e)
         {
-            if (this.uof != null)
+            if (this.m_Uof != null)
             {
-                this.uof.Dispose();
-                this.uof = null;
+                this.m_Uof.Dispose();
+                this.m_Uof = null;
             }
 
-            if (this.commentBo != null)
+            if (this.m_CommentBo != null)
             {
-                this.commentBo = null;
+                this.m_CommentBo = null;
             }
         }
 
@@ -96,7 +96,7 @@ namespace DotNetNuke.Wiki.Utilities
             if (Context.Request.QueryString["cid"] != null & IsAdmin)
             {
                 int commentId = Convert.ToInt32(Context.Request.QueryString["cid"]);
-                commentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
+                CommentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
                 this.Context.Cache.Remove("WikiComments" + _parentId.ToString());
 
                 this.Context.Response.Redirect(ReconstructQueryStringWithoutId());
@@ -144,13 +144,13 @@ namespace DotNetNuke.Wiki.Utilities
                     }
                     else
                     {
-                        dataTable = commentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
+                        dataTable = CommentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
                         this.Context.Cache.Insert("WikiComments" + this._parentId.ToString(), dataTable);
                     }
                 }
                 else
                 {
-                    dataTable = commentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
+                    dataTable = CommentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
                 }
 
                 if ((dataTable != null))
@@ -399,8 +399,8 @@ namespace DotNetNuke.Wiki.Utilities
         //TODO: create a module setting for the date format
         private string _dateFormat = "dd/MM/yyyy HH:mm";
 
-        private UnitOfWork uof;
-        private CommentBO commentBo;
+        private UnitOfWork m_Uof;
+        private CommentBO m_CommentBo;
 
         [Description("The format that the date the comment was posted displays in. See the DateTimeFormatInfo for details of the tokens available."), Category("Behaviour")]
         public string DateFormat

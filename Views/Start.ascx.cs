@@ -47,9 +47,9 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        protected System.Web.UI.WebControls.Button m_cmdHistory;
-        protected PageRatings m_pageRating;
-        protected Ratings m_ratings;
+        //protected System.Web.UI.WebControls.Button m_cmdHistory;
+        //protected PageRatings m_pageRating;
+        //protected Ratings m_ratings;
 
         protected UI.UserControls.SectionHeadControl WikiTextDirections;
 
