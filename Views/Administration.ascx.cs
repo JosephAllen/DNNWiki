@@ -530,13 +530,10 @@ namespace DotNetNuke.Wiki.Views
                     new ListItem(p, p)).ToArray();
             }
 
-            // Convert the arrAuthRoles array to an array list
-            arrAssignedRoles.AddRange(arrAuthRoles);
-
             // Call the BuildAllRolesArray method to Build an Array of All Roles
             arrAvailableRoles = AvailableRoles(arrAssignedRoles);
 
-            ContentEditors.Available = arrAvailableRoles;
+            ContentEditors.Available = arrAuthRoles;
             ContentEditors.Assigned = arrAssignedRoles;
         }
 
