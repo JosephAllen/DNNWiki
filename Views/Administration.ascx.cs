@@ -30,7 +30,6 @@ using DotNetNuke.Wiki.BusinessObjects;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 
@@ -52,6 +51,8 @@ namespace DotNetNuke.Wiki.Views
         #endregion Ctor
 
         #region Variables
+
+        private const string STR_UseDNNSettings = "UseDNNSettings";
 
         protected Setting m_settings; //Data from the WikiSettings Busines Object
 
@@ -208,12 +209,12 @@ namespace DotNetNuke.Wiki.Views
                         {
                             m_settings = new Setting();
                             m_settings.ModuleId = -1;
-                            m_settings.ContentEditorRoles = "UseDNNSettings";
+                            m_settings.ContentEditorRoles = STR_UseDNNSettings;
                         }
                     }
                     if (!IsPostBack)
                     {
-                        DNNSecurityChk.Checked = m_settings.ContentEditorRoles.Equals("UseDNNSettings");
+                        DNNSecurityChk.Checked = m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings);
                         AllowPageComments.Checked = m_settings.AllowDiscussions;
                         AllowPageRatings.Checked = m_settings.AllowRatings;
                         DefaultCommentsMode.Checked = m_settings.DefaultDiscussionMode == true;
@@ -341,7 +342,7 @@ namespace DotNetNuke.Wiki.Views
                 var settingsBo = new SettingBO(currentUnitOfWork);
                 if (DNNSecurityChk.Checked == true)
                 {
-                    m_settings.ContentEditorRoles = "UseDNNSettings";
+                    m_settings.ContentEditorRoles = STR_UseDNNSettings;
                 }
                 else
                 {
@@ -355,7 +356,7 @@ namespace DotNetNuke.Wiki.Views
 
                 if (NotifyMethodCustomRoles.Checked == false)
                 {
-                    m_settings.CommentNotifyRoles = "UseDNNSettings";
+                    m_settings.CommentNotifyRoles = STR_UseDNNSettings;
                     if (NotifyMethodEditRoles.Checked == true)
                     {
                         m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles + ";Edit";
@@ -424,9 +425,9 @@ namespace DotNetNuke.Wiki.Views
             }
 
             // populate view roles
-            if (m_settings.ContentEditorRoles.Equals("UseDNNSettings"))
+            if (m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings))
             {
-                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
+                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(new string[] { STR_UseDNNSettings }, StringSplitOptions.RemoveEmptyEntries);
             }
             else
             {
@@ -510,20 +511,23 @@ namespace DotNetNuke.Wiki.Views
         private void BindEditRights()
         {
             // declare variables
-            Array arrAuthRoles = null;
+            ListItem[] arrAuthRoles = null;
             ArrayList arrAssignedRoles = new ArrayList();
             ArrayList arrAvailableRoles = new ArrayList();
 
             // populate edit roles
-            if (m_settings.ContentEditorRoles.Equals("UseDNNSettings"))
+            if (m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings))
             {
-                arrAuthRoles = m_settings.ContentEditorRoles.Split(new string[] { "UseDNNSettings" }, StringSplitOptions.RemoveEmptyEntries);
+                arrAuthRoles = m_settings.ContentEditorRoles.Split(new string[] { STR_UseDNNSettings }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(p =>
+                    new ListItem(p, p)).ToArray();
             }
             else
             {
                 arrAuthRoles = m_settings.ContentEditorRoles.Split(
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
-                    .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(p =>
+                    new ListItem(p, p)).ToArray();
             }
 
             // Convert the arrAuthRoles array to an array list
