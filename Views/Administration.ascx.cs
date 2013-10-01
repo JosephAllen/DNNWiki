@@ -230,8 +230,9 @@ namespace DotNetNuke.Wiki.Views
                             NotifyMethodViewRoles.Checked = m_settings.CommentNotifyRoles.Contains(";View");
                         }
 
-                        // Call the BindRights method this.BindRights();
-                        this.BindEditRights();
+                        // Call the BindRights method
+                        this.BindRights();
+
                         if (DNNSecurityChk.Checked == true)
                         {
                             ContentEditors.Visible = false;
@@ -443,13 +444,13 @@ namespace DotNetNuke.Wiki.Views
                     m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
                     arrAuthNotifyRoles = m_settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    foreach (string s in arrAuthNotifyRoles)
+                    foreach (string curRole in arrAuthNotifyRoles)
                     {
-                        if (s.Equals("View"))
+                        if (curRole.Equals("View"))
                         {
                             NotifyMethodViewRoles.Checked = true;
                         }
-                        else if (s.Equals("Edit"))
+                        else if (curRole.Equals("Edit"))
                         {
                             NotifyMethodEditRoles.Checked = true;
                         }
@@ -508,40 +509,99 @@ namespace DotNetNuke.Wiki.Views
         /// <summary>
         /// Sets the list control data.
         /// </summary>
-        private void BindEditRights()
+        private void zzBindRoleControls(string RoleType)
         {
             // declare variables
+            string sRoles = "";
             ListItem[] arrAuthRoles = null;
             ArrayList arrAssignedRoles = new ArrayList();
             ArrayList arrAvailableRoles = new ArrayList();
 
-            // populate edit roles
-            if (m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings))
+            if (RoleType == "ContentEditors")
             {
-                arrAuthRoles = m_settings.ContentEditorRoles.Split(new string[] { STR_UseDNNSettings }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(p =>
-                    new ListItem(p, p)).ToArray();
+                sRoles = m_settings.ContentEditorRoles;
+            }
+            else if (RoleType == "CommentNotifyRoles")
+            {
+                sRoles = m_settings.CommentNotifyRoles;
             }
             else
             {
-                arrAuthRoles = m_settings.ContentEditorRoles.Split(
+                // TODO We've got problems if its not "ContentEditors" or "CommentNotifyRoles" TODO
+                // Need to raise an error
+            }
+
+            if (sRoles != STR_UseDNNSettings)
+            {
+                arrAuthRoles = sRoles.Split(
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(p =>
                     new ListItem(p, p)).ToArray();
+
+                // Convert the arrAuthRoles array to an array list
+                arrAssignedRoles.AddRange(arrAuthRoles);
             }
 
-            // Call the BuildAllRolesArray method to Build an Array of All Roles
-            arrAvailableRoles = AvailableRoles(arrAssignedRoles);
+            if (RoleType == "CommentNotifyRoles")
+            {
+                foreach (ListItem curRole in arrAssignedRoles)
+                {
+                    if (curRole.Value == "")
+                    {
+                        arrAvailableRoles.Remove(curRole);
+                    }
+                }
+            }
 
-            ContentEditors.Available = arrAuthRoles;
-            ContentEditors.Assigned = arrAssignedRoles;
+            // Call the BuildAllRolesArray method to Build an Array of All Roles ----------------
+            // Available Roles = All Roles - Assigned Roles AvailableRoles(arrAssignedRoles);
+
+            // Build Available Roles add an entry of All Users for the View roles
+            arrAvailableRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
+
+            // add an entry of Unauthenticated Users for the View roles
+            arrAvailableRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
+
+            // process portal roles
+            DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
+
+            var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>();
+            foreach (var objRole in arrRoles)
+            {
+                arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName));
+            }
+
+            // Remove the Assigned Roles from the Available Roles
+            if (arrAvailableRoles.Count > 0)
+            {
+                foreach (ListItem curRole in arrAssignedRoles)
+                {
+                    arrAvailableRoles.Remove(curRole);
+                }
+            }
+
+            if (RoleType == "ContentEditors")
+            {
+                ContentEditors.Assigned = arrAssignedRoles;
+                ContentEditors.Available = arrAvailableRoles;
+            }
+            else if (RoleType == "CommentNotifyRoles")
+            {
+                NotifyRoles.Assigned = arrAssignedRoles;
+                NotifyRoles.Available = arrAvailableRoles;
+            }
+            else
+            {
+                // TODO We've got problems if its not "ContentEditors" or "CommentNotifyRoles" TODO
+                // Need to raise an error
+            }
         }
 
         /// <summary>
         /// Builds an array of Available roles.
         /// </summary>
         /// <returns>An array of Available Roles in the portal</returns>
-        private ArrayList AvailableRoles(ArrayList arrAssignedRoles)
+        private ArrayList zzAvailableRoles(ArrayList arrAssignedRoles)
         {
             //Declare Variables
             ArrayList arrAvailableRoles = new ArrayList();
@@ -562,13 +622,13 @@ namespace DotNetNuke.Wiki.Views
             }
 
             // Remove the Assigned Roles from the Available Roles
-            //if (arrAvailableRoles.Count > 0)
-            //{
-            //   foreach (string curRole in arrAssignedRoles)
-            //    {
-            //        arrAvailableRoles.Remove(curRole);
-            //    }
-            //}
+            if (arrAvailableRoles.Count > 0)
+            {
+                foreach (ListItem curRole in arrAssignedRoles)
+                {
+                    arrAvailableRoles.Remove(curRole);
+                }
+            }
 
             return arrAvailableRoles;
         }
