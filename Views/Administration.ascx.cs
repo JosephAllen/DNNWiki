@@ -168,8 +168,10 @@ namespace DotNetNuke.Wiki.Views
                         NotifyMethodUserComments.Checked = this.mSettingsModel.CommentNotifyUsers == true;
 
                         NotifyMethodCustomRoles.Checked =
-                            !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles) &&
-                            this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles);
+                            !(!string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles) &&
+                            this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;") &&
+                            !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles));
+
                         if (NotifyMethodCustomRoles.Checked)
                         {
                             NotifyMethodEditRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";Edit");

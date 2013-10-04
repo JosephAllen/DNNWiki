@@ -276,7 +276,9 @@
     <Content Include="Resources\SqlDataProvider\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\App_LocalResources\Administration.ascx.resx" />
+    <Content Include="Views\App_LocalResources\Administration.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\App_LocalResources\Edit.ascx.resx">
