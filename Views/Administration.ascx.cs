@@ -289,8 +289,14 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        ////NOTE: The following placeholder declaration is required by the Web Form Designer.
-        ////Do not delete or move it.
+        /// <summary>
+        /// Handles the Initialize event of the Page control.
+        /// NOTE: The following placeholder declaration is required by the Web Form Designer.
+        /// Do not delete or move it.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Page_Init(System.Object sender, System.EventArgs e)
         {
             Framework.jQuery.RequestUIRegistration();

@@ -385,7 +385,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderEndTag();
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             comments = System.Web.HttpUtility.HtmlDecode(comments);
-            comments = comments.Replace("" + "\t" + string.Empty, "<br />");
+            comments = comments.Replace(string.Empty + "\t" + string.Empty, "<br />");
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(comments);

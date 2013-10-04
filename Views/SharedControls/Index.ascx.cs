@@ -42,7 +42,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// </summary>
         public Index()
         {
-            Load += Page_Load;
+            Load += this.Page_Load;
         }
 
         #endregion Ctor
@@ -57,7 +57,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// data.</param>
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            DisplayIndex();
+            this.DisplayIndex();
         }
 
         #endregion Events
@@ -76,7 +76,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             Topic t = default(Topic);
             int i = 0;
             tableText.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
-            tableText.Append(HomeURL + "\"><img src=\"");
+            tableText.Append(this.HomeURL + "\"><img src=\"");
             tableText.Append(DNNWikiModuleRootPath);
             tableText.Append("/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
             tableText.Append(Localization.GetString("Home", this.LocalResourceFile));

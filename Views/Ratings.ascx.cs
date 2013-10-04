@@ -44,8 +44,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         public Ratings()
         {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
+            PreRender += this.Page_PreRender;
+            Load += this.Page_Load;
         }
 
         #endregion Ctor
@@ -150,29 +150,6 @@ namespace DotNetNuke.Wiki.Views
         #region Events
 
         /// <summary>
-        /// Handles the Load event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
-        /// data.</param>
-        protected void Page_Load(System.Object sender, System.EventArgs e)
-        {
-            this.LoadLocalization();
-
-            if (this.Visible)
-            {
-                if (this.HasVoted)
-                {
-                    this.DisplayHasVoted();
-                }
-                else
-                {
-                    this.DisplayCanVote();
-                }
-            }
-        }
-
-        /// <summary>
         /// Handles the Click event of the Submit control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -215,6 +192,29 @@ namespace DotNetNuke.Wiki.Views
 
             this.HasVoted = true;
             this.DisplayHasVoted();
+        }
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
+        protected void Page_Load(System.Object sender, System.EventArgs e)
+        {
+            this.LoadLocalization();
+
+            if (this.Visible)
+            {
+                if (this.HasVoted)
+                {
+                    this.DisplayHasVoted();
+                }
+                else
+                {
+                    this.DisplayCanVote();
+                }
+            }
         }
 
         /// <summary>

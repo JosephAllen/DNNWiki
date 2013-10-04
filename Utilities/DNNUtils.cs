@@ -88,7 +88,8 @@ namespace DotNetNuke.Wiki.Utilities
                     Mail.SendMail(
                         objPortalSettings.Email,
                         sbUsersToEmail.ToString(),
-                        string.Empty, string.Empty,
+                        string.Empty,
+                        string.Empty,
                         MailPriority.Normal,
                         strSubject,
                         MailFormat.Html,

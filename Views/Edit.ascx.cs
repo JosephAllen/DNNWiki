@@ -45,8 +45,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         public Edit()
         {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
+            PreRender += this.Page_PreRender;
+            Load += this.Page_Load;
         }
 
         #endregion Ctor
@@ -178,12 +178,12 @@ namespace DotNetNuke.Wiki.Views
                 }
 
                 // Add confirmation to the delete button.
-                ClientAPI.AddButtonConfirm(DeleteBtn, Localization.GetString("ConfirmDelete", LocalResourceFile));
+                ClientAPI.AddButtonConfirm(DeleteBtn, Localization.GetString("ConfirmDelete", this.LocalResourceFile));
             }
             else
             {
                 // User doesn't have edit rights to this module, load up a message stating so.
-                lblMessage.Text = Localization.GetString("NoEditAccess", LocalResourceFile);
+                lblMessage.Text = Localization.GetString("NoEditAccess", this.LocalResourceFile);
                 divWikiEdit.Visible = false;
             }
         }

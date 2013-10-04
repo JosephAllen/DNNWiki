@@ -71,9 +71,9 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>Topics that meet the search criteria.</returns>
         public SearchItemInfoCollection GetSearchItems(ModuleInfo modInfo)
         {
-            using (UnitOfWork UoW = new UnitOfWork())
+            using (UnitOfWork uOw = new UnitOfWork())
             {
-                TopicBO topicBo = new TopicBO(UoW);
+                TopicBO topicBo = new TopicBO(uOw);
 
                 SearchItemInfoCollection searchItemCollection = new SearchItemInfoCollection();
                 var topics = topicBo.GetAllByModuleID(modInfo.ModuleID);

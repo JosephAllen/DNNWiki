@@ -263,21 +263,21 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                return withEventsField_CancelButton;
+                return this.withEventsField_CancelButton;
             }
 
             set
             {
-                if (withEventsField_CancelButton != null)
+                if (this.withEventsField_CancelButton != null)
                 {
-                    withEventsField_CancelButton.Click -= CancelButton_Click;
+                    this.withEventsField_CancelButton.Click -= this.CancelButton_Click;
                 }
 
-                withEventsField_CancelButton = value;
+                this.withEventsField_CancelButton = value;
 
-                if (withEventsField_CancelButton != null)
+                if (this.withEventsField_CancelButton != null)
                 {
-                    withEventsField_CancelButton.Click += CancelButton_Click;
+                    this.withEventsField_CancelButton.Click += this.CancelButton_Click;
                 }
             }
         }
@@ -290,21 +290,21 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                return withEventsField_SubmitButton;
+                return this.withEventsField_SubmitButton;
             }
 
             set
             {
-                if (withEventsField_SubmitButton != null)
+                if (this.withEventsField_SubmitButton != null)
                 {
-                    withEventsField_SubmitButton.Click -= SubmitButton_Click;
+                    this.withEventsField_SubmitButton.Click -= this.SubmitButton_Click;
                 }
 
-                withEventsField_SubmitButton = value;
+                this.withEventsField_SubmitButton = value;
 
-                if (withEventsField_SubmitButton != null)
+                if (this.withEventsField_SubmitButton != null)
                 {
-                    withEventsField_SubmitButton.Click += SubmitButton_Click;
+                    this.withEventsField_SubmitButton.Click += this.SubmitButton_Click;
                 }
             }
         }
@@ -340,10 +340,10 @@ namespace DotNetNuke.Wiki.Utilities
                 string clause = string.Empty;
                 if (this.mCheckNameValue)
                 {
-                    writer.WriteLine("\tif ( form." + Name.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\tif ( form." + this.Name.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
 
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAName.Text", SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAName.Text", this.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -351,9 +351,9 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCheckEmailValue)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + Email.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.Email.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAnEmailAddress.Text", SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAnEmailAddress.Text", this.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -361,9 +361,9 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCheckCommentsValue)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + Comment.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.Comment.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterSomeComments.Text", SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterSomeComments.Text", this.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -371,9 +371,9 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCommentsMaxLengthValue > 0)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + Comment.ClientID + ".value.length > " + this.mCommentsMaxLengthValue + " )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.Comment.ClientID + ".value.length > " + this.mCommentsMaxLengthValue + " )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + string.Format(Localization.GetString("EnterAName.Text", SharedResources), mCommentsMaxLengthValue) + "\");");
+                    writer.WriteLine("\t\talert(\"" + string.Format(Localization.GetString("EnterAName.Text", this.SharedResources), this.mCommentsMaxLengthValue) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                 }
@@ -397,16 +397,16 @@ namespace DotNetNuke.Wiki.Utilities
             base.RenderBeginTag(writer);
             if (this.mCheckCommentsValue || this.mCheckEmailValue || this.mCheckNameValue)
             {
-                SubmitButton.Attributes.Add(HtmlTextWriterAttribute.Onclick.ToString(), "return wikiFormCheck(this.form)");
+                this.SubmitButton.Attributes.Add(HtmlTextWriterAttribute.Onclick.ToString(), "return wikiFormCheck(this.form)");
             }
 
-            if (!mSuccessValue)
+            if (!this.mSuccessValue)
             {
                 writer.RenderBeginTag(HtmlTextWriterTag.Tr);
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalRed");
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                writer.Write(Localization.GetString("Failed.Text", SharedResources));
+                writer.Write(Localization.GetString("Failed.Text", this.SharedResources));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();
@@ -416,9 +416,9 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Name", SharedResources));
+            writer.Write(Localization.GetString("Name", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            Name.RenderControl(writer);
+            this.Name.RenderControl(writer);
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -428,9 +428,9 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Email", SharedResources));
+            writer.Write(Localization.GetString("Email", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            Email.RenderControl(writer);
+            this.Email.RenderControl(writer);
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -443,11 +443,11 @@ namespace DotNetNuke.Wiki.Utilities
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
 
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Comments", SharedResources));
+            writer.Write(Localization.GetString("Comments", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            Comment.RenderControl(writer);
+            this.Comment.RenderControl(writer);
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            SubscribeToNotifications.RenderControl(writer);
+            this.SubscribeToNotifications.RenderControl(writer);
 
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -456,9 +456,9 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(" | ");
-            SubmitButton.RenderControl(writer);
+            this.SubmitButton.RenderControl(writer);
             writer.Write(" | ");
-            CancelButton.RenderControl(writer);
+            this.CancelButton.RenderControl(writer);
             writer.Write(" | ");
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -472,48 +472,48 @@ namespace DotNetNuke.Wiki.Utilities
         /// data.</param>
         private void AddCommentsForm_Init(object sender, System.EventArgs e)
         {
-            Name = new System.Web.UI.WebControls.TextBox();
-            Name.ID = "Name";
-            Name.EnableViewState = true;
-            Name.CssClass = "NormalTextBox";
-            Email = new System.Web.UI.WebControls.TextBox();
-            Email.ID = "Email";
-            Email.EnableViewState = true;
-            Email.CssClass = "NormalTextBox";
-            Comment = new System.Web.UI.WebControls.TextBox();
-            Comment.ID = "Comment";
-            Comment.EnableViewState = true;
-            Comment.CssClass = "NormalTextBox";
-            Comment.TextMode = TextBoxMode.MultiLine;
-            Comment.Width = new System.Web.UI.WebControls.Unit(350);
-            Comment.Height = new System.Web.UI.WebControls.Unit(50);
-            Comment.MaxLength = CommentsMaxLength;
-            SubmitButton = new System.Web.UI.WebControls.LinkButton();
-            SubmitButton.CssClass = "CommandButton";
-            SubmitButton.Text = Localization.GetString("PostComment", SharedResources);
+            this.Name = new System.Web.UI.WebControls.TextBox();
+            this.Name.ID = "Name";
+            this.Name.EnableViewState = true;
+            this.Name.CssClass = "NormalTextBox";
+            this.Email = new System.Web.UI.WebControls.TextBox();
+            this.Email.ID = "Email";
+            this.Email.EnableViewState = true;
+            this.Email.CssClass = "NormalTextBox";
+            this.Comment = new System.Web.UI.WebControls.TextBox();
+            this.Comment.ID = "Comment";
+            this.Comment.EnableViewState = true;
+            this.Comment.CssClass = "NormalTextBox";
+            this.Comment.TextMode = TextBoxMode.MultiLine;
+            this.Comment.Width = new System.Web.UI.WebControls.Unit(350);
+            this.Comment.Height = new System.Web.UI.WebControls.Unit(50);
+            this.Comment.MaxLength = this.CommentsMaxLength;
+            this.SubmitButton = new System.Web.UI.WebControls.LinkButton();
+            this.SubmitButton.CssClass = "CommandButton";
+            this.SubmitButton.Text = Localization.GetString("PostComment", this.SharedResources);
             ////"Post Comment"
-            CancelButton = new System.Web.UI.WebControls.LinkButton();
-            CancelButton.CssClass = "CommandButton";
-            CancelButton.Text = Localization.GetString("Cancel", SharedResources);
+            this.CancelButton = new System.Web.UI.WebControls.LinkButton();
+            this.CancelButton.CssClass = "CommandButton";
+            this.CancelButton.Text = Localization.GetString("Cancel", this.SharedResources);
             ////"Cancel"
-            LblParentID = new System.Web.UI.WebControls.Label();
-            LblParentID.ID = "CurrParent";
-            LblParentID.Visible = false;
-            LblParentID.EnableViewState = true;
+            this.LblParentID = new System.Web.UI.WebControls.Label();
+            this.LblParentID.ID = "CurrParent";
+            this.LblParentID.Visible = false;
+            this.LblParentID.EnableViewState = true;
 
-            SubscribeToNotifications = new System.Web.UI.WebControls.CheckBox();
-            SubscribeToNotifications.ID = "EmailNotify";
-            SubscribeToNotifications.Text = Localization.GetString("CommentsNotification", SharedResources);
+            this.SubscribeToNotifications = new System.Web.UI.WebControls.CheckBox();
+            this.SubscribeToNotifications.ID = "EmailNotify";
+            this.SubscribeToNotifications.Text = Localization.GetString("CommentsNotification", this.SharedResources);
 
             ////If EnableNotify = False Then SubscribeToNotifications.Visible = False Else SubscribeToNotifications.Visible = True
 
-            this.Controls.Add(Name);
-            this.Controls.Add(Email);
-            this.Controls.Add(Comment);
-            this.Controls.Add(SubmitButton);
-            this.Controls.Add(CancelButton);
-            this.Controls.Add(LblParentID);
-            this.Controls.Add(SubscribeToNotifications);
+            this.Controls.Add(this.Name);
+            this.Controls.Add(this.Email);
+            this.Controls.Add(this.Comment);
+            this.Controls.Add(this.SubmitButton);
+            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.LblParentID);
+            this.Controls.Add(this.SubscribeToNotifications);
         }
 
         /// <summary>
@@ -524,12 +524,12 @@ namespace DotNetNuke.Wiki.Utilities
         /// data.</param>
         private void CancelButton_Click(object sender, System.EventArgs e)
         {
-            Name.Text = string.Empty;
-            Email.Text = string.Empty;
-            Comment.Text = string.Empty;
-            if (PostCanceled != null)
+            this.Name.Text = string.Empty;
+            this.Email.Text = string.Empty;
+            this.Comment.Text = string.Empty;
+            if (this.PostCanceled != null)
             {
-                PostCanceled(this);
+                this.PostCanceled(this);
             }
         }
 
@@ -545,7 +545,7 @@ namespace DotNetNuke.Wiki.Utilities
             {
                 var commentBo = new CommentBO(uOw);
 
-                string CommentText = Comment.Text;
+                string CommentText = this.Comment.Text;
                 DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
 
                 if (CommentText.Length > this.CommentsMaxLength)
@@ -556,29 +556,29 @@ namespace DotNetNuke.Wiki.Utilities
                 var comment = new Comment
                 {
                     ParentId = this.ParentId,
-                    Name = objSec.InputFilter(Name.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    Email = objSec.InputFilter(Email.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
+                    Name = objSec.InputFilter(this.Name.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
+                    Email = objSec.InputFilter(this.Email.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
                     CommentText = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
                     Ip = objSec.InputFilter(this.Context.Request.ServerVariables["REMOTE_ADDR"], DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    EmailNotify = SubscribeToNotifications.Checked,
+                    EmailNotify = this.SubscribeToNotifications.Checked,
                     Datetime = DateTime.UtcNow
                 };
                 comment = commentBo.Add(comment);
 
                 ////send the notification
-                var topic = new TopicBO(uOw).Get(ParentId);
+                var topic = new TopicBO(uOw).Get(this.ParentId);
                 DNNUtils.SendNotifications(uOw, topic, comment.Name, comment.Email, comment.CommentText, comment.Ip);
-                mSuccessValue = comment.CommentId > 0;
+                this.mSuccessValue = comment.CommentId > 0;
 
-                if (mSuccessValue)
+                if (this.mSuccessValue)
                 {
-                    Name.Text = string.Empty;
-                    Email.Text = string.Empty;
-                    Comment.Text = string.Empty;
+                    this.Name.Text = string.Empty;
+                    this.Email.Text = string.Empty;
+                    this.Comment.Text = string.Empty;
                     this.Context.Cache.Remove("WikiComments" + this.ParentId.ToString());
-                    if (PostSubmitted != null)
+                    if (this.PostSubmitted != null)
                     {
-                        PostSubmitted(this);
+                        this.PostSubmitted(this);
                     }
                 }
             }
@@ -591,7 +591,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// </summary>
         public AddCommentsForm()
         {
-            Init += AddCommentsForm_Init;
+            this.Init += this.AddCommentsForm_Init;
         }
     }
 }
