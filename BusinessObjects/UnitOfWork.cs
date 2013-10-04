@@ -80,7 +80,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         {
             this.mDataContext = DataContext.Instance();
 
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            if (HttpContext.Current != null && HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 this.mCurrentUser = UserController.GetCurrentUserInfo();
             }

@@ -55,7 +55,7 @@ namespace DotNetNuke.Wiki.Utilities
 
         private bool mHideEmailAddressValue;
         private string mHideEmailUrlValue = "http://localhost/getemail.aspx?commentid={0}";
-        private string mSharedResourcesValue = string.Empty;
+        private const string mSharedResourcesValue = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
         private int mParentIdValue;
         private UnitOfWork mUnitOfWork;
 
@@ -235,8 +235,6 @@ namespace DotNetNuke.Wiki.Utilities
         /// data.</param>
         protected override void OnLoad(System.EventArgs e)
         {
-            this.mSharedResourcesValue = this.TemplateSourceDirectory + "/" + "DesktopModules/Wiki/App_LocalResources/SharedResources.resx";
-
             base.OnLoad(e);
 
             ////'Check for delete flag on query string via CommentId (cid)
@@ -264,7 +262,7 @@ namespace DotNetNuke.Wiki.Utilities
             url.Append("://");
             url.Append(Context.Request.Url.Authority);
             url.Append(Context.Request.ApplicationPath);
-            url.Append("/Default.aspx?");
+            url.Append("Default.aspx?");
             int i = 0;
             for (i = 0; i <= Context.Request.QueryString.Keys.Count - 1; i++)
             {
@@ -322,7 +320,7 @@ namespace DotNetNuke.Wiki.Utilities
                                 Convert.ToString(dataRow["Name"]),
                                 Convert.ToString(dataRow["Email"]),
                                 Convert.ToString(dataRow["CommentText"]),
-                                (DateTime)dataRow["Datetime"]);
+                                ((DateTime)dataRow["Datetime"]));
                         }
                     }
                     else
@@ -332,7 +330,7 @@ namespace DotNetNuke.Wiki.Utilities
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
                         writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-                        writer.Write(Localization.GetString("NoComments.Text", this.mSharedResourcesValue));
+                        writer.Write(Localization.GetString("NoComments.Text", mSharedResourcesValue));
                         dynamic breakcount2 = this.mBreakCountValue;
                         this.mBreakCountValue = 0;
                         writer.RenderEndTag();
@@ -343,7 +341,7 @@ namespace DotNetNuke.Wiki.Utilities
                 }
                 else
                 {
-                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", this.mSharedResourcesValue), Localization.GetString("ExampleEmail.Text", this.mSharedResourcesValue), Localization.GetString("ExampleComments.Text", this.mSharedResourcesValue), DateTime.Now);
+                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", mSharedResourcesValue), Localization.GetString("ExampleEmail.Text", mSharedResourcesValue), Localization.GetString("ExampleComments.Text", mSharedResourcesValue), DateTime.Now);
                 }
             }
         }
@@ -397,11 +395,11 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             if (this.IsValidDateFormat(this.mDateFormatValue))
             {
-                writer.Write(Localization.GetString("PostedAt", this.mSharedResourcesValue) + " " + postDate.ToString(this.mDateFormatValue));
+                writer.Write(Localization.GetString("PostedAt", mSharedResourcesValue) + " " + postDate.ToString(this.mDateFormatValue));
             }
             else
             {
-                writer.Write(Localization.GetString("PostedAt", this.mSharedResourcesValue) + " " + postDate.ToString(CultureInfo.CurrentCulture));
+                writer.Write(Localization.GetString("PostedAt", mSharedResourcesValue) + " " + postDate.ToString(CultureInfo.CurrentCulture));
             }
 
             writer.RenderEndTag();
@@ -417,7 +415,7 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
 
                 ////writer.Write("Delete Comment")
-                writer.Write(Localization.GetString("DeleteComment", this.mSharedResourcesValue));
+                writer.Write(Localization.GetString("DeleteComment", mSharedResourcesValue));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();
