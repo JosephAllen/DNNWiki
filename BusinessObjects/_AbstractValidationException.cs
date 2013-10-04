@@ -25,9 +25,6 @@
 
 using DotNetNuke.Wiki.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace DotNetNuke.Wiki.BusinessObjects
 {
@@ -45,6 +42,8 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion "Variables"
 
+        #region Ctor
+
         /// <summary>
         /// Initializes a new instance of the <see cref="_AbstractValidationException{E}"/> class.
         /// </summary>
@@ -56,6 +55,8 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.crudOperationEnum = crudOperation;
             this.crudException = crudError;
         }
+
+        #endregion Ctor
 
         #region "Properties"
 

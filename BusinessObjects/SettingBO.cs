@@ -90,7 +90,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a setting</returns>
         internal Setting GetByModuleID(int moduleId)
         {
-            return this.MDatabaseContext.ExecuteQuery<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId).FirstOrDefault();
+            return this.DatabaseContext.ExecuteQuery<Setting>(CommandType.StoredProcedure, "Wiki_SettingsGetByModuleID", moduleId).FirstOrDefault();
         }
 
         /// <summary>

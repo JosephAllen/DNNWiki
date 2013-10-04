@@ -41,10 +41,13 @@ namespace DotNetNuke.Wiki.BusinessObjects
     {
         #region "Variables"
 
-        internal IDataContext MDatabaseContext;
         private readonly IRepository<T> mRepositoryInterface;
 
+        private IDataContext mDatabaseContextObject;
+
         #endregion "Variables"
+
+        #region Ctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="_AbstractBusinessObject{T, I}"/> class.
@@ -58,9 +61,25 @@ namespace DotNetNuke.Wiki.BusinessObjects
                 throw new ArgumentNullException("Context");
             }
 
-            this.MDatabaseContext = databaseContext;
-            this.mRepositoryInterface = this.MDatabaseContext.GetRepository<T>();
+            this.mDatabaseContextObject = databaseContext;
+            this.mRepositoryInterface = this.mDatabaseContextObject.GetRepository<T>();
         }
+
+        #endregion Ctor
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the database context.
+        /// </summary>
+        /// <value>The database context.</value>
+        public IDataContext DatabaseContext
+        {
+            get { return this.mDatabaseContextObject; }
+            set { this.mDatabaseContextObject = value; }
+        }
+
+        #endregion Properties
 
         #region IbusinessObject<T> Members
 
@@ -182,7 +201,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns i enumerable of T items</returns>
         public IEnumerable<T> Find(string sql, params object[] args)
         {
-            return this.MDatabaseContext.ExecuteQuery<T>(CommandType.Text, sql, args);
+            return this.mDatabaseContextObject.ExecuteQuery<T>(CommandType.Text, sql, args);
         }
 
         /// <summary>
