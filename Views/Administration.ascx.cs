@@ -46,9 +46,6 @@ namespace DotNetNuke.Wiki.Views
 
         protected Setting mSettingsModel; ////Data from the WikiSettings Busines Object
 
-        // TODO Do we need this? This is legacy code from VB conversion
-        private System.Object designerPlaceholderDeclaration;
-
         #endregion Variables
 
         #region Ctor

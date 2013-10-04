@@ -197,7 +197,8 @@ namespace DotNetNuke.Wiki.BusinessObjects
                                 else
                                 {
                                     // This role should be legit
-                                    foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
+                                    foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in
+                                        objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
                                     {
                                         if (!lstUsers.Contains(objUserRole.Email))
                                         {
