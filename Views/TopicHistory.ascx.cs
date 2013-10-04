@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -30,6 +30,9 @@ using System.Globalization;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Topic History Control Class
+    /// </summary>
     partial class TopicHistory : WikiModuleBase
     {
         #region Ctor
@@ -47,40 +50,40 @@ namespace DotNetNuke.Wiki.Views
         #region Events
 
         /// <summary>
-        /// Handles the Click event of the cmdRestore control.
+        /// Handles the Click event of the Restore control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
         protected void cmdRestore_Click(System.Object sender, System.EventArgs e)
         {
-            if ((this.Request.QueryString["ShowHistory"] != null))
+            if (this.Request.QueryString["ShowHistory"] != null)
             {
-                string HistoryPK = this.Request.QueryString["ShowHistory"];
-                var th = TopicHistoryBo.GetItem(int.Parse(HistoryPK));
-                th.TabID = TabId;
-                th.PortalSettings = PortalSettings;
-                var tho = new DotNetNuke.Wiki.BusinessObjects.Models.TopicHistory();
-                tho.TabID = TabId;
-                tho.PortalSettings = PortalSettings;
-                tho.Content = _Topic.Content;
-                tho.TopicId = TopicId;
-                tho.UpdatedBy = _Topic.UpdatedBy;
-                tho.UpdateDate = _Topic.UpdateDate;
-                tho.Name = this.PageTopic;
-                tho.Title = _Topic.Title;
-                tho.UpdatedByUserID = _Topic.UpdatedByUserID;
+                string historyPK = this.Request.QueryString["ShowHistory"];
+                var topicHistoryItem = TopicHistoryBo.GetItem(int.Parse(historyPK));
+                topicHistoryItem.TabID = TabId;
+                topicHistoryItem.PortalSettings = PortalSettings;
+                var topicHistoryBO = new DotNetNuke.Wiki.BusinessObjects.Models.TopicHistory();
+                topicHistoryBO.TabID = TabId;
+                topicHistoryBO.PortalSettings = PortalSettings;
+                topicHistoryBO.Content = _Topic.Content;
+                topicHistoryBO.TopicId = TopicId;
+                topicHistoryBO.UpdatedBy = _Topic.UpdatedBy;
+                topicHistoryBO.UpdateDate = _Topic.UpdateDate;
+                topicHistoryBO.Name = this.PageTopic;
+                topicHistoryBO.Title = _Topic.Title;
+                topicHistoryBO.UpdatedByUserID = _Topic.UpdatedByUserID;
 
-                _Topic.Content = th.Content;
-                _Topic.Name = th.Name;
-                _Topic.Title = th.Title;
-                _Topic.Keywords = th.Keywords;
-                _Topic.Description = th.Description;
+                _Topic.Content = topicHistoryItem.Content;
+                _Topic.Name = topicHistoryItem.Name;
+                _Topic.Title = topicHistoryItem.Title;
+                _Topic.Keywords = topicHistoryItem.Keywords;
+                _Topic.Description = topicHistoryItem.Description;
                 _Topic.UpdatedBy = UserInfo.Username;
                 _Topic.UpdateDate = DateTime.Now;
                 _Topic.UpdatedByUserID = UserId;
                 TopicBo.Update(_Topic);
-                TopicHistoryBo.Add(tho);
+                TopicHistoryBo.Add(topicHistoryBO);
 
                 Response.Redirect(HomeURL, true);
             }
@@ -100,7 +103,7 @@ namespace DotNetNuke.Wiki.Views
             {
                 this.RestoreLbl.Visible = false;
                 this.cmdRestore.Visible = false;
-                if ((this.Request.QueryString["ShowHistory"] != null))
+                if (this.Request.QueryString["ShowHistory"] != null)
                 {
                     this.ShowOldVersion();
                 }
@@ -136,14 +139,19 @@ namespace DotNetNuke.Wiki.Views
                 this.RestoreLbl.Visible = true;
                 this.cmdRestore.Visible = true;
             }
-            string HistoryPK = null;
-            HistoryPK = this.Request.QueryString["ShowHistory"];
-            var topicHistory = TopicHistoryBo.GetItem(int.Parse(HistoryPK));
+
+            string historyPK = null;
+            historyPK = this.Request.QueryString["ShowHistory"];
+            var topicHistory = TopicHistoryBo.GetItem(int.Parse(historyPK));
             this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
             this.lblPageContent.Text = topicHistory.Cache;
             this.lblDateTime.Text = string.Format(Localization.GetString("HistoryAsOf", RouterResourceFile), topicHistory.UpdateDate.ToString(CultureInfo.CurrentCulture));
-            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" +
-                WikiMarkup.EncodeTitle(this.PageTopic));
+            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(
+                TabId,
+                this.PortalSettings,
+                string.Empty,
+                "loc=TopicHistory",
+                "topic=" + WikiMarkup.EncodeTitle(this.PageTopic));
         }
 
         /// <summary>
@@ -155,8 +163,11 @@ namespace DotNetNuke.Wiki.Views
 
             this.lblDateTime.Text = "...";
             this.lblPageContent.Text = Localization.GetString("HistoryListHeader", RouterResourceFile) + " <br /> " + CreateHistoryTable();
-            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" +
-                WikiMarkup.EncodeTitle(PageTopic));
+            this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(
+                this.TabId,
+                this.PortalSettings,
+                string.Empty,
+                "topic=" + WikiMarkup.EncodeTitle(PageTopic));
         }
 
         #endregion Methods

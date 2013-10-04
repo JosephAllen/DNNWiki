@@ -1,7 +1,8 @@
 ﻿#region Copyright
 
-//
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+// --------------------------------------------------------------------------------------------------------
+// <copyright file="_AbstractValidationException.cs" company="DNN Corp®"> DNN Corp® -
+// http: //www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -17,6 +18,8 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+//// ------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -31,40 +34,55 @@ namespace DotNetNuke.Wiki.BusinessObjects
     /// <summary>
     /// Generic abstract class for handling Business objects error
     /// </summary>
-    /// <typeparam name="E">will be replaced by a enum refering the type of errors a business object
-    /// can throw on a crud operation</typeparam>
+    /// <typeparam name="E">will be replaced by a enumeration referring the type of errors a
+    /// business object can throw on a crud operation</typeparam>
     public abstract class _AbstractValidationException<E> : Exception
     {
-        private SharedEnum.CrudOperation _crudOperation;
-        private E _crudError;
+        #region "Variables"
 
+        private SharedEnum.CrudOperation crudOperationEnum;
+        private E crudException;
+
+        #endregion "Variables"
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="_AbstractValidationException{E}"/> class.
+        /// </summary>
+        /// <param name="crudOperation">The crud operation.</param>
+        /// <param name="crudError">The crud error.</param>
         public _AbstractValidationException(SharedEnum.CrudOperation crudOperation, E crudError)
             : base(string.Empty)
         {
-            this._crudOperation = crudOperation;
-            this._crudError = crudError;
+            this.crudOperationEnum = crudOperation;
+            this.crudException = crudError;
         }
 
+        #region "Properties"
+
         /// <summary>
-        /// The crud operation that generated the error
+        /// Gets the crud operation error.
         /// </summary>
+        /// <value>The crud operation.</value>
         public SharedEnum.CrudOperation CrudOperation
         {
             get
             {
-                return _crudOperation;
+                return this.crudOperationEnum;
             }
         }
 
         /// <summary>
-        /// The error that occurred
+        /// Gets the crud error that occurred.
         /// </summary>
+        /// <value>The crud error.</value>
         public E CrudError
         {
             get
             {
-                return this._crudError;
+                return this.crudException;
             }
         }
+
+        #endregion "Properties"
     }
 }

@@ -31,7 +31,7 @@
     <dnn:sectionhead id="RatingSec" runat="server" includerule="false" isexpanded="true" section="ratingTbl"
         cssclass="NormalBold">
     </dnn:sectionhead>
-    <table id="ratingTbl" cellspacing="0" cellpadding="0" width="100%" border="0" runat="server">
+    <table id="ratingTbl" style="width:100%; border:0;" runat="server">
         <tr>
             <td>
                 <wiki:Ratings id="m_ratings" runat="server"></wiki:Ratings>
@@ -41,7 +41,7 @@
     <dnn:sectionhead id="CommentsSec" runat="server" includerule="false" isexpanded="true" section="CommentsTbl"
         cssclass="NormalBold">
     </dnn:sectionhead>
-    <table id="CommentsTbl" cellspacing="0" cellpadding="0" width="100%" border="0" runat="server">
+    <table id="CommentsTbl" style="width:100%; border:0;" runat="server">
         <tr>
             <td>
                 <asp:LinkButton ID="AddCommentCommand" OnClick="AddCommentCommand_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>

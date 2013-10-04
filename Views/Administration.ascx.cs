@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -35,8 +35,22 @@ using System.Web.UI.WebControls;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Administration Partial Class
+    /// </summary>
     public partial class Administration : PortalModuleBase
     {
+        #region Variables
+
+        private const string StrUseDNNSettings = "UseDNNSettings";
+
+        protected Setting mSettingsModel; ////Data from the WikiSettings Busines Object
+
+        // TODO Do we need this? This is legacy code from VB conversion
+        private System.Object designerPlaceholderDeclaration;
+
+        #endregion Variables
+
         #region Ctor
 
         /// <summary>
@@ -44,51 +58,13 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         public Administration()
         {
-            Load += CtrlPage_Load;
-            Init += Page_Init;
+            Load += this.CtrlPage_Load;
+            Init += this.Page_Init;
         }
 
         #endregion Ctor
 
-        #region Variables
-
-        private const string STR_UseDNNSettings = "UseDNNSettings";
-
-        protected Setting m_settings; //Data from the WikiSettings Busines Object
-
-        // TODO Do we need this? This is legacy code from VB conversion
-        private System.Object designerPlaceholderDeclaration;
-
-        #endregion Variables
-
         #region Events
-
-        /// <summary>
-        /// Handles the CheckedChanged event of the NotifyMethodCustomRoles control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        protected void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if (NotifyMethodCustomRoles.Checked)
-            {
-                NotifyRoles.Visible = true;
-                lblNotifyRoles.Visible = true;
-
-                this.NotifyMethodEditRoles.Enabled = false;
-                this.NotifyMethodViewRoles.Enabled = false;
-                this.NotifyMethodViewRoles.Checked = false;
-                this.NotifyMethodEditRoles.Checked = false;
-            }
-            else
-            {
-                this.NotifyMethodEditRoles.Enabled = true;
-                this.NotifyMethodViewRoles.Enabled = true;
-                lblNotifyRoles.Visible = false;
-                NotifyRoles.Visible = false;
-            }
-        }
 
         /// <summary>
         /// Handles the CheckedChanged event of the AllowPageRatings control.
@@ -141,43 +117,12 @@ namespace DotNetNuke.Wiki.Views
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of the DNNSecurityChk control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        protected void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
-        {
-            if (DNNSecurityChk.Checked == true)
-            {
-                ContentEditors.Visible = false;
-                WikiSecurity.Visible = false;
-            }
-            else
-            {
-                ContentEditors.Visible = true;
-                WikiSecurity.Visible = true;
-            }
-        }
-
-        /// <summary>
         /// Handles the Click event of the CancelButton control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void CancelButton_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
-        }
-
-        /// <summary>
-        /// Handles the Click event of the SaveButton control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected void SaveButton_Click(object sender, EventArgs e)
-        {
-            SaveSettings();
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }
 
@@ -195,39 +140,40 @@ namespace DotNetNuke.Wiki.Views
                 {
                     var settingsBo = new SettingBO(currentUnitOfWork);
 
-                    //Put user code to initialize the page here
+                    ////Put user code to initialize the page here
 
                     ContentEditors.DataTextField = "Text";
                     ContentEditors.DataValueField = "Text";
                     NotifyRoles.DataTextField = "Text";
                     NotifyRoles.DataValueField = "Text";
 
-                    if (m_settings == null)
+                    if (this.mSettingsModel == null)
                     {
-                        m_settings = settingsBo.GetByModuleID(ModuleId);
-                        if (m_settings == null)
+                        this.mSettingsModel = settingsBo.GetByModuleID(ModuleId);
+                        if (this.mSettingsModel == null)
                         {
-                            m_settings = new Setting();
-                            m_settings.ModuleId = -1;
-                            m_settings.ContentEditorRoles = STR_UseDNNSettings;
+                            this.mSettingsModel = new Setting();
+                            this.mSettingsModel.ModuleId = -1;
+                            this.mSettingsModel.ContentEditorRoles = StrUseDNNSettings;
                         }
                     }
+
                     if (!IsPostBack)
                     {
-                        DNNSecurityChk.Checked = m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings);
-                        AllowPageComments.Checked = m_settings.AllowDiscussions;
-                        AllowPageRatings.Checked = m_settings.AllowRatings;
-                        DefaultCommentsMode.Checked = m_settings.DefaultDiscussionMode == true;
-                        DefaultRatingMode.Checked = m_settings.DefaultRatingMode == true;
-                        NotifyMethodUserComments.Checked = m_settings.CommentNotifyUsers == true;
+                        DNNSecurityChk.Checked = this.mSettingsModel.ContentEditorRoles.Equals(StrUseDNNSettings);
+                        AllowPageComments.Checked = this.mSettingsModel.AllowDiscussions;
+                        AllowPageRatings.Checked = this.mSettingsModel.AllowRatings;
+                        DefaultCommentsMode.Checked = this.mSettingsModel.DefaultDiscussionMode == true;
+                        DefaultRatingMode.Checked = this.mSettingsModel.DefaultRatingMode == true;
+                        NotifyMethodUserComments.Checked = this.mSettingsModel.CommentNotifyUsers == true;
 
                         NotifyMethodCustomRoles.Checked =
-                            !string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles) &&
-                            m_settings.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles);
+                            !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles) &&
+                            this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;") && !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles);
                         if (NotifyMethodCustomRoles.Checked)
                         {
-                            NotifyMethodEditRoles.Checked = m_settings.CommentNotifyRoles.Contains(";Edit");
-                            NotifyMethodViewRoles.Checked = m_settings.CommentNotifyRoles.Contains(";View");
+                            NotifyMethodEditRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";Edit");
+                            NotifyMethodViewRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";View");
                         }
 
                         // Call the BindRights method
@@ -243,6 +189,7 @@ namespace DotNetNuke.Wiki.Views
                             ContentEditors.Visible = true;
                             WikiSecurity.Visible = true;
                         }
+
                         if (AllowPageComments.Checked)
                         {
                             this.ActivateComments.Enabled = true;
@@ -268,6 +215,7 @@ namespace DotNetNuke.Wiki.Views
                             this.DefaultRatingMode.Enabled = false;
                             this.DefaultRatingMode.Checked = false;
                         }
+
                         if (NotifyMethodCustomRoles.Checked)
                         {
                             NotifyRoles.Visible = true;
@@ -294,12 +242,70 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        //NOTE: The following placeholder declaration is required by the Web Form Designer.
-        //Do not delete or move it.
+        /// <summary>
+        /// Handles the CheckedChanged event of the DNN Security Check control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        protected void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
+        {
+            if (DNNSecurityChk.Checked == true)
+            {
+                ContentEditors.Visible = false;
+                WikiSecurity.Visible = false;
+            }
+            else
+            {
+                ContentEditors.Visible = true;
+                WikiSecurity.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of the NotifyMethodCustomRoles control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        protected void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (NotifyMethodCustomRoles.Checked)
+            {
+                NotifyRoles.Visible = true;
+                lblNotifyRoles.Visible = true;
+
+                this.NotifyMethodEditRoles.Enabled = false;
+                this.NotifyMethodViewRoles.Enabled = false;
+                this.NotifyMethodViewRoles.Checked = false;
+                this.NotifyMethodEditRoles.Checked = false;
+            }
+            else
+            {
+                this.NotifyMethodEditRoles.Enabled = true;
+                this.NotifyMethodViewRoles.Enabled = true;
+                lblNotifyRoles.Visible = false;
+                NotifyRoles.Visible = false;
+            }
+        }
+
+        ////NOTE: The following placeholder declaration is required by the Web Form Designer.
+        ////Do not delete or move it.
         private void Page_Init(System.Object sender, System.EventArgs e)
         {
             Framework.jQuery.RequestUIRegistration();
             Framework.jQuery.RequestDnnPluginsRegistration();
+        }
+
+        /// <summary>
+        /// Handles the Click event of the SaveButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void SaveButton_Click(object sender, EventArgs e)
+        {
+            this.SaveSettings();
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(), true);
         }
 
         #endregion Events
@@ -324,75 +330,14 @@ namespace DotNetNuke.Wiki.Views
                     {
                         topic.AllowDiscussions = true;
                     }
+
                     if (topic.AllowRatings == false & ActivateRatings.Checked)
                     {
                         topic.AllowRatings = true;
                     }
+
                     topicBo.Update(topic);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Saves the settings.
-        /// </summary>
-        private void SaveSettings()
-        {
-            using (UnitOfWork currentUnitOfWork = new UnitOfWork())
-            {
-                var settingsBo = new SettingBO(currentUnitOfWork);
-                if (DNNSecurityChk.Checked == true)
-                {
-                    m_settings.ContentEditorRoles = STR_UseDNNSettings;
-                }
-                else
-                {
-                    string list = ";";
-                    foreach (ListItem li in ContentEditors.Assigned)
-                    {
-                        list = list + li.Value + ";";
-                    }
-                    m_settings.ContentEditorRoles = list;
-                }
-
-                if (NotifyMethodCustomRoles.Checked == false)
-                {
-                    m_settings.CommentNotifyRoles = STR_UseDNNSettings;
-                    if (NotifyMethodEditRoles.Checked == true)
-                    {
-                        m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles + ";Edit";
-                    }
-                    if (NotifyMethodViewRoles.Checked == true)
-                    {
-                        m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles + ";View";
-                    }
-                }
-                else
-                {
-                    string list = ";";
-                    foreach (ListItem li in NotifyRoles.Assigned)
-                    {
-                        list = list + li.Value + ";";
-                    }
-                    m_settings.CommentNotifyRoles = list;
-                }
-
-                m_settings.AllowDiscussions = AllowPageComments.Checked;
-                m_settings.AllowRatings = AllowPageRatings.Checked;
-                m_settings.DefaultDiscussionMode = DefaultCommentsMode.Checked;
-                m_settings.DefaultRatingMode = DefaultRatingMode.Checked;
-                m_settings.CommentNotifyUsers = NotifyMethodUserComments.Checked;
-
-                if (m_settings.ModuleId == -1)
-                {
-                    m_settings.ModuleId = ModuleId;
-                    settingsBo.Add(m_settings);
-                }
-                else
-                {
-                    settingsBo.Update(m_settings);
-                }
-                ActivateItems(currentUnitOfWork);
             }
         }
 
@@ -426,23 +371,24 @@ namespace DotNetNuke.Wiki.Views
             }
 
             // populate view roles
-            if (m_settings.ContentEditorRoles.Equals(STR_UseDNNSettings))
+            if (this.mSettingsModel.ContentEditorRoles.Equals(StrUseDNNSettings))
             {
-                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(new string[] { STR_UseDNNSettings }, StringSplitOptions.RemoveEmptyEntries);
+                arrAuthViewRoles = this.mSettingsModel.ContentEditorRoles.Split(new string[] { StrUseDNNSettings }, StringSplitOptions.RemoveEmptyEntries);
             }
             else
             {
-                arrAuthViewRoles = m_settings.ContentEditorRoles.Split(
+                arrAuthViewRoles = this.mSettingsModel.ContentEditorRoles.Split(
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             // populate the notify roles
-            if (!string.IsNullOrWhiteSpace(m_settings.CommentNotifyRoles))
-                if (m_settings.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
+            if (!string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles))
+            {
+                if (this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;"))
                 {
-                    m_settings.CommentNotifyRoles = m_settings.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
-                    arrAuthNotifyRoles = m_settings.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    this.mSettingsModel.CommentNotifyRoles = this.mSettingsModel.CommentNotifyRoles.Replace("UseDNNSettings;", string.Empty);
+                    arrAuthNotifyRoles = this.mSettingsModel.CommentNotifyRoles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string curRole in arrAuthNotifyRoles)
                     {
@@ -458,10 +404,12 @@ namespace DotNetNuke.Wiki.Views
                 }
                 else
                 {
-                    arrAuthNotifyRoles = m_settings.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
+                    arrAuthNotifyRoles = this.mSettingsModel.CommentNotifyRoles.Split(new char[] { '|' })[0].Split(new char[] { ';' });
                 }
+            }
 
             if (arrAuthViewRoles != null)
+            {
                 foreach (string strRole in arrAuthViewRoles)
                 {
                     if (!string.IsNullOrEmpty(strRole))
@@ -477,6 +425,7 @@ namespace DotNetNuke.Wiki.Views
                         }
                     }
                 }
+            }
 
             if (arrAuthNotifyRoles != null)
             {
@@ -507,23 +456,91 @@ namespace DotNetNuke.Wiki.Views
         }
 
         /// <summary>
-        /// Sets the list control data.
+        /// Saves the settings.
         /// </summary>
-        private void zzBindRoleControls(string RoleType)
+        private void SaveSettings()
+        {
+            using (UnitOfWork currentUnitOfWork = new UnitOfWork())
+            {
+                var settingsBo = new SettingBO(currentUnitOfWork);
+                if (DNNSecurityChk.Checked == true)
+                {
+                    this.mSettingsModel.ContentEditorRoles = StrUseDNNSettings;
+                }
+                else
+                {
+                    string list = ";";
+                    foreach (ListItem li in ContentEditors.Assigned)
+                    {
+                        list = list + li.Value + ";";
+                    }
+
+                    this.mSettingsModel.ContentEditorRoles = list;
+                }
+
+                if (NotifyMethodCustomRoles.Checked == false)
+                {
+                    this.mSettingsModel.CommentNotifyRoles = StrUseDNNSettings;
+                    if (NotifyMethodEditRoles.Checked == true)
+                    {
+                        this.mSettingsModel.CommentNotifyRoles = this.mSettingsModel.CommentNotifyRoles + ";Edit";
+                    }
+
+                    if (this.NotifyMethodViewRoles.Checked == true)
+                    {
+                        this.mSettingsModel.CommentNotifyRoles = this.mSettingsModel.CommentNotifyRoles + ";View";
+                    }
+                }
+                else
+                {
+                    string list = ";";
+                    foreach (ListItem li in NotifyRoles.Assigned)
+                    {
+                        list = list + li.Value + ";";
+                    }
+
+                    this.mSettingsModel.CommentNotifyRoles = list;
+                }
+
+                this.mSettingsModel.AllowDiscussions = AllowPageComments.Checked;
+                this.mSettingsModel.AllowRatings = AllowPageRatings.Checked;
+                this.mSettingsModel.DefaultDiscussionMode = DefaultCommentsMode.Checked;
+                this.mSettingsModel.DefaultRatingMode = DefaultRatingMode.Checked;
+                this.mSettingsModel.CommentNotifyUsers = NotifyMethodUserComments.Checked;
+
+                if (this.mSettingsModel.ModuleId == -1)
+                {
+                    this.mSettingsModel.ModuleId = ModuleId;
+                    settingsBo.Add(this.mSettingsModel);
+                }
+                else
+                {
+                    settingsBo.Update(this.mSettingsModel);
+                }
+
+                this.ActivateItems(currentUnitOfWork);
+            }
+        }
+
+        /// <summary>
+        /// Binds role controls.
+        /// </summary>
+        /// <param name="roleType">Type of the role.</param>
+        private void zzBindRoleControls(string roleType)
         {
             // declare variables
-            string sRoles = "";
+            string roles = string.Empty;
             ListItem[] arrAuthRoles = null;
             ArrayList arrAssignedRoles = new ArrayList();
             ArrayList arrAvailableRoles = new ArrayList();
 
-            if (RoleType == "ContentEditors")
+            if (roleType == "ContentEditors")
             {
-                sRoles = m_settings.ContentEditorRoles;
+                roles = this.mSettingsModel.ContentEditorRoles;
             }
-            else if (RoleType == "CommentNotifyRoles")
+            else if (roleType == "CommentNotifyRoles")
             {
-                sRoles = m_settings.CommentNotifyRoles;
+                roles = this.mSettingsModel.CommentNotifyRoles;
             }
             else
             {
@@ -531,9 +548,9 @@ namespace DotNetNuke.Wiki.Views
                 // Need to raise an error
             }
 
-            if (sRoles != STR_UseDNNSettings)
+            if (roles != StrUseDNNSettings)
             {
-                arrAuthRoles = sRoles.Split(
+                arrAuthRoles = roles.Split(
                     new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
                     .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(p =>
                     new ListItem(p, p)).ToArray();
@@ -542,11 +559,11 @@ namespace DotNetNuke.Wiki.Views
                 arrAssignedRoles.AddRange(arrAuthRoles);
             }
 
-            if (RoleType == "CommentNotifyRoles")
+            if (roleType == "CommentNotifyRoles")
             {
                 foreach (ListItem curRole in arrAssignedRoles)
                 {
-                    if (curRole.Value == "")
+                    if (curRole.Value == string.Empty)
                     {
                         arrAvailableRoles.Remove(curRole);
                     }
@@ -580,12 +597,12 @@ namespace DotNetNuke.Wiki.Views
                 }
             }
 
-            if (RoleType == "ContentEditors")
+            if (roleType == "ContentEditors")
             {
                 ContentEditors.Assigned = arrAssignedRoles;
                 ContentEditors.Available = arrAvailableRoles;
             }
-            else if (RoleType == "CommentNotifyRoles")
+            else if (roleType == "CommentNotifyRoles")
             {
                 NotifyRoles.Assigned = arrAssignedRoles;
                 NotifyRoles.Available = arrAvailableRoles;
@@ -598,12 +615,13 @@ namespace DotNetNuke.Wiki.Views
         }
 
         /// <summary>
-        /// Builds an array of Available roles.
+        /// Get the available roles.
         /// </summary>
-        /// <returns>An array of Available Roles in the portal</returns>
+        /// <param name="arrAssignedRoles">An array of assigned roles.</param>
+        /// <returns>ArrayList of Available Roles</returns>
         private ArrayList zzAvailableRoles(ArrayList arrAssignedRoles)
         {
-            //Declare Variables
+            // Declare Variables
             ArrayList arrAvailableRoles = new ArrayList();
 
             // add an entry of All Users for the View roles

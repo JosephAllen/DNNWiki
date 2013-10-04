@@ -113,9 +113,13 @@
     <Compile Include="RatingBar.aspx.designer.cs">
       <DependentUpon>RatingBar.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\AddCommentsForm.cs" />
+    <Compile Include="Utilities\AddCommentsForm.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Utilities\CommentCount.cs" />
-    <Compile Include="Utilities\Comments.cs" />
+    <Compile Include="Utilities\Comments.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Utilities\DNNUtils.cs" />
     <Compile Include="Utilities\WikiMarkup.cs" />
     <Compile Include="Utilities\WikiModuleBase.cs">

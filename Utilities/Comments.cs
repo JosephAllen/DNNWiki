@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="Comments.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -34,25 +37,36 @@ using System.Web.UI.WebControls;
 
 namespace DotNetNuke.Wiki.Utilities
 {
+    /// <summary>
+    /// The Comments Class
+    /// </summary>
     [DefaultProperty("ID"), ToolboxData("<{0}:Comments runat=server></{0}:Comments>")]
     public class Comments : System.Web.UI.WebControls.Table
     {
-        private string sharedResources = string.Empty;
+        #region Variables
+
+        private int mBreakCountValue = 1;
+        private bool mCacheItemsValue;
+        private CommentBO mCommentBOObject;
+
+        //// Private _dateFormat As String = "dd/MM/yyyy HH:mm"
+        //// TODO: create a module setting for the date format
+        private string mDateFormatValue = "dd/MM/yyyy HH:mm";
+
+        private bool mHideEmailAddressValue;
+        private string mHideEmailUrlValue = "http://localhost/getemail.aspx?commentid={0}";
+        private string mSharedResourcesValue = string.Empty;
+        private int mParentIdValue;
+        private UnitOfWork mUnitOfWork;
+
+        #endregion Variables
+
+        #region Properties
 
         /// <summary>
-        /// Gets an instance of the unit of work object
+        /// Admin Property
         /// </summary>
-        internal UnitOfWork Uof
-        {
-            get
-            {
-                if (this.m_Uof == null)
-                {
-                    m_Uof = new UnitOfWork();
-                }
-                return m_Uof;
-            }
-        }
+        public bool IsAdmin = false;
 
         /// <summary>
         /// Gets an instance of the comment business object
@@ -61,51 +75,189 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (m_CommentBo == null)
+                if (this.mCommentBOObject == null)
                 {
-                    m_CommentBo = new CommentBO(Uof);
+                    this.mCommentBOObject = new CommentBO(this.UoW);
                 }
-                return m_CommentBo;
+
+                return this.mCommentBOObject;
             }
         }
 
-        public bool IsAdmin = false;
+        /// <summary>
+        /// Gets the collection of rows in the <see cref="T:System.Web.UI.WebControls.Table" />
+        /// control.
+        /// </summary>
+        /// <returns>A <see cref="T:System.Web.UI.WebControls.TableRowCollection" /> that contains
+        /// the <see cref="T:System.Web.UI.WebControls.TableRow" /> objects in the
+        /// <see cref="T:System.Web.UI.WebControls.Table" /> control.</returns>
+        [Browsable(false)]
+        public override TableRowCollection Rows
+        {
+            get { return base.Rows; }
+        }
 
+        /// <summary>
+        /// Gets or sets the URL of the background image to display behind the
+        /// <see cref="T:System.Web.UI.WebControls.Table" /> control.
+        /// </summary>
+        /// <returns>The URL of the background image for the
+        /// <see cref="T:System.Web.UI.WebControls.Table" /> control. The default value is see
+        /// cref="F:System.String.Empty" />.</returns>
+        [Browsable(false)]
+        public override string BackImageUrl
+        {
+            get { return base.BackImageUrl; }
+
+            set { }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="T:System.Web.UI.HtmlTextWriterTag" /> value that corresponds to this
+        /// Web server control. This property is used primarily by control developers.
+        /// </summary>
+        /// <returns>One of the <see cref="T:System.Web.UI.HtmlTextWriterTag" /> enumeration
+        /// values.</returns>
+        protected override HtmlTextWriterTag TagKey
+        {
+            get { return HtmlTextWriterTag.Table; }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent unique identifier.
+        /// </summary>
+        /// <value>The parent unique identifier.</value>
+        [Description("The id of the parent (page) the comments are for."), Category("Data")]
+        public int ParentId
+        {
+            get { return this.mParentIdValue; }
+            set { this.mParentIdValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [hide email address].
+        /// </summary>
+        /// <value><c>true</c> if [hide email address]; otherwise, /c>.</value>
+        [Description("Whether to suppress displaying the email address. This option should be used in conjunction with the HideEmailUrl property."), Category("Behaviour")]
+        public bool HideEmailAddress
+        {
+            get { return this.mHideEmailAddressValue; }
+            set { this.mHideEmailAddressValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the hide email URL.
+        /// </summary>
+        /// <value>The hide email URL.</value>
+        [Description("The url that the email address will point to. This enables you to create a page that will show the email address (after a turing test is performed), to stop the email address being 'spam harvested'."), Category("Behaviour")]
+        public string HideEmailUrl
+        {
+            get { return this.mHideEmailUrlValue; }
+            set { this.mHideEmailUrlValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the break count.
+        /// </summary>
+        /// <value>The break count.</value>
+        [Description("The number of breaks (<br />) tags between each table."), Category("Appearance")]
+        public int BreakCount
+        {
+            get { return this.mBreakCountValue; }
+            set { this.mBreakCountValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [cache items].
+        /// </summary>
+        /// <value><c>true</c> if [cache items]; otherwise, /c>.</value>
+        [Description("Caches the comments indefinitely using ASP.NET's caching mechanism. The cache is cleared when a new item is added, but NOT when a comment is deleted in the Manager application."), Category("Behaviour")]
+        public bool CacheItems
+        {
+            get { return this.mCacheItemsValue; }
+            set { this.mCacheItemsValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the date format.
+        /// </summary>
+        /// <value>The date format.</value>
+        [Description("The format that the date the comment was posted displays in. See the DateTimeFormatInfo for details of the tokens available."), Category("Behaviour")]
+        public string DateFormat
+        {
+            get { return this.mDateFormatValue; }
+            set { this.mDateFormatValue = value; }
+        }
+
+        /// <summary>
+        /// Gets an instance of the unit of work object
+        /// </summary>
+        internal UnitOfWork UoW
+        {
+            get
+            {
+                if (this.mUnitOfWork == null)
+                {
+                    this.mUnitOfWork = new UnitOfWork();
+                }
+
+                return this.mUnitOfWork;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Unload" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> object that contains event
+        /// data.</param>
         protected override void OnUnload(EventArgs e)
         {
-            if (this.m_Uof != null)
+            if (this.mUnitOfWork != null)
             {
-                this.m_Uof.Dispose();
-                this.m_Uof = null;
+                this.mUnitOfWork.Dispose();
+                this.mUnitOfWork = null;
             }
 
-            if (this.m_CommentBo != null)
+            if (this.mCommentBOObject != null)
             {
-                this.m_CommentBo = null;
+                this.mCommentBOObject = null;
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs" /> object that contains the event
+        /// data.</param>
         protected override void OnLoad(System.EventArgs e)
         {
-            sharedResources = this.TemplateSourceDirectory + "/" + "DesktopModules/Wiki/App_LocalResources/SharedResources.resx";
+            this.mSharedResourcesValue = this.TemplateSourceDirectory + "/" + "DesktopModules/Wiki/App_LocalResources/SharedResources.resx";
 
             base.OnLoad(e);
 
-            //'Check for delete flag on query string via CommentId (cid)
+            ////'Check for delete flag on query string via CommentId (cid)
 
-            if (Context.Request.QueryString["cid"] != null & IsAdmin)
+            if (Context.Request.QueryString["cid"] != null & this.IsAdmin)
             {
                 int commentId = Convert.ToInt32(Context.Request.QueryString["cid"]);
-                CommentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
-                this.Context.Cache.Remove("WikiComments" + _parentId.ToString());
+                this.CommentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
+                this.Context.Cache.Remove("WikiComments" + this.mParentIdValue.ToString());
 
-                this.Context.Response.Redirect(ReconstructQueryStringWithoutId());
+                this.Context.Response.Redirect(this.ReconstructQueryStringWithoutId());
             }
         }
 
+        /// <summary>
+        /// Reconstructs the query string without unique identifier.
+        /// </summary>
+        /// <returns>The URL Requested</returns>
         private string ReconstructQueryStringWithoutId()
         {
-            //TODO: make this use NavigateURL
+            ////TODO: make this use NavigateURL
             StringBuilder url = new StringBuilder(128);
 
             url.Append(Context.Request.Url.Scheme);
@@ -125,41 +277,47 @@ namespace DotNetNuke.Wiki.Utilities
                     url.Append("&");
                 }
             }
-            //strip last &
+            ////strip last &
             url.Remove(url.Length - 1, 1);
 
             return url.ToString();
         }
 
+        /// <summary>
+        /// Renders the rows in the table control to the specified writer.
+        /// </summary>
+        /// <param name="writer">An <see cref="T:System.Web.UI.HtmlTextWriter" /> that represents
+        /// the output stream to render HTML content on the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
-            if ((this.Context != null))
+            if (this.Context != null)
             {
                 DataTable dataTable = null;
-                if (this._cacheItems)
+                if (this.mCacheItemsValue)
                 {
-                    if ((this.Context.Cache["WikiComments" + this._parentId.ToString()] != null))
+                    if (this.Context.Cache["WikiComments" + this.mParentIdValue.ToString()] != null)
                     {
-                        dataTable = (DataTable)this.Context.Cache["WikiComments" + this._parentId.ToString()];
+                        dataTable = (DataTable)this.Context.Cache["WikiComments" + this.mParentIdValue.ToString()];
                     }
                     else
                     {
-                        dataTable = CommentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
-                        this.Context.Cache.Insert("WikiComments" + this._parentId.ToString(), dataTable);
+                        dataTable = this.CommentBo.GetCommentsByParent(this.mParentIdValue).ToDataTable<Comment>();
+                        this.Context.Cache.Insert("WikiComments" + this.mParentIdValue.ToString(), dataTable);
                     }
                 }
                 else
                 {
-                    dataTable = CommentBo.GetCommentsByParent(this._parentId).ToDataTable<Comment>();
+                    dataTable = this.CommentBo.GetCommentsByParent(this.mParentIdValue).ToDataTable<Comment>();
                 }
 
-                if ((dataTable != null))
+                if (dataTable != null)
                 {
                     if (dataTable.Rows.Count > 0)
                     {
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
-                            this.renderRow(writer,
+                            this.RenderRow(
+                                writer,
                                 Convert.ToInt32(dataRow["CommentId"]),
                                 Convert.ToString(dataRow["Name"]),
                                 Convert.ToString(dataRow["Email"]),
@@ -174,33 +332,42 @@ namespace DotNetNuke.Wiki.Utilities
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
                         writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-                        writer.Write(Localization.GetString("NoComments.Text", sharedResources));
-                        dynamic breakcount2 = _breakCount;
-                        _breakCount = 0;
+                        writer.Write(Localization.GetString("NoComments.Text", this.mSharedResourcesValue));
+                        dynamic breakcount2 = this.mBreakCountValue;
+                        this.mBreakCountValue = 0;
                         writer.RenderEndTag();
 
                         this.RenderEndTag(writer);
-                        _breakCount = breakcount2;
+                        this.mBreakCountValue = breakcount2;
                     }
                 }
                 else
                 {
-                    this.renderRow(writer, 1, Localization.GetString("ExampleName.Text", sharedResources), Localization.GetString("ExampleEmail.Text", sharedResources), Localization.GetString("ExampleComments.Text", sharedResources), DateTime.Now);
+                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", this.mSharedResourcesValue), Localization.GetString("ExampleEmail.Text", this.mSharedResourcesValue), Localization.GetString("ExampleComments.Text", this.mSharedResourcesValue), DateTime.Now);
                 }
             }
         }
 
-        private void renderRow(HtmlTextWriter writer, int commentId, string name, string email, string comments, DateTime postDate)
+        /// <summary>
+        /// Renders the row.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="commentId">The comment unique identifier.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="comments">The comments.</param>
+        /// <param name="postDate">The post date.</param>
+        private void RenderRow(HtmlTextWriter writer, int commentId, string name, string email, string comments, DateTime postDate)
         {
-            //Delete the comments
+            ////Delete the comments
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-            if (this._hideEmailAddress)
+            if (this.mHideEmailAddressValue)
             {
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
-                writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Format(this._hideEmailUrl, commentId));
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, string.Format(this.mHideEmailUrlValue, commentId));
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
                 writer.Write(name);
                 writer.RenderEndTag();
@@ -228,28 +395,29 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
-            if (isValidDateFormat(this._dateFormat))
+            if (this.IsValidDateFormat(this.mDateFormatValue))
             {
-                writer.Write(Localization.GetString("PostedAt", sharedResources) + " " + postDate.ToString(this._dateFormat));
+                writer.Write(Localization.GetString("PostedAt", this.mSharedResourcesValue) + " " + postDate.ToString(this.mDateFormatValue));
             }
             else
             {
-                writer.Write(Localization.GetString("PostedAt", sharedResources) + " " + postDate.ToString(CultureInfo.CurrentCulture));
+                writer.Write(Localization.GetString("PostedAt", this.mSharedResourcesValue) + " " + postDate.ToString(CultureInfo.CurrentCulture));
             }
+
             writer.RenderEndTag();
             writer.RenderEndTag();
 
-            if (IsAdmin)
+            if (this.IsAdmin)
             {
-                //add delete link here.
+                ////add delete link here.
                 writer.RenderBeginTag(HtmlTextWriterTag.Tr);
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
-                writer.AddAttribute(HtmlTextWriterAttribute.Href, BuildDeleteQueryString(commentId));
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, this.BuildDeleteQueryString(commentId));
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
 
-                //writer.Write("Delete Comment")
-                writer.Write(Localization.GetString("DeleteComment", sharedResources));
+                ////writer.Write("Delete Comment")
+                writer.Write(Localization.GetString("DeleteComment", this.mSharedResourcesValue));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();
@@ -261,20 +429,28 @@ namespace DotNetNuke.Wiki.Utilities
             writer.Write("<hr align=\"left\" width=\"90%\" size=\"1\" noshade=\"noshade\" />");
             writer.RenderEndTag();
             writer.RenderEndTag();
-            //Me.RenderEndTag(writer)
-            //Me.RenderBeginTag(writer)
         }
 
+        /// <summary>
+        /// Builds the delete query string.
+        /// </summary>
+        /// <param name="commentId">The comment unique identifier.</param>
+        /// <returns>The URL requested</returns>
         private string BuildDeleteQueryString(int commentId)
         {
-            //Build correct url
+            ////Build correct url
             string href = Context.Request.Url.ToString();
             href = href + "&cid=" + commentId.ToString();
 
             return href;
         }
 
-        private bool isValidDateFormat(string format)
+        /// <summary>
+        /// Determines whether [is valid date format] [the specified format].
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <returns>True of False based on the correct date format.</returns>
+        private bool IsValidDateFormat(string format)
         {
             try
             {
@@ -287,28 +463,40 @@ namespace DotNetNuke.Wiki.Utilities
             }
         }
 
+        /// <summary>
+        /// Renders the HTML opening tag of the <see cref="T:System.Web.UI.WebControls.Table" />
+        /// control to the specified writer.
+        /// </summary>
+        /// <param name="writer">An <see cref="T:System.Web.UI.HtmlTextWriter" /> that represents
+        /// the output stream to render HTML content on the client.</param>
         public override void RenderBeginTag(HtmlTextWriter writer)
         {
-            //writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, Me.CellSpacing.ToString)
-            //writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, Me.CellPadding.ToString)
-            //writer.AddAttribute(HtmlTextWriterAttribute.Width, Me.Width.ToString)
-            //writer.AddAttribute(HtmlTextWriterAttribute.Height, Me.Height.ToString)
+            ////writer.AddAttribute(HtmlTextWriterAttribute.Cellspacing, Me.CellSpacing.ToString)
+            ////writer.AddAttribute(HtmlTextWriterAttribute.Cellpadding, Me.CellPadding.ToString)
+            ////writer.AddAttribute(HtmlTextWriterAttribute.Width, Me.Width.ToString)
+            ////writer.AddAttribute(HtmlTextWriterAttribute.Height, Me.Height.ToString)
             writer.AddAttribute(HtmlTextWriterAttribute.Class, this.CssClass.ToString());
-            //writer.AddAttribute(HtmlTextWriterAttribute.Bgcolor, ColorTranslator.ToHtml(Me.BackColor))
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, Me.BorderWidth.ToString)
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.BorderStyle, Me.BorderStyle.ToString)
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, Me.BorderWidth.ToString)
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.BorderColor, ColorTranslator.ToHtml(Me.BorderColor))
+            ////writer.AddAttribute(HtmlTextWriterAttribute.Bgcolor, ColorTranslator.ToHtml(Me.BackColor))
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, Me.BorderWidth.ToString)
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.BorderStyle, Me.BorderStyle.ToString)
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.BorderWidth, Me.BorderWidth.ToString)
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.BorderColor, ColorTranslator.ToHtml(Me.BorderColor))
             writer.RenderBeginTag(this.TagName);
         }
 
+        /// <summary>
+        /// Renders the HTML closing tag of the control into the specified writer. This method is
+        /// used primarily by control developers.
+        /// </summary>
+        /// <param name="writer">A <see cref="T:System.Web.UI.HtmlTextWriter" /> that represents the
+        /// output stream to render HTML content on the client.</param>
         public override void RenderEndTag(HtmlTextWriter writer)
         {
             base.RenderEndTag(writer);
-            if ((this.Context != null))
+            if (this.Context != null)
             {
                 int i = 0;
-                while (i < this._breakCount)
+                while (i < this.mBreakCountValue)
                 {
                     writer.Write("<br />");
                     writer.WriteLine(string.Empty);
@@ -317,11 +505,16 @@ namespace DotNetNuke.Wiki.Utilities
             }
         }
 
+        /// <summary>
+        /// Writes the errors.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="message">The message.</param>
         public static void WriteErrors(HtmlTextWriter writer, string message)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalRed");
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.FontFamily, "Arial,helvetica")
-            //writer.AddStyleAttribute(HtmlTextWriterStyle.FontSize, "10pt")
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.FontFamily, "Arial,helvetica")
+            ////writer.AddStyleAttribute(HtmlTextWriterStyle.FontSize, "10pt")
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
             writer.Write(message);
             writer.RenderEndTag();
@@ -329,86 +522,6 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderEndTag();
         }
 
-        #region "Properties"
-
-        [Browsable(false)]
-        public override TableRowCollection Rows
-        {
-            get { return base.Rows; }
-        }
-
-        [Browsable(false)]
-        public override string BackImageUrl
-        {
-            get { return base.BackImageUrl; }
-
-            set { }
-        }
-
-        protected override HtmlTextWriterTag TagKey
-        {
-            get { return HtmlTextWriterTag.Table; }
-        }
-
-        private int _parentId;
-
-        [Description("The id of the parent (page) the comments are for."), Category("Data")]
-        public int ParentId
-        {
-            get { return this._parentId; }
-            set { this._parentId = value; }
-        }
-
-        private bool _hideEmailAddress;
-
-        [Description("Whether to suppress displaying the email address. This option should be used in conjunction with the HideEmailUrl property."), Category("Behaviour")]
-        public bool HideEmailAddress
-        {
-            get { return this._hideEmailAddress; }
-            set { this._hideEmailAddress = value; }
-        }
-
-        private string _hideEmailUrl = "http://localhost/getemail.aspx?commentid={0}";
-
-        [Description("The url that the email address will point to. This enables you to create a page that will show the email address (after a turing test is performed), to stop the email address being 'spam harvested'."), Category("Behaviour")]
-        public string HideEmailUrl
-        {
-            get { return this._hideEmailUrl; }
-            set { this._hideEmailUrl = value; }
-        }
-
-        private int _breakCount = 1;
-
-        [Description("The number of breaks (<br />) tags between each table."), Category("Appearance")]
-        public int BreakCount
-        {
-            get { return this._breakCount; }
-            set { this._breakCount = value; }
-        }
-
-        private bool _cacheItems;
-
-        [Description("Caches the comments indefinitely using ASP.NET's caching mechanism. The cache is cleared when a new item is added, but NOT when a comment is deleted in the Manager application."), Category("Behaviour")]
-        public bool CacheItems
-        {
-            get { return this._cacheItems; }
-            set { this._cacheItems = value; }
-        }
-
-        //Private _dateFormat As String = "dd/MM/yyyy HH:mm"
-        //TODO: create a module setting for the date format
-        private string _dateFormat = "dd/MM/yyyy HH:mm";
-
-        private UnitOfWork m_Uof;
-        private CommentBO m_CommentBo;
-
-        [Description("The format that the date the comment was posted displays in. See the DateTimeFormatInfo for details of the tokens available."), Category("Behaviour")]
-        public string DateFormat
-        {
-            get { return this._dateFormat; }
-            set { this._dateFormat = value; }
-        }
-
-        #endregion "Properties"
+        #endregion Methods
     }
 }

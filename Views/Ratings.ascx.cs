@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -32,6 +32,9 @@ using System.Web.UI.WebControls;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Ratings class based on the Wiki Module Base class
+    /// </summary>
     partial class Ratings : WikiModuleBase
     {
         #region Ctor
@@ -49,8 +52,8 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        private WikiModuleBase m_Module;
-        private Topic m_Topic;
+        private WikiModuleBase mModule;
+        private Topic mTopic;
 
         #endregion Variables
 
@@ -70,7 +73,7 @@ namespace DotNetNuke.Wiki.Views
                 }
                 else
                 {
-                    if (Request.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] == null)
+                    if (Request.Cookies["WikiRating"]["ContentID-" + this.InnerTopic.TopicID.ToString()] == null)
                     {
                         return false;
                     }
@@ -80,13 +83,15 @@ namespace DotNetNuke.Wiki.Views
                     }
                 }
             }
+
             set
             {
                 if (Request.Cookies["WikiRating"] == null)
                 {
                     Response.Cookies.Add(new HttpCookie("WikiRating"));
                 }
-                Response.Cookies["WikiRating"]["ContentID-" + InnerTopic.TopicID.ToString()] = "true";
+
+                Response.Cookies["WikiRating"]["ContentID-" + this.InnerTopic.TopicID.ToString()] = "true";
                 Response.Cookies["WikiRating"].Expires = DateTime.Now.AddYears(1);
             }
         }
@@ -99,7 +104,7 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                if (m_Topic == null)
+                if (this.mTopic == null)
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
@@ -107,9 +112,11 @@ namespace DotNetNuke.Wiki.Views
                     {
                         uplevel = uplevel.Parent;
                     }
-                    m_Topic = ((WikiModuleBase)uplevel)._Topic;
+
+                    this.mTopic = ((WikiModuleBase)uplevel)._Topic;
                 }
-                return m_Topic;
+
+                return this.mTopic;
             }
         }
 
@@ -121,7 +128,7 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                if (m_Module == null)
+                if (this.mModule == null)
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
@@ -129,10 +136,12 @@ namespace DotNetNuke.Wiki.Views
                     {
                         uplevel = uplevel.Parent;
                     }
-                    m_Module = (WikiModuleBase)uplevel;
-                    m_Module.ModuleConfiguration = this.ModuleConfiguration;
+
+                    this.mModule = (WikiModuleBase)uplevel;
+                    this.mModule.ModuleConfiguration = this.ModuleConfiguration;
                 }
-                return m_Module;
+
+                return this.mModule;
             }
         }
 
@@ -148,23 +157,23 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
-            LoadLocalization();
+            this.LoadLocalization();
 
             if (this.Visible)
             {
-                if (HasVoted)
+                if (this.HasVoted)
                 {
-                    DisplayHasVoted();
+                    this.DisplayHasVoted();
                 }
                 else
                 {
-                    DisplayCanVote();
+                    this.DisplayCanVote();
                 }
             }
         }
 
         /// <summary>
-        /// Handles the Click event of the btnSubmit control.
+        /// Handles the Click event of the Submit control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
@@ -175,35 +184,37 @@ namespace DotNetNuke.Wiki.Views
             save = false;
             if (rating1.Checked)
             {
-                InnerTopic.RatingOneCount = InnerTopic.RatingOneCount + 1;
+                this.InnerTopic.RatingOneCount = this.InnerTopic.RatingOneCount + 1;
                 save = true;
             }
             else if (rating2.Checked)
             {
-                InnerTopic.RatingTwoCount = InnerTopic.RatingTwoCount + 1;
+                this.InnerTopic.RatingTwoCount = this.InnerTopic.RatingTwoCount + 1;
                 save = true;
             }
             else if (rating3.Checked)
             {
-                InnerTopic.RatingThreeCount = InnerTopic.RatingThreeCount + 1;
+                this.InnerTopic.RatingThreeCount = this.InnerTopic.RatingThreeCount + 1;
                 save = true;
             }
             else if (rating4.Checked)
             {
-                InnerTopic.RatingFourCount = InnerTopic.RatingFourCount + 1;
+                this.InnerTopic.RatingFourCount = this.InnerTopic.RatingFourCount + 1;
                 save = true;
             }
             else if (rating5.Checked)
             {
-                InnerTopic.RatingFiveCount = InnerTopic.RatingFiveCount + 1;
+                this.InnerTopic.RatingFiveCount = this.InnerTopic.RatingFiveCount + 1;
                 save = true;
             }
+
             if (save)
             {
-                TopicBo.Update(InnerTopic);
+                TopicBo.Update(this.InnerTopic);
             }
-            HasVoted = true;
-            DisplayHasVoted();
+
+            this.HasVoted = true;
+            this.DisplayHasVoted();
         }
 
         /// <summary>
@@ -216,11 +227,13 @@ namespace DotNetNuke.Wiki.Views
         {
             if (this.Visible)
             {
-                if (InnerTopic.FivePointRatingsRecorded > 0)
+                if (this.InnerTopic.FivePointRatingsRecorded > 0)
                 {
-                    lblAverageRating.Text = InnerTopic.FivePointAverage.ToString("#.#");
-                    lblRatingCount.Text = string.Format(Localization.GetString("RatingsNumberOf", RouterResourceFile),
-                        InnerTopic.FivePointRatingsRecorded.ToString());
+                    lblAverageRating.Text = this.InnerTopic.FivePointAverage.ToString("#.#");
+                    lblRatingCount.Text = string.Format(
+                        Localization.GetString(
+                        "RatingsNumberOf", RouterResourceFile),
+                        this.InnerTopic.FivePointRatingsRecorded.ToString());
 
                     int i = 0;
                     i = 0;
@@ -231,29 +244,30 @@ namespace DotNetNuke.Wiki.Views
                         bcImg.Width = Unit.Pixel(10);
 
                         int currentCount = 0;
-                        switch ((i))
+                        switch (i)
                         {
                             case 0:
-                                currentCount = InnerTopic.RatingOneCount;
+                                currentCount = this.InnerTopic.RatingOneCount;
                                 break;
 
                             case 1:
-                                currentCount = InnerTopic.RatingTwoCount;
+                                currentCount = this.InnerTopic.RatingTwoCount;
                                 break;
 
                             case 2:
-                                currentCount = InnerTopic.RatingThreeCount;
+                                currentCount = this.InnerTopic.RatingThreeCount;
                                 break;
 
                             case 3:
-                                currentCount = InnerTopic.RatingFourCount;
+                                currentCount = this.InnerTopic.RatingFourCount;
                                 break;
 
                             case 4:
-                                currentCount = InnerTopic.RatingFiveCount;
+                                currentCount = this.InnerTopic.RatingFiveCount;
                                 break;
                         }
-                        bcImg.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / (Convert.ToDouble(InnerTopic.FivePointRatingsRecorded)))));
+
+                        bcImg.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / Convert.ToDouble(this.InnerTopic.FivePointRatingsRecorded))));
                         bcImg.AlternateText = currentCount.ToString();
                         RatingsGraphTable.Rows[0].Cells[i].Controls.Add(bcImg);
                     }

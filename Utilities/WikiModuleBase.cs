@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="WikiModuleBase.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -34,34 +37,40 @@ using System.Web.UI.HtmlControls;
 
 namespace DotNetNuke.Wiki.Utilities
 {
+    /// <summary>
+    /// The Wiki Module Base Class
+    /// </summary>
     public class WikiModuleBase : PortalModuleBase
     {
         #region Variables
 
         public const string WikiHomeName = "WikiHomePage";
 
-        private string userName;
-        private string firstName;
-        private string lastName;
-        private bool isAdmin = false;
-        private string pageTopic;
-        private int topicId;
-        private Topic topic;
-        private string homeURL;
-        private Setting wikiSettings;
-        private bool canEdit = false;
+        private const string CSSWikiModuleCssId = "WikiModuleCss";
+        private const string CSSWikiModuleCssPath = "/Resources/Css/module.css";
 
-        private UnitOfWork _uof;
-        private TopicBO topicBo;
-        private TopicHistoryBO topicHistoryBo;
+        private string mUserNameValue;
+        private string mFirstNameValue;
+        private string mLastNameValue;
+        private bool mIsAdminValue = false;
+        private string mPageTopicValue;
+        private int mTopicIdValue;
+        private Topic mTopicObject;
+        private string mHomeUrlValue;
+        private Setting mWikiSettingsObject;
+        private bool mCanEditValue = false;
 
-        private const string CSS_WikiModuleCssId = "WikiModuleCss";
-        private const string CSS_WikiModuleCssPath = "/Resources/Css/module.css";
+        private UnitOfWork mUnitOfWorkObject;
+        private TopicBO mTopicBoObject;
+        private TopicHistoryBO mTopicHistoryBoObject;
 
         #endregion Variables
 
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WikiModuleBase"/> class.
+        /// </summary>
         public WikiModuleBase()
         {
             Load += Page_Load;
@@ -73,88 +82,126 @@ namespace DotNetNuke.Wiki.Utilities
         #region Properties
 
         /// <summary>
-        /// The path for the module
+        /// Gets the DNN wiki module root path.
         /// </summary>
+        /// <value>The DNN wiki module root path.</value>
         public string DNNWikiModuleRootPath
         {
             get
             {
                 if (this.TemplateSourceDirectory.EndsWith(@"/Views"))
+                {
                     return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views"));
+                }
                 else if (this.TemplateSourceDirectory.IndexOf(@"/Views/") > 0)
+                {
                     return this.TemplateSourceDirectory.Substring(0, this.TemplateSourceDirectory.IndexOf(@"/Views/"));
+                }
+
                 return this.TemplateSourceDirectory;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the wiki settings.
+        /// </summary>
+        /// <value>The wiki settings.</value>
         public Setting WikiSettings
         {
-            get { return wikiSettings; }
-            set { wikiSettings = value; }
+            get { return this.mWikiSettingsObject; }
+            set { this.mWikiSettingsObject = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the page topic.
+        /// </summary>
+        /// <value>The page topic.</value>
         public string PageTopic
         {
-            get { return pageTopic; }
-            set { pageTopic = value; }
+            get { return this.mPageTopicValue; }
+            set { this.mPageTopicValue = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the last name.
+        /// </summary>
+        /// <value>The last name.</value>
         public string LastName
         {
-            get { return lastName; }
-            set
-            {
-                this.lastName = value;
-            }
+            get { return this.mLastNameValue; }
+            set { this.mLastNameValue = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the first name.
+        /// </summary>
+        /// <value>The first name.</value>
         public string FirstName
         {
-            get { return firstName; }
-            set
-            {
-                this.firstName = value;
-            }
+            get { return this.mFirstNameValue; }
+            set { this.mFirstNameValue = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>The name of the user.</value>
         public string UserName
         {
-            get { return userName; }
-            set
-            {
-                this.userName = value;
-            }
+            get { return this.mUserNameValue; }
+            set { this.mUserNameValue = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [is admin].
+        /// </summary>
+        /// <value><c>true</c> if [is admin]; otherwise, /c>.</value>
         public bool IsAdmin
         {
-            get { return isAdmin; }
-            set
-            {
-                this.isAdmin = value;
-            }
+            get { return this.mIsAdminValue; }
+            set { this.mIsAdminValue = value; }
         }
 
+        /// <summary>
+        /// Gets the home URL.
+        /// </summary>
+        /// <value>The home URL.</value>
         public string HomeURL
         {
-            get { return homeURL; }
+            get { return this.mHomeUrlValue; }
         }
 
+        /// <summary>
+        /// Gets the topic unique identifier.
+        /// </summary>
+        /// <value>The topic unique identifier.</value>
         public int TopicId
         {
-            get { return topicId; }
+            get { return this.mTopicIdValue; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether [can edit].
+        /// </summary>
+        /// <value><c>true</c> if [can edit]; otherwise, /c>.</value>
         public bool CanEdit
         {
-            get { return canEdit; }
+            get { return this.mCanEditValue; }
         }
 
+        /// <summary>
+        /// Gets the _ topic.
+        /// </summary>
+        /// <value>The _ topic.</value>
         public Topic _Topic
         {
-            get { return topic; }
+            get { return this.mTopicObject; }
         }
 
+        /// <summary>
+        /// Gets the router resource file.
+        /// </summary>
+        /// <value>The router resource file.</value>
         public string RouterResourceFile
         {
             get { return DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "Router.ascx.resx"); }
@@ -167,11 +214,12 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (topicHistoryBo == null)
+                if (this.mTopicHistoryBoObject == null)
                 {
-                    topicHistoryBo = new TopicHistoryBO(Uof);
+                    this.mTopicHistoryBoObject = new TopicHistoryBO(this.UoW);
                 }
-                return topicHistoryBo;
+
+                return this.mTopicHistoryBoObject;
             }
         }
 
@@ -182,26 +230,28 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (topicBo == null)
+                if (this.mTopicBoObject == null)
                 {
-                    topicBo = new TopicBO(Uof);
+                    this.mTopicBoObject = new TopicBO(this.UoW);
                 }
-                return topicBo;
+
+                return this.mTopicBoObject;
             }
         }
 
         /// <summary>
         /// Gets an instance of the unit of work object
         /// </summary>
-        internal UnitOfWork Uof
+        internal UnitOfWork UoW
         {
             get
             {
-                if (this._uof == null)
+                if (this.mUnitOfWorkObject == null)
                 {
-                    _uof = new UnitOfWork();
+                    this.mUnitOfWorkObject = new UnitOfWork();
                 }
-                return _uof;
+
+                return this.mUnitOfWorkObject;
             }
         }
 
@@ -217,20 +267,20 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Page_Unload(object sender, EventArgs e)
         {
-            if (this._uof != null)
+            if (this.mUnitOfWorkObject != null)
             {
-                this._uof.Dispose();
-                this._uof = null;
+                this.mUnitOfWorkObject.Dispose();
+                this.mUnitOfWorkObject = null;
             }
 
-            if (this.topicBo != null)
+            if (this.mTopicBoObject != null)
             {
-                this.topicBo = null;
+                this.mTopicBoObject = null;
             }
 
-            if (this.topicHistoryBo != null)
+            if (this.mTopicHistoryBoObject != null)
             {
-                this.topicHistoryBo = null;
+                this.mTopicHistoryBoObject = null;
             }
         }
 
@@ -244,74 +294,77 @@ namespace DotNetNuke.Wiki.Utilities
         {
             try
             {
-                //Include Css files
-                AddStylePageHeader(CSS_WikiModuleCssId, CSS_WikiModuleCssPath);
+                // Include Css files
+                this.AddStylePageHeader(CSSWikiModuleCssId, CSSWikiModuleCssPath);
 
-                //congfigure the URL to the home page (the wiki without any parameters)
-                homeURL = DotNetNuke.Common.Globals.NavigateURL();
+                // congfigure the URL to the home page (the wiki without any parameters)
+                this.mHomeUrlValue = DotNetNuke.Common.Globals.NavigateURL();
 
-                //Get the pageTopic
+                // Get the pageTopic
                 if (this.Request.QueryString["topic"] == null)
                 {
                     if (this.Request.QueryString["add"] == null & this.Request.QueryString["loc"] == null)
                     {
-                        pageTopic = WikiHomeName;
+                        this.mPageTopicValue = WikiHomeName;
                     }
                     else
                     {
-                        pageTopic = string.Empty;
+                        this.mPageTopicValue = string.Empty;
                     }
                 }
                 else
                 {
-                    pageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
+                    this.mPageTopicValue = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
                 }
 
-                //Sets the wikiSettings
-                SetWikiSettings();
+                // Sets the wikiSettings
+                this.SetWikiSettings();
 
-                //Get the edit rights
-                if (wikiSettings.ContentEditorRoles.Equals("UseDNNSettings"))
+                // Get the edit rights
+                if (this.mWikiSettingsObject.ContentEditorRoles.Equals("UseDNNSettings"))
                 {
-                    canEdit = this.IsEditable;
+                    this.mCanEditValue = this.IsEditable;
                 }
                 else
                 {
-                    if (Request.IsAuthenticated) //User is logged in
+                    // User is logged in
+                    if (Request.IsAuthenticated)
                     {
                         if (this.UserInfo.IsSuperUser)
                         {
-                            canEdit = true;
-                            isAdmin = true;
+                            this.mCanEditValue = true;
+                            this.mIsAdminValue = true;
                         }
-                        else if (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
+                        else if (this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
                         {
-                            canEdit = true;
+                            this.mCanEditValue = true;
                         }
                         else
                         {
-                            string[] editorRoles = wikiSettings.ContentEditorRoles.Split(new char[] { '|' },
-                                StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' },
-                                StringSplitOptions.RemoveEmptyEntries);
+                            string[] editorRoles = this.mWikiSettingsObject.ContentEditorRoles.Split(
+                                new char[] { '|' },
+                                StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                             foreach (string role in editorRoles)
                             {
                                 if (UserInfo.IsInRole(role))
                                 {
-                                    canEdit = true;
+                                    this.mCanEditValue = true;
                                     break; // TODO: might not be correct. Was : Exit For
                                 }
                             }
                         }
                     }
-                    else //User is NOT logged in
+                    else
                     {
-                        if ((wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (wikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
+                        // User is NOT logged in
+                        if ((this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
                         {
-                            canEdit = true;
+                            this.mCanEditValue = true;
                         }
                     }
                 }
-                LoadTopic();
+
+                this.LoadTopic();
             }
             catch (Exception exc)
             {
@@ -324,173 +377,181 @@ namespace DotNetNuke.Wiki.Utilities
         #region Aux Functions
 
         /// <summary>
-        /// Sets the wiki settings entity
+        /// Gets the index.
         /// </summary>
-        private void SetWikiSettings()
+        /// <returns>Index of the Module</returns>
+        public IEnumerable<Topic> GetIndex()
         {
-            //if (wikiSettings == null)
-            //{
-            SettingBO WikiController = new SettingBO(Uof);
-            wikiSettings = WikiController.GetByModuleID(ModuleId);
-            if (wikiSettings == null)
-            {
-                wikiSettings = new Setting();
-                wikiSettings.ContentEditorRoles = "UseDNNSettings";
-            }
-            //}
+            return this.TopicBo.GetAllByModuleID(ModuleId);
         }
 
         /// <summary>
-        /// Adds a page header of type css
+        /// Loads the topic.
         /// </summary>
-        /// <param name="cssId">the id of the header tag</param>
-        /// <param name="cssPath">the css path to the source file</param>
-        private void AddStylePageHeader(string cssId, string cssPath)
-        {
-            HtmlGenericControl scriptInclude = (HtmlGenericControl)Page.Header.FindControl(cssId);
-            if (scriptInclude == null)
-            {
-                scriptInclude = new HtmlGenericControl("link");
-                scriptInclude.Attributes["rel"] = "stylesheet";
-                scriptInclude.Attributes["type"] = "text/css";
-                scriptInclude.Attributes["href"] = this.DNNWikiModuleRootPath + cssPath;
-                scriptInclude.ID = cssId;
-
-                Page.Header.Controls.Add(scriptInclude);
-            }
-        }
-
         protected void LoadTopic()
         {
-            topic = TopicBo.GetByNameForModule(ModuleId, pageTopic);
-            if (topic == null)
+            this.mTopicObject = this.TopicBo.GetByNameForModule(ModuleId, this.mPageTopicValue);
+            if (this.mTopicObject == null)
             {
-                topic = new Topic();
-                topic.TopicID = 0;
+                this.mTopicObject = new Topic();
+                this.mTopicObject.TopicID = 0;
             }
-            topic.TabID = TabId;
-            topic.PortalSettings = PortalSettings;
-            topicId = topic.TopicID;
+
+            this.mTopicObject.TabID = TabId;
+            this.mTopicObject.PortalSettings = PortalSettings;
+            this.mTopicIdValue = this.mTopicObject.TopicID;
         }
 
+        /// <summary>
+        /// Reads the topic.
+        /// </summary>
+        /// <returns>The Topic with WikiMarkup decoded to appear as standard HTML</returns>
         protected string ReadTopic()
         {
-            return HttpUtility.HtmlEncode(topic.Cache) ?? string.Empty;
+            return HttpUtility.HtmlEncode(this.mTopicObject.Cache) ?? string.Empty;
         }
 
+        /// <summary>
+        /// Reads the topic for edit.
+        /// </summary>
+        /// <returns>Topic Content with WikiMarkup included</returns>
         protected string ReadTopicForEdit()
         {
-            return topic.Content;
+            return this.mTopicObject.Content;
         }
 
-        protected void SaveTopic(string Content, bool AllowDiscuss, bool AllowRating, string Title, string Description, string Keywords)
+        /// <summary>
+        /// Saves the topic.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <param name="allowDiscuss">if set to <c>true</c> [allow discuss].</param>
+        /// <param name="allowRating">if set to <c>true</c> [allow rating].</param>
+        /// <param name="title">The title.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="keywords">The keywords.</param>
+        protected void SaveTopic(string content, bool allowDiscuss, bool allowRating, string title, string description, string keywords)
         {
             TopicHistory topicHistory = new TopicHistory();
             topicHistory.TabID = TabId;
             topicHistory.PortalSettings = PortalSettings;
-            if (topic.TopicID != 0)
+            if (this.mTopicObject.TopicID != 0)
             {
-                if ((!Content.Equals(topic.Content) | !Title.Equals(topic.Title) | !Description.Equals(topic.Description) | !Keywords.Equals(topic.Keywords)))
+                if (!content.Equals(this.mTopicObject.Content) | !title.Equals(this.mTopicObject.Title) | !description.Equals(this.mTopicObject.Description) | !keywords.Equals(mTopicObject.Keywords))
                 {
-                    topicHistory.Name = topic.Name;
-                    topicHistory.TopicId = topic.TopicID;
-                    topicHistory.Content = topic.Content;
-                    topicHistory.UpdatedBy = topic.UpdatedBy;
+                    topicHistory.Name = this.mTopicObject.Name;
+                    topicHistory.TopicId = this.mTopicObject.TopicID;
+                    topicHistory.Content = this.mTopicObject.Content;
+                    topicHistory.UpdatedBy = this.mTopicObject.UpdatedBy;
                     topicHistory.UpdateDate = DateTime.Now;
-                    topicHistory.UpdatedByUserID = topic.UpdatedByUserID;
-                    topicHistory.Title = topic.Title;
-                    topicHistory.Description = topic.Description;
-                    topicHistory.Keywords = topic.Keywords;
+                    topicHistory.UpdatedByUserID = this.mTopicObject.UpdatedByUserID;
+                    topicHistory.Title = this.mTopicObject.Title;
+                    topicHistory.Description = this.mTopicObject.Description;
+                    topicHistory.Keywords = this.mTopicObject.Keywords;
 
-                    topic.UpdateDate = DateTime.Now;
-                    if ((UserInfo.UserID == -1))
+                    this.mTopicObject.UpdateDate = DateTime.Now;
+                    if (UserInfo.UserID == -1)
                     {
-                        topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                        this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
                     }
                     else
                     {
-                        topic.UpdatedBy = UserInfo.Username;
+                        this.mTopicObject.UpdatedBy = UserInfo.Username;
                     }
 
-                    topic.UpdatedByUserID = UserId;
-                    topic.Content = Content;
-                    topic.Title = Title;
-                    topic.Description = Description;
-                    topic.Keywords = Keywords;
+                    this.mTopicObject.UpdatedByUserID = UserId;
+                    this.mTopicObject.Content = content;
+                    this.mTopicObject.Title = title;
+                    this.mTopicObject.Description = description;
+                    this.mTopicObject.Keywords = keywords;
 
-                    TopicHistoryBo.Add(topicHistory);
+                    this.TopicHistoryBo.Add(topicHistory);
                 }
-                topic.Name = pageTopic;
-                topic.Title = Title;
-                topic.Description = Description;
-                topic.Keywords = Keywords;
-                topic.AllowDiscussions = AllowDiscuss;
-                topic.AllowRatings = AllowRating;
-                topic.Content = Content;
 
-                TopicBo.Update(topic);
+                this.mTopicObject.Name = this.mPageTopicValue;
+                this.mTopicObject.Title = title;
+                this.mTopicObject.Description = description;
+                this.mTopicObject.Keywords = keywords;
+                this.mTopicObject.AllowDiscussions = allowDiscuss;
+                this.mTopicObject.AllowRatings = allowRating;
+                this.mTopicObject.Content = content;
+
+                this.TopicBo.Update(this.mTopicObject);
             }
             else
             {
-                topic = new Topic();
-                topic.TabID = TabId;
-                topic.PortalSettings = PortalSettings;
-                topic.Content = Content;
-                topic.Name = pageTopic;
-                topic.ModuleId = ModuleId;
-                if ((UserInfo.UserID == -1))
+                this.mTopicObject = new Topic();
+                this.mTopicObject.TabID = TabId;
+                this.mTopicObject.PortalSettings = PortalSettings;
+                this.mTopicObject.Content = content;
+                this.mTopicObject.Name = mPageTopicValue;
+                this.mTopicObject.ModuleId = ModuleId;
+                if (UserInfo.UserID == -1)
                 {
-                    topic.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                    this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
                 }
                 else
                 {
-                    topic.UpdatedBy = UserInfo.Username;
+                    this.mTopicObject.UpdatedBy = UserInfo.Username;
                 }
 
-                topic.UpdatedByUserID = UserId;
-                topic.UpdateDate = DateTime.Now;
-                topic.AllowDiscussions = AllowDiscuss;
-                topic.AllowRatings = AllowRating;
-                topic.Title = Title;
-                topic.Description = Description;
-                topic.Keywords = Keywords;
+                this.mTopicObject.UpdatedByUserID = UserId;
+                this.mTopicObject.UpdateDate = DateTime.Now;
+                this.mTopicObject.AllowDiscussions = allowDiscuss;
+                this.mTopicObject.AllowRatings = allowRating;
+                this.mTopicObject.Title = title;
+                this.mTopicObject.Description = description;
+                this.mTopicObject.Keywords = keywords;
 
-                topic = TopicBo.Add(topic);
+                this.mTopicObject = TopicBo.Add(this.mTopicObject);
 
-                topicId = topic.TopicID;
+                this.mTopicIdValue = this.mTopicObject.TopicID;
             }
         }
 
-        public IEnumerable<Topic> GetIndex()
+        /// <summary>
+        /// Gets the recently changed.
+        /// </summary>
+        /// <param name="daysBack">The days back.</param>
+        /// <returns>Recently Changed Topics based on days back parameter</returns>
+        protected IEnumerable<Topic> GetRecentlyChanged(int daysBack)
         {
-            return TopicBo.GetAllByModuleID(ModuleId);
+            return this.TopicBo.GetAllByModuleChangedWhen(ModuleId, daysBack);
         }
 
-        protected IEnumerable<Topic> GetRecentlyChanged(int DaysBack)
-        {
-            return TopicBo.GetAllByModuleChangedWhen(ModuleId, DaysBack);
-        }
-
+        /// <summary>
+        /// Gets the history.
+        /// </summary>
+        /// <returns>History for the Topic</returns>
         protected IEnumerable<TopicHistory> GetHistory()
         {
-            return TopicHistoryBo.GetHistoryForTopic(topicId);
+            return this.TopicHistoryBo.GetHistoryForTopic(this.mTopicIdValue);
         }
 
-        protected IEnumerable<Topic> Search(string SearchString)
+        /// <summary>
+        /// Searches the specified search string.
+        /// </summary>
+        /// <param name="searchString">The search string.</param>
+        /// <returns>Search String for the Module</returns>
+        protected IEnumerable<Topic> Search(string searchString)
         {
-            return TopicBo.SearchWiki(SearchString, ModuleId);
+            return this.TopicBo.SearchWiki(searchString, ModuleId);
         }
 
+        /// <summary>
+        /// Creates the table.
+        /// </summary>
+        /// <param name="topicCollection">The topic collection.</param>
+        /// <returns>html for the topics</returns>
         protected string CreateTable(List<Topic> topicCollection)
         {
-            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder("<table><tr><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
-            TableTxt.Append("</th><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
-            TableTxt.Append("</th><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
-            TableTxt.Append("</th></tr>");
-            //Dim TopicTable As String
+            System.Text.StringBuilder tableHTML = new System.Text.StringBuilder("<table><tr><th>");
+            tableHTML.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            tableHTML.Append("</th><th>");
+            tableHTML.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            tableHTML.Append("</th><th>");
+            tableHTML.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            tableHTML.Append("</th></tr>");
+            //// Dim TopicTable As String
             Topic localTopic = new Topic();
             int i = 0;
             if (topicCollection.Count > 0)
@@ -511,99 +572,152 @@ namespace DotNetNuke.Wiki.Utilities
                         nameToUse = localTopic.Name.Replace(WikiHomeName, "Home");
                     }
 
-                    TableTxt.Append("<tr>");
-                    TableTxt.Append("<td><a class=\"CommandButton\" href=\"");
-                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(localTopic.Name)));
-                    TableTxt.Append("\">");
-                    TableTxt.Append(nameToUse);
-                    TableTxt.Append("</a></td>");
-                    TableTxt.Append("<td class=\"Normal\">");
-                    TableTxt.Append(localTopic.UpdatedByUsername);
-                    TableTxt.Append("</td>");
-                    TableTxt.Append("<td class=\"Normal\">");
-                    TableTxt.Append(localTopic.UpdateDate.ToString(CultureInfo.CurrentCulture));
-                    TableTxt.Append("</td>");
-                    TableTxt.Append("</tr>");
+                    tableHTML.Append("<tr>");
+                    tableHTML.Append("<td><a class=\"CommandButton\" href=\"");
+                    tableHTML.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(localTopic.Name)));
+                    tableHTML.Append("\">");
+                    tableHTML.Append(nameToUse);
+                    tableHTML.Append("</a></td>");
+                    tableHTML.Append("<td class=\"Normal\">");
+                    tableHTML.Append(localTopic.UpdatedByUsername);
+                    tableHTML.Append("</td>");
+                    tableHTML.Append("<td class=\"Normal\">");
+                    tableHTML.Append(localTopic.UpdateDate.ToString(CultureInfo.CurrentCulture));
+                    tableHTML.Append("</td>");
+                    tableHTML.Append("</tr>");
                 }
             }
             else
             {
-                TableTxt.Append("<tr><td colspan=3 class=\"Normal\">");
-                TableTxt.Append(Localization.GetString("BaseCreateTableNoResults", RouterResourceFile));
-                TableTxt.Append("</td></tr>");
+                tableHTML.Append("<tr><td colspan=3 class=\"Normal\">");
+                tableHTML.Append(Localization.GetString("BaseCreateTableNoResults", RouterResourceFile));
+                tableHTML.Append("</td></tr>");
             }
-            TableTxt.Append("</table>");
-            return TableTxt.ToString();
+
+            tableHTML.Append("</table>");
+            return tableHTML.ToString();
         }
 
-        protected string CreateRecentChangeTable(int DaysBack)
+        /// <summary>
+        /// Creates the recent change table.
+        /// </summary>
+        /// <param name="daysBack">The days back.</param>
+        /// <returns>html for the recent changes table</returns>
+        protected string CreateRecentChangeTable(int daysBack)
         {
-            return CreateTable(GetRecentlyChanged(DaysBack).ToList());
+            return this.CreateTable(GetRecentlyChanged(daysBack).ToList());
         }
 
-        protected string CreateSearchTable(string SearchString)
+        /// <summary>
+        /// Creates the search table.
+        /// </summary>
+        /// <param name="searchString">The search string.</param>
+        /// <returns>html for the search results table</returns>
+        protected string CreateSearchTable(string searchString)
         {
-            return CreateTable(Search(SearchString).ToList());
+            return this.CreateTable(this.Search(searchString).ToList());
         }
 
+        /// <summary>
+        /// Creates the history table.
+        /// </summary>
+        /// <returns>html for the history table</returns>
         protected string CreateHistoryTable()
         {
-            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder(1000);
-            TableTxt.Append("<table><tr><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
-            TableTxt.Append("</th><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableTitle", RouterResourceFile));
-            TableTxt.Append("</th><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
-            TableTxt.Append("</th><th>");
-            TableTxt.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
-            TableTxt.Append("</th></tr>");
-            var topicHistoryCollection = GetHistory().ToArray();
-            //Dim TopicTable As StringBuilder = New StringBuilder(500)
+            System.Text.StringBuilder tableText = new System.Text.StringBuilder(1000);
+            tableText.Append("<table><tr><th>");
+            tableText.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            tableText.Append("</th><th>");
+            tableText.Append(Localization.GetString("BaseCreateTableTitle", RouterResourceFile));
+            tableText.Append("</th><th>");
+            tableText.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            tableText.Append("</th><th>");
+            tableText.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            tableText.Append("</th></tr>");
+            var topicHistoryCollection = this.GetHistory().ToArray();
+            //// Dim TopicTable As StringBuilder = New StringBuilder(500)
             TopicHistory history = default(TopicHistory);
             int i = 0;
             if (topicHistoryCollection.Any())
             {
                 i = topicHistoryCollection.Count();
-                while ((i > 0))
+                while (i > 0)
                 {
                     history = (TopicHistory)topicHistoryCollection[i - 1];
                     history.TabID = TabId;
                     history.PortalSettings = PortalSettings;
-                    TableTxt.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
-                    TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(pageTopic), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
-                    TableTxt.Append("\">");
-                    TableTxt.Append(history.Name.Replace(WikiHomeName, "Home"));
+                    tableText.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
+                    tableText.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.mPageTopicValue), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
+                    tableText.Append("\">");
+                    tableText.Append(history.Name.Replace(WikiHomeName, "Home"));
 
-                    TableTxt.Append("</a></td>");
-                    TableTxt.Append("<td class=\"Normal\">");
+                    tableText.Append("</a></td>");
+                    tableText.Append("<td class=\"Normal\">");
                     if (!history.Title.ToString().Equals(string.Empty))
                     {
-                        TableTxt.Append(history.Title.Replace(WikiHomeName, "Home"));
+                        tableText.Append(history.Title.Replace(WikiHomeName, "Home"));
                     }
                     else
                     {
-                        TableTxt.Append(history.Name.Replace(WikiHomeName, "Home"));
+                        tableText.Append(history.Name.Replace(WikiHomeName, "Home"));
                     }
-                    TableTxt.Append("</td>");
-                    TableTxt.Append("<td class=\"Normal\">");
-                    TableTxt.Append(history.UpdatedByUsername);
-                    TableTxt.Append("</td>");
-                    TableTxt.Append("<td Class=\"Normal\">");
-                    TableTxt.Append(history.UpdateDate.ToString(CultureInfo.CurrentCulture));
-                    TableTxt.Append("</td>");
-                    TableTxt.Append("</tr>");
+
+                    tableText.Append("</td>");
+                    tableText.Append("<td class=\"Normal\">");
+                    tableText.Append(history.UpdatedByUsername);
+                    tableText.Append("</td>");
+                    tableText.Append("<td Class=\"Normal\">");
+                    tableText.Append(history.UpdateDate.ToString(CultureInfo.CurrentCulture));
+                    tableText.Append("</td>");
+                    tableText.Append("</tr>");
                     i = i - 1;
                 }
             }
             else
             {
-                TableTxt.Append("<tr><td colspan=\"3\" class=\"Normal\">");
-                TableTxt.Append(Localization.GetString("BaseCreateHistoryTableEmpty", RouterResourceFile));
-                TableTxt.Append("</td></tr>");
+                tableText.Append("<tr><td colspan=\"3\" class=\"Normal\">");
+                tableText.Append(Localization.GetString("BaseCreateHistoryTableEmpty", RouterResourceFile));
+                tableText.Append("</td></tr>");
             }
-            TableTxt.Append("</table>");
-            return TableTxt.ToString();
+
+            tableText.Append("</table>");
+            return tableText.ToString();
+        }
+
+        /// <summary>
+        /// Sets the wiki settings entity
+        /// </summary>
+        private void SetWikiSettings()
+        {
+            // if (wikiSettings == null) {
+            SettingBO wikiController = new SettingBO(this.UoW);
+            this.mWikiSettingsObject = wikiController.GetByModuleID(ModuleId);
+            if (this.mWikiSettingsObject == null)
+            {
+                this.mWikiSettingsObject = new Setting();
+                this.mWikiSettingsObject.ContentEditorRoles = "UseDNNSettings";
+            }
+            //// }
+        }
+
+        /// <summary>
+        /// Adds a page header of type CSS
+        /// </summary>
+        /// <param name="cssId">the id of the header tag</param>
+        /// <param name="cssPath">the Style Sheet path to the source file</param>
+        private void AddStylePageHeader(string cssId, string cssPath)
+        {
+            HtmlGenericControl scriptInclude = (HtmlGenericControl)Page.Header.FindControl(cssId);
+            if (scriptInclude == null)
+            {
+                scriptInclude = new HtmlGenericControl("link");
+                scriptInclude.Attributes["rel"] = "stylesheet";
+                scriptInclude.Attributes["type"] = "text/css";
+                scriptInclude.Attributes["href"] = this.DNNWikiModuleRootPath + cssPath;
+                scriptInclude.ID = cssId;
+
+                Page.Header.Controls.Add(scriptInclude);
+            }
         }
 
         #endregion Aux Functions

@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="CommentBO.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -28,20 +31,27 @@ using System.Data.SqlClient;
 
 namespace DotNetNuke.Wiki.BusinessObjects
 {
+    /// <summary>
+    /// Comment Business Object based on the _AbstractBusinessObject
+    /// </summary>
     public class CommentBO : _AbstractBusinessObject<Comment, int>
     {
         #region Variables
 
-        private UnitOfWork _uof;
+        private UnitOfWork currentUnitOfWork;
 
         #endregion Variables
 
         #region Ctor
 
-        public CommentBO(UnitOfWork uof)
-            : base(uof.Context)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentBO"/> class.
+        /// </summary>
+        /// <param name="uow">The UNit of Work.</param>
+        public CommentBO(UnitOfWork uow)
+            : base(uow.Context)
         {
-            this._uof = uof;
+            this.currentUnitOfWork = uow;
         }
 
         #endregion Ctor
@@ -53,8 +63,19 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// </summary>
         public enum CommentError
         {
+            /// <summary>
+            /// The error1
+            /// </summary>
             Error1 = 1,
+
+            /// <summary>
+            /// The error2
+            /// </summary>
             Error2 = 2,
+
+            /// <summary>
+            /// The error3
+            /// </summary>
             Error3 = 3
         }
 
@@ -68,9 +89,16 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="parentId">the parent id</param>
         internal void DeleteComments(int parentId)
         {
-            this.db.Execute(CommandType.Text, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
+            this.MDatabaseContext.Execute(CommandType.Text, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
         }
 
+        /// <summary>
+        /// Entity_s the evaluate SQL exception.
+        /// </summary>
+        /// <param name="exc">The exception intercepted.</param>
+        /// <param name="crudOperation">The crud operation.</param>
+        /// <exception cref="System.NotImplementedException">This is the exception
+        /// thrown</exception>
         internal override void Entity_EvaluateSqlException(
             SqlException exc,
             SharedEnum.CrudOperation crudOperation)
@@ -85,44 +113,75 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns collection of comments</returns>
         internal IEnumerable<Comment> GetCommentsByParent(int parentid)
         {
-            return this.db.ExecuteQuery<Comment>(CommandType.Text, "SELECT * FROM Wiki_Comments where ParentId=@0 order by Datetime desc", parentid);
+            return this.MDatabaseContext.ExecuteQuery<Comment>(CommandType.Text, "SELECT * FROM Wiki_Comments where ParentId=@0 order by Datetime desc", parentid);
         }
 
         /// <summary>
-        /// Gets the number of comments associated to the parentid passed has parameter
+        /// Gets the number of comments associated to the Parent ID passed
         /// </summary>
-        /// <param name="parentid">the parent id of the comments</param>
-        /// <returns>returns a integer value representing the count</returns>
+        /// <param name="parentId">The parent unique identifier.</param>
+        /// <returns>Returns a integer value representing the count</returns>
         internal int GetCommentCount(int parentId)
         {
-            return this.db.ExecuteScalar<int>(CommandType.Text, "SELECT Count(CommentId) FROM Wiki_Comments where ParentId=@0", parentId);
+            return this.MDatabaseContext.ExecuteScalar<int>(CommandType.Text, "SELECT Count(CommentId) FROM Wiki_Comments where ParentId=@0", parentId);
         }
 
+        /// <summary>
+        /// Gets the comment notify users.
+        /// </summary>
+        /// <param name="parentId">The parent unique identifier.</param>
+        /// <returns>Email Address</returns>
         internal IEnumerable<CommentEmails> GetCommentNotifyUsers(int parentId)
         {
-            return this.db.ExecuteQuery<CommentEmails>(CommandType.Text, "select DISTINCT(Email) from Wiki_Comments where ParentId=@0 AND EmailNotify = 1", parentId);
+            return this.MDatabaseContext.ExecuteQuery<CommentEmails>(CommandType.Text, "select DISTINCT(Email) from Wiki_Comments where ParentId=@0 AND EmailNotify = 1", parentId);
         }
 
         #endregion Methods
     }
 
+    /// <summary>
+    /// Comment Emails Class
+    /// </summary>
     public class CommentEmails
     {
+        #region "Variables"
+
+        private string mEmailValue;
+
+        #endregion "Variables"
+
+        #region "Properties"
+
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>The email.</value>
+        public string Email
+        {
+            get { return this.mEmailValue; }
+            set { this.mEmailValue = value; }
+        }
+
+        #endregion "Properties"
+
+        #region "Methods"
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentEmails"/> class.
+        /// </summary>
         public CommentEmails()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentEmails"/> class.
+        /// </summary>
+        /// <param name="email">The email.</param>
         public CommentEmails(string email)
         {
             this.Email = email;
         }
 
-        private string _email;
-
-        public string Email
-        {
-            get { return _email; }
-            set { _email = value; }
-        }
+        #endregion "Methods"
     }
 }

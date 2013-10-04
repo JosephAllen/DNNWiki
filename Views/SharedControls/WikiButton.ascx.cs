@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -28,6 +28,9 @@ using DotNetNuke.Wiki.Utilities;
 
 namespace DotNetNuke.Wiki.Views.SharedControls
 {
+    /// <summary>
+    /// Wiki Button Code
+    /// </summary>
     partial class WikiButton : WikiModuleBase
     {
         #region Ctor
@@ -58,7 +61,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             cmdAdd.Text = Localization.GetString("StartAdd", LocalResourceFile);
             txtViewHistory.Text = Localization.GetString("StartViewHistory", LocalResourceFile);
 
-            SetDisplay();
+            this.SetDisplay();
         }
 
         #endregion Events
@@ -81,7 +84,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             this.AddPipe.Visible = false;
             this.txtViewHistory.Visible = false;
 
-            if ((_Topic.TopicID >= 0 | (Request.QueryString["topic"] != null)))
+            if (_Topic.TopicID >= 0 | (Request.QueryString["topic"] != null))
             {
                 this.ViewPipe1.Visible = true;
                 this.ViewPipe2.Visible = true;
@@ -93,8 +96,8 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
                 this.AddPipe.Visible = this.CanEdit;
                 this.txtViewHistory.Visible = true;
-                txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(PageTopic));
-                lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
+                this.txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(PageTopic));
+                this.lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
             }
 
             cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "&loc=edit&add=true");

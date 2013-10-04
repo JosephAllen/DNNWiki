@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -29,6 +29,9 @@ using System.Web;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Start Class based on WikiModuleBase
+    /// </summary>
     partial class Start : WikiModuleBase
     {
         #region Ctor
@@ -45,111 +48,17 @@ namespace DotNetNuke.Wiki.Views
 
         #endregion Ctor
 
-        #region Variables
+        #region Properties
 
-        //protected System.Web.UI.WebControls.Button m_cmdHistory;
-        //protected PageRatings m_pageRating;
-        //protected Ratings m_ratings;
+        ////protected System.Web.UI.WebControls.Button m_cmdHistory;
+        ////protected PageRatings m_pageRating;
+        ////protected Ratings m_ratings;
 
         protected UI.UserControls.SectionHeadControl WikiTextDirections;
 
-        #endregion Variables
+        #endregion Properties
 
         #region Events
-
-        /// <summary>
-        /// Handles the Load event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
-        /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
-        {
-            if (UserId == -1)
-            {
-                UserName = "Anonymous";
-            }
-            else
-            {
-                UserName = this.UserInfo.Username;
-            }
-
-            this.AddCommentsForm1.EnableNotify = WikiSettings.CommentNotifyUsers == true;
-
-            if (Request.IsAuthenticated)
-            {
-                if (this.UserInfo.IsSuperUser | this.UserInfo.IsInRole(PortalSettings.AdministratorRoleName))
-                {
-                    IsAdmin = true;
-                }
-            }
-
-            LoadLocalization();
-            this.AddCommentPane.Visible = false;
-            this.Comments2.Visible = true;
-            this.AddCommentCommand.Visible = true;
-            //Me.DeleteCommentCommand.Visible = True
-
-            this.lblPageTopic.Text = this.PageTopic.Replace(WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
-
-            if (!string.IsNullOrWhiteSpace(_Topic.Title))
-            {
-                this.lblPageTopic.Text = _Topic.Title;
-            }
-
-            this.AddCommentsForm1.ParentId = _Topic.TopicID;
-            CommentCount1.ParentId = _Topic.TopicID;
-
-            Comments2.IsAdmin = this.IsAdmin;
-            Comments2.ParentId = _Topic.TopicID;
-
-            //CommentsSec.IsExpanded = False
-            DisplayTopic();
-        }
-
-        /// <summary>
-        /// Handles the Init event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        private void Page_Init(object sender, System.EventArgs e)
-        {
-            AddCommentsForm1.PostCanceled += AddCommentsForm1_PostCanceled;
-            AddCommentsForm1.PostSubmitted += AddCommentsForm1_PostSubmitted;
-        }
-
-        /// <summary>
-        /// Handles the PreRender event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        private void Page_PreRender(object sender, System.EventArgs e)
-        {
-            if (m_ratings.HasVoted)
-            {
-                RatingSec.IsExpanded = false;
-            }
-
-            this.CommentCount1.Visible = false;
-            //CommentsSec.IsExpanded = False
-
-            if (Request.IsAuthenticated)
-            {
-                this.AddCommentsForm1.NameText = UserInfo.DisplayName;
-                this.AddCommentsForm1.EnableName = false;
-                this.AddCommentsForm1.EmailText = UserInfo.Email;
-                this.AddCommentsForm1.EnableEmail = false;
-
-                //Dim lstEmails As List(Of String) = New Entities.CommentsController().GetNotificationEmails(Me.Topic)
-                //Me.AddCommentsForm1.CommentText = "Total: " & lstEmails.Count & vbCrLf
-                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & "-----------" & vbCrLf
-                //For Each s As String In lstEmails
-                //Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & s & vbCrLf
-                //Next
-            }
-        }
 
         /// <summary>
         /// Handles the Click event of the AddCommentCommand control.
@@ -187,6 +96,100 @@ namespace DotNetNuke.Wiki.Views
             this.AddCommentCommand.Visible = true;
         }
 
+        /// <summary>
+        /// Handles the Initialize event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        private void Page_Init(object sender, System.EventArgs e)
+        {
+            this.AddCommentsForm1.PostCanceled += this.AddCommentsForm1_PostCanceled;
+            this.AddCommentsForm1.PostSubmitted += this.AddCommentsForm1_PostSubmitted;
+        }
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
+        /// data.</param>
+        public new void Page_Load(System.Object sender, System.EventArgs e)
+        {
+            if (UserId == -1)
+            {
+                UserName = "Anonymous";
+            }
+            else
+            {
+                UserName = this.UserInfo.Username;
+            }
+
+            this.AddCommentsForm1.EnableNotify = WikiSettings.CommentNotifyUsers == true;
+
+            if (Request.IsAuthenticated)
+            {
+                if (this.UserInfo.IsSuperUser | this.UserInfo.IsInRole(PortalSettings.AdministratorRoleName))
+                {
+                    IsAdmin = true;
+                }
+            }
+
+            LoadLocalization();
+            this.AddCommentPane.Visible = false;
+            this.Comments2.Visible = true;
+            this.AddCommentCommand.Visible = true;
+            //// Me.DeleteCommentCommand.Visible = True
+
+            this.lblPageTopic.Text = this.PageTopic.Replace(WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
+
+            if (!string.IsNullOrWhiteSpace(_Topic.Title))
+            {
+                this.lblPageTopic.Text = _Topic.Title;
+            }
+
+            this.AddCommentsForm1.ParentId = _Topic.TopicID;
+            CommentCount1.ParentId = _Topic.TopicID;
+
+            Comments2.IsAdmin = this.IsAdmin;
+            Comments2.ParentId = _Topic.TopicID;
+
+            //// CommentsSec.IsExpanded = False
+            this.DisplayTopic();
+        }
+
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        private void Page_PreRender(object sender, System.EventArgs e)
+        {
+            if (m_ratings.HasVoted)
+            {
+                RatingSec.IsExpanded = false;
+            }
+
+            this.CommentCount1.Visible = false;
+            //// CommentsSec.IsExpanded = False
+
+            if (Request.IsAuthenticated)
+            {
+                this.AddCommentsForm1.NameText = UserInfo.DisplayName;
+                this.AddCommentsForm1.EnableName = false;
+                this.AddCommentsForm1.EmailText = UserInfo.Email;
+                this.AddCommentsForm1.EnableEmail = false;
+
+                ////Dim lstEmails As List(Of String) = New Entities.CommentsController().GetNotificationEmails(Me.Topic)
+                ////Me.AddCommentsForm1.CommentText = "Total: " & lstEmails.Count & vbCrLf
+                ////Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & "-----------" & vbCrLf
+                ////For Each s As String In lstEmails
+                ////Me.AddCommentsForm1.CommentText = Me.AddCommentsForm1.CommentText & s & vbCrLf
+                ////Next
+            }
+        }
+
         #endregion Events
 
         #region Methods
@@ -196,7 +199,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void EditPage()
         {
-            //Me.chkPageInEditMode.Checked = True
+            ////Me.chkPageInEditMode.Checked = True
             this.DisplayTopic();
         }
 
@@ -206,8 +209,8 @@ namespace DotNetNuke.Wiki.Views
         private void DisplayTopic()
         {
             this.lblPageContent.Visible = true;
-            string Content = ReadTopic();
-            this.lblPageContent.Text = HttpUtility.HtmlDecode(Content).ToString();
+            string topicContent = ReadTopic();
+            this.lblPageContent.Text = HttpUtility.HtmlDecode(topicContent).ToString();
             this.ratingTbl.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
             this.RatingSec.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
             this.m_pageRating.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
@@ -221,7 +224,8 @@ namespace DotNetNuke.Wiki.Views
             DotNetNuke.Framework.CDefault p = default(DotNetNuke.Framework.CDefault);
             p = (DotNetNuke.Framework.CDefault)this.Page;
 
-            //set the page title, check for the Topic.Title, Topic.Name, then use PageTopic parameter if all else fails
+            // Set the page title, check for the Topic.Title, Topic.Name, then use PageTopic
+            // parameter if all else fails.
             if (!string.IsNullOrWhiteSpace(_Topic.Title))
             {
                 p.Title = p.Title + " > " + _Topic.Title;
@@ -235,17 +239,20 @@ namespace DotNetNuke.Wiki.Views
                 p.Title = p.Title + " > " + this.PageTopic;
             }
 
-            if ((_Topic.Description != null) & !(string.IsNullOrWhiteSpace(_Topic.Description)))
+            if ((_Topic.Description != null) & !string.IsNullOrWhiteSpace(_Topic.Description))
             {
                 p.Description = _Topic.Description + " " + p.Description;
             }
 
-            if ((_Topic.Keywords != null) & !(string.IsNullOrWhiteSpace(_Topic.Keywords)))
+            if ((_Topic.Keywords != null) & !string.IsNullOrWhiteSpace(_Topic.Keywords))
             {
                 p.KeyWords = _Topic.Keywords + " " + p.KeyWords;
             }
         }
 
+        /// <summary>
+        /// Loads the localization.
+        /// </summary>
         private void LoadLocalization()
         {
             AddCommentCommand.Text = Localization.GetString("StartAddComment", this.RouterResourceFile);

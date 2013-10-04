@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 //--------------------------------------------------------------------------------------------------------
-// <copyright file="REcentChanges.ascx.cs" company="DNN Corp®">
+// <copyright file="RecentChanges.ascx.cs" company="DNN Corp®">
 //      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
 //      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -28,6 +28,9 @@ using DotNetNuke.Wiki.Utilities;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Recent changes class based on WikiModuleBase
+    /// </summary>
     partial class RecentChanges : WikiModuleBase
     {
         #region Ctor
@@ -45,18 +48,7 @@ namespace DotNetNuke.Wiki.Views
         #region Events
 
         /// <summary>
-        /// Handles the Click event of the cmdLastMonth control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        protected void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
-        {
-            HitTable.Text = CreateRecentChangeTable(31);
-        }
-
-        /// <summary>
-        /// Handles the Click event of the cmdLast7Days control.
+        /// Handles the Click event of the Last 7 Days control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
@@ -67,7 +59,7 @@ namespace DotNetNuke.Wiki.Views
         }
 
         /// <summary>
-        /// Handles the Click event of the cmdLast24Hrs control.
+        /// Handles the Click event of the Last 24 Hrs control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
@@ -78,6 +70,17 @@ namespace DotNetNuke.Wiki.Views
         }
 
         /// <summary>
+        /// Handles the Click event of the Last Month control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        protected void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
+        {
+            HitTable.Text = CreateRecentChangeTable(31);
+        }
+
+        /// <summary>
         /// Handles the Load event of the Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -85,8 +88,8 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
-            LoadLocalization();
-            if (!(this.IsPostBack))
+            this.LoadLocalization();
+            if (!this.IsPostBack)
             {
                 HitTable.Text = CreateRecentChangeTable(1);
             }

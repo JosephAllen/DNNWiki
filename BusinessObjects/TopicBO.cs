@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="TopicBO.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -30,20 +33,27 @@ using System.Linq;
 
 namespace DotNetNuke.Wiki.BusinessObjects
 {
+    /// <summary>
+    /// The Topic Business Object
+    /// </summary>
     public class TopicBO : _AbstractBusinessObject<Topic, int>
     {
         #region Variables
 
-        private UnitOfWork _uof;
+        private UnitOfWork mUnitOfWork;
 
         #endregion Variables
 
         #region Ctor
 
-        public TopicBO(UnitOfWork uof)
-            : base(uof.Context)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TopicBO"/> class.
+        /// </summary>
+        /// <param name="uOw">The Unit Of Work.</param>
+        public TopicBO(UnitOfWork uOw)
+            : base(uOw.Context)
         {
-            this._uof = uof;
+            this.mUnitOfWork = uOw;
         }
 
         #endregion Ctor
@@ -55,6 +65,9 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// </summary>
         public enum TopicError
         {
+            /// <summary>
+            /// The duplicate name
+            /// </summary>
             DUPLICATENAME = 1
         }
 
@@ -62,9 +75,15 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets all by module changed when.
+        /// </summary>
+        /// <param name="moduleId">The module unique identifier.</param>
+        /// <param name="daysBack">The days back.</param>
+        /// <returns>SQL Dataset</returns>
         internal IEnumerable<Topic> GetAllByModuleChangedWhen(int moduleId, int daysBack)
         {
-            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleChangedWhen", moduleId, daysBack);
+            return this.MDatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleChangedWhen", moduleId, daysBack);
         }
 
         /// <summary>
@@ -75,7 +94,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a Topic</returns>
         internal Topic GetByNameForModule(int moduleId, string name)
         {
-            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name).FirstOrDefault();
+            return this.MDatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name).FirstOrDefault();
         }
 
         /// <summary>
@@ -85,9 +104,15 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns collection of Topics</returns>
         internal IEnumerable<Topic> GetAllByModuleID(int moduleId)
         {
-            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleID", moduleId);
+            return this.MDatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleID", moduleId);
         }
 
+        /// <summary>
+        /// Entity_s the evaluate SQL exception.
+        /// </summary>
+        /// <param name="exc">The exception.</param>
+        /// <param name="crudOperation">The crud operation.</param>
+        /// <exception cref="System.NotImplementedException">SQL Exception</exception>
         internal override void Entity_EvaluateSqlException(
                     SqlException exc,
                     SharedEnum.CrudOperation crudOperation)
@@ -95,26 +120,40 @@ namespace DotNetNuke.Wiki.BusinessObjects
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Searches the wiki.
+        /// </summary>
+        /// <param name="searchString">The search string.</param>
+        /// <param name="moduleId">The module unique identifier.</param>
+        /// <returns>SQL SQL Dataset</returns>
         internal IEnumerable<Topic> SearchWiki(string searchString, int moduleId)
         {
-            return this.db.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicSearchWiki", searchString, moduleId);
+            return this.MDatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicSearchWiki", searchString, moduleId);
         }
 
+        /// <summary>
+        /// Repositories the delete.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         internal override void RepositoryDelete(ref Topic entity)
         {
-            this.db.Execute(CommandType.StoredProcedure, "Wiki_TopicDelete", entity.TopicID);
+            this.MDatabaseContext.Execute(CommandType.StoredProcedure, "Wiki_TopicDelete", entity.TopicID);
         }
 
+        /// <summary>
+        /// Gets the notification emails.
+        /// </summary>
+        /// <param name="topic">The topic.</param>
+        /// <returns>A List of Users</returns>
         public List<string> GetNotificationEmails(Topic topic)
         {
-            Setting wikiSettings = new SettingBO(this._uof).GetByModuleID(topic.ModuleId);
+            Setting wikiSettings = new SettingBO(this.mUnitOfWork).GetByModuleID(topic.ModuleId);
 
             List<string> lstUsers = new List<string>();
 
             if (wikiSettings != null)
             {
-                //gather the email address from the roles assigned to this module...
-
+                // Gather the email address from the roles assigned to this module...
                 if (!string.IsNullOrWhiteSpace(wikiSettings.CommentNotifyRoles))
                 {
                     DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
@@ -137,14 +176,14 @@ namespace DotNetNuke.Wiki.BusinessObjects
                             bFetchViewUsers = wikiSettings.CommentNotifyRoles.Contains(";View");
                         }
 
-                        //compile our view users, only if enabled
+                        // Compile our view users, only if enabled
                         if (bFetchViewUsers)
                         {
                             foreach (string role in objModule.AuthorizedViewRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                             {
                                 if (role.ToLower().Equals("all users"))
                                 {
-                                    //trap against fake roles
+                                    // Trap against fake roles
                                     var arrUsers =
                                         DotNetNuke.Entities.Users.UserController.GetUsers(DotNetNuke.Entities.Portals.PortalController.GetCurrentPortalSettings().PortalId).OfType<UserInfo>();
                                     foreach (DotNetNuke.Entities.Users.UserInfo objUser in arrUsers)
@@ -157,7 +196,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
                                 }
                                 else
                                 {
-                                    //this role should be legit
+                                    // This role should be legit
                                     foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
                                     {
                                         if (!lstUsers.Contains(objUserRole.Email))
@@ -169,21 +208,21 @@ namespace DotNetNuke.Wiki.BusinessObjects
                             }
                         }
 
-                        //compile our edit users, only if enabled
+                        // Compile our edit users, only if enabled
                         if (bFetchEditUsers)
                         {
                             if (bFetchUsingDNNRoles)
                             {
-                                //fetch using dnn edit roles
+                                // Fetch using dnn edit roles
                                 foreach (string role in objModule.AuthorizedEditRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                                 {
                                     if (role.ToLower().Equals("all users"))
                                     {
-                                        //trap against fake roles
+                                        // Trap against fake roles
                                     }
                                     else
                                     {
-                                        //this role should be legit
+                                        // This role should be legit
                                         foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
                                         {
                                             if (!lstUsers.Contains(objUserRole.Email))
@@ -196,7 +235,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
                             }
                             else
                             {
-                                //fetch using custom wiki edit roles
+                                // Fetch using custom wiki edit roles
                                 foreach (string role in wikiSettings.ContentEditorRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                                 {
                                     foreach (DotNetNuke.Entities.Users.UserRoleInfo objUserRole in objRoles.GetUserRolesByRoleName(objModule.PortalID, role))
@@ -212,10 +251,10 @@ namespace DotNetNuke.Wiki.BusinessObjects
                     }
                 }
 
-                //gather any users emails address from comments in this topic...
+                // Gather any users emails address from comments in this topic...
                 if (wikiSettings.CommentNotifyUsers == true)
                 {
-                    IEnumerable<CommentEmails> lstEmails = new CommentBO(this._uof).GetCommentNotifyUsers(topic.TopicID);
+                    IEnumerable<CommentEmails> lstEmails = new CommentBO(this.mUnitOfWork).GetCommentNotifyUsers(topic.TopicID);
 
                     foreach (CommentEmails objCommentEmail in lstEmails)
                     {

@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -29,6 +29,9 @@ using System;
 
 namespace DotNetNuke.Wiki.Views.SharedControls
 {
+    /// <summary>
+    /// Wiki Menu Control Code
+    /// </summary>
     public partial class WikiMenu : WikiModuleBase
     {
         #region Ctor
@@ -45,66 +48,77 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
         #region Variables
 
-        private bool m_ShowNav;
-        private bool m_ShowIndex;
+        private bool mShowNav;
+        private bool mShowIndex;
 
         #endregion Variables
 
         #region Events
 
+        /// <summary>
+        /// Handles the Load event of the Menu Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
         private void Menu_Page_Load(System.Object sender, System.EventArgs e)
         {
-            //todo:we shouldn't use session
-
-            if ((Session["wiki" + ModuleId.ToString() + "ShowIndex"] == null))
+            // TODO: we shouldn't use session
+            if (Session["wiki" + ModuleId.ToString() + "ShowIndex"] == null)
             {
                 this.Session.Add("wiki" + ModuleId.ToString() + "ShowIndex", false);
-                m_ShowIndex = false;
+                this.mShowIndex = false;
             }
             else
             {
-                m_ShowIndex = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowIndex"]);
-            }
-            if ((this.Session["wiki" + ModuleId.ToString() + "ShowNav"] == null))
-            {
-                this.Session.Add("wiki" + ModuleId.ToString() + "ShowNav", true);
-                m_ShowNav = true;
-            }
-            else
-            {
-                m_ShowNav = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowNav"]);
+                this.mShowIndex = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowIndex"]);
             }
 
-            if (m_ShowNav)
+            if (this.Session["wiki" + ModuleId.ToString() + "ShowNav"] == null)
             {
-                //Me.ImageButton1.AlternateText = Localization.GetString("HideNavigation", LocalResourceFile) ' "Show Navigation"
-                //Me.ImageButton1.ImageUrl = TemplateSourceDirectory + "/images/HideNav.gif"
+                this.Session.Add("wiki" + ModuleId.ToString() + "ShowNav", true);
+                this.mShowNav = true;
+            }
+            else
+            {
+                this.mShowNav = Convert.ToBoolean(this.Session["wiki" + ModuleId.ToString() + "ShowNav"]);
+            }
+
+            if (this.mShowNav)
+            {
+                //// Me.ImageButton1.AlternateText = Localization.GetString("HideNavigation",
+                //// LocalResourceFile) ' "Show Navigation" Me.ImageButton1.ImageUrl =
+                //// TemplateSourceDirectory + "/images/HideNav.gif"
                 this.LinksPanel.Visible = true;
             }
             else
             {
-                //Me.ImageButton1.AlternateText = Localization.GetString("ShowNavigation", LocalResourceFile) ' "Show Navigation"
-                //Me.ImageButton1.ImageUrl = TemplateSourceDirectory + "/images/ShowNav.gif"
+                //// Me.ImageButton1.AlternateText = Localization.GetString("ShowNavigation",
+                //// LocalResourceFile) ' "Show Navigation" Me.ImageButton1.ImageUrl =
+                //// TemplateSourceDirectory + "/images/ShowNav.gif"
                 this.LinksPanel.Visible = false;
             }
 
-            setURLs();
+            this.SetURLs();
         }
 
         #endregion Events
 
         #region Methods
 
-        private void setURLs()
+        /// <summary>
+        /// Sets the current URL.
+        /// </summary>
+        private void SetURLs()
         {
             this.HomeBtn.NavigateUrl = Common.Globals.NavigateURL();
             this.HomeBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Home", this.LocalResourceFile);
-            this.SearchBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=search");
+            this.SearchBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=search");
             this.SearchBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Search.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Search", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Search", this.LocalResourceFile);
-            this.RecChangeBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=recentchanges");
+            this.RecChangeBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=recentchanges");
             this.RecChangeBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/RecentChanges.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("RecentChanges", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("RecentChanges", this.LocalResourceFile);
 
-            this.IndexBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, "", "loc=index");
+            this.IndexBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=index");
 
             this.IndexBtn.Text = "<img src=\"" + DNNWikiModuleRootPath + "/Resources/images/Index.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Index", this.LocalResourceFile) + "\" />&nbsp;" + Localization.GetString("Index", this.LocalResourceFile);
         }

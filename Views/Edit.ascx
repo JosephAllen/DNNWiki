@@ -8,7 +8,7 @@
     <div class="WikiTable" id="divWikiEdit" runat="server">
         <table border="0">
             <tr>
-                <td valign="top" width="400">
+                <td style="width:100%">
                     <dnn:label id="plPageName" CssClass="SubHead" runat="server">
                     </dnn:label>
                     <asp:TextBox ID="txtPageName" runat="server" CssClass="NormalTextBox" Columns="75" TextMode="multiLine"></asp:TextBox>
@@ -29,12 +29,12 @@
                         <asp:TextBox ID="txtKeywords" CssClass="NormalTextBox" TextMode="multiLine" runat="server"
                             Columns="50"></asp:TextBox><br />
                     </div>
-                    <dnn:TextEditor id="teContent" runat="server" Width="600" Height="500">
+                    <dnn:TextEditor id="teContent" runat="server" Width="100%" Height="500">
                     </dnn:TextEditor><br />
                     <dnn:sectionhead id="WikiTextDirections" runat="server" includerule="false" isexpanded="false"
                         section="TextDirections" cssclass="NormalBold">
                     </dnn:sectionhead>
-                    <table id="TextDirections" cellspacing="0" cellpadding="0" width="100%" summary="Text Directions Design Table"
+                    <table id="TextDirections" style="width:100%;" summary="Text Directions Design Table"
                         border="0" runat="server">
                         <tr>
                             <td class="inlineStyle">

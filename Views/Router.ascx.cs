@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -33,6 +33,9 @@ using System.Web.UI;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Router Class based on the WikiModuleBase Class
+    /// </summary>
     partial class Router : WikiModuleBase, IActionable
     {
         #region Ctor
@@ -57,10 +60,19 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                DotNetNuke.Entities.Modules.Actions.ModuleActionCollection Actions = new DotNetNuke.Entities.Modules.Actions.ModuleActionCollection();
-                Actions.Add(GetNextActionID(),
-                    Localization.GetString("Administration", LocalResourceFile).ToString(), string.Empty, string.Empty, string.Empty, EditUrl("Administration"), false, Security.SecurityAccessLevel.Admin, true, false);
-                return Actions;
+                DotNetNuke.Entities.Modules.Actions.ModuleActionCollection actions = new DotNetNuke.Entities.Modules.Actions.ModuleActionCollection();
+                actions.Add(
+                    GetNextActionID(),
+                    Localization.GetString("Administration", LocalResourceFile).ToString(),
+                    string.Empty,
+                    string.Empty,
+                    string.Empty,
+                    EditUrl("Administration"),
+                    false,
+                    Security.SecurityAccessLevel.Admin,
+                    true,
+                    false);
+                return actions;
             }
         }
 
@@ -78,20 +90,20 @@ namespace DotNetNuke.Wiki.Views
         {
             try
             {
-                //load the menu on the left
+                // Load the menu on the left
                 string leftControl = "SharedControls//WikiMenu.ascx";
-                WikiModuleBase _wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
-                _wikiModuleBase.ModuleConfiguration = ModuleConfiguration;
-                _wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
-                phWikiMenu.Controls.Add(_wikiModuleBase);
+                WikiModuleBase wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
+                wikiModuleBase.ModuleConfiguration = ModuleConfiguration;
+                wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
+                phWikiMenu.Controls.Add(wikiModuleBase);
 
-                string controlToLoad = GetControlString(Request.QueryString["loc"]);
+                string controlToLoad = this.GetControlString(Request.QueryString["loc"]);
                 WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
                 wikiContent.ModuleConfiguration = ModuleConfiguration;
                 wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
                 phWikiContent.Controls.Add(wikiContent);
 
-                if ((controlToLoad.ToLower().Equals("start.ascx")))
+                if (controlToLoad.ToLower().Equals("start.ascx"))
                 {
                     string buttonControlToLoad = "SharedControls//WikiButton.ascx";
                     WikiModuleBase wikiButton = (WikiModuleBase)LoadControl(buttonControlToLoad);
@@ -101,7 +113,7 @@ namespace DotNetNuke.Wiki.Views
                     phWikiContent.Controls.Add(wikiButton);
                 }
 
-                //print
+                // Print the Topic
                 foreach (ModuleAction objAction in Actions)
                 {
                     if (objAction.CommandName.Equals(ModuleActionType.PrintModule))
@@ -110,7 +122,6 @@ namespace DotNetNuke.Wiki.Views
                     }
                 }
             }
-
             catch (Exception exc)
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
@@ -124,17 +135,17 @@ namespace DotNetNuke.Wiki.Views
         /// <summary>
         /// Gets the control string.
         /// </summary>
-        /// <param name="loc">The loc.</param>
-        /// <returns></returns>
-        private string GetControlString(string loc)
+        /// <param name="locationString">The location.</param>
+        /// <returns>Control Name</returns>
+        private string GetControlString(string locationString)
         {
-            if (loc == null)
+            if (locationString == null)
             {
                 return "Start.ascx";
             }
             else
             {
-                switch ((loc.ToLower()))
+                switch (locationString.ToLower())
                 {
                     case "start":
                         return "Start.ascx";

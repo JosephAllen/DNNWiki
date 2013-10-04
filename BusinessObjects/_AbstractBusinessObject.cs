@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
-//
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+// <copyright file="_AbstractBusinessObject.cs" company="DNN Corp®"> DNN Corp® -
+// http: //www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -17,6 +17,8 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////
 
 #endregion Copyright
 
@@ -30,18 +32,34 @@ using System.Data.SqlClient;
 
 namespace DotNetNuke.Wiki.BusinessObjects
 {
+    /// <summary>
+    /// Abstract Business Object Class
+    /// </summary>
+    /// <typeparam name="T">Generic type for the Model entity.</typeparam> <typeparam name="I">Type
+    /// of the primary key for the T model.</typeparam>
     public abstract class _AbstractBusinessObject<T, I> : IBusinessObject<T, I> where T : class
     {
-        internal IDataContext db;
-        private readonly IRepository<T> rep;
+        #region "Variables"
 
-        public _AbstractBusinessObject(IDataContext _context)
+        internal IDataContext MDatabaseContext;
+        private readonly IRepository<T> mRepositoryInterface;
+
+        #endregion "Variables"
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="_AbstractBusinessObject{T, I}"/> class.
+        /// </summary>
+        /// <param name="databaseContext">The _context.</param>
+        /// <exception cref="System.ArgumentNullException">Context error</exception>
+        public _AbstractBusinessObject(IDataContext databaseContext)
         {
-            if (_context == null)
+            if (databaseContext == null)
+            {
                 throw new ArgumentNullException("Context");
+            }
 
-            db = _context;
-            rep = db.GetRepository<T>();
+            this.MDatabaseContext = databaseContext;
+            this.mRepositoryInterface = this.MDatabaseContext.GetRepository<T>();
         }
 
         #region IbusinessObject<T> Members
@@ -49,7 +67,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <summary>
         /// Based on the user permissions, filters the collection of T elements to return
         /// </summary>
-        /// <param name="collection">collection of T elements</param>
+        /// <param name="entity">The entity.</param>
         /// <returns>returns collection of T elements, filtered by the user access</returns>
         public virtual T FilterByAccess(T entity)
         {
@@ -67,33 +85,6 @@ namespace DotNetNuke.Wiki.BusinessObjects
         }
 
         /// <summary>
-        /// Called when a insert operation is going to be done against the database, so the entity
-        /// to be created, can be changed before being submitted
-        /// </summary>
-        /// <param name="entity"></param>
-        internal virtual void OnBeforeInsertOperation(T entity)
-        {
-        }
-
-        /// <summary>
-        /// Called when a insert operation is going to be done against the database, so the entity
-        /// to be created, can be changed before being submitted
-        /// </summary>
-        /// <param name="entity"></param>
-        internal virtual void OnBeforeUpdateOperation(T entity)
-        {
-        }
-
-        /// <summary>
-        /// Called when a insert operation is going to be done against the database, so the entity
-        /// to be created, can be changed before being submitted
-        /// </summary>
-        /// <param name="entity"></param>
-        internal virtual void OnBeforeDeleteOperation(T entity)
-        {
-        }
-
-        /// <summary>
         /// Creates a new entity, but before creating it, parses it by calling the
         /// ParseUserAbleToInsert method
         /// </summary>
@@ -103,49 +94,132 @@ namespace DotNetNuke.Wiki.BusinessObjects
         {
             try
             {
-                ParseUserAbleToInsert(entity);
+                this.ParseUserAbleToInsert(entity);
 
-                OnBeforeInsertOperation(entity);
+                this.OnBeforeInsertOperation(entity);
 
-                RepositoryAdd(ref entity);
+                this.RepositoryAdd(ref entity);
             }
             catch (SqlException exc)
             {
-                Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Insert);
+                this.Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Insert);
             }
+
             return entity;
         }
 
         /// <summary>
-        /// Creates a new entity using the repository interface, this method should only be
-        /// overriden if the insertion mechanism in the database has to be changed
+        /// Deletes the specified entity.
         /// </summary>
-        /// <param name="entity">entity to create</param>
-        internal virtual void RepositoryAdd(ref T entity)
-        {
-            rep.Insert(entity);
-        }
-
-        /// <summary>
-        /// Deletes a entity, but before deleting it, parses it by calling the ParseUserAbleToDelete
-        /// method
-        /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">The entity.</param>
+        /// <returns>Entity that was passed in.</returns>
         public virtual T Delete(T entity)
         {
             try
             {
-                ParseUserAbleToDelete(entity);
+                this.ParseUserAbleToDelete(entity);
 
-                OnBeforeDeleteOperation(entity);
+                this.OnBeforeDeleteOperation(entity);
 
-                RepositoryDelete(ref entity);
+                this.RepositoryDelete(ref entity);
             }
             catch (SqlException exc)
             {
-                Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Insert);
+                this.Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Insert);
             }
+
             return entity;
+        }
+
+        /// <summary>
+        /// Updates an entity, but before updating it, parses it by calling the
+        /// ParseUserAbleToUpdate method
+        /// </summary>
+        /// <param name="entity">Entity being passed in</param>
+        /// <returns>returns the entity that was updated</returns>
+        public virtual T Update(T entity)
+        {
+            try
+            {
+                this.ParseUserAbleToUpdate(entity);
+
+                this.OnBeforeUpdateOperation(entity);
+
+                this.RepositoryUpdate(ref entity);
+            }
+            catch (SqlException exc)
+            {
+                this.Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Update);
+            }
+
+            return entity;
+        }
+
+        /// <summary>
+        /// Collects all entities
+        /// </summary>
+        /// <returns>returns collection of entities</returns>
+        public virtual IEnumerable<T> GetAll()
+        {
+            return this.FilterByAccess(this.mRepositoryInterface.Get());
+        }
+
+        /// <summary>
+        /// Collects a specific entity based on a condition
+        /// </summary>
+        /// <param name="id">The unique identifier.</param>
+        /// <returns>returns a specific entity</returns>
+        public virtual T Get(I id)
+        {
+            return this.FilterByAccess(this.mRepositoryInterface.GetById<I>(id));
+        }
+
+        /// <summary>
+        /// Filters for specific data in the database
+        /// </summary>
+        /// <param name="sql">SQL query</param>
+        /// <param name="args">data for the SQL query</param>
+        /// <returns>returns i enumerable of T items</returns>
+        public IEnumerable<T> Find(string sql, params object[] args)
+        {
+            return this.MDatabaseContext.ExecuteQuery<T>(CommandType.Text, sql, args);
+        }
+
+        /// <summary>
+        /// Called when a insert operation is going to be done against the database, so the entity
+        /// to be created, can be changed before being submitted
+        /// </summary>
+        /// <param name="entity">The entity being passed in</param>
+        internal virtual void OnBeforeInsertOperation(T entity)
+        {
+        }
+
+        /// <summary>
+        /// Called when a insert operation is going to be done against the database, so the entity
+        /// to be created, can be changed before being submitted
+        /// </summary>
+        /// <param name="entity">The entity being passed in</param>
+        internal virtual void OnBeforeUpdateOperation(T entity)
+        {
+        }
+
+        /// <summary>
+        /// Called when a insert operation is going to be done against the database, so the entity
+        /// to be created, can be changed before being submitted
+        /// </summary>
+        /// <param name="entity">The entity being passed in</param>
+        internal virtual void OnBeforeDeleteOperation(T entity)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new entity using the repository interface, this method should only be
+        /// overridden if the insertion mechanism in the database has to be changed
+        /// </summary>
+        /// <param name="entity">entity to create</param>
+        internal virtual void RepositoryAdd(ref T entity)
+        {
+            this.mRepositoryInterface.Insert(entity);
         }
 
         /// <summary>
@@ -155,30 +229,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="entity">entity to delete</param>
         internal virtual void RepositoryDelete(ref T entity)
         {
-            rep.Delete(entity);
-        }
-
-        /// <summary>
-        /// Updates an entity, but before updating it, parses it by calling the
-        /// ParseUserAbleToUpdate method
-        /// </summary>
-        /// <param name="entityCollection">entity to update</param>
-        /// <param name="entity">returns the entity that was updated</param>
-        public virtual T Update(T entity)
-        {
-            try
-            {
-                ParseUserAbleToUpdate(entity);
-
-                OnBeforeUpdateOperation(entity);
-
-                RepositoryUpdate(ref entity);
-            }
-            catch (SqlException exc)
-            {
-                Entity_EvaluateSqlException(exc, SharedEnum.CrudOperation.Update);
-            }
-            return entity;
+            this.mRepositoryInterface.Delete(entity);
         }
 
         /// <summary>
@@ -188,55 +239,38 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="entity">entity to delete</param>
         internal virtual void RepositoryUpdate(ref T entity)
         {
-            rep.Update(entity);
+            this.mRepositoryInterface.Update(entity);
         }
 
         /// <summary>
-        /// Collects all entities
+        /// Method called when a SQL operation happens after a crud operation
         /// </summary>
-        /// <returns>returns collection of entities</returns>
-        public virtual IEnumerable<T> GetAll()
-        {
-            return FilterByAccess(rep.Get());
-        }
-
-        /// <summary>
-        /// Collects a specific entity based on a condition
-        /// </summary>
-        /// <param name="condition">condition to evaluate</param>
-        /// <returns>returns a specific entity</returns>
-        public virtual T Get(I id)
-        {
-            return FilterByAccess(rep.GetById<I>(id));
-        }
-
-        /// <summary>
-        /// Method called when a sql operation happens after a crud operation
-        /// </summary>
-        /// <param name="objectStateEntryChangedCollection"></param>
+        /// <param name="exc">The SQL Exception</param>
+        /// <param name="crudOperation">The crud operation.</param>
         internal abstract void Entity_EvaluateSqlException(SqlException exc, SharedEnum.CrudOperation crudOperation);
 
+        /// <summary>
+        /// Parses the user able automatic insert.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         internal virtual void ParseUserAbleToInsert(T entity)
         {
         }
 
+        /// <summary>
+        /// Parses the user able automatic update.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         internal virtual void ParseUserAbleToUpdate(T entity)
         {
         }
 
+        /// <summary>
+        /// Parses the user able automatic delete.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         internal virtual void ParseUserAbleToDelete(T entity)
         {
-        }
-
-        /// <summary>
-        /// Filters for specific data in the database
-        /// </summary>
-        /// <param name="sql">sql query</param>
-        /// <param name="args">data for the sql query</param>
-        /// <returns>returns ienumerable of T items</returns>
-        public IEnumerable<T> Find(string sql, params object[] args)
-        {
-            return this.db.ExecuteQuery<T>(CommandType.Text, sql, args);
         }
 
         #endregion IbusinessObject<T> Members

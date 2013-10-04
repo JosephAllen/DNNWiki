@@ -19,11 +19,9 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
-
-// description: Allows users to search for topics. Needs to be rewriten but for now this is OK.
 
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Wiki.Utilities;
@@ -31,6 +29,10 @@ using System.Linq;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Search Class based on the WikiModuleBase class. Allows users to search for topics. Needs to
+    /// be rewritten but for now this is OK.
+    /// </summary>
     partial class Search : WikiModuleBase
     {
         #region Ctor
@@ -45,13 +47,24 @@ namespace DotNetNuke.Wiki.Views
 
         #endregion Ctor
 
-        #region Variables
+        #region Properties
 
-        protected System.Web.UI.WebControls.Label m_lblPageContent;
+        protected System.Web.UI.WebControls.Label lblPageContent;
 
-        #endregion Variables
+        #endregion Properties
 
         #region Events
+
+        /// <summary>
+        /// Handles the Click event of the Search control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        protected void cmdSearch_Click(System.Object sender, System.EventArgs e)
+        {
+            this.SearchTopics();
+        }
 
         /// <summary>
         /// Handles the Load event of the Page control.
@@ -61,18 +74,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         public new void Page_Load(System.Object sender, System.EventArgs e)
         {
-            LoadLocalization();
-        }
-
-        /// <summary>
-        /// Handles the Click event of the cmdSearch control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        protected void cmdSearch_Click(System.Object sender, System.EventArgs e)
-        {
-            this.SearchTopics();
+            this.LoadLocalization();
         }
 
         #endregion Events
@@ -89,6 +91,9 @@ namespace DotNetNuke.Wiki.Views
             cmdSearch.Text = Localization.GetString("SearchExec", RouterResourceFile);
         }
 
+        /// <summary>
+        /// Searches the topics.
+        /// </summary>
         private void SearchTopics()
         {
             HitTable.Text = CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());

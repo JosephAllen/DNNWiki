@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="CommentCount.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -27,57 +30,86 @@ using System.Web.UI;
 
 namespace DotNetNuke.Wiki.Utilities
 {
+    /// <summary>
+    /// Comment Count Class
+    /// </summary>
     [DefaultProperty("ID"), ToolboxData("<{0}:CommentCount runat=server></{0}:CommentCount>")]
     public class CommentCount : System.Web.UI.WebControls.Label
     {
-        private string sharedResources = string.Empty;
+        #region Variables
 
+        private string mSharedResourcesValue = string.Empty;
+        private string mTextValue;
+        private int mParentIdValue;
+
+        #endregion Variables
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the parent unique identifier.
+        /// </summary>
+        /// <value>The parent unique identifier.</value>
         [Description("The id of the parent (page) the comment count is for."), Category("Data")]
         public int ParentId
         {
-            get { return this._parentId; }
-            set { this._parentId = value; }
+            get { return this.mParentIdValue; }
+            set { this.mParentIdValue = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the text content of the <see cref="T:System.Web.UI.WebControls.Label" />
+        /// control.
+        /// </summary>
+        /// <returns>The text content of the control. The default value is see
+        /// cref="F:System.String.Empty" />.</returns>
         [Description("The text for the link. {0} will be replaced with the number of comments."), Category("Appearance")]
         public new string Text
         {
-            get { return this._text; }
-            set { this._text = value; }
+            get { return this.mTextValue; }
+            set { this.mTextValue = value; }
         }
 
-        private string _text;
+        #endregion Properties
 
-        private int _parentId;
+        #region Methods
 
+        /// <summary>
+        /// Renders the contents of the <see cref="T:System.Web.UI.WebControls.Label" /> into the
+        /// specified writer.
+        /// </summary>
+        /// <param name="writer">The output stream that renders HTML content to the client.</param>
         protected override void RenderContents(HtmlTextWriter writer)
         {
             using (UnitOfWork uof = new UnitOfWork())
             {
                 var commentBo = new CommentBO(uof);
 
-                int commentCount = commentBo.GetCommentCount(this._parentId);
+                int commentCount = commentBo.GetCommentCount(this.mParentIdValue);
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, this.CssClass);
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);
                 if (commentCount > 0)
                 {
-                    // writer.Write(String.Format(Me._text, commentCount))
+                    //// writer.Write(String.Format(Me._text, commentCount))
 
-                    if (this._text == null)
+                    if (this.mTextValue == null)
                     {
-                        writer.Write(string.Format(Localization.GetString("FeedBack.Text", sharedResources), commentCount));
+                        writer.Write(string.Format(Localization.GetString("FeedBack.Text", this.mSharedResourcesValue), commentCount));
                     }
                     else
                     {
-                        writer.Write(string.Format(this._text, commentCount));
+                        writer.Write(string.Format(this.mTextValue, commentCount));
                     }
                 }
                 else
                 {
-                    writer.Write(Localization.GetString("NoComments.Text", sharedResources));
+                    writer.Write(Localization.GetString("NoComments.Text", this.mSharedResourcesValue));
                 }
+
                 writer.RenderEndTag();
             }
         }
+
+        #endregion Methods
     }
 }

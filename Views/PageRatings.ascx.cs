@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -29,6 +29,9 @@ using DotNetNuke.Wiki.Utilities;
 
 namespace DotNetNuke.Wiki.Views
 {
+    /// <summary>
+    /// Page Ratings Class
+    /// </summary>
     partial class PageRatings : WikiModuleBase
     {
         #region Ctor
@@ -46,35 +49,12 @@ namespace DotNetNuke.Wiki.Views
 
         #region Variables
 
-        private Topic m_Topic;
-        private WikiModuleBase m_Module;
+        private WikiModuleBase mModule;
+        private Topic mTopic;
 
         #endregion Variables
 
         #region Properties
-
-        /// <summary>
-        /// Gets the parent module.
-        /// </summary>
-        /// <value>The parent module.</value>
-        public WikiModuleBase ParentModule
-        {
-            get
-            {
-                if (m_Module == null)
-                {
-                    System.Web.UI.Control uplevel = default(System.Web.UI.Control);
-                    uplevel = this.Parent;
-                    while (!(uplevel is WikiModuleBase))
-                    {
-                        uplevel = uplevel.Parent;
-                    }
-                    m_Module = (WikiModuleBase)uplevel;
-                    m_Module.ModuleConfiguration = this.ModuleConfiguration;
-                }
-                return m_Module;
-            }
-        }
 
         /// <summary>
         /// Gets the inner topic.
@@ -84,7 +64,7 @@ namespace DotNetNuke.Wiki.Views
         {
             get
             {
-                if (m_Topic == null)
+                if (this.mTopic == null)
                 {
                     System.Web.UI.Control uplevel = default(System.Web.UI.Control);
                     uplevel = this.Parent;
@@ -92,37 +72,42 @@ namespace DotNetNuke.Wiki.Views
                     {
                         uplevel = uplevel.Parent;
                     }
-                    m_Topic = ((WikiModuleBase)uplevel)._Topic;
+
+                    this.mTopic = ((WikiModuleBase)uplevel)._Topic;
                 }
-                return m_Topic;
+
+                return this.mTopic;
+            }
+        }
+
+        /// <summary>
+        /// Gets the parent module.
+        /// </summary>
+        /// <value>The parent module.</value>
+        public WikiModuleBase ParentModule
+        {
+            get
+            {
+                if (this.mModule == null)
+                {
+                    System.Web.UI.Control uplevel = default(System.Web.UI.Control);
+                    uplevel = this.Parent;
+                    while (!(uplevel is WikiModuleBase))
+                    {
+                        uplevel = uplevel.Parent;
+                    }
+
+                    this.mModule = (WikiModuleBase)uplevel;
+                    this.mModule.ModuleConfiguration = this.ModuleConfiguration;
+                }
+
+                return this.mModule;
             }
         }
 
         #endregion Properties
 
         #region Events
-
-        /// <summary>
-        /// Handles the PreRender event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        private void Page_PreRender(object sender, System.EventArgs e)
-        {
-            if (InnerTopic.FivePointRatingsRecorded == 0)
-            {
-                RatingBar.Visible = false;
-                NoRating.Visible = true;
-            }
-            else
-            {
-                RatingBar.Visible = true;
-                NoRating.Visible = false;
-                RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + InnerTopic.FivePointAverage.ToString("#.#");
-                RatingBar.Alt = InnerTopic.FivePointAverage.ToString("#.#");
-            }
-        }
 
         /// <summary>
         /// Handles the Load event of the Page control.
@@ -132,7 +117,29 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void Page_Load(System.Object sender, System.EventArgs e)
         {
-            LoadLocalization();
+            this.LoadLocalization();
+        }
+
+        /// <summary>
+        /// Handles the PreRender event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        private void Page_PreRender(object sender, System.EventArgs e)
+        {
+            if (this.InnerTopic.FivePointRatingsRecorded == 0)
+            {
+                RatingBar.Visible = false;
+                NoRating.Visible = true;
+            }
+            else
+            {
+                RatingBar.Visible = true;
+                NoRating.Visible = false;
+                RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + this.InnerTopic.FivePointAverage.ToString("#.#");
+                RatingBar.Alt = this.InnerTopic.FivePointAverage.ToString("#.#");
+            }
         }
 
         #endregion Events
@@ -144,8 +151,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", RouterResourceFile);
-            RatingLbl.Text = Localization.GetString("PageRatingsTitle", RouterResourceFile);
+            NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", base.RouterResourceFile);
+            RatingLbl.Text = Localization.GetString("PageRatingsTitle", base.RouterResourceFile);
         }
 
         #endregion Methods

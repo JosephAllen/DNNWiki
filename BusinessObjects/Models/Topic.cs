@@ -1,22 +1,25 @@
 ﻿#region Copyright
 
+//--------------------------------------------------------------------------------------------------------
+// <copyright file="Topic.cs" company="DNN Corp®">
+//      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
-// DotNetNuke� - http://www.dotnetnuke.com Copyright (c) 2002-2013 by DotNetNuke Corporation
+//      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+//      associated documentation files (the "Software"), to deal in the Software without restriction,
+//      including without limitation the rights to use, copy, modify, merge, publish, distribute,
+//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-// associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//      The above copyright notice and this permission notice shall be included in all copies or
+//      substantial portions of the Software.
 //
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-// NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//      NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+//      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+////------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -29,235 +32,292 @@ using System.Web.Caching;
 
 namespace DotNetNuke.Wiki.BusinessObjects.Models
 {
+    /// <summary>
+    /// Wiki Topic Model
+    /// </summary>
     [TableName("Wiki_Topic")]
-    //setup the primary key for table
+    //// Setup the primary key for table
     [PrimaryKey("TopicID", AutoIncrement = true)]
-    //configure caching using PetaPoco
+    //// Configure caching using PetaPoco
     [Cacheable("Wiki_Topics", CacheItemPriority.Default, 20)]
-    //scope the objects to the ModuleId of a module on a page (or copy of a module on a page)
+    //// Scope the objects to the ModuleId of a module on a page (or copy of a module on a page)
     [Scope("ModuleId")]
     public class Topic : WikiMarkup
     {
-        private string _content;
-        private string _name;
-        private string _updateUserBy;
-        private string _description;
-        private string _keywords;
-        private string _title;
+        #region "Variables"
 
-        ///<summary>
-        /// The ID of the topic
-        ///</summary>
+        private string mContentValue;
+        private string mNameValue;
+        private string mUpdateUserByValue;
+        private string mDescriptionValue;
+        private string mKeywordsValue;
+        private string mTitleValue;
+
+        #endregion "Variables"
+
+        #region "Properties"
+
+        /// <summary>
+        /// Gets or sets the topic unique identifier.
+        /// </summary>
+        /// <value>The topic unique identifier.</value>
         public int TopicID { get; set; }
 
-        ///<summary>
-        /// The ModuleId of where the topic where created and gets displayed
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the module unique identifier.
+        /// </summary>
+        /// <value>The module unique identifier.</value>
         public int ModuleId { get; set; }
 
-        ///<summary>
-        /// A string with the topic contents
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
         public override string Content
         {
             get
             {
-                return _content;
+                return this.mContentValue;
             }
+
             set
             {
-                _content = value;
+                this.mContentValue = value;
                 if (CanUseWikiText)
                 {
-                    Cache = RenderedContent;
+                    this.Cache = RenderedContent;
                 }
             }
         }
 
         /// <summary>
-        ///
+        /// Gets or sets the cache.
         /// </summary>
+        /// <value>The cache.</value>
         public string Cache { get; set; }
 
         /// <summary>
-        /// The topic name
+        /// Gets or sets the Topic name.
         /// </summary>
+        /// <value>The name.</value>
         [StringLength(255)]
         public string Name
         {
             get
             {
-                return _name;
+                return this.mNameValue;
             }
+
             set
             {
-                _name = value.TruncateString(255);
+                this.mNameValue = value.TruncateString(255);
             }
         }
 
-        ///<summary>
-        /// The date the topic was last updated
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the update date.
+        /// </summary>
+        /// <value>The update date.</value>
         public DateTime UpdateDate { get; set; }
 
-        ///<summary>
-        ///
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the updated by.
+        /// </summary>
+        /// <value>The updated by.</value>
         [Required]
         [StringLength(101)]
         public string UpdatedBy
         {
             get
             {
-                return _updateUserBy;
+                return this.mUpdateUserByValue;
             }
+
             set
             {
-                _updateUserBy = value.TruncateString(101);
+                this.mUpdateUserByValue = value.TruncateString(101);
             }
         }
 
-        ///<summary>
-        /// An integer for the user id of the user who last updated the object
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the updated by user unique identifier.
+        /// </summary>
+        /// <value>The updated by user unique identifier.</value>
         public int UpdatedByUserID { get; set; }
 
         /// <summary>
-        /// A boolean value that indicates if discussions is allowed in the topic
+        /// Gets or sets a value indicating whether [allow discussions].
         /// </summary>
+        /// <value><c>true</c> if [allow discussions]; otherwise, /c>.</value>
         public bool AllowDiscussions { get; set; }
 
         /// <summary>
-        /// A boolean value that indicates if ratings is allowed in the topic
+        /// Gets or sets a value indicating whether [allow ratings].
         /// </summary>
+        /// <value><c>true</c> if [allow ratings]; otherwise, /c>.</value>
         public bool AllowRatings { get; set; }
 
         /// <summary>
-        /// The number of times rating one was set
+        /// Gets or sets the rating one count.
         /// </summary>
+        /// <value>The rating one count.</value>
         public int RatingOneCount { get; set; }
 
         /// <summary>
-        /// The number of times rating two was set
+        /// Gets or sets the rating two count.
         /// </summary>
+        /// <value>The rating two count.</value>
         public int RatingTwoCount { get; set; }
 
         /// <summary>
-        /// The number of times rating three was set
+        /// Gets or sets the rating three count.
         /// </summary>
+        /// <value>The rating three count.</value>
         public int RatingThreeCount { get; set; }
 
         /// <summary>
-        /// The number of times rating four was set
+        /// Gets or sets the rating four count.
         /// </summary>
+        /// <value>The rating four count.</value>
         public int RatingFourCount { get; set; }
 
         /// <summary>
-        /// The number of times rating five was set
+        /// Gets or sets the rating five count.
         /// </summary>
+        /// <value>The rating five count.</value>
         public int RatingFiveCount { get; set; }
 
         /// <summary>
-        /// The number of times rating six was set
+        /// Gets or sets the rating six count.
         /// </summary>
+        /// <value>The rating six count.</value>
         public int RatingSixCount { get; set; }
 
         /// <summary>
-        /// The number of times rating seven was set
+        /// Gets or sets the rating seven count.
         /// </summary>
+        /// <value>The rating seven count.</value>
         public int RatingSevenCount { get; set; }
 
         /// <summary>
-        /// The number of times rating eight was set
+        /// Gets or sets the rating eight count.
         /// </summary>
+        /// <value>The rating eight count.</value>
         public int RatingEightCount { get; set; }
 
         /// <summary>
-        /// The number of times rating nine was set
+        /// Gets or sets the rating nine count.
         /// </summary>
+        /// <value>The rating nine count.</value>
         public int RatingNineCount { get; set; }
 
         /// <summary>
-        /// The number of times rating ten was set
+        /// Gets or sets the rating ten count.
         /// </summary>
+        /// <value>The rating ten count.</value>
         public int RatingTenCount { get; set; }
 
         /// <summary>
-        /// The topic title
+        /// Gets or sets the title.
         /// </summary>
+        /// <value>The title.</value>
         [StringLength(256)]
         public string Title
         {
             get
             {
-                return _title;
+                return this.mTitleValue;
             }
+
             set
             {
-                _title = value.TruncateString(256);
+                this.mTitleValue = value.TruncateString(256);
             }
         }
 
         /// <summary>
-        /// The topic description
+        /// Gets or sets the description.
         /// </summary>
+        /// <value>The description.</value>
         [StringLength(500)]
         public string Description
         {
             get
             {
-                return _description;
+                return this.mDescriptionValue;
             }
+
             set
             {
-                _description = value.TruncateString(500);
+                this.mDescriptionValue = value.TruncateString(500);
             }
         }
 
         /// <summary>
-        /// The topic keywords
+        /// Gets or sets the keywords.
         /// </summary>
+        /// <value>The keywords.</value>
         [StringLength(500)]
         public string Keywords
         {
             get
             {
-                return _keywords;
+                return this.mKeywordsValue;
             }
+
             set
             {
-                _keywords = value.TruncateString(500);
+                this.mKeywordsValue = value.TruncateString(500);
             }
         }
 
         /// <summary>
-        /// The user name of the user that made the last update
+        /// Gets or sets the updated by username.
         /// </summary>
+        /// <value>The updated by username.</value>
         [IgnoreColumn]
         public string UpdatedByUsername { get; set; }
 
+        /// <summary>
+        /// Gets the ten point ratings recorded.
+        /// </summary>
+        /// <value>The ten point ratings recorded.</value>
         [IgnoreColumn]
         public int TenPointRatingsRecorded
         {
-            get { return RatingOneCount + RatingTwoCount + RatingThreeCount + RatingFourCount + RatingFiveCount + RatingSixCount + RatingSevenCount + RatingEightCount + RatingNineCount + RatingTenCount; }
+            get { return this.RatingOneCount + this.RatingTwoCount + this.RatingThreeCount + this.RatingFourCount + this.RatingFiveCount + this.RatingSixCount + this.RatingSevenCount + this.RatingEightCount + this.RatingNineCount + this.RatingTenCount; }
         }
 
+        /// <summary>
+        /// Gets the five point ratings recorded.
+        /// </summary>
+        /// <value>The five point ratings recorded.</value>
         [IgnoreColumn]
         public int FivePointRatingsRecorded
         {
-            get { return RatingOneCount + RatingTwoCount + RatingThreeCount + RatingFourCount + RatingFiveCount; }
+            get { return this.RatingOneCount + this.RatingTwoCount + this.RatingThreeCount + this.RatingFourCount + this.RatingFiveCount; }
         }
 
+        /// <summary>
+        /// Gets the five point average.
+        /// </summary>
+        /// <value>The five point average.</value>
         [IgnoreColumn]
         public double FivePointAverage
         {
-            get { return (Convert.ToDouble(RatingOneCount) + Convert.ToDouble(RatingTwoCount * 2) + Convert.ToDouble(RatingThreeCount * 3) + Convert.ToDouble(RatingFourCount * 4) + Convert.ToDouble(RatingFiveCount * 5)) / Convert.ToDouble(FivePointRatingsRecorded); }
+            get { return (Convert.ToDouble(this.RatingOneCount) + Convert.ToDouble(this.RatingTwoCount * 2) + Convert.ToDouble(this.RatingThreeCount * 3) + Convert.ToDouble(this.RatingFourCount * 4) + Convert.ToDouble(this.RatingFiveCount * 5)) / Convert.ToDouble(this.FivePointRatingsRecorded); }
         }
 
+        /// <summary>
+        /// Gets the ten point average.
+        /// </summary>
+        /// <value>The ten point average.</value>
         [IgnoreColumn]
         public double TenPointAverage
         {
-            get { return (Convert.ToDouble(RatingOneCount) + Convert.ToDouble(RatingTwoCount * 2) + Convert.ToDouble(RatingThreeCount * 3) + Convert.ToDouble(RatingFourCount * 4) + Convert.ToDouble(RatingFiveCount * 5) + Convert.ToDouble(RatingSixCount * 6) + Convert.ToDouble(RatingSevenCount * 7) + Convert.ToDouble(RatingEightCount * 8) + Convert.ToDouble(RatingNineCount * 9) + Convert.ToDouble(RatingTenCount * 10)) / Convert.ToDouble(TenPointRatingsRecorded); }
+            get { return (Convert.ToDouble(this.RatingOneCount) + Convert.ToDouble(this.RatingTwoCount * 2) + Convert.ToDouble(this.RatingThreeCount * 3) + Convert.ToDouble(this.RatingFourCount * 4) + Convert.ToDouble(this.RatingFiveCount * 5) + Convert.ToDouble(this.RatingSixCount * 6) + Convert.ToDouble(this.RatingSevenCount * 7) + Convert.ToDouble(this.RatingEightCount * 8) + Convert.ToDouble(this.RatingNineCount * 9) + Convert.ToDouble(this.RatingTenCount * 10)) / Convert.ToDouble(this.TenPointRatingsRecorded); }
         }
+
+        #endregion "Properties"
     }
 }

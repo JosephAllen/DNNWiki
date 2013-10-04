@@ -19,7 +19,7 @@
 //      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-//--------------------------------------------------------------------------------------------------------
+////--------------------------------------------------------------------------------------------------------
 
 #endregion Copyright
 
@@ -30,6 +30,9 @@ using System.Linq;
 
 namespace DotNetNuke.Wiki.Views.SharedControls
 {
+    /// <summary>
+    /// Wiki Module Base Class
+    /// </summary>
     public partial class Index : WikiModuleBase
     {
         #region Ctor
@@ -68,17 +71,17 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         {
             this.Session["wiki" + ModuleId.ToString() + "ShowIndex"] = true;
             var topics = GetIndex().ToArray();
-            System.Text.StringBuilder TableTxt = new System.Text.StringBuilder();
-            //Dim TopicTable As String
+            System.Text.StringBuilder tableText = new System.Text.StringBuilder();
+            //// Dim TopicTable As String
             Topic t = default(Topic);
             int i = 0;
-            TableTxt.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
-            TableTxt.Append(HomeURL + "\"><img src=\"");
-            TableTxt.Append(DNNWikiModuleRootPath);
-            TableTxt.Append("/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
-            TableTxt.Append(Localization.GetString("Home", this.LocalResourceFile));
-            TableTxt.Append("</a><br />");
-            if ((topics != null))
+            tableText.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
+            tableText.Append(HomeURL + "\"><img src=\"");
+            tableText.Append(DNNWikiModuleRootPath);
+            tableText.Append("/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
+            tableText.Append(Localization.GetString("Home", this.LocalResourceFile));
+            tableText.Append("</a><br />");
+            if (topics != null)
             {
                 if (topics.Count() > 0)
                 {
@@ -87,19 +90,20 @@ namespace DotNetNuke.Wiki.Views.SharedControls
                         t = (Topic)topics[i];
                         if (t.Name != WikiHomeName)
                         {
-                            TableTxt.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
-                            TableTxt.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(t.Name)));
-                            TableTxt.Append("\"><img src=\"");
-                            TableTxt.Append(DNNWikiModuleRootPath);
-                            TableTxt.Append("/Resources/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
-                            TableTxt.Append(t.Name);
-                            TableTxt.Append("</a><br />");
+                            tableText.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
+                            tableText.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(t.Name)));
+                            tableText.Append("\"><img src=\"");
+                            tableText.Append(DNNWikiModuleRootPath);
+                            tableText.Append("/Resources/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
+                            tableText.Append(t.Name);
+                            tableText.Append("</a><br />");
                         }
                     }
                 }
             }
-            TableTxt.Append(string.Empty);
-            this.IndexList.Text = TableTxt.ToString();
+
+            tableText.Append(string.Empty);
+            this.IndexList.Text = tableText.ToString();
             this.IndexList.Visible = true;
         }
 
