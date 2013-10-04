@@ -54,8 +54,8 @@ namespace DotNetNuke.Wiki.Utilities
         #region Variables
 
         private bool mCheckCommentsValue = true;
-        private bool mCheckNameValue = true;
         private bool mCheckEmailValue = true;
+        private bool mCheckNameValue = true;
         private int mCommentsMaxLengthValue = 500;
         private bool mSuccessValue = true;
 
@@ -78,9 +78,9 @@ namespace DotNetNuke.Wiki.Utilities
         #region Controls
 
         /// <summary>
-        /// The name control
+        /// The comments control
         /// </summary>
-        protected System.Web.UI.WebControls.TextBox Name;
+        protected System.Web.UI.WebControls.TextBox Comment;
 
         /// <summary>
         /// The email control
@@ -88,34 +88,170 @@ namespace DotNetNuke.Wiki.Utilities
         protected System.Web.UI.WebControls.TextBox Email;
 
         /// <summary>
-        /// The comments control
+        /// The label parent unique identifier
         /// </summary>
-        protected System.Web.UI.WebControls.TextBox Comment;
+        protected System.Web.UI.WebControls.Label LblParentID;
 
         /// <summary>
-        /// Gets or sets the submit button.
+        /// The name control
         /// </summary>
-        /// <value>The submit button.</value>
-        protected System.Web.UI.WebControls.LinkButton SubmitButton
+        protected System.Web.UI.WebControls.TextBox Name;
+
+        /// <summary>
+        /// The subscribe automatic notifications
+        /// </summary>
+        protected System.Web.UI.WebControls.CheckBox SubscribeToNotifications;
+
+        /// <summary>
+        /// The with events field_ cancel button
+        /// </summary>
+        private System.Web.UI.WebControls.LinkButton withEventsField_CancelButton;
+
+        /// <summary>
+        /// The with events field_ submit button
+        /// </summary>
+        private System.Web.UI.WebControls.LinkButton withEventsField_SubmitButton;
+
+        #endregion Controls
+
+        //// private Entities.CommentsController commentBo = new Entities.CommentsController();
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [check comments].
+        /// </summary>
+        /// <value><c>true</c> if [check comments]; otherwise, /c>.</value>
+        [Description("Whether to check if the comments field is empty before submitting."), Category("Behaviour")]
+        public bool CheckComments
+        {
+            get { return this.mCheckCommentsValue; }
+            set { this.mCheckCommentsValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [check email].
+        /// </summary>
+        /// <value><c>true</c> if [check email]; otherwise, /c>.</value>
+        [Description("Whether to check (clientside) the email address is valid before the user can submit the form."), Category("Behaviour")]
+        public bool CheckEmail
+        {
+            get { return this.mCheckEmailValue; }
+            set { this.mCheckEmailValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [check name].
+        /// </summary>
+        /// <value><c>true</c> if [check name]; otherwise, /c>.</value>
+        [Description("Whether to check if the name field is empty before submitting."), Category("Behaviour")]
+        public bool CheckName
+        {
+            get { return this.mCheckNameValue; }
+            set { this.mCheckNameValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum length of the comments.
+        /// </summary>
+        /// <value>The maximum length of the comments.</value>
+        [Description("The maximum length (in characters) the comment can be. Enter 0 for unlimited length."), Category("Behaviour")]
+        public int CommentsMaxLength
+        {
+            get { return this.mCommentsMaxLengthValue; }
+            set { this.mCommentsMaxLengthValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the comment text.
+        /// </summary>
+        /// <value>The comment text.</value>
+        public string CommentText
+        {
+            get { return this.Comment.Text; }
+            set { this.Comment.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the email text.
+        /// </summary>
+        /// <value>The email text.</value>
+        public string EmailText
+        {
+            get { return this.Email.Text; }
+            set { this.Email.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable comment].
+        /// </summary>
+        /// <value><c>true</c> if [enable comment]; otherwise, /c>.</value>
+        public bool EnableComment
+        {
+            get { return this.Comment.Enabled; }
+            set { this.Comment.Enabled = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable email].
+        /// </summary>
+        /// <value><c>true</c> if [enable email]; otherwise, /c>.</value>
+        public bool EnableEmail
+        {
+            get { return this.Email.Enabled; }
+            set { this.Email.Enabled = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable name].
+        /// </summary>
+        /// <value><c>true</c> if [enable name]; otherwise, /c>.</value>
+        public bool EnableName
+        {
+            get { return this.Name.Enabled; }
+            set { this.Name.Enabled = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [enable notify].
+        /// </summary>
+        /// <value><c>true</c> if [enable notify]; otherwise, /c>.</value>
+        public bool EnableNotify
+        {
+            get { return this.SubscribeToNotifications.Visible; }
+            set { this.SubscribeToNotifications.Visible = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the name text.
+        /// </summary>
+        /// <value>The name text.</value>
+        public string NameText
+        {
+            get { return this.Name.Text; }
+            set { this.Name.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent unique identifier.
+        /// </summary>
+        /// <value>The parent unique identifier.</value>
+        [Description("The id of the parent (page) the comment is being added to."), Category("Data")]
+        public int ParentId
+        {
+            get { return Convert.ToInt32(this.LblParentID.Text); }
+            set { this.LblParentID.Text = value.ToString(); }
+        }
+
+        /// <summary>
+        /// Gets the shared resources.
+        /// </summary>
+        /// <value>The shared resources.</value>
+        public string SharedResources
         {
             get
             {
-                return withEventsField_SubmitButton;
-            }
-
-            set
-            {
-                if (withEventsField_SubmitButton != null)
-                {
-                    withEventsField_SubmitButton.Click -= SubmitButton_Click;
-                }
-
-                withEventsField_SubmitButton = value;
-
-                if (withEventsField_SubmitButton != null)
-                {
-                    withEventsField_SubmitButton.Click += SubmitButton_Click;
-                }
+                return this.TemplateSourceDirectory + "/" + "App_LocalResources/SharedResources.resx";
             }
         }
 
@@ -147,40 +283,29 @@ namespace DotNetNuke.Wiki.Utilities
         }
 
         /// <summary>
-        /// The label parent unique identifier
+        /// Gets or sets the submit button.
         /// </summary>
-        protected System.Web.UI.WebControls.Label LblParentID;
-
-        /// <summary>
-        /// The subscribe automatic notifications
-        /// </summary>
-        protected System.Web.UI.WebControls.CheckBox SubscribeToNotifications;
-
-        /// <summary>
-        /// The with events field_ submit button
-        /// </summary>
-        private System.Web.UI.WebControls.LinkButton withEventsField_SubmitButton;
-
-        /// <summary>
-        /// The with events field_ cancel button
-        /// </summary>
-        private System.Web.UI.WebControls.LinkButton withEventsField_CancelButton;
-
-        #endregion Controls
-
-        //// private Entities.CommentsController commentBo = new Entities.CommentsController();
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the shared resources.
-        /// </summary>
-        /// <value>The shared resources.</value>
-        public string SharedResources
+        /// <value>The submit button.</value>
+        protected System.Web.UI.WebControls.LinkButton SubmitButton
         {
             get
             {
-                return this.TemplateSourceDirectory + "/" + "App_LocalResources/SharedResources.resx";
+                return withEventsField_SubmitButton;
+            }
+
+            set
+            {
+                if (withEventsField_SubmitButton != null)
+                {
+                    withEventsField_SubmitButton.Click -= SubmitButton_Click;
+                }
+
+                withEventsField_SubmitButton = value;
+
+                if (withEventsField_SubmitButton != null)
+                {
+                    withEventsField_SubmitButton.Click += SubmitButton_Click;
+                }
             }
         }
 
@@ -193,131 +318,6 @@ namespace DotNetNuke.Wiki.Utilities
         protected override HtmlTextWriterTag TagKey
         {
             get { return HtmlTextWriterTag.Table; }
-        }
-
-        /// <summary>
-        /// Gets or sets the parent unique identifier.
-        /// </summary>
-        /// <value>The parent unique identifier.</value>
-        [Description("The id of the parent (page) the comment is being added to."), Category("Data")]
-        public int ParentId
-        {
-            get { return Convert.ToInt32(this.LblParentID.Text); }
-            set { this.LblParentID.Text = value.ToString(); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [check email].
-        /// </summary>
-        /// <value><c>true</c> if [check email]; otherwise, /c>.</value>
-        [Description("Whether to check (clientside) the email address is valid before the user can submit the form."), Category("Behaviour")]
-        public bool CheckEmail
-        {
-            get { return this.mCheckEmailValue; }
-            set { this.mCheckEmailValue = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [check name].
-        /// </summary>
-        /// <value><c>true</c> if [check name]; otherwise, /c>.</value>
-        [Description("Whether to check if the name field is empty before submitting."), Category("Behaviour")]
-        public bool CheckName
-        {
-            get { return this.mCheckNameValue; }
-            set { this.mCheckNameValue = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [check comments].
-        /// </summary>
-        /// <value><c>true</c> if [check comments]; otherwise, /c>.</value>
-        [Description("Whether to check if the comments field is empty before submitting."), Category("Behaviour")]
-        public bool CheckComments
-        {
-            get { return this.mCheckCommentsValue; }
-            set { this.mCheckCommentsValue = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum length of the comments.
-        /// </summary>
-        /// <value>The maximum length of the comments.</value>
-        [Description("The maximum length (in characters) the comment can be. Enter 0 for unlimited length."), Category("Behaviour")]
-        public int CommentsMaxLength
-        {
-            get { return this.mCommentsMaxLengthValue; }
-            set { this.mCommentsMaxLengthValue = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [enable comment].
-        /// </summary>
-        /// <value><c>true</c> if [enable comment]; otherwise, /c>.</value>
-        public bool EnableComment
-        {
-            get { return this.Comment.Enabled; }
-            set { this.Comment.Enabled = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [enable name].
-        /// </summary>
-        /// <value><c>true</c> if [enable name]; otherwise, /c>.</value>
-        public bool EnableName
-        {
-            get { return this.Name.Enabled; }
-            set { this.Name.Enabled = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [enable email].
-        /// </summary>
-        /// <value><c>true</c> if [enable email]; otherwise, /c>.</value>
-        public bool EnableEmail
-        {
-            get { return this.Email.Enabled; }
-            set { this.Email.Enabled = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the email text.
-        /// </summary>
-        /// <value>The email text.</value>
-        public string EmailText
-        {
-            get { return this.Email.Text; }
-            set { this.Email.Text = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the name text.
-        /// </summary>
-        /// <value>The name text.</value>
-        public string NameText
-        {
-            get { return this.Name.Text; }
-            set { this.Name.Text = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the comment text.
-        /// </summary>
-        /// <value>The comment text.</value>
-        public string CommentText
-        {
-            get { return this.Comment.Text; }
-            set { this.Comment.Text = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [enable notify].
-        /// </summary>
-        /// <value><c>true</c> if [enable notify]; otherwise, /c>.</value>
-        public bool EnableNotify
-        {
-            get { return this.SubscribeToNotifications.Visible; }
-            set { this.SubscribeToNotifications.Visible = value; }
         }
 
         #endregion Properties
@@ -517,6 +517,23 @@ namespace DotNetNuke.Wiki.Utilities
         }
 
         /// <summary>
+        /// Handles the Click event of the CancelButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        private void CancelButton_Click(object sender, System.EventArgs e)
+        {
+            Name.Text = string.Empty;
+            Email.Text = string.Empty;
+            Comment.Text = string.Empty;
+            if (PostCanceled != null)
+            {
+                PostCanceled(this);
+            }
+        }
+
+        /// <summary>
         /// Handles the Click event of the SubmitButton control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -564,23 +581,6 @@ namespace DotNetNuke.Wiki.Utilities
                         PostSubmitted(this);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the CancelButton control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
-        private void CancelButton_Click(object sender, System.EventArgs e)
-        {
-            Name.Text = string.Empty;
-            Email.Text = string.Empty;
-            Comment.Text = string.Empty;
-            if (PostCanceled != null)
-            {
-                PostCanceled(this);
             }
         }
 
