@@ -561,7 +561,7 @@ namespace DotNetNuke.Wiki.Utilities
                     CommentText = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
                     Ip = objSec.InputFilter(this.Context.Request.ServerVariables["REMOTE_ADDR"], DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
                     EmailNotify = this.SubscribeToNotifications.Checked,
-                    Datetime = DateTime.UtcNow
+                    Datetime = DateTime.Now
                 };
                 comment = commentBo.Add(comment);
 

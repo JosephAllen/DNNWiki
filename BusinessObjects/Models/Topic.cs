@@ -24,6 +24,8 @@
 #endregion Copyright
 
 using DotNetNuke.ComponentModel.DataAnnotations;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
 using DotNetNuke.Wiki.Extensions;
 using DotNetNuke.Wiki.Utilities;
 using System;
@@ -272,11 +274,22 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         }
 
         /// <summary>
-        /// Gets or sets the updated by username.
+        /// Gets or sets the updated by user name.
         /// </summary>
-        /// <value>The updated by username.</value>
+        /// <value>The updated by user name.</value>
         [IgnoreColumn]
-        public string UpdatedByUsername { get; set; }
+        public string UpdatedByUsername
+        {
+            get
+            {
+                UserInfo user = UserController.GetUserById(
+                    PortalController.GetCurrentPortalSettings().PortalId,
+                    UpdatedByUserID);
+                if (user != null)
+                    return user.DisplayName;
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the ten point ratings recorded.
