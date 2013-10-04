@@ -58,7 +58,7 @@ namespace DotNetNuke.Wiki.Utilities
         #region Variables
 
         private string mSharedResourceFile =
-            DotNetNuke.Common.Globals.ApplicationPath + "/DesktopModules/Wiki/" + Localization.LocalResourceDirectory + "/" + Localization.LocalSharedResourceFile;
+            DotNetNuke.Common.Globals.ApplicationPath + "/DesktopModules/Wiki/Views/" + Localization.LocalResourceDirectory + "/" + Localization.LocalSharedResourceFile;
 
         #endregion Variables
 
