@@ -47,7 +47,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion "Variables"
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="_AbstractBusinessObject{T, I}"/> class.
@@ -65,7 +65,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.mRepositoryInterface = this.mDatabaseContextObject.GetRepository<T>();
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Properties
 

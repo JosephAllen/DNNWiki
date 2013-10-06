@@ -71,7 +71,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion Properties
 
-        #region ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfWork"/> class.
@@ -86,7 +86,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             }
         }
 
-        #endregion ctor
+        #endregion Constructor
 
         #region transaction
 

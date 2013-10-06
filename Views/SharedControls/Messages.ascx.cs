@@ -46,9 +46,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// </summary>
         public void ClearMessages()
         {
-            pnl_message.CssClass = string.Empty;
-            pnl_message.Visible = false;
-            lt_message.Text = string.Empty;
+            this.pnl_message.CssClass = string.Empty;
+            this.pnl_message.Visible = false;
+            this.lt_message.Text = string.Empty;
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// message</param>
         public void ShowError(string message)
         {
-            pnl_message.CssClass = ERRORCLASS;
-            pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
-            lt_message.Text = message;
+            this.pnl_message.CssClass = ERRORCLASS;
+            this.pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
+            this.lt_message.Text = message;
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// message</param>
         public void ShowWarning(string message)
         {
-            pnl_message.CssClass = WARNINGCLASS;
-            pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
-            lt_message.Text = message;
+            this.pnl_message.CssClass = WARNINGCLASS;
+            this.pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
+            this.lt_message.Text = message;
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// message</param>
         public void ShowSuccess(string message)
         {
-            pnl_message.CssClass = SUCCESSCLASS;
-            pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
-            lt_message.Text = message;
+            this.pnl_message.CssClass = SUCCESSCLASS;
+            this.pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
+            this.lt_message.Text = message;
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// message</param>
         public void ShowInfo(string message)
         {
-            pnl_message.CssClass = INFOCLASS;
-            pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
-            lt_message.Text = message;
+            this.pnl_message.CssClass = INFOCLASS;
+            this.pnl_message.Visible = !string.IsNullOrWhiteSpace(message);
+            this.lt_message.Text = message;
         }
 
         #endregion Aux Functions

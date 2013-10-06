@@ -29,6 +29,9 @@ using System.Drawing.Imaging;
 
 namespace DotNetNuke.Wiki
 {
+    /// <summary>
+    /// This class represents the rating bar controller
+    /// </summary>
     public partial class RatingBar : System.Web.UI.Page
     {
         #region Variables

@@ -25,7 +25,6 @@
 
 using DotNetNuke.ComponentModel.DataAnnotations;
 using DotNetNuke.Wiki.Extensions;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Caching;
 
@@ -97,13 +96,13 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         /// Gets or sets the default discussion mode.
         /// </summary>
         /// <value>The default discussion mode.</value>
-        public Nullable<bool> DefaultDiscussionMode { get; set; }
+        public bool? DefaultDiscussionMode { get; set; }
 
         /// <summary>
         /// Gets or sets the default rating mode.
         /// </summary>
         /// <value>The default rating mode.</value>
-        public Nullable<bool> DefaultRatingMode { get; set; }
+        public bool? DefaultRatingMode { get; set; }
 
         /// <summary>
         /// Gets or sets the comment notify roles.
@@ -127,7 +126,7 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         /// Gets or sets the comment notify users.
         /// </summary>
         /// <value>The comment notify users.</value>
-        public Nullable<bool> CommentNotifyUsers { get; set; }
+        public bool? CommentNotifyUsers { get; set; }
 
         #endregion "Properties"
     }

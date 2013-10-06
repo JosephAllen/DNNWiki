@@ -32,20 +32,20 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Page Ratings Class
     /// </summary>
-    partial class PageRatings : WikiModuleBase
+    internal partial class PageRatings : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PageRatings"/> class.
         /// </summary>
         public PageRatings()
         {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
+            this.PreRender += this.Page_PreRender;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Variables
 
@@ -73,7 +73,7 @@ namespace DotNetNuke.Wiki.Views
                         uplevel = uplevel.Parent;
                     }
 
-                    this.mTopic = ((WikiModuleBase)uplevel)._Topic;
+                    this.mTopic = ((WikiModuleBase)uplevel).CurrentTopic;
                 }
 
                 return this.mTopic;
@@ -115,7 +115,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        protected new void Page_Load(System.Object sender, System.EventArgs e)
+        protected new void Page_Load(object sender, System.EventArgs e)
         {
             this.LoadLocalization();
         }
@@ -151,8 +151,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", base.RouterResourceFile);
-            RatingLbl.Text = Localization.GetString("PageRatingsTitle", base.RouterResourceFile);
+            NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", this.RouterResourceFile);
+            RatingLbl.Text = Localization.GetString("PageRatingsTitle", this.RouterResourceFile);
         }
 
         #endregion Methods

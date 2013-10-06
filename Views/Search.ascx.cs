@@ -33,23 +33,23 @@ namespace DotNetNuke.Wiki.Views
     /// Search Class based on the WikiModuleBase class. Allows users to search for topics. Needs to
     /// be rewritten but for now this is OK.
     /// </summary>
-    partial class Search : WikiModuleBase
+    internal partial class Search : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Search"/> class.
         /// </summary>
         public Search()
         {
-            Load += Page_Load;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Properties
 
-        protected System.Web.UI.WebControls.Label lblPageContent;
+        private System.Web.UI.WebControls.Label lblPageContent;
 
         #endregion Properties
 
@@ -61,7 +61,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdSearch_Click(System.Object sender, System.EventArgs e)
+        protected void CmdSearch_Click(object sender, System.EventArgs e)
         {
             this.SearchTopics();
         }
@@ -72,7 +72,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
+        public new void Page_Load(object sender, System.EventArgs e)
         {
             this.LoadLocalization();
         }
@@ -86,9 +86,9 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            Label2.Text = Localization.GetString("SearchTitleBasic", RouterResourceFile);
-            Label2.Text = Localization.GetString("SearchFieldLabel", RouterResourceFile);
-            cmdSearch.Text = Localization.GetString("SearchExec", RouterResourceFile);
+            Label2.Text = Localization.GetString("SearchTitleBasic", this.RouterResourceFile);
+            Label2.Text = Localization.GetString("SearchFieldLabel", this.RouterResourceFile);
+            cmdSearch.Text = Localization.GetString("SearchExec", this.RouterResourceFile);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SearchTopics()
         {
-            HitTable.Text = CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
+            HitTable.Text = this.CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
         }
 
         #endregion Methods

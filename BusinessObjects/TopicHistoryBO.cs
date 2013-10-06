@@ -43,7 +43,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion Variables
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TopicHistoryBO"/> class.
@@ -55,7 +55,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.mUnitOfWork = uOw;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Enums
 

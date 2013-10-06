@@ -35,20 +35,20 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Ratings class based on the Wiki Module Base class
     /// </summary>
-    partial class Ratings : WikiModuleBase
+    internal partial class Ratings : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Ratings"/> class.
         /// </summary>
         public Ratings()
         {
-            PreRender += this.Page_PreRender;
-            Load += this.Page_Load;
+            this.PreRender += this.Page_PreRender;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Variables
 
@@ -113,7 +113,7 @@ namespace DotNetNuke.Wiki.Views
                         uplevel = uplevel.Parent;
                     }
 
-                    this.mTopic = ((WikiModuleBase)uplevel)._Topic;
+                    this.mTopic = ((WikiModuleBase)uplevel).CurrentTopic;
                 }
 
                 return this.mTopic;
@@ -155,7 +155,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void btnSubmit_Click(object sender, System.EventArgs e)
+        protected void BtnSubmit_Click(object sender, System.EventArgs e)
         {
             bool save = false;
             save = false;
@@ -200,7 +200,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        protected new void Page_Load(System.Object sender, System.EventArgs e)
+        protected new void Page_Load(object sender, System.EventArgs e)
         {
             this.LoadLocalization();
 
@@ -232,16 +232,16 @@ namespace DotNetNuke.Wiki.Views
                     lblAverageRating.Text = this.InnerTopic.FivePointAverage.ToString("#.#");
                     lblRatingCount.Text = string.Format(
                         Localization.GetString(
-                        "RatingsNumberOf", RouterResourceFile),
+                        "RatingsNumberOf", this.RouterResourceFile),
                         this.InnerTopic.FivePointRatingsRecorded.ToString());
 
                     int i = 0;
                     i = 0;
                     for (i = 0; i <= 4; i++)
                     {
-                        System.Web.UI.WebControls.Image bcImg = new System.Web.UI.WebControls.Image();
-                        bcImg.ImageUrl = DNNWikiModuleRootPath + "/Resources/images/bcImage.gif";
-                        bcImg.Width = Unit.Pixel(10);
+                        System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+                        img.ImageUrl = this.DNNWikiModuleRootPath + "/Resources/images/bcImage.gif";
+                        img.Width = Unit.Pixel(10);
 
                         int currentCount = 0;
                         switch (i)
@@ -267,15 +267,15 @@ namespace DotNetNuke.Wiki.Views
                                 break;
                         }
 
-                        bcImg.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / Convert.ToDouble(this.InnerTopic.FivePointRatingsRecorded))));
-                        bcImg.AlternateText = currentCount.ToString();
-                        RatingsGraphTable.Rows[0].Cells[i].Controls.Add(bcImg);
+                        img.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / Convert.ToDouble(this.InnerTopic.FivePointRatingsRecorded))));
+                        img.AlternateText = currentCount.ToString();
+                        RatingsGraphTable.Rows[0].Cells[i].Controls.Add(img);
                     }
                 }
                 else
                 {
-                    lblAverageRating.Text = Localization.GetString("RatingsNotRatedYet", RouterResourceFile);
-                    lblRatingCount.Text = string.Format(Localization.GetString("RatingsNumberOf", RouterResourceFile), "0");
+                    lblAverageRating.Text = Localization.GetString("RatingsNotRatedYet", this.RouterResourceFile);
+                    lblRatingCount.Text = string.Format(Localization.GetString("RatingsNumberOf", this.RouterResourceFile), "0");
 
                     RatingsGraphTable.Visible = false;
                 }
@@ -309,12 +309,12 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", RouterResourceFile);
-            LowRating.Text = Localization.GetString("RatingsLowRating", RouterResourceFile);
-            HighRating.Text = Localization.GetString("RatingsHighRating", RouterResourceFile);
-            lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", RouterResourceFile);
-            lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", RouterResourceFile);
-            btnSubmit.Text = Localization.GetString("RatingsSubmitRating", RouterResourceFile);
+            RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", this.RouterResourceFile);
+            LowRating.Text = Localization.GetString("RatingsLowRating", this.RouterResourceFile);
+            HighRating.Text = Localization.GetString("RatingsHighRating", this.RouterResourceFile);
+            lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", this.RouterResourceFile);
+            lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", this.RouterResourceFile);
+            btnSubmit.Text = Localization.GetString("RatingsSubmitRating", this.RouterResourceFile);
         }
 
         #endregion Methods

@@ -44,7 +44,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion Variables
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TopicBO"/> class.
@@ -56,7 +56,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.mUnitOfWork = uOw;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Enums
 
@@ -162,22 +162,22 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
                     if (objModule != null)
                     {
-                        bool bFetchUsingDNNRoles = false;
-                        bool bFetchUsingCustomRoles = false;
-                        bool bFetchViewUsers = false;
-                        bool bFetchEditUsers = false;
+                        bool fetchUsingDNNRoles = false;
+                        bool fetchUsingCustomRoles = false;
+                        bool fetchViewUsers = false;
+                        bool fetchEditUsers = false;
 
-                        bFetchUsingDNNRoles = !string.IsNullOrWhiteSpace(wikiSettings.ContentEditorRoles) && wikiSettings.ContentEditorRoles.StartsWith("UseDNNSettings;");
-                        bFetchUsingCustomRoles = !string.IsNullOrWhiteSpace(wikiSettings.CommentNotifyRoles) && !wikiSettings.CommentNotifyRoles.StartsWith("UseDNNSettings;");
+                        fetchUsingDNNRoles = !string.IsNullOrWhiteSpace(wikiSettings.ContentEditorRoles) && wikiSettings.ContentEditorRoles.StartsWith("UseDNNSettings;");
+                        fetchUsingCustomRoles = !string.IsNullOrWhiteSpace(wikiSettings.CommentNotifyRoles) && !wikiSettings.CommentNotifyRoles.StartsWith("UseDNNSettings;");
 
-                        if (!bFetchUsingCustomRoles)
+                        if (!fetchUsingCustomRoles)
                         {
-                            bFetchEditUsers = wikiSettings.CommentNotifyRoles.Contains(";Edit");
-                            bFetchViewUsers = wikiSettings.CommentNotifyRoles.Contains(";View");
+                            fetchEditUsers = wikiSettings.CommentNotifyRoles.Contains(";Edit");
+                            fetchViewUsers = wikiSettings.CommentNotifyRoles.Contains(";View");
                         }
 
                         // Compile our view users, only if enabled
-                        if (bFetchViewUsers)
+                        if (fetchViewUsers)
                         {
                             foreach (string role in objModule.AuthorizedViewRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))
                             {
@@ -210,9 +210,9 @@ namespace DotNetNuke.Wiki.BusinessObjects
                         }
 
                         // Compile our edit users, only if enabled
-                        if (bFetchEditUsers)
+                        if (fetchEditUsers)
                         {
-                            if (bFetchUsingDNNRoles)
+                            if (fetchUsingDNNRoles)
                             {
                                 // Fetch using dnn edit roles
                                 foreach (string role in objModule.AuthorizedEditRoles.Trim(new char[] { ';' }).Split(new char[] { ';' }))

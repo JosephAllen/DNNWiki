@@ -38,18 +38,18 @@ namespace DotNetNuke.Wiki.Views
     /// </summary>
     public partial class Edit : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Edit"/> class.
         /// </summary>
         public Edit()
         {
-            PreRender += this.Page_PreRender;
-            Load += this.Page_Load;
+            this.PreRender += this.Page_PreRender;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -59,17 +59,18 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdCancel_Click(System.Object sender, System.EventArgs e)
+        protected void CmdCancel_Click(object sender, System.EventArgs e)
         {
             this.CancelChanges();
         }
 
         /// <summary>
-        /// Creates/updates a topic
+        /// Handles the Click event of the save control. Creates/updates a topic
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void cmdSave_Click(System.Object sender, System.EventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
+        /// data.</param>
+        protected void CmdSave_Click(object sender, System.EventArgs e)
         {
             // If we've change the Topic Name we need to create a new topic.
             Topic ti = null;
@@ -80,12 +81,12 @@ namespace DotNetNuke.Wiki.Views
             ////    ti = TopicBo.GetByNameForModule(ModuleId, PageTopic);
             ////}
 
-            PageTopic = WikiMarkup.DecodeTitle(txtPageName.Text.Trim());
+            this.PageTopic = WikiMarkup.DecodeTitle(this.txtPageName.Text.Trim());
 
             if (ti == null)
             {
                 this.SaveChanges();
-                if (PageTopic == WikiHomeName)
+                if (this.PageTopic == WikiModuleBase.WikiHomeName)
                 {
                     Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(this.TabId));
                 }
@@ -94,7 +95,7 @@ namespace DotNetNuke.Wiki.Views
             }
             else
             {
-                lblPageCreationError.Text = Localization.GetString("lblPageCreationError", LocalResourceFile);
+                lblPageCreationError.Text = Localization.GetString("lblPageCreationError", this.LocalResourceFile);
             }
         }
 
@@ -107,9 +108,9 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdSaveAndContinue_Click(System.Object sender, System.EventArgs e)
+        protected void CmdSaveAndContinue_Click(object sender, System.EventArgs e)
         {
-            PageTopic = txtPageName.Text.Trim();
+            this.PageTopic = txtPageName.Text.Trim();
             this.SaveAndContinue();
             ////Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & WikiMarkup.EncodeTitle(Me.PageTopic)), False)
         }
@@ -120,7 +121,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void DeleteBtn_Click(System.Object sender, System.EventArgs e)
+        protected void DeleteBtn_Click(object sender, System.EventArgs e)
         {
             var topicHistoryList = GetHistory();
             foreach (var th in topicHistoryList)
@@ -128,7 +129,7 @@ namespace DotNetNuke.Wiki.Views
                 TopicHistoryBo.Delete(th);
             }
 
-            TopicBo.Delete(this._Topic);
+            TopicBo.Delete(this.CurrentTopic);
             Response.Redirect(this.HomeURL, true);
         }
 
@@ -138,29 +139,29 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
+        public new void Page_Load(object sender, System.EventArgs e)
         {
-            LoadLocalization();
+            this.LoadLocalization();
 
-            if (CanEdit)
+            if (this.CanEdit)
             {
-                if (teContent != null)
+                if (this.teContent != null)
                 {
                     teContent.HtmlEncode = false;
                 }
 
-                LoadTopic();
-                if (string.IsNullOrWhiteSpace(_Topic.Name))
+                this.LoadTopic();
+                if (string.IsNullOrWhiteSpace(CurrentTopic.Name))
                 {
                     if (this.Request.QueryString["topic"] == null)
                     {
-                        PageTopic = WikiHomeName.Replace("[L]", string.Empty);
-                        _Topic.Name = PageTopic;
+                        this.PageTopic = WikiHomeName.Replace("[L]", string.Empty);
+                        CurrentTopic.Name = this.PageTopic;
                     }
                     else
                     {
-                        PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", string.Empty);
-                        _Topic.Name = PageTopic;
+                        this.PageTopic = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString()).Replace("[L]", string.Empty);
+                        CurrentTopic.Name = this.PageTopic;
                     }
                 }
 
@@ -169,8 +170,8 @@ namespace DotNetNuke.Wiki.Views
                 // CommentsSec.IsExpanded = FalseB
                 if (this.Request.QueryString["add"] != null)
                 {
-                    PageTopic = string.Empty;
-                    LoadTopic();
+                    this.PageTopic = string.Empty;
+                    this.LoadTopic();
                     this.EditPage();
                 }
                 else
@@ -178,7 +179,7 @@ namespace DotNetNuke.Wiki.Views
                 }
 
                 // Add confirmation to the delete button.
-                ClientAPI.AddButtonConfirm(DeleteBtn, Localization.GetString("ConfirmDelete", this.LocalResourceFile));
+                ClientAPI.AddButtonConfirm(this.DeleteBtn, Localization.GetString("ConfirmDelete", this.LocalResourceFile));
             }
             else
             {
@@ -229,12 +230,12 @@ namespace DotNetNuke.Wiki.Views
             this.cmdSave.Visible = true;
             this.cmdSaveAndContinue.Visible = true;
             this.cmdCancel.Visible = true;
-            this.teContent.Text = ReadTopicForEdit();
+            this.teContent.Text = this.ReadTopicForEdit();
 
             if (this.WikiSettings.AllowDiscussions)
             {
                 this.AllowDiscuss.Enabled = true;
-                this.AllowDiscuss.Checked = this._Topic.AllowDiscussions || this.WikiSettings.DefaultDiscussionMode == true;
+                this.AllowDiscuss.Checked = this.CurrentTopic.AllowDiscussions || this.WikiSettings.DefaultDiscussionMode == true;
             }
             else
             {
@@ -245,7 +246,7 @@ namespace DotNetNuke.Wiki.Views
             if (this.WikiSettings.AllowRatings)
             {
                 this.AllowRating.Enabled = true;
-                this.AllowRating.Checked = this._Topic.AllowRatings || this.WikiSettings.DefaultRatingMode == true;
+                this.AllowRating.Checked = this.CurrentTopic.AllowRatings || this.WikiSettings.DefaultRatingMode == true;
             }
             else
             {
@@ -255,36 +256,36 @@ namespace DotNetNuke.Wiki.Views
 
             this.DeleteBtn.Visible = false;
             this.DeleteLbl.Visible = false;
-            if (this._Topic.Name != WikiHomeName)
+            if (this.CurrentTopic.Name != WikiModuleBase.WikiHomeName)
             {
                 this.DeleteBtn.Visible = true;
                 this.DeleteLbl.Visible = true;
             }
 
-            if (string.IsNullOrWhiteSpace(this._Topic.Name))
+            if (string.IsNullOrWhiteSpace(this.CurrentTopic.Name))
             {
                 txtPageName.Text = string.Empty;
                 txtPageName.ReadOnly = false;
             }
             else
             {
-                txtPageName.Text = HttpUtility.HtmlDecode(_Topic.Name.Trim().Replace("[L]", string.Empty));
-                txtPageName.ReadOnly = PageTopic.Equals(WikiHomeName);
+                txtPageName.Text = HttpUtility.HtmlDecode(CurrentTopic.Name.Trim().Replace("[L]", string.Empty));
+                txtPageName.ReadOnly = PageTopic.Equals(WikiModuleBase.WikiHomeName);
             }
 
-            if (!string.IsNullOrWhiteSpace(this._Topic.Title))
+            if (!string.IsNullOrWhiteSpace(this.CurrentTopic.Title))
             {
-                txtTitle.Text = HttpUtility.HtmlDecode(_Topic.Title.Replace("[L]", string.Empty));
+                txtTitle.Text = HttpUtility.HtmlDecode(CurrentTopic.Title.Replace("[L]", string.Empty));
             }
 
-            if (this._Topic.Description != null)
+            if (this.CurrentTopic.Description != null)
             {
-                txtDescription.Text = _Topic.Description;
+                txtDescription.Text = CurrentTopic.Description;
             }
 
-            if (this._Topic.Keywords != null)
+            if (this.CurrentTopic.Keywords != null)
             {
-                txtKeywords.Text = _Topic.Keywords;
+                txtKeywords.Text = CurrentTopic.Keywords;
             }
 
             //// TODO: Fix Printer Friendly
@@ -296,7 +297,7 @@ namespace DotNetNuke.Wiki.Views
         private void EditPage()
         {
             // Redirect back to the topic url.
-            DisplayTopic();
+            this.DisplayTopic();
         }
 
         /// <summary>
@@ -304,15 +305,15 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", LocalResourceFile);
-            AllowRating.Text = Localization.GetString("StartAllowRatings", LocalResourceFile);
-            cmdCancel.Text = Localization.GetString("StartCancel", LocalResourceFile);
+            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", this.LocalResourceFile);
+            AllowRating.Text = Localization.GetString("StartAllowRatings", this.LocalResourceFile);
+            cmdCancel.Text = Localization.GetString("StartCancel", this.LocalResourceFile);
             ////CommentsSec.Text = Localization.GetString("StartCommentsSection", LocalResourceFile)
-            DeleteBtn.Text = Localization.GetString("StartDelete", LocalResourceFile);
-            cmdSave.Text = Localization.GetString("StartSave", LocalResourceFile);
-            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", LocalResourceFile);
-            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", LocalResourceFile);
-            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", LocalResourceFile);
+            DeleteBtn.Text = Localization.GetString("StartDelete", this.LocalResourceFile);
+            cmdSave.Text = Localization.GetString("StartSave", this.LocalResourceFile);
+            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", this.LocalResourceFile);
+            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", this.LocalResourceFile);
+            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", this.LocalResourceFile);
             ////RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
         }
 
@@ -324,7 +325,7 @@ namespace DotNetNuke.Wiki.Views
             try
             {
                 DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
-                SaveTopic(
+                this.SaveTopic(
                     HttpUtility.HtmlDecode(
                     objSec.InputFilter(objSec.InputFilter(this.teContent.Text, PortalSecurity.FilterFlag.NoMarkup), PortalSecurity.FilterFlag.NoScripting)),
                     this.AllowDiscuss.Checked,
@@ -351,7 +352,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SaveChanges()
         {
-            SaveAndContinue();
+            this.SaveAndContinue();
             ////redirect to the topic's url
         }
 

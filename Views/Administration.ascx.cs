@@ -44,22 +44,22 @@ namespace DotNetNuke.Wiki.Views
 
         private const string StrUseDNNSettings = "UseDNNSettings";
 
-        protected Setting mSettingsModel; ////Data from the WikiSettings Busines Object
+        private Setting mSettingsModel; ////Data from the WikiSettings Business Object
 
         #endregion Variables
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Administration"/> class.
         /// </summary>
         public Administration()
         {
-            Load += this.CtrlPage_Load;
-            Init += this.Page_Init;
+            this.Load += this.CtrlPage_Load;
+            this.Init += this.Page_Init;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -69,7 +69,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void AllowPageRatings_CheckedChanged(System.Object sender, System.EventArgs e)
+        protected void AllowPageRatings_CheckedChanged(object sender, EventArgs e)
         {
             if (AllowPageComments.Checked)
             {
@@ -94,7 +94,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void AllowPageComments_CheckedChanged(System.Object sender, System.EventArgs e)
+        protected void AllowPageComments_CheckedChanged(object sender, System.EventArgs e)
         {
             if (AllowPageComments.Checked)
             {
@@ -129,7 +129,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        private void CtrlPage_Load(System.Object sender, System.EventArgs e)
+        private void CtrlPage_Load(object sender, System.EventArgs e)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace DotNetNuke.Wiki.Views
 
                     if (this.mSettingsModel == null)
                     {
-                        this.mSettingsModel = settingsBo.GetByModuleID(ModuleId);
+                        this.mSettingsModel = settingsBo.GetByModuleID(this.ModuleId);
                         if (this.mSettingsModel == null)
                         {
                             this.mSettingsModel = new Setting();
@@ -155,7 +155,7 @@ namespace DotNetNuke.Wiki.Views
                         }
                     }
 
-                    if (!IsPostBack)
+                    if (!this.IsPostBack)
                     {
                         DNNSecurityChk.Checked = this.mSettingsModel.ContentEditorRoles.Equals(StrUseDNNSettings);
                         AllowPageComments.Checked = this.mSettingsModel.AllowDiscussions;
@@ -247,7 +247,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void DNNSecurityChk_CheckedChanged(System.Object sender, System.EventArgs e)
+        protected void DNNSecurityChk_CheckedChanged(object sender, System.EventArgs e)
         {
             if (DNNSecurityChk.Checked == true)
             {
@@ -296,7 +296,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        private void Page_Init(System.Object sender, System.EventArgs e)
+        private void Page_Init(object sender, System.EventArgs e)
         {
             Framework.jQuery.RequestUIRegistration();
             Framework.jQuery.RequestDnnPluginsRegistration();
@@ -515,7 +515,7 @@ namespace DotNetNuke.Wiki.Views
 
                 if (this.mSettingsModel.ModuleId == -1)
                 {
-                    this.mSettingsModel.ModuleId = ModuleId;
+                    this.mSettingsModel.ModuleId = this.ModuleId;
                     settingsBo.Add(this.mSettingsModel);
                 }
                 else
@@ -527,134 +527,79 @@ namespace DotNetNuke.Wiki.Views
             }
         }
 
-        /// <summary>
-        /// Binds role controls.
-        /// </summary>
-        /// <param name="roleType">Type of the role.</param>
-        private void zzBindRoleControls(string roleType)
-        {
-            // declare variables
-            string roles = string.Empty;
-            ListItem[] arrAuthRoles = null;
-            ArrayList arrAssignedRoles = new ArrayList();
-            ArrayList arrAvailableRoles = new ArrayList();
+        ///// <summary> Binds role controls. </summary> <param name="roleType">Type of the
+        ///// role.</param>
+        // private void zzBindRoleControls(string roleType)
+        // {
+        //    // declare variables
+        //    string roles = string.Empty;
+        //    ListItem[] arrAuthRoles = null;
+        //    ArrayList arrAssignedRoles = new ArrayList();
+        //    ArrayList arrAvailableRoles = new ArrayList();
 
-            if (roleType == "ContentEditors")
-            {
-                roles = this.mSettingsModel.ContentEditorRoles;
-            }
-            else if (roleType == "CommentNotifyRoles")
-            {
-                roles = this.mSettingsModel.CommentNotifyRoles;
-            }
-            else
-            {
-                // TODO We've got problems if its not "ContentEditors" or "CommentNotifyRoles" TODO
-                // Need to raise an error
-            }
+        // if (roleType == "ContentEditors") { roles = this.mSettingsModel.ContentEditorRoles; }
+        // else if (roleType == "CommentNotifyRoles") { roles =
+        // this.mSettingsModel.CommentNotifyRoles; } else { // TODO We've got problems if its not
+        // "ContentEditors" or "CommentNotifyRoles" TODO // Need to raise an error }
 
-            if (roles != StrUseDNNSettings)
-            {
-                arrAuthRoles = roles.Split(
-                    new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries)[0]
-                    .Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(p =>
-                    new ListItem(p, p)).ToArray();
+        // if (roles != StrUseDNNSettings) { arrAuthRoles = roles.Split( new char[] { '|' },
+        // StringSplitOptions.RemoveEmptyEntries)[0] .Split(new char[] { ';' },
+        // StringSplitOptions.RemoveEmptyEntries).Select(p => new ListItem(p, p)).ToArray();
 
-                // Convert the arrAuthRoles array to an array list
-                arrAssignedRoles.AddRange(arrAuthRoles);
-            }
+        // // Convert the arrAuthRoles array to an array list
+        // arrAssignedRoles.AddRange(arrAuthRoles); }
 
-            if (roleType == "CommentNotifyRoles")
-            {
-                foreach (ListItem curRole in arrAssignedRoles)
-                {
-                    if (curRole.Value == string.Empty)
-                    {
-                        arrAvailableRoles.Remove(curRole);
-                    }
-                }
-            }
+        // if (roleType == "CommentNotifyRoles") { foreach (ListItem curRole in arrAssignedRoles) {
+        // if (curRole.Value == string.Empty) { arrAvailableRoles.Remove(curRole); } } }
 
-            // Call the BuildAllRolesArray method to Build an Array of All Roles ----------------
-            // Available Roles = All Roles - Assigned Roles AvailableRoles(arrAssignedRoles);
+        // // Call the BuildAllRolesArray method to Build an Array of All Roles ---------------- //
+        // Available Roles = All Roles - Assigned Roles AvailableRoles(arrAssignedRoles);
 
-            // Build Available Roles add an entry of All Users for the View roles
-            arrAvailableRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
+        // // Build Available Roles add an entry of All Users for the View roles
+        // arrAvailableRoles.Add(new ListItem("All Users",
+        // DotNetNuke.Common.Globals.glbRoleAllUsersName));
 
-            // add an entry of Unauthenticated Users for the View roles
-            arrAvailableRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
+        // // add an entry of Unauthenticated Users for the View roles arrAvailableRoles.Add(new
+        // ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
 
-            // process portal roles
-            DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
+        // // process portal roles DotNetNuke.Security.Roles.RoleController objRoles = new
+        // DotNetNuke.Security.Roles.RoleController();
 
-            var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>();
-            foreach (var objRole in arrRoles)
-            {
-                arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName));
-            }
+        // var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>(); foreach (var objRole
+        // in arrRoles) { arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName)); }
 
-            // Remove the Assigned Roles from the Available Roles
-            if (arrAvailableRoles.Count > 0)
-            {
-                foreach (ListItem curRole in arrAssignedRoles)
-                {
-                    arrAvailableRoles.Remove(curRole);
-                }
-            }
+        // // Remove the Assigned Roles from the Available Roles if (arrAvailableRoles.Count > 0) {
+        // foreach (ListItem curRole in arrAssignedRoles) { arrAvailableRoles.Remove(curRole); } }
 
-            if (roleType == "ContentEditors")
-            {
-                ContentEditors.Assigned = arrAssignedRoles;
-                ContentEditors.Available = arrAvailableRoles;
-            }
-            else if (roleType == "CommentNotifyRoles")
-            {
-                NotifyRoles.Assigned = arrAssignedRoles;
-                NotifyRoles.Available = arrAvailableRoles;
-            }
-            else
-            {
-                // TODO We've got problems if its not "ContentEditors" or "CommentNotifyRoles" TODO
-                // Need to raise an error
-            }
-        }
+        // if (roleType == "ContentEditors") { ContentEditors.Assigned = arrAssignedRoles;
+        // ContentEditors.Available = arrAvailableRoles; } else if (roleType ==
+        // "CommentNotifyRoles") { NotifyRoles.Assigned = arrAssignedRoles; NotifyRoles.Available =
+        // arrAvailableRoles; } else { // TODO We've got problems if its not "ContentEditors" or
+        // "CommentNotifyRoles" TODO // Need to raise an error } }
 
-        /// <summary>
-        /// Get the available roles.
-        /// </summary>
-        /// <param name="arrAssignedRoles">An array of assigned roles.</param>
-        /// <returns>ArrayList of Available Roles</returns>
-        private ArrayList zzAvailableRoles(ArrayList arrAssignedRoles)
-        {
-            // Declare Variables
-            ArrayList arrAvailableRoles = new ArrayList();
+        ///// <summary> Get the available roles. </summary> <param name="arrAssignedRoles">An array
+        ///// of assigned roles.</param> <returns>ArrayList of Available Roles</returns>
+        // private ArrayList zzAvailableRoles(ArrayList arrAssignedRoles)
+        // {
+        //    // Declare Variables
+        //    ArrayList arrAvailableRoles = new ArrayList();
 
-            // add an entry of All Users for the View roles
-            arrAvailableRoles.Add(new ListItem("All Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
+        // // add an entry of All Users for the View roles arrAvailableRoles.Add(new ListItem("All
+        // Users", DotNetNuke.Common.Globals.glbRoleAllUsersName));
 
-            // add an entry of Unauthenticated Users for the View roles
-            arrAvailableRoles.Add(new ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
+        // // add an entry of Unauthenticated Users for the View roles arrAvailableRoles.Add(new
+        // ListItem("Unauthenticated Users", DotNetNuke.Common.Globals.glbRoleUnauthUserName));
 
-            // process portal roles
-            DotNetNuke.Security.Roles.RoleController objRoles = new DotNetNuke.Security.Roles.RoleController();
+        // // process portal roles DotNetNuke.Security.Roles.RoleController objRoles = new
+        // DotNetNuke.Security.Roles.RoleController();
 
-            var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>();
-            foreach (var objRole in arrRoles)
-            {
-                arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName));
-            }
+        // var arrRoles = objRoles.GetPortalRoles(PortalId).OfType<RoleInfo>(); foreach (var objRole
+        // in arrRoles) { arrAvailableRoles.Add(new ListItem(objRole.RoleName, objRole.RoleName)); }
 
-            // Remove the Assigned Roles from the Available Roles
-            if (arrAvailableRoles.Count > 0)
-            {
-                foreach (ListItem curRole in arrAssignedRoles)
-                {
-                    arrAvailableRoles.Remove(curRole);
-                }
-            }
+        // // Remove the Assigned Roles from the Available Roles if (arrAvailableRoles.Count > 0) {
+        // foreach (ListItem curRole in arrAssignedRoles) { arrAvailableRoles.Remove(curRole); } }
 
-            return arrAvailableRoles;
-        }
+        //// return arrAvailableRoles; }
 
         #endregion Methods
     }

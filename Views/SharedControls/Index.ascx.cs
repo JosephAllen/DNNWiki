@@ -35,17 +35,17 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     /// </summary>
     public partial class Index : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Index"/> class.
         /// </summary>
         public Index()
         {
-            Load += this.Page_Load;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -77,7 +77,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             int i = 0;
             tableText.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
             tableText.Append(this.HomeURL + "\"><img src=\"");
-            tableText.Append(DNNWikiModuleRootPath);
+            tableText.Append(this.DNNWikiModuleRootPath);
             tableText.Append("/Resources/images/Home.gif\" border=\"0\" align=\"middle\" alt=\"" + Localization.GetString("Home", this.LocalResourceFile) + "\" />&nbsp;");
             tableText.Append(Localization.GetString("Home", this.LocalResourceFile));
             tableText.Append("</a><br />");
@@ -88,12 +88,12 @@ namespace DotNetNuke.Wiki.Views.SharedControls
                     for (i = 0; i <= topics.Count() - 1; i++)
                     {
                         t = (Topic)topics[i];
-                        if (t.Name != WikiHomeName)
+                        if (t.Name != WikiModuleBase.WikiHomeName)
                         {
                             tableText.Append("&nbsp;&nbsp;&nbsp<a class=\"CommandButton\" href=\"");
                             tableText.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(t.Name)));
                             tableText.Append("\"><img src=\"");
-                            tableText.Append(DNNWikiModuleRootPath);
+                            tableText.Append(this.DNNWikiModuleRootPath);
                             tableText.Append("/Resources/images/Page.gif\" border=\"0\" align=\"middle\"  alt=\"" + WikiMarkup.EncodeTitle(t.Name) + "\" />&nbsp;");
                             tableText.Append(t.Name);
                             tableText.Append("</a><br />");

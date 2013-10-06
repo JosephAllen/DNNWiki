@@ -31,19 +31,19 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     /// <summary>
     /// Wiki Button Code
     /// </summary>
-    partial class WikiButton : WikiModuleBase
+    internal partial class WikiButton : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WikiButton"/> class.
         /// </summary>
         public WikiButton()
         {
-            Load += Page_Load;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -55,11 +55,11 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// data.</param>
         protected new void Page_Load(object sender, System.EventArgs e)
         {
-            LocalResourceFile = DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "WikiButton.ascx.resx");
+            this.LocalResourceFile = DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "WikiButton.ascx.resx");
 
-            lnkEdit.Text = Localization.GetString("StartEdit.Text", LocalResourceFile);
-            cmdAdd.Text = Localization.GetString("StartAdd", LocalResourceFile);
-            txtViewHistory.Text = Localization.GetString("StartViewHistory", LocalResourceFile);
+            lnkEdit.Text = Localization.GetString("StartEdit.Text", this.LocalResourceFile);
+            cmdAdd.Text = Localization.GetString("StartAdd", this.LocalResourceFile);
+            txtViewHistory.Text = Localization.GetString("StartViewHistory", this.LocalResourceFile);
 
             this.SetDisplay();
         }
@@ -84,7 +84,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
             this.AddPipe.Visible = false;
             this.txtViewHistory.Visible = false;
 
-            if (_Topic.TopicID >= 0 | (Request.QueryString["topic"] != null))
+            if (CurrentTopic.TopicID >= 0 | (Request.QueryString["topic"] != null))
             {
                 this.ViewPipe1.Visible = true;
                 this.ViewPipe2.Visible = true;
@@ -96,11 +96,11 @@ namespace DotNetNuke.Wiki.Views.SharedControls
 
                 this.AddPipe.Visible = this.CanEdit;
                 this.txtViewHistory.Visible = true;
-                this.txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(PageTopic));
-                this.lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(PageTopic) + "&loc=edit");
+                this.txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic));
+                this.lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic) + "&loc=edit");
             }
 
-            cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, string.Empty, "&loc=edit&add=true");
+            cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "&loc=edit&add=true");
         }
 
         #endregion Methods

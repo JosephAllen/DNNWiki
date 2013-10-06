@@ -31,19 +31,19 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Recent changes class based on WikiModuleBase
     /// </summary>
-    partial class RecentChanges : WikiModuleBase
+    internal partial class RecentChanges : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecentChanges"/> class.
         /// </summary>
         public RecentChanges()
         {
-            Load += Page_Load;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -53,20 +53,20 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdLast7Days_Click(System.Object sender, System.EventArgs e)
+        protected void CmdLast7Days_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = CreateRecentChangeTable(7);
+            HitTable.Text = this.CreateRecentChangeTable(7);
         }
 
         /// <summary>
-        /// Handles the Click event of the Last 24 Hrs control.
+        /// Handles the Click event of the Last 24 hours control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdLast24Hrs_Click(System.Object sender, System.EventArgs e)
+        protected void CmdLast24Hrs_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = CreateRecentChangeTable(1);
+            HitTable.Text = this.CreateRecentChangeTable(1);
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdLastMonth_Click(System.Object sender, System.EventArgs e)
+        protected void CmdLastMonth_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = CreateRecentChangeTable(31);
+            HitTable.Text = this.CreateRecentChangeTable(31);
         }
 
         /// <summary>
@@ -86,12 +86,12 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
+        public new void Page_Load(object sender, System.EventArgs e)
         {
             this.LoadLocalization();
             if (!this.IsPostBack)
             {
-                HitTable.Text = CreateRecentChangeTable(1);
+                HitTable.Text = this.CreateRecentChangeTable(1);
             }
         }
 
@@ -104,10 +104,10 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            TitleLbl.Text = Localization.GetString("RCTitle", RouterResourceFile);
-            cmdLast24Hrs.Text = Localization.GetString("RCLast24h", RouterResourceFile);
-            cmdLast7Days.Text = Localization.GetString("RCLast7d", RouterResourceFile);
-            cmdLastMonth.Text = Localization.GetString("RCLastMonth", RouterResourceFile);
+            TitleLbl.Text = Localization.GetString("RCTitle", this.RouterResourceFile);
+            cmdLast24Hrs.Text = Localization.GetString("RCLast24h", this.RouterResourceFile);
+            cmdLast7Days.Text = Localization.GetString("RCLast7d", this.RouterResourceFile);
+            cmdLastMonth.Text = Localization.GetString("RCLastMonth", this.RouterResourceFile);
         }
 
         #endregion Methods

@@ -33,19 +33,19 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Topic History Control Class
     /// </summary>
-    partial class TopicHistory : WikiModuleBase
+    internal partial class TopicHistory : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TopicHistory"/> class.
         /// </summary>
         public TopicHistory()
         {
-            Load += Page_Load;
+            this.Load += this.Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Events
 
@@ -55,37 +55,37 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void cmdRestore_Click(System.Object sender, System.EventArgs e)
+        protected void CmdRestore_Click(object sender, System.EventArgs e)
         {
             if (this.Request.QueryString["ShowHistory"] != null)
             {
                 string historyPK = this.Request.QueryString["ShowHistory"];
                 var topicHistoryItem = TopicHistoryBo.GetItem(int.Parse(historyPK));
-                topicHistoryItem.TabID = TabId;
-                topicHistoryItem.PortalSettings = PortalSettings;
+                topicHistoryItem.TabID = this.TabId;
+                topicHistoryItem.PortalSettings = this.PortalSettings;
                 var topicHistoryBO = new DotNetNuke.Wiki.BusinessObjects.Models.TopicHistory();
-                topicHistoryBO.TabID = TabId;
-                topicHistoryBO.PortalSettings = PortalSettings;
-                topicHistoryBO.Content = _Topic.Content;
-                topicHistoryBO.TopicId = TopicId;
-                topicHistoryBO.UpdatedBy = _Topic.UpdatedBy;
-                topicHistoryBO.UpdateDate = _Topic.UpdateDate;
+                topicHistoryBO.TabID = this.TabId;
+                topicHistoryBO.PortalSettings = this.PortalSettings;
+                topicHistoryBO.Content = CurrentTopic.Content;
+                topicHistoryBO.TopicId = this.TopicId;
+                topicHistoryBO.UpdatedBy = CurrentTopic.UpdatedBy;
+                topicHistoryBO.UpdateDate = CurrentTopic.UpdateDate;
                 topicHistoryBO.Name = this.PageTopic;
-                topicHistoryBO.Title = _Topic.Title;
-                topicHistoryBO.UpdatedByUserID = _Topic.UpdatedByUserID;
+                topicHistoryBO.Title = CurrentTopic.Title;
+                topicHistoryBO.UpdatedByUserID = CurrentTopic.UpdatedByUserID;
 
-                _Topic.Content = topicHistoryItem.Content;
-                _Topic.Name = topicHistoryItem.Name;
-                _Topic.Title = topicHistoryItem.Title;
-                _Topic.Keywords = topicHistoryItem.Keywords;
-                _Topic.Description = topicHistoryItem.Description;
-                _Topic.UpdatedBy = UserInfo.Username;
-                _Topic.UpdateDate = DateTime.Now;
-                _Topic.UpdatedByUserID = UserId;
-                TopicBo.Update(_Topic);
+                CurrentTopic.Content = topicHistoryItem.Content;
+                CurrentTopic.Name = topicHistoryItem.Name;
+                CurrentTopic.Title = topicHistoryItem.Title;
+                CurrentTopic.Keywords = topicHistoryItem.Keywords;
+                CurrentTopic.Description = topicHistoryItem.Description;
+                CurrentTopic.UpdatedBy = UserInfo.Username;
+                CurrentTopic.UpdateDate = DateTime.Now;
+                CurrentTopic.UpdatedByUserID = this.UserId;
+                TopicBo.Update(this.CurrentTopic);
                 TopicHistoryBo.Add(topicHistoryBO);
 
-                Response.Redirect(HomeURL, true);
+                Response.Redirect(this.HomeURL, true);
             }
         }
 
@@ -95,9 +95,9 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
+        public new void Page_Load(object sender, System.EventArgs e)
         {
-            LoadLocalization();
+            this.LoadLocalization();
 
             if (!this.IsPostBack)
             {
@@ -123,10 +123,10 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            Label1.Text = Localization.GetString("HistoryTitle", RouterResourceFile);
-            BackBtn.Text = Localization.GetString("HistoryBack", RouterResourceFile);
-            cmdRestore.Text = Localization.GetString("HistoryRestore", RouterResourceFile);
-            RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", RouterResourceFile);
+            Label1.Text = Localization.GetString("HistoryTitle", this.RouterResourceFile);
+            BackBtn.Text = Localization.GetString("HistoryBack", this.RouterResourceFile);
+            cmdRestore.Text = Localization.GetString("HistoryRestore", this.RouterResourceFile);
+            RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", this.RouterResourceFile);
         }
 
         /// <summary>
@@ -143,11 +143,11 @@ namespace DotNetNuke.Wiki.Views
             string historyPK = null;
             historyPK = this.Request.QueryString["ShowHistory"];
             var topicHistory = TopicHistoryBo.GetItem(int.Parse(historyPK));
-            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
+            this.lblPageTopic.Text = PageTopic.Replace(WikiModuleBase.WikiHomeName, "Home");
             this.lblPageContent.Text = topicHistory.Cache;
-            this.lblDateTime.Text = string.Format(Localization.GetString("HistoryAsOf", RouterResourceFile), topicHistory.UpdateDate.ToString(CultureInfo.CurrentCulture));
+            this.lblDateTime.Text = string.Format(Localization.GetString("HistoryAsOf", this.RouterResourceFile), topicHistory.UpdateDate.ToString(CultureInfo.CurrentCulture));
             this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(
-                TabId,
+                this.TabId,
                 this.PortalSettings,
                 string.Empty,
                 "loc=TopicHistory",
@@ -159,15 +159,15 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void ShowTopicHistoryList()
         {
-            this.lblPageTopic.Text = PageTopic.Replace(WikiHomeName, "Home");
+            this.lblPageTopic.Text = PageTopic.Replace(WikiModuleBase.WikiHomeName, "Home");
 
             this.lblDateTime.Text = "...";
-            this.lblPageContent.Text = Localization.GetString("HistoryListHeader", RouterResourceFile) + " <br /> " + CreateHistoryTable();
+            this.lblPageContent.Text = Localization.GetString("HistoryListHeader", this.RouterResourceFile) + " <br /> " + this.CreateHistoryTable();
             this.BackBtn.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(
                 this.TabId,
                 this.PortalSettings,
                 string.Empty,
-                "topic=" + WikiMarkup.EncodeTitle(PageTopic));
+                "topic=" + WikiMarkup.EncodeTitle(this.PageTopic));
         }
 
         #endregion Methods

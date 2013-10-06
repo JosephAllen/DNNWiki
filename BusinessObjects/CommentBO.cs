@@ -42,7 +42,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion Variables
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentBO"/> class.
@@ -54,7 +54,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.currentUnitOfWork = uow;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Enums
 
@@ -142,7 +142,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
     /// <summary>
     /// Comment Emails Class
     /// </summary>
-    public class CommentEmails
+    internal class CommentEmails
     {
         #region "Variables"
 

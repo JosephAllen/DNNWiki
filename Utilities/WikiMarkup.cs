@@ -37,6 +37,8 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
+        private DotNetNuke.Entities.Portals.PortalSettings mPortalSettingsValue;
+        private int mTabIDValue = -9999;
         protected const RegexOptions CCOptions = RegexOptions.Compiled | RegexOptions.Multiline;
         public const string CloseBracket = "]]";
         public const string OpenBracket = "[[";
@@ -45,8 +47,27 @@ namespace DotNetNuke.Wiki.Utilities
 
         #region Properties
 
-        public DotNetNuke.Entities.Portals.PortalSettings PortalSettings;
-        public int TabID = -9999;
+        /// <summary>
+        /// Gets or sets the tab identifier.
+        /// </summary>
+        /// <value>The tab identifier.</value>
+        [IgnoreColumn]
+        public int TabID
+        {
+            get { return this.mTabIDValue; }
+            set { this.mTabIDValue = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the portal settings.
+        /// </summary>
+        /// <value>The portal settings.</value>
+        [IgnoreColumn]
+        public DotNetNuke.Entities.Portals.PortalSettings PortalSettings
+        {
+            get { return this.mPortalSettingsValue; }
+            set { this.mPortalSettingsValue = value; }
+        }
 
         /// <summary>
         /// Gets or sets the content.
@@ -74,7 +95,7 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                if (this.TabID != -9999 & (this.PortalSettings != null))
+                if (this.mTabIDValue != -9999 & (this.mPortalSettingsValue != null))
                 {
                     return true;
                 }
@@ -92,23 +113,23 @@ namespace DotNetNuke.Wiki.Utilities
         /// <summary>
         /// Wikis the text.
         /// </summary>
-        /// <param name="RawText">The raw text.</param>
+        /// <param name="rawText">The raw text.</param>
         /// <returns>Parsed Text</returns>
-        protected string WikiText(string RawText)
+        protected string WikiText(string rawText)
         {
-            System.Text.StringBuilder ParsedText = new System.Text.StringBuilder(RawText);
+            System.Text.StringBuilder parsedText = new System.Text.StringBuilder(rawText);
             bool parsing = false;
             int firstOpenBracket = 0;
             int secondOpenBracket = 0;
             int firstClosedBracket = 0;
             string workingText = string.Empty;
-            int NextSearchSpot = 0;
+            int nextSearchSpot = 0;
             parsing = true;
             while (parsing)
             {
                 if (secondOpenBracket < 1)
                 {
-                    firstOpenBracket = RawText.IndexOf(OpenBracket, firstClosedBracket);
+                    firstOpenBracket = rawText.IndexOf(OpenBracket, firstClosedBracket);
                 }
                 else
                 {
@@ -117,14 +138,14 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (firstOpenBracket != -1)
                 {
-                    NextSearchSpot = firstOpenBracket + OpenBracket.Length;
-                    secondOpenBracket = RawText.IndexOf(OpenBracket, NextSearchSpot);
-                    firstClosedBracket = RawText.IndexOf(CloseBracket, NextSearchSpot);
+                    nextSearchSpot = firstOpenBracket + OpenBracket.Length;
+                    secondOpenBracket = rawText.IndexOf(OpenBracket, nextSearchSpot);
+                    firstClosedBracket = rawText.IndexOf(CloseBracket, nextSearchSpot);
                     if (firstClosedBracket != -1 & (secondOpenBracket == -1 | firstClosedBracket < secondOpenBracket))
                     {
-                        workingText = RawText.Substring(firstOpenBracket, firstClosedBracket - firstOpenBracket + OpenBracket.Length);
-                        RawText = RawText.Replace(workingText, new string('-', workingText.Length));
-                        ParsedText.Replace(workingText, this.EvaluateCamelCaseWord(workingText.Substring(2, workingText.Length - 4)));
+                        workingText = rawText.Substring(firstOpenBracket, firstClosedBracket - firstOpenBracket + OpenBracket.Length);
+                        rawText = rawText.Replace(workingText, new string('-', workingText.Length));
+                        parsedText.Replace(workingText, this.EvaluateCamelCaseWord(workingText.Substring(2, workingText.Length - 4)));
                         if (secondOpenBracket == -1)
                         {
                             parsing = false;
@@ -141,7 +162,7 @@ namespace DotNetNuke.Wiki.Utilities
                 }
             }
 
-            return ParsedText.ToString();
+            return parsedText.ToString();
         }
 
         /// <summary>
@@ -169,60 +190,60 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>Parsed String</returns>
         protected string EvaluateCamelCaseWord(string val)
         {
-            string[] Vals = val.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] vals = val.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
             // TODO: we need to remove all non-ascii characters from the page links, allow them in
             //       the Title
-            switch (Vals.Length)
+            switch (vals.Length)
             {
                 case 1:
-                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.mTabIDValue, this.mPortalSettingsValue, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0])))) + "\">" + vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
 
                 case 2:
-                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.TabID, this.PortalSettings, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0])))) + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                    return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(this.mTabIDValue, this.mPortalSettingsValue, string.Empty, "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0])))) + "\">" + vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
 
                 case 3:
                     int value;
-                    if (int.TryParse(Vals[2], out value))
+                    if (int.TryParse(vals[2], out value))
                     {
-                        if (Vals[1].Trim().Length < 1)
+                        if (vals[1].Trim().Length < 1)
                         {
                             return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(
-                                Convert.ToInt32(Vals[2]),
-                                this.PortalSettings,
+                                Convert.ToInt32(vals[2]),
+                                this.mPortalSettingsValue,
                                 string.Empty,
-                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0]))))
-                                + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0]))))
+                                + "\">" + vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                         else
                         {
                             return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(
-                                Convert.ToInt32(Vals[2]),
-                                this.PortalSettings,
+                                Convert.ToInt32(vals[2]),
+                                this.mPortalSettingsValue,
                                 string.Empty,
-                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0]))))
-                                + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0]))))
+                                + "\">" + vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                     }
                     else
                     {
-                        if ((Vals[1].Trim().Length < 1))
+                        if ((vals[1].Trim().Length < 1))
                         {
                             return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(
-                                this.TabID,
-                                this.PortalSettings,
+                                this.mTabIDValue,
+                                this.mPortalSettingsValue,
                                 string.Empty,
-                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0]))))
-                                + "\">" + Vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0]))))
+                                + "\">" + vals[0].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                         else
                         {
                             return "<a href=\"" + RemoveHost(DotNetNuke.Common.Globals.NavigateURL(
-                                this.TabID,
-                                this.PortalSettings,
+                                this.mTabIDValue,
+                                this.mPortalSettingsValue,
                                 string.Empty,
-                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(Vals[0]))))
-                                + "\">" + Vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
+                                "topic=" + EncodeTitle(HttpUtility.HtmlDecode(vals[0]))))
+                                + "\">" + vals[1].Replace("<", "<").Replace(">", ">") + "</a>";
                         }
                     }
 

@@ -60,34 +60,31 @@ namespace DotNetNuke.Wiki.Utilities
                     string strResourceFile = Globals.ApplicationPath + "/DesktopModules/Wiki/Views/" + Localization.LocalResourceDirectory + "/" + Localization.LocalSharedResourceFile;
                     string strSubject = Localization.GetString("NotificationSubject", strResourceFile);
                     string strBody = Localization.GetString("NotificationBody", strResourceFile);
-                    strBody = strBody.Replace(
-                        "[URL]",
-                        DotNetNuke.Common.Globals.NavigateURL(
-                            objPortalSettings.ActiveTab.TabID,
-                            objPortalSettings,
-                            string.Empty,
-                            "topic=" + WikiMarkup.EncodeTitle(topic.Name)));
+
+                    string redirectUrl = DotNetNuke.Common.Globals.NavigateURL(objPortalSettings.ActiveTab.TabID, objPortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(topic.Name));
+                    strBody = strBody.Replace("[URL]", redirectUrl);
+
                     strBody = strBody.Replace("[NAME]", name);
                     strBody = strBody.Replace("[EMAIL]", email);
                     strBody = strBody.Replace("[COMMENT]", comment);
                     strBody = strBody.Replace("[IP]", string.Empty);
 
-                    System.Text.StringBuilder sbUsersToEmail = new System.Text.StringBuilder();
-                    foreach (string sUserToEmail in lstEmailsAddresses)
+                    System.Text.StringBuilder usersToEmailSB = new System.Text.StringBuilder();
+                    foreach (string userToEmail in lstEmailsAddresses)
                     {
-                        sbUsersToEmail.Append(sUserToEmail);
-                        sbUsersToEmail.Append(";");
+                        usersToEmailSB.Append(userToEmail);
+                        usersToEmailSB.Append(";");
                     }
 
                     // remove the last ;
-                    sbUsersToEmail.Remove(sbUsersToEmail.Length - 1, 1);
+                    usersToEmailSB.Remove(usersToEmailSB.Length - 1, 1);
 
                     // Services.Mail.Mail.SendMail(objPortalSettings.Email, objPortalSettings.Email,
                     //// sbUsersToEmail.ToString, strSubject, strBody, "", "", "", "", "", "")
 
                     Mail.SendMail(
                         objPortalSettings.Email,
-                        sbUsersToEmail.ToString(),
+                        usersToEmailSB.ToString(),
                         string.Empty,
                         string.Empty,
                         MailPriority.Normal,

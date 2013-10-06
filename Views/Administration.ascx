@@ -6,11 +6,11 @@
 <%@ Register TagPrefix="dnnweb" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
 <div class="dnnForm dnnWikiSettings dnnClear" id="dnnWikiSettings">
     <div class="dnnFormExpandContent">
-        <a href="">
+        <a href="#">
             <%=LocalizeString("ExpandAll")%></a>
     </div>
     <h2 id="dnnSitePanel-SecuritySettings" class="dnnFormSectionHead">
-        <a href="" class="dnnSectionExpanded">
+        <a href="#" class="dnnSectionExpanded">
             <%=LocalizeString("SecuritySettings")%></a></h2>
     <fieldset>
         <div class="dnnFormItem">
@@ -23,7 +23,7 @@
         </div>
     </fieldset>
     <h2 id="dnnSitePanel-NotificationSettings" class="dnnFormSectionHead">
-        <a href="">
+        <a href="#">
             <%=Localization.GetString("NotificationSettings", LocalResourceFile)%></a></h2>
     <fieldset>
         <div class="dnnFormItem">

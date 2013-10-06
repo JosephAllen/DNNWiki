@@ -32,21 +32,21 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Start Class based on WikiModuleBase
     /// </summary>
-    partial class Start : WikiModuleBase
+    internal partial class Start : WikiModuleBase
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Start"/> class.
         /// </summary>
         public Start()
         {
-            PreRender += Page_PreRender;
-            Load += Page_Load;
-            Init += Page_Init;
+            this.PreRender += this.Page_PreRender;
+            this.Load += this.Page_Load;
+            this.Init += this.Page_Init;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Properties
 
@@ -54,7 +54,7 @@ namespace DotNetNuke.Wiki.Views
         ////protected PageRatings m_pageRating;
         ////protected Ratings m_ratings;
 
-        protected UI.UserControls.SectionHeadControl WikiTextDirections;
+        private UI.UserControls.SectionHeadControl mWikiTextDirections;
 
         #endregion Properties
 
@@ -66,7 +66,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void AddCommentCommand_Click(System.Object sender, System.EventArgs e)
+        protected void AddCommentCommand_Click(object sender, System.EventArgs e)
         {
             this.AddCommentPane.Visible = true;
             this.Comments2.Visible = false;
@@ -114,15 +114,15 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
         /// data.</param>
-        public new void Page_Load(System.Object sender, System.EventArgs e)
+        public new void Page_Load(object sender, System.EventArgs e)
         {
-            if (UserId == -1)
+            if (this.UserId == -1)
             {
-                UserName = "Anonymous";
+                this.UserName = "Anonymous";
             }
             else
             {
-                UserName = this.UserInfo.Username;
+                this.UserName = this.UserInfo.Username;
             }
 
             this.AddCommentsForm1.EnableNotify = WikiSettings.CommentNotifyUsers == true;
@@ -131,28 +131,28 @@ namespace DotNetNuke.Wiki.Views
             {
                 if (this.UserInfo.IsSuperUser | this.UserInfo.IsInRole(PortalSettings.AdministratorRoleName))
                 {
-                    IsAdmin = true;
+                    this.IsAdmin = true;
                 }
             }
 
-            LoadLocalization();
+            this.LoadLocalization();
             this.AddCommentPane.Visible = false;
             this.Comments2.Visible = true;
             this.AddCommentCommand.Visible = true;
             //// Me.DeleteCommentCommand.Visible = True
 
-            this.lblPageTopic.Text = this.PageTopic.Replace(WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
+            this.lblPageTopic.Text = this.PageTopic.Replace(WikiModuleBase.WikiHomeName, Localization.GetString("Home", this.RouterResourceFile));
 
-            if (!string.IsNullOrWhiteSpace(_Topic.Title))
+            if (!string.IsNullOrWhiteSpace(CurrentTopic.Title))
             {
-                this.lblPageTopic.Text = _Topic.Title;
+                this.lblPageTopic.Text = CurrentTopic.Title;
             }
 
-            this.AddCommentsForm1.ParentId = _Topic.TopicID;
-            CommentCount1.ParentId = _Topic.TopicID;
+            this.AddCommentsForm1.ParentId = CurrentTopic.TopicID;
+            CommentCount1.ParentId = CurrentTopic.TopicID;
 
             Comments2.IsAdmin = this.IsAdmin;
-            Comments2.ParentId = _Topic.TopicID;
+            Comments2.ParentId = CurrentTopic.TopicID;
 
             //// CommentsSec.IsExpanded = False
             this.DisplayTopic();
@@ -211,42 +211,42 @@ namespace DotNetNuke.Wiki.Views
             this.lblPageContent.Visible = true;
             string topicContent = ReadTopic();
             this.lblPageContent.Text = HttpUtility.HtmlDecode(topicContent).ToString();
-            this.ratingTbl.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.RatingSec.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.m_pageRating.Visible = _Topic.AllowRatings && WikiSettings.AllowRatings;
-            this.m_ratings.Visible = _Topic.AllowRatings;
-            this.AddCommentCommand.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.ratingTbl.Visible = CurrentTopic.AllowRatings && WikiSettings.AllowRatings;
+            this.RatingSec.Visible = CurrentTopic.AllowRatings && WikiSettings.AllowRatings;
+            this.m_pageRating.Visible = CurrentTopic.AllowRatings && WikiSettings.AllowRatings;
+            this.m_ratings.Visible = CurrentTopic.AllowRatings;
+            this.AddCommentCommand.Visible = CurrentTopic.AllowDiscussions && WikiSettings.AllowDiscussions;
             this.CommentCount1.Visible = false;
-            this.Comments2.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
-            this.CommentsSec.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
-            this.CommentsTbl.Visible = _Topic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.Comments2.Visible = CurrentTopic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.CommentsSec.Visible = CurrentTopic.AllowDiscussions && WikiSettings.AllowDiscussions;
+            this.CommentsTbl.Visible = CurrentTopic.AllowDiscussions && WikiSettings.AllowDiscussions;
 
             DotNetNuke.Framework.CDefault p = default(DotNetNuke.Framework.CDefault);
             p = (DotNetNuke.Framework.CDefault)this.Page;
 
             // Set the page title, check for the Topic.Title, Topic.Name, then use PageTopic
             // parameter if all else fails.
-            if (!string.IsNullOrWhiteSpace(_Topic.Title))
+            if (!string.IsNullOrWhiteSpace(CurrentTopic.Title))
             {
-                p.Title = p.Title + " > " + _Topic.Title;
+                p.Title = p.Title + " > " + CurrentTopic.Title;
             }
-            else if (!string.IsNullOrWhiteSpace(_Topic.Name))
+            else if (!string.IsNullOrWhiteSpace(CurrentTopic.Name))
             {
-                p.Title = p.Title + " > " + _Topic.Name;
+                p.Title = p.Title + " > " + CurrentTopic.Name;
             }
             else
             {
                 p.Title = p.Title + " > " + this.PageTopic;
             }
 
-            if ((_Topic.Description != null) & !string.IsNullOrWhiteSpace(_Topic.Description))
+            if ((CurrentTopic.Description != null) & !string.IsNullOrWhiteSpace(CurrentTopic.Description))
             {
-                p.Description = _Topic.Description + " " + p.Description;
+                p.Description = CurrentTopic.Description + " " + p.Description;
             }
 
-            if ((_Topic.Keywords != null) & !string.IsNullOrWhiteSpace(_Topic.Keywords))
+            if ((CurrentTopic.Keywords != null) & !string.IsNullOrWhiteSpace(CurrentTopic.Keywords))
             {
-                p.KeyWords = _Topic.Keywords + " " + p.KeyWords;
+                p.KeyWords = CurrentTopic.Keywords + " " + p.KeyWords;
             }
         }
 

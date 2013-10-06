@@ -30,10 +30,13 @@ using System.Reflection;
 
 namespace DotNetNuke.Wiki.Extensions
 {
+    /// <summary>
+    /// Extensions for the IEnumerable class
+    /// </summary>
     public static class IEnumerableExtensions
     {
         /// <summary>
-        /// Converts a ienumerable collection of T items to a Datatable
+        /// Converts a IEnumerable collection of T items to a DataTable
         /// </summary>
         /// <typeparam name="T">the generic type</typeparam>
         /// <param name="collection">the collection to convert</param>
@@ -49,7 +52,7 @@ namespace DotNetNuke.Wiki.Extensions
         /// <summary>
         /// Automatics the data table.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type of the collection values</typeparam>
         /// <param name="collection">The collection.</param>
         /// <returns>A DataTable</returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> collection)

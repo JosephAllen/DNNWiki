@@ -8,7 +8,7 @@
     <div class="WikiTable" id="divWikiEdit" runat="server">
         <table border="0">
             <tr>
-                <td style="width:100%">
+                <td style="width: 100%">
                     <dnn:label id="plPageName" CssClass="SubHead" runat="server">
                     </dnn:label>
                     <asp:TextBox ID="txtPageName" runat="server" CssClass="NormalTextBox" Columns="75" TextMode="multiLine"></asp:TextBox>
@@ -34,7 +34,7 @@
                     <dnn:sectionhead id="WikiTextDirections" runat="server" includerule="false" isexpanded="false"
                         section="TextDirections" cssclass="NormalBold">
                     </dnn:sectionhead>
-                    <table id="TextDirections" style="width:100%;" summary="Text Directions Design Table"
+                    <table id="TextDirections" style="width: 100%;" summary="Text Directions Design Table"
                         border="0" runat="server">
                         <tr>
                             <td class="inlineStyle">
@@ -56,9 +56,9 @@
         </table>
         <asp:Label ID="lblPageCreationError" CssClass="NormalRed" runat="server"></asp:Label>
         <br />
-        <asp:LinkButton ID="cmdSave" OnClick="cmdSave_Click" runat="server" CssClass="dnnPrimaryAction"></asp:LinkButton>
-        <asp:LinkButton ID="cmdSaveAndContinue" OnClick="cmdSaveAndContinue_Click" runat="server" CssClass="dnnSecondaryAction"></asp:LinkButton>
-        <asp:LinkButton ID="cmdCancel" runat="server" OnClick="cmdCancel_Click" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
+        <asp:LinkButton ID="cmdSave" OnClick="CmdSave_Click" runat="server" CssClass="dnnPrimaryAction"></asp:LinkButton>
+        <asp:LinkButton ID="cmdSaveAndContinue" OnClick="CmdSaveAndContinue_Click" runat="server" CssClass="dnnSecondaryAction"></asp:LinkButton>
+        <asp:LinkButton ID="cmdCancel" runat="server" OnClick="CmdCancel_Click" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
         <asp:LinkButton ID="DeleteBtn" runat="server" OnClick="DeleteBtn_Click" CssClass="dnnSecondaryAction" CausesValidation="false"></asp:LinkButton>
         <asp:Label ID="DeleteLbl" runat="server"></asp:Label>
     </div>

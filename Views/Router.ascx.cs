@@ -36,19 +36,19 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Router Class based on the WikiModuleBase Class
     /// </summary>
-    partial class Router : WikiModuleBase, IActionable
+    internal partial class Router : WikiModuleBase, IActionable
     {
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Router"/> class.
         /// </summary>
         public Router()
         {
-            Load += Router_Page_Load;
+            this.Load += this.Router_Page_Load;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Properties
 
@@ -62,12 +62,12 @@ namespace DotNetNuke.Wiki.Views
             {
                 DotNetNuke.Entities.Modules.Actions.ModuleActionCollection actions = new DotNetNuke.Entities.Modules.Actions.ModuleActionCollection();
                 actions.Add(
-                    GetNextActionID(),
+                    this.GetNextActionID(),
                     Localization.GetString("Administration", LocalResourceFile).ToString(),
                     string.Empty,
                     string.Empty,
                     string.Empty,
-                    EditUrl("Administration"),
+                    this.EditUrl("Administration"),
                     false,
                     Security.SecurityAccessLevel.Admin,
                     true,
@@ -86,20 +86,20 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        private void Router_Page_Load(System.Object sender, System.EventArgs e)
+        private void Router_Page_Load(object sender, System.EventArgs e)
         {
             try
             {
                 // Load the menu on the left
                 string leftControl = "SharedControls//WikiMenu.ascx";
                 WikiModuleBase wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
-                wikiModuleBase.ModuleConfiguration = ModuleConfiguration;
+                wikiModuleBase.ModuleConfiguration = this.ModuleConfiguration;
                 wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
                 phWikiMenu.Controls.Add(wikiModuleBase);
 
                 string controlToLoad = this.GetControlString(Request.QueryString["loc"]);
                 WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
-                wikiContent.ModuleConfiguration = ModuleConfiguration;
+                wikiContent.ModuleConfiguration = this.ModuleConfiguration;
                 wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
                 phWikiContent.Controls.Add(wikiContent);
 
@@ -108,17 +108,17 @@ namespace DotNetNuke.Wiki.Views
                     string buttonControlToLoad = "SharedControls//WikiButton.ascx";
                     WikiModuleBase wikiButton = (WikiModuleBase)LoadControl(buttonControlToLoad);
 
-                    wikiButton.ModuleConfiguration = ModuleConfiguration;
+                    wikiButton.ModuleConfiguration = this.ModuleConfiguration;
                     wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
                     phWikiContent.Controls.Add(wikiButton);
                 }
 
                 // Print the Topic
-                foreach (ModuleAction objAction in Actions)
+                foreach (ModuleAction objAction in this.Actions)
                 {
                     if (objAction.CommandName.Equals(ModuleActionType.PrintModule))
                     {
-                        objAction.Url += "&topic=" + WikiMarkup.EncodeTitle(PageTopic);
+                        objAction.Url += "&topic=" + WikiMarkup.EncodeTitle(this.PageTopic);
                     }
                 }
             }

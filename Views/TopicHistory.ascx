@@ -8,7 +8,7 @@
 <p>
     |<asp:HyperLink ID="BackBtn" runat="server" CssClass="CommandButton"></asp:HyperLink>&nbsp;|&nbsp;&nbsp;
 
-    <asp:LinkButton ID="cmdRestore" OnClick="cmdRestore_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>&nbsp;
+    <asp:LinkButton ID="cmdRestore" OnClick="CmdRestore_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>&nbsp;
 
     <asp:Label ID="RestoreLbl" runat="server" CssClass="Normal">|<br /></asp:Label>
 </p>

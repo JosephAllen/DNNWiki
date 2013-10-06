@@ -66,18 +66,18 @@ namespace DotNetNuke.Wiki.Utilities
 
         #endregion Variables
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WikiModuleBase"/> class.
         /// </summary>
         public WikiModuleBase()
         {
-            Load += Page_Load;
-            Unload += Page_Unload;
+            this.Load += this.Page_Load;
+            this.Unload += this.Page_Unload;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region Properties
 
@@ -193,7 +193,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// Gets the _ topic.
         /// </summary>
         /// <value>The _ topic.</value>
-        public Topic _Topic
+        public Topic CurrentTopic
         {
             get { return this.mTopicObject; }
         }
@@ -290,7 +290,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
         /// data.</param>
-        protected void Page_Load(System.Object sender, System.EventArgs e)
+        protected void Page_Load(object sender, System.EventArgs e)
         {
             try
             {
@@ -382,7 +382,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>Index of the Module</returns>
         public IEnumerable<Topic> GetIndex()
         {
-            return this.TopicBo.GetAllByModuleID(ModuleId);
+            return this.TopicBo.GetAllByModuleID(this.ModuleId);
         }
 
         /// <summary>
@@ -390,15 +390,15 @@ namespace DotNetNuke.Wiki.Utilities
         /// </summary>
         protected void LoadTopic()
         {
-            this.mTopicObject = this.TopicBo.GetByNameForModule(ModuleId, this.mPageTopicValue);
+            this.mTopicObject = this.TopicBo.GetByNameForModule(this.ModuleId, this.mPageTopicValue);
             if (this.mTopicObject == null)
             {
                 this.mTopicObject = new Topic();
                 this.mTopicObject.TopicID = 0;
             }
 
-            this.mTopicObject.TabID = TabId;
-            this.mTopicObject.PortalSettings = PortalSettings;
+            this.mTopicObject.TabID = this.TabId;
+            this.mTopicObject.PortalSettings = this.PortalSettings;
             this.mTopicIdValue = this.mTopicObject.TopicID;
         }
 
@@ -432,11 +432,11 @@ namespace DotNetNuke.Wiki.Utilities
         protected void SaveTopic(string content, bool allowDiscuss, bool allowRating, string title, string description, string keywords)
         {
             TopicHistory topicHistory = new TopicHistory();
-            topicHistory.TabID = TabId;
-            topicHistory.PortalSettings = PortalSettings;
+            topicHistory.TabID = this.TabId;
+            topicHistory.PortalSettings = this.PortalSettings;
             if (this.mTopicObject.TopicID != 0)
             {
-                if (!content.Equals(this.mTopicObject.Content) | !title.Equals(this.mTopicObject.Title) | !description.Equals(this.mTopicObject.Description) | !keywords.Equals(mTopicObject.Keywords))
+                if (!content.Equals(this.mTopicObject.Content) | !title.Equals(this.mTopicObject.Title) | !description.Equals(this.mTopicObject.Description) | !keywords.Equals(this.mTopicObject.Keywords))
                 {
                     topicHistory.Name = this.mTopicObject.Name;
                     topicHistory.TopicId = this.mTopicObject.TopicID;
@@ -451,14 +451,14 @@ namespace DotNetNuke.Wiki.Utilities
                     this.mTopicObject.UpdateDate = DateTime.Now;
                     if (UserInfo.UserID == -1)
                     {
-                        this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                        this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", this.RouterResourceFile);
                     }
                     else
                     {
                         this.mTopicObject.UpdatedBy = UserInfo.Username;
                     }
 
-                    this.mTopicObject.UpdatedByUserID = UserId;
+                    this.mTopicObject.UpdatedByUserID = this.UserId;
                     this.mTopicObject.Content = content;
                     this.mTopicObject.Title = title;
                     this.mTopicObject.Description = description;
@@ -480,21 +480,21 @@ namespace DotNetNuke.Wiki.Utilities
             else
             {
                 this.mTopicObject = new Topic();
-                this.mTopicObject.TabID = TabId;
-                this.mTopicObject.PortalSettings = PortalSettings;
+                this.mTopicObject.TabID = this.TabId;
+                this.mTopicObject.PortalSettings = this.PortalSettings;
                 this.mTopicObject.Content = content;
-                this.mTopicObject.Name = mPageTopicValue;
-                this.mTopicObject.ModuleId = ModuleId;
+                this.mTopicObject.Name = this.mPageTopicValue;
+                this.mTopicObject.ModuleId = this.ModuleId;
                 if (UserInfo.UserID == -1)
                 {
-                    this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", RouterResourceFile);
+                    this.mTopicObject.UpdatedBy = Localization.GetString("Anonymous", this.RouterResourceFile);
                 }
                 else
                 {
                     this.mTopicObject.UpdatedBy = UserInfo.Username;
                 }
 
-                this.mTopicObject.UpdatedByUserID = UserId;
+                this.mTopicObject.UpdatedByUserID = this.UserId;
                 this.mTopicObject.UpdateDate = DateTime.Now;
                 this.mTopicObject.AllowDiscussions = allowDiscuss;
                 this.mTopicObject.AllowRatings = allowRating;
@@ -502,7 +502,7 @@ namespace DotNetNuke.Wiki.Utilities
                 this.mTopicObject.Description = description;
                 this.mTopicObject.Keywords = keywords;
 
-                this.mTopicObject = TopicBo.Add(this.mTopicObject);
+                this.mTopicObject = this.TopicBo.Add(this.mTopicObject);
 
                 this.mTopicIdValue = this.mTopicObject.TopicID;
             }
@@ -515,7 +515,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>Recently Changed Topics based on days back parameter</returns>
         protected IEnumerable<Topic> GetRecentlyChanged(int daysBack)
         {
-            return this.TopicBo.GetAllByModuleChangedWhen(ModuleId, daysBack);
+            return this.TopicBo.GetAllByModuleChangedWhen(this.ModuleId, daysBack);
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>Search String for the Module</returns>
         protected IEnumerable<Topic> Search(string searchString)
         {
-            return this.TopicBo.SearchWiki(searchString, ModuleId);
+            return this.TopicBo.SearchWiki(searchString, this.ModuleId);
         }
 
         /// <summary>
@@ -545,11 +545,11 @@ namespace DotNetNuke.Wiki.Utilities
         protected string CreateTable(List<Topic> topicCollection)
         {
             System.Text.StringBuilder tableHTML = new System.Text.StringBuilder("<table><tr><th>");
-            tableHTML.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            tableHTML.Append(Localization.GetString("BaseCreateTableTopic", this.RouterResourceFile));
             tableHTML.Append("</th><th>");
-            tableHTML.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            tableHTML.Append(Localization.GetString("BaseCreateTableModBy", this.RouterResourceFile));
             tableHTML.Append("</th><th>");
-            tableHTML.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            tableHTML.Append(Localization.GetString("BaseCreateTableModDate", this.RouterResourceFile));
             tableHTML.Append("</th></tr>");
             //// Dim TopicTable As String
             Topic localTopic = new Topic();
@@ -559,13 +559,13 @@ namespace DotNetNuke.Wiki.Utilities
                 for (i = 0; i <= topicCollection.Count - 1; i++)
                 {
                     localTopic = (Topic)topicCollection[i];
-                    localTopic.TabID = TabId;
-                    localTopic.PortalSettings = PortalSettings;
+                    localTopic.TabID = this.TabId;
+                    localTopic.PortalSettings = this.PortalSettings;
 
                     string nameToUse = string.Empty;
                     if (!localTopic.Title.ToString().Equals(string.Empty))
                     {
-                        nameToUse = localTopic.Title.Replace(WikiHomeName, "Home");
+                        nameToUse = localTopic.Title.Replace(WikiModuleBase.WikiHomeName, "Home");
                     }
                     else
                     {
@@ -590,7 +590,7 @@ namespace DotNetNuke.Wiki.Utilities
             else
             {
                 tableHTML.Append("<tr><td colspan=3 class=\"Normal\">");
-                tableHTML.Append(Localization.GetString("BaseCreateTableNoResults", RouterResourceFile));
+                tableHTML.Append(Localization.GetString("BaseCreateTableNoResults", this.RouterResourceFile));
                 tableHTML.Append("</td></tr>");
             }
 
@@ -605,7 +605,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <returns>html for the recent changes table</returns>
         protected string CreateRecentChangeTable(int daysBack)
         {
-            return this.CreateTable(GetRecentlyChanged(daysBack).ToList());
+            return this.CreateTable(this.GetRecentlyChanged(daysBack).ToList());
         }
 
         /// <summary>
@@ -626,13 +626,13 @@ namespace DotNetNuke.Wiki.Utilities
         {
             System.Text.StringBuilder tableText = new System.Text.StringBuilder(1000);
             tableText.Append("<table><tr><th>");
-            tableText.Append(Localization.GetString("BaseCreateTableTopic", RouterResourceFile));
+            tableText.Append(Localization.GetString("BaseCreateTableTopic", this.RouterResourceFile));
             tableText.Append("</th><th>");
-            tableText.Append(Localization.GetString("BaseCreateTableTitle", RouterResourceFile));
+            tableText.Append(Localization.GetString("BaseCreateTableTitle", this.RouterResourceFile));
             tableText.Append("</th><th>");
-            tableText.Append(Localization.GetString("BaseCreateTableModBy", RouterResourceFile));
+            tableText.Append(Localization.GetString("BaseCreateTableModBy", this.RouterResourceFile));
             tableText.Append("</th><th>");
-            tableText.Append(Localization.GetString("BaseCreateTableModDate", RouterResourceFile));
+            tableText.Append(Localization.GetString("BaseCreateTableModDate", this.RouterResourceFile));
             tableText.Append("</th></tr>");
             var topicHistoryCollection = this.GetHistory().ToArray();
             //// Dim TopicTable As StringBuilder = New StringBuilder(500)
@@ -644,8 +644,8 @@ namespace DotNetNuke.Wiki.Utilities
                 while (i > 0)
                 {
                     history = (TopicHistory)topicHistoryCollection[i - 1];
-                    history.TabID = TabId;
-                    history.PortalSettings = PortalSettings;
+                    history.TabID = this.TabId;
+                    history.PortalSettings = this.PortalSettings;
                     tableText.Append("<tr><td><a class=\"CommandButton\" rel=\"noindex,nofollow\" href=\"");
                     tableText.Append(DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.mPageTopicValue), "loc=TopicHistory", "ShowHistory=" + history.TopicHistoryId.ToString()));
                     tableText.Append("\">");
@@ -676,7 +676,7 @@ namespace DotNetNuke.Wiki.Utilities
             else
             {
                 tableText.Append("<tr><td colspan=\"3\" class=\"Normal\">");
-                tableText.Append(Localization.GetString("BaseCreateHistoryTableEmpty", RouterResourceFile));
+                tableText.Append(Localization.GetString("BaseCreateHistoryTableEmpty", this.RouterResourceFile));
                 tableText.Append("</td></tr>");
             }
 
@@ -691,7 +691,7 @@ namespace DotNetNuke.Wiki.Utilities
         {
             // if (wikiSettings == null) {
             SettingBO wikiController = new SettingBO(this.UoW);
-            this.mWikiSettingsObject = wikiController.GetByModuleID(ModuleId);
+            this.mWikiSettingsObject = wikiController.GetByModuleID(this.ModuleId);
             if (this.mWikiSettingsObject == null)
             {
                 this.mWikiSettingsObject = new Setting();

@@ -42,7 +42,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
 
         #endregion "Variables"
 
-        #region Ctor
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="_AbstractValidationException{E}"/> class.
@@ -56,7 +56,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
             this.crudException = crudError;
         }
 
-        #endregion Ctor
+        #endregion Constructor
 
         #region "Properties"
 

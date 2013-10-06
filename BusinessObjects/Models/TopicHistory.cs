@@ -83,9 +83,9 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
             set
             {
                 this.mContentValue = value;
-                if (CanUseWikiText)
+                if (this.CanUseWikiText)
                 {
-                    this.Cache = RenderedContent;
+                    this.Cache = this.RenderedContent;
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         }
 
         /// <summary>
-        /// Gets or sets the updated by user name.
+        /// Gets the updated by user name.
         /// </summary>
         /// <value>The updated by user name.</value>
         [IgnoreColumn]
@@ -210,9 +210,12 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
             {
                 UserInfo user = UserController.GetUserById(
                     PortalController.GetCurrentPortalSettings().PortalId,
-                    UpdatedByUserID);
+                    this.UpdatedByUserID);
                 if (user != null)
+                {
                     return user.DisplayName;
+                }
+
                 return string.Empty;
             }
         }

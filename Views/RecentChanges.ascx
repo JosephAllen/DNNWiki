@@ -8,12 +8,12 @@
 <p>
     |&nbsp;
 
-    <asp:LinkButton ID="cmdLast24Hrs" OnClick="cmdLast24Hrs_Click" runat="server" Text="Last 24 Hours" CssClass="CommandButton"></asp:LinkButton>
+    <asp:LinkButton ID="cmdLast24Hrs" OnClick="CmdLast24Hrs_Click" runat="server" Text="Last 24 Hours" CssClass="CommandButton"></asp:LinkButton>
     &nbsp;|&nbsp;
 
-    <asp:LinkButton ID="cmdLast7Days" OnClick="cmdLast7Days_Click" runat="server" Text="Last 7 days" CssClass="CommandButton"></asp:LinkButton>
+    <asp:LinkButton ID="cmdLast7Days" OnClick="CmdLast7Days_Click" runat="server" Text="Last 7 days" CssClass="CommandButton"></asp:LinkButton>
     &nbsp;|&nbsp;
 
-    <asp:LinkButton ID="cmdLastMonth" OnClick="cmdLastMonth_Click" runat="server" Text="Last Month" CssClass="CommandButton"></asp:LinkButton>
+    <asp:LinkButton ID="cmdLastMonth" OnClick="CmdLastMonth_Click" runat="server" Text="Last Month" CssClass="CommandButton"></asp:LinkButton>
     &nbsp;|
 </p>

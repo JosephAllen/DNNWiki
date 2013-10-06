@@ -45,28 +45,37 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
-        private int mBreakCountValue = 1;
-        private bool mCacheItemsValue;
-        private CommentBO mCommentBOObject;
+        private const string SharedResources = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
 
         //// Private _dateFormat As String = "dd/MM/yyyy HH:mm"
         //// TODO: create a module setting for the date format
         private string mDateFormatValue = "dd/MM/yyyy HH:mm";
 
+        private int mBreakCountValue = 1;
+        private bool mCacheItemsValue;
+        private CommentBO mCommentBOObject;
+
         private bool mHideEmailAddressValue;
         private string mHideEmailUrlValue = "http://localhost/getemail.aspx?commentid={0}";
-        private const string mSharedResourcesValue = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
+
         private int mParentIdValue;
         private UnitOfWork mUnitOfWork;
+
+        private bool mIsAdminValue = false;
 
         #endregion Variables
 
         #region Properties
 
         /// <summary>
-        /// Admin Property
+        /// Gets or sets a value indicating whether [is admin].
         /// </summary>
-        public bool IsAdmin = false;
+        /// <value><c>true</c> if [is admin]; otherwise, /c>.</value>
+        public bool IsAdmin
+        {
+            get { return this.mIsAdminValue; }
+            set { this.mIsAdminValue = value; }
+        }
 
         /// <summary>
         /// Gets an instance of the comment business object
@@ -239,7 +248,7 @@ namespace DotNetNuke.Wiki.Utilities
 
             ////'Check for delete flag on query string via CommentId (cid)
 
-            if (Context.Request.QueryString["cid"] != null & this.IsAdmin)
+            if (Context.Request.QueryString["cid"] != null & this.mIsAdminValue)
             {
                 int commentId = Convert.ToInt32(Context.Request.QueryString["cid"]);
                 this.CommentBo.Delete(new Comment { CommentId = Convert.ToInt32(commentId) });
@@ -320,17 +329,17 @@ namespace DotNetNuke.Wiki.Utilities
                                 Convert.ToString(dataRow["Name"]),
                                 Convert.ToString(dataRow["Email"]),
                                 Convert.ToString(dataRow["CommentText"]),
-                                ((DateTime)dataRow["Datetime"]));
+                                (DateTime)dataRow["Datetime"]);
                         }
                     }
                     else
                     {
-                        CssClass = "WikiTable";
+                        this.CssClass = "WikiTable";
                         writer.RenderBeginTag(HtmlTextWriterTag.Tr);
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
                         writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-                        writer.Write(Localization.GetString("NoComments.Text", mSharedResourcesValue));
+                        writer.Write(Localization.GetString("NoComments.Text", SharedResources));
                         dynamic breakcount2 = this.mBreakCountValue;
                         this.mBreakCountValue = 0;
                         writer.RenderEndTag();
@@ -341,7 +350,7 @@ namespace DotNetNuke.Wiki.Utilities
                 }
                 else
                 {
-                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", mSharedResourcesValue), Localization.GetString("ExampleEmail.Text", mSharedResourcesValue), Localization.GetString("ExampleComments.Text", mSharedResourcesValue), DateTime.Now);
+                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", SharedResources), Localization.GetString("ExampleEmail.Text", SharedResources), Localization.GetString("ExampleComments.Text", SharedResources), DateTime.Now);
                 }
             }
         }
@@ -395,17 +404,17 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             if (this.IsValidDateFormat(this.mDateFormatValue))
             {
-                writer.Write(Localization.GetString("PostedAt", mSharedResourcesValue) + " " + postDate.ToString(this.mDateFormatValue));
+                writer.Write(Localization.GetString("PostedAt", SharedResources) + " " + postDate.ToString(this.mDateFormatValue));
             }
             else
             {
-                writer.Write(Localization.GetString("PostedAt", mSharedResourcesValue) + " " + postDate.ToString(CultureInfo.CurrentCulture));
+                writer.Write(Localization.GetString("PostedAt", SharedResources) + " " + postDate.ToString(CultureInfo.CurrentCulture));
             }
 
             writer.RenderEndTag();
             writer.RenderEndTag();
 
-            if (this.IsAdmin)
+            if (this.mIsAdminValue)
             {
                 ////add delete link here.
                 writer.RenderBeginTag(HtmlTextWriterTag.Tr);
@@ -415,7 +424,7 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
 
                 ////writer.Write("Delete Comment")
-                writer.Write(Localization.GetString("DeleteComment", mSharedResourcesValue));
+                writer.Write(Localization.GetString("DeleteComment", SharedResources));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();

@@ -80,37 +80,37 @@ namespace DotNetNuke.Wiki.Utilities
         /// <summary>
         /// The comments control
         /// </summary>
-        protected System.Web.UI.WebControls.TextBox Comment;
+        private System.Web.UI.WebControls.TextBox txtComment;
 
         /// <summary>
         /// The email control
         /// </summary>
-        protected System.Web.UI.WebControls.TextBox Email;
+        private System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
         /// The label parent unique identifier
         /// </summary>
-        protected System.Web.UI.WebControls.Label LblParentID;
+        private System.Web.UI.WebControls.Label lblParentID;
 
         /// <summary>
         /// The name control
         /// </summary>
-        protected System.Web.UI.WebControls.TextBox Name;
+        private System.Web.UI.WebControls.TextBox txtName;
 
         /// <summary>
         /// The subscribe automatic notifications
         /// </summary>
-        protected System.Web.UI.WebControls.CheckBox SubscribeToNotifications;
+        private System.Web.UI.WebControls.CheckBox chkSubscribeToNotifications;
 
         /// <summary>
         /// The with events field_ cancel button
         /// </summary>
-        private System.Web.UI.WebControls.LinkButton withEventsField_CancelButton;
+        private System.Web.UI.WebControls.LinkButton lnkCancelButton;
 
         /// <summary>
         /// The with events field_ submit button
         /// </summary>
-        private System.Web.UI.WebControls.LinkButton withEventsField_SubmitButton;
+        private System.Web.UI.WebControls.LinkButton lnkSubmitButton;
 
         #endregion Controls
 
@@ -168,8 +168,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value>The comment text.</value>
         public string CommentText
         {
-            get { return this.Comment.Text; }
-            set { this.Comment.Text = value; }
+            get { return this.txtComment.Text; }
+            set { this.txtComment.Text = value; }
         }
 
         /// <summary>
@@ -178,8 +178,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value>The email text.</value>
         public string EmailText
         {
-            get { return this.Email.Text; }
-            set { this.Email.Text = value; }
+            get { return this.txtEmail.Text; }
+            set { this.txtEmail.Text = value; }
         }
 
         /// <summary>
@@ -188,8 +188,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value><c>true</c> if [enable comment]; otherwise, /c>.</value>
         public bool EnableComment
         {
-            get { return this.Comment.Enabled; }
-            set { this.Comment.Enabled = value; }
+            get { return this.txtComment.Enabled; }
+            set { this.txtComment.Enabled = value; }
         }
 
         /// <summary>
@@ -198,8 +198,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value><c>true</c> if [enable email]; otherwise, /c>.</value>
         public bool EnableEmail
         {
-            get { return this.Email.Enabled; }
-            set { this.Email.Enabled = value; }
+            get { return this.txtEmail.Enabled; }
+            set { this.txtEmail.Enabled = value; }
         }
 
         /// <summary>
@@ -208,8 +208,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value><c>true</c> if [enable name]; otherwise, /c>.</value>
         public bool EnableName
         {
-            get { return this.Name.Enabled; }
-            set { this.Name.Enabled = value; }
+            get { return this.txtName.Enabled; }
+            set { this.txtName.Enabled = value; }
         }
 
         /// <summary>
@@ -218,8 +218,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value><c>true</c> if [enable notify]; otherwise, /c>.</value>
         public bool EnableNotify
         {
-            get { return this.SubscribeToNotifications.Visible; }
-            set { this.SubscribeToNotifications.Visible = value; }
+            get { return this.chkSubscribeToNotifications.Visible; }
+            set { this.chkSubscribeToNotifications.Visible = value; }
         }
 
         /// <summary>
@@ -228,8 +228,8 @@ namespace DotNetNuke.Wiki.Utilities
         /// <value>The name text.</value>
         public string NameText
         {
-            get { return this.Name.Text; }
-            set { this.Name.Text = value; }
+            get { return this.txtName.Text; }
+            set { this.txtName.Text = value; }
         }
 
         /// <summary>
@@ -239,8 +239,8 @@ namespace DotNetNuke.Wiki.Utilities
         [Description("The id of the parent (page) the comment is being added to."), Category("Data")]
         public int ParentId
         {
-            get { return Convert.ToInt32(this.LblParentID.Text); }
-            set { this.LblParentID.Text = value.ToString(); }
+            get { return Convert.ToInt32(this.lblParentID.Text); }
+            set { this.lblParentID.Text = value.ToString(); }
         }
 
         /// <summary>
@@ -263,21 +263,21 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                return this.withEventsField_CancelButton;
+                return this.lnkCancelButton;
             }
 
             set
             {
-                if (this.withEventsField_CancelButton != null)
+                if (this.lnkCancelButton != null)
                 {
-                    this.withEventsField_CancelButton.Click -= this.CancelButton_Click;
+                    this.lnkCancelButton.Click -= this.CancelButton_Click;
                 }
 
-                this.withEventsField_CancelButton = value;
+                this.lnkCancelButton = value;
 
-                if (this.withEventsField_CancelButton != null)
+                if (this.lnkCancelButton != null)
                 {
-                    this.withEventsField_CancelButton.Click += this.CancelButton_Click;
+                    this.lnkCancelButton.Click += this.CancelButton_Click;
                 }
             }
         }
@@ -290,21 +290,21 @@ namespace DotNetNuke.Wiki.Utilities
         {
             get
             {
-                return this.withEventsField_SubmitButton;
+                return this.lnkSubmitButton;
             }
 
             set
             {
-                if (this.withEventsField_SubmitButton != null)
+                if (this.lnkSubmitButton != null)
                 {
-                    this.withEventsField_SubmitButton.Click -= this.SubmitButton_Click;
+                    this.lnkSubmitButton.Click -= this.SubmitButton_Click;
                 }
 
-                this.withEventsField_SubmitButton = value;
+                this.lnkSubmitButton = value;
 
-                if (this.withEventsField_SubmitButton != null)
+                if (this.lnkSubmitButton != null)
                 {
-                    this.withEventsField_SubmitButton.Click += this.SubmitButton_Click;
+                    this.lnkSubmitButton.Click += this.SubmitButton_Click;
                 }
             }
         }
@@ -340,7 +340,7 @@ namespace DotNetNuke.Wiki.Utilities
                 string clause = string.Empty;
                 if (this.mCheckNameValue)
                 {
-                    writer.WriteLine("\tif ( form." + this.Name.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\tif ( form." + this.txtName.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
 
                     writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAName.Text", this.SharedResources) + "\");");
@@ -351,7 +351,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCheckEmailValue)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + this.Email.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.txtEmail.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
                     writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAnEmailAddress.Text", this.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
@@ -361,7 +361,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCheckCommentsValue)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + this.Comment.ClientID + ".value == \"\" )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.txtComment.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
                     writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterSomeComments.Text", this.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
@@ -371,7 +371,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mCommentsMaxLengthValue > 0)
                 {
-                    writer.WriteLine("\t" + clause + "if ( form." + this.Comment.ClientID + ".value.length > " + this.mCommentsMaxLengthValue + " )");
+                    writer.WriteLine("\t" + clause + "if ( form." + this.txtComment.ClientID + ".value.length > " + this.mCommentsMaxLengthValue + " )");
                     writer.WriteLine("\t{");
                     writer.WriteLine("\t\talert(\"" + string.Format(Localization.GetString("EnterAName.Text", this.SharedResources), this.mCommentsMaxLengthValue) + "\");");
                     writer.WriteLine("\t\treturn false;");
@@ -418,7 +418,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
             writer.Write(Localization.GetString("Name", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            this.Name.RenderControl(writer);
+            this.txtName.RenderControl(writer);
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -430,7 +430,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
             writer.Write(Localization.GetString("Email", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            this.Email.RenderControl(writer);
+            this.txtEmail.RenderControl(writer);
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -445,9 +445,9 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
             writer.Write(Localization.GetString("Comments", this.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            this.Comment.RenderControl(writer);
+            this.txtComment.RenderControl(writer);
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
-            this.SubscribeToNotifications.RenderControl(writer);
+            this.chkSubscribeToNotifications.RenderControl(writer);
 
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -472,22 +472,22 @@ namespace DotNetNuke.Wiki.Utilities
         /// data.</param>
         private void AddCommentsForm_Init(object sender, System.EventArgs e)
         {
-            this.Name = new System.Web.UI.WebControls.TextBox();
-            this.Name.ID = "Name";
-            this.Name.EnableViewState = true;
-            this.Name.CssClass = "NormalTextBox";
-            this.Email = new System.Web.UI.WebControls.TextBox();
-            this.Email.ID = "Email";
-            this.Email.EnableViewState = true;
-            this.Email.CssClass = "NormalTextBox";
-            this.Comment = new System.Web.UI.WebControls.TextBox();
-            this.Comment.ID = "Comment";
-            this.Comment.EnableViewState = true;
-            this.Comment.CssClass = "NormalTextBox";
-            this.Comment.TextMode = TextBoxMode.MultiLine;
-            this.Comment.Width = new System.Web.UI.WebControls.Unit(350);
-            this.Comment.Height = new System.Web.UI.WebControls.Unit(50);
-            this.Comment.MaxLength = this.CommentsMaxLength;
+            this.txtName = new System.Web.UI.WebControls.TextBox();
+            this.txtName.ID = "Name";
+            this.txtName.EnableViewState = true;
+            this.txtName.CssClass = "NormalTextBox";
+            this.txtEmail = new System.Web.UI.WebControls.TextBox();
+            this.txtEmail.ID = "Email";
+            this.txtEmail.EnableViewState = true;
+            this.txtEmail.CssClass = "NormalTextBox";
+            this.txtComment = new System.Web.UI.WebControls.TextBox();
+            this.txtComment.ID = "Comment";
+            this.txtComment.EnableViewState = true;
+            this.txtComment.CssClass = "NormalTextBox";
+            this.txtComment.TextMode = TextBoxMode.MultiLine;
+            this.txtComment.Width = new System.Web.UI.WebControls.Unit(350);
+            this.txtComment.Height = new System.Web.UI.WebControls.Unit(50);
+            this.txtComment.MaxLength = this.CommentsMaxLength;
             this.SubmitButton = new System.Web.UI.WebControls.LinkButton();
             this.SubmitButton.CssClass = "CommandButton";
             this.SubmitButton.Text = Localization.GetString("PostComment", this.SharedResources);
@@ -496,24 +496,24 @@ namespace DotNetNuke.Wiki.Utilities
             this.CancelButton.CssClass = "CommandButton";
             this.CancelButton.Text = Localization.GetString("Cancel", this.SharedResources);
             ////"Cancel"
-            this.LblParentID = new System.Web.UI.WebControls.Label();
-            this.LblParentID.ID = "CurrParent";
-            this.LblParentID.Visible = false;
-            this.LblParentID.EnableViewState = true;
+            this.lblParentID = new System.Web.UI.WebControls.Label();
+            this.lblParentID.ID = "CurrParent";
+            this.lblParentID.Visible = false;
+            this.lblParentID.EnableViewState = true;
 
-            this.SubscribeToNotifications = new System.Web.UI.WebControls.CheckBox();
-            this.SubscribeToNotifications.ID = "EmailNotify";
-            this.SubscribeToNotifications.Text = Localization.GetString("CommentsNotification", this.SharedResources);
+            this.chkSubscribeToNotifications = new System.Web.UI.WebControls.CheckBox();
+            this.chkSubscribeToNotifications.ID = "EmailNotify";
+            this.chkSubscribeToNotifications.Text = Localization.GetString("CommentsNotification", this.SharedResources);
 
             ////If EnableNotify = False Then SubscribeToNotifications.Visible = False Else SubscribeToNotifications.Visible = True
 
-            this.Controls.Add(this.Name);
-            this.Controls.Add(this.Email);
-            this.Controls.Add(this.Comment);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtComment);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.LblParentID);
-            this.Controls.Add(this.SubscribeToNotifications);
+            this.Controls.Add(this.lblParentID);
+            this.Controls.Add(this.chkSubscribeToNotifications);
         }
 
         /// <summary>
@@ -524,9 +524,9 @@ namespace DotNetNuke.Wiki.Utilities
         /// data.</param>
         private void CancelButton_Click(object sender, System.EventArgs e)
         {
-            this.Name.Text = string.Empty;
-            this.Email.Text = string.Empty;
-            this.Comment.Text = string.Empty;
+            this.txtName.Text = string.Empty;
+            this.txtEmail.Text = string.Empty;
+            this.txtComment.Text = string.Empty;
             if (this.PostCanceled != null)
             {
                 this.PostCanceled(this);
@@ -545,22 +545,22 @@ namespace DotNetNuke.Wiki.Utilities
             {
                 var commentBo = new CommentBO(uOw);
 
-                string CommentText = this.Comment.Text;
+                string commentText = this.txtComment.Text;
                 DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
 
-                if (CommentText.Length > this.CommentsMaxLength)
+                if (commentText.Length > this.CommentsMaxLength)
                 {
-                    CommentText = CommentText.Substring(0, this.CommentsMaxLength);
+                    commentText = commentText.Substring(0, this.CommentsMaxLength);
                 }
                 ////4.8.3 has better control for NoMarkup
                 var comment = new Comment
                 {
                     ParentId = this.ParentId,
-                    Name = objSec.InputFilter(this.Name.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    Email = objSec.InputFilter(this.Email.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    CommentText = objSec.InputFilter(CommentText, PortalSecurity.FilterFlag.NoMarkup),
+                    Name = objSec.InputFilter(this.txtName.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
+                    Email = objSec.InputFilter(this.txtEmail.Text, DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
+                    CommentText = objSec.InputFilter(commentText, PortalSecurity.FilterFlag.NoMarkup),
                     Ip = objSec.InputFilter(this.Context.Request.ServerVariables["REMOTE_ADDR"], DotNetNuke.Security.PortalSecurity.FilterFlag.NoMarkup),
-                    EmailNotify = this.SubscribeToNotifications.Checked,
+                    EmailNotify = this.chkSubscribeToNotifications.Checked,
                     Datetime = DateTime.Now
                 };
                 comment = commentBo.Add(comment);
@@ -572,9 +572,9 @@ namespace DotNetNuke.Wiki.Utilities
 
                 if (this.mSuccessValue)
                 {
-                    this.Name.Text = string.Empty;
-                    this.Email.Text = string.Empty;
-                    this.Comment.Text = string.Empty;
+                    this.txtName.Text = string.Empty;
+                    this.txtEmail.Text = string.Empty;
+                    this.txtComment.Text = string.Empty;
                     this.Context.Cache.Remove("WikiComments" + this.ParentId.ToString());
                     if (this.PostSubmitted != null)
                     {

@@ -23,11 +23,6 @@
 
 #endregion Copyright
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 namespace DotNetNuke.Wiki.Utilities
 {
     /// <summary>
@@ -43,7 +38,22 @@ namespace DotNetNuke.Wiki.Utilities
             /// <summary>
             /// The insert
             /// </summary>
-            Insert, Update, Delete
+            Insert,
+
+            /// <summary>
+            /// The update
+            /// </summary>
+            Update,
+
+            /// <summary>
+            /// The delete
+            /// </summary>
+            Delete,
+
+            /// <summary>
+            /// The select
+            /// </summary>
+            Select
         }
     }
 }

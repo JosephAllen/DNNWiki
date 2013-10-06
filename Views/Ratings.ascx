@@ -23,7 +23,7 @@
                             <asp:Label ID="HighRating" runat="server" CssClass="Normal"></asp:Label></td>
                         <td class="Normal" nowrap="nowrap">&nbsp;&nbsp;|&nbsp;
 
-                            <asp:LinkButton ID="btnSubmit" OnClick="btnSubmit_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>&nbsp;|</td>
+                            <asp:LinkButton ID="btnSubmit" OnClick="BtnSubmit_Click" runat="server" CssClass="CommandButton"></asp:LinkButton>&nbsp;|</td>
                     </tr>
                 </table>
             </asp:Panel>
