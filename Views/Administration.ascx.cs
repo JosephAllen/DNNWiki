@@ -169,7 +169,7 @@ namespace DotNetNuke.Wiki.Views
                             this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;") &&
                             !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles));
 
-                        if (this.NotifyMethodCustomRoles.Checked)
+                        if (this.NotifyMethodCustomRoles.Checked && !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles))
                         {
                             this.NotifyMethodEditRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";Edit");
                             this.NotifyMethodViewRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";View");
