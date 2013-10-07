@@ -95,13 +95,13 @@ namespace DotNetNuke.Wiki.Views
                 WikiModuleBase wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
                 wikiModuleBase.ModuleConfiguration = this.ModuleConfiguration;
                 wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
-                phWikiMenu.Controls.Add(wikiModuleBase);
+                this.phWikiMenu.Controls.Add(wikiModuleBase);
 
                 string controlToLoad = this.GetControlString(Request.QueryString["loc"]);
                 WikiModuleBase wikiContent = (WikiModuleBase)LoadControl(controlToLoad);
                 wikiContent.ModuleConfiguration = this.ModuleConfiguration;
                 wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
-                phWikiContent.Controls.Add(wikiContent);
+                this.phWikiContent.Controls.Add(wikiContent);
 
                 if (controlToLoad.ToLower().Equals("start.ascx"))
                 {
@@ -110,7 +110,7 @@ namespace DotNetNuke.Wiki.Views
 
                     wikiButton.ModuleConfiguration = this.ModuleConfiguration;
                     wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
-                    phWikiContent.Controls.Add(wikiButton);
+                    this.phWikiContent.Controls.Add(wikiButton);
                 }
 
                 // Print the Topic

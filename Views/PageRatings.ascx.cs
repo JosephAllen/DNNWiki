@@ -130,15 +130,15 @@ namespace DotNetNuke.Wiki.Views
         {
             if (this.InnerTopic.FivePointRatingsRecorded == 0)
             {
-                RatingBar.Visible = false;
-                NoRating.Visible = true;
+                this.RatingBar.Visible = false;
+                this.NoRating.Visible = true;
             }
             else
             {
-                RatingBar.Visible = true;
-                NoRating.Visible = false;
-                RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + this.InnerTopic.FivePointAverage.ToString("#.#");
-                RatingBar.Alt = this.InnerTopic.FivePointAverage.ToString("#.#");
+                this.RatingBar.Visible = true;
+                this.NoRating.Visible = false;
+                this.RatingBar.Src = this.TemplateSourceDirectory + "/RatingBar.aspx?rating=" + this.InnerTopic.FivePointAverage.ToString("#.#");
+                this.RatingBar.Alt = this.InnerTopic.FivePointAverage.ToString("#.#");
             }
         }
 
@@ -151,8 +151,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", this.RouterResourceFile);
-            RatingLbl.Text = Localization.GetString("PageRatingsTitle", this.RouterResourceFile);
+            this.NoRating.Text = Localization.GetString("PageRatingsNotRatedYet", this.RouterResourceFile);
+            this.RatingLbl.Text = Localization.GetString("PageRatingsTitle", this.RouterResourceFile);
         }
 
         #endregion Methods

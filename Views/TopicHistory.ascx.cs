@@ -123,10 +123,10 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            Label1.Text = Localization.GetString("HistoryTitle", this.RouterResourceFile);
-            BackBtn.Text = Localization.GetString("HistoryBack", this.RouterResourceFile);
-            cmdRestore.Text = Localization.GetString("HistoryRestore", this.RouterResourceFile);
-            RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", this.RouterResourceFile);
+            this.Label1.Text = Localization.GetString("HistoryTitle", this.RouterResourceFile);
+            this.BackBtn.Text = Localization.GetString("HistoryBack", this.RouterResourceFile);
+            this.cmdRestore.Text = Localization.GetString("HistoryRestore", this.RouterResourceFile);
+            this.RestoreLbl.Text = Localization.GetString("HistoryRestoreNotice", this.RouterResourceFile);
         }
 
         /// <summary>

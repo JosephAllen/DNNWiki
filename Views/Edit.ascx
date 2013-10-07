@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Edit.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Edit" %>
 <%@ Register TagPrefix="dnn" TagName="SectionHead" Src="~/controls/SectionHeadControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/TextEditor.ascx" %>
-<%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/labelControl.ascx" %>
+<%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/labelControl.ascx" %>
 <%@ Register Src="SharedControls/Messages.ascx" TagName="Messages" TagPrefix="uc1" %>
 <div id="DnnWiki">
     <asp:Label ID="lblMessage" runat="server" />
@@ -9,23 +9,23 @@
         <table border="0">
             <tr>
                 <td style="width: 100%">
-                    <dnn:label id="plPageName" CssClass="SubHead" runat="server">
-                    </dnn:label>
+                    <dnn:Label id="plPageName" CssClass="SubHead" runat="server">
+                    </dnn:Label>
                     <asp:TextBox ID="txtPageName" runat="server" CssClass="NormalTextBox" Columns="75" TextMode="multiLine"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="PageNameValidator" runat="server" ControlToValidate="txtPageName"
                         ErrorMessage="You Must Enter a Page Name" SetFocusOnError="True">You Must Enter a Page Name</asp:RequiredFieldValidator>&nbsp;<br />
                     <dnn:SectionHead ID="shSeo" cssclass="NormalBold" runat="server" IsExpanded="false"
                         ResourceKey="shSeo" Section="wikiSeo" />
                     <div id="wikiSeo" runat="server">
-                        <dnn:label id="plTitle" CssClass="SubHead" runat="server">
-                        </dnn:label>
+                        <dnn:Label id="plTitle" CssClass="SubHead" runat="server">
+                        </dnn:Label>
                         <asp:TextBox ID="txtTitle" runat="server" CssClass="NormalTextBox" Columns="50"></asp:TextBox><br />
-                        <dnn:label id="plDescription" CssClass="SubHead" runat="server">
-                        </dnn:label>
+                        <dnn:Label id="plDescription" CssClass="SubHead" runat="server">
+                        </dnn:Label>
                         <asp:TextBox ID="txtDescription" CssClass="NormalTextBox" TextMode="multiLine" runat="server"
                             Columns="50"></asp:TextBox><br />
-                        <dnn:label id="plKeywords" CssClass="SubHead" runat="server">
-                        </dnn:label>
+                        <dnn:Label id="plKeywords" CssClass="SubHead" runat="server">
+                        </dnn:Label>
                         <asp:TextBox ID="txtKeywords" CssClass="NormalTextBox" TextMode="multiLine" runat="server"
                             Columns="50"></asp:TextBox><br />
                     </div>

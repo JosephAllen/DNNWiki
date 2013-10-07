@@ -84,9 +84,9 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            Label2.Text = Localization.GetString("SearchTitleBasic", this.RouterResourceFile);
-            Label2.Text = Localization.GetString("SearchFieldLabel", this.RouterResourceFile);
-            cmdSearch.Text = Localization.GetString("SearchExec", this.RouterResourceFile);
+            this.Label2.Text = Localization.GetString("SearchTitleBasic", this.RouterResourceFile);
+            this.Label2.Text = Localization.GetString("SearchFieldLabel", this.RouterResourceFile);
+            this.cmdSearch.Text = Localization.GetString("SearchExec", this.RouterResourceFile);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SearchTopics()
         {
-            HitTable.Text = this.CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
+            this.HitTable.Text = this.CreateTable(Search("%" + this.txtTextToSearch.Text + "%").ToList());
         }
 
         #endregion Methods

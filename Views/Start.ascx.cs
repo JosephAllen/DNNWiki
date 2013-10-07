@@ -69,7 +69,7 @@ namespace DotNetNuke.Wiki.Views
             this.AddCommentPane.Visible = true;
             this.Comments2.Visible = false;
             this.AddCommentCommand.Visible = false;
-            CommentsSec.IsExpanded = true;
+            this.CommentsSec.IsExpanded = true;
         }
 
         /// <summary>
@@ -147,10 +147,10 @@ namespace DotNetNuke.Wiki.Views
             }
 
             this.AddCommentsForm1.ParentId = CurrentTopic.TopicID;
-            CommentCount1.ParentId = CurrentTopic.TopicID;
+            this.CommentCount1.ParentId = CurrentTopic.TopicID;
 
-            Comments2.IsAdmin = this.IsAdmin;
-            Comments2.ParentId = CurrentTopic.TopicID;
+            this.Comments2.IsAdmin = this.IsAdmin;
+            this.Comments2.ParentId = CurrentTopic.TopicID;
 
             //// CommentsSec.IsExpanded = False
             this.DisplayTopic();
@@ -164,9 +164,9 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
-            if (m_ratings.HasVoted)
+            if (this.m_ratings.HasVoted)
             {
-                RatingSec.IsExpanded = false;
+                this.RatingSec.IsExpanded = false;
             }
 
             this.CommentCount1.Visible = false;
@@ -253,14 +253,14 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            AddCommentCommand.Text = Localization.GetString("StartAddComment", this.RouterResourceFile);
+            this.AddCommentCommand.Text = Localization.GetString("StartAddComment", this.RouterResourceFile);
 
-            CommentCount1.Text = Localization.GetString("StartCommentCount", this.RouterResourceFile);
-            CommentsSec.Text = Localization.GetString("StartCommentsSection", this.RouterResourceFile);
+            this.CommentCount1.Text = Localization.GetString("StartCommentCount", this.RouterResourceFile);
+            this.CommentsSec.Text = Localization.GetString("StartCommentsSection", this.RouterResourceFile);
 
-            PostCommentLbl.Text = Localization.GetString("StartPostComment", this.RouterResourceFile);
+            this.PostCommentLbl.Text = Localization.GetString("StartPostComment", this.RouterResourceFile);
 
-            RatingSec.Text = Localization.GetString("StartRatingSec.Text", this.RouterResourceFile);
+            this.RatingSec.Text = Localization.GetString("StartRatingSec.Text", this.RouterResourceFile);
         }
 
         #endregion Methods

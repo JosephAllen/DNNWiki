@@ -55,7 +55,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void CmdLast7Days_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = this.CreateRecentChangeTable(7);
+            this.HitTable.Text = this.CreateRecentChangeTable(7);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void CmdLast24Hrs_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = this.CreateRecentChangeTable(1);
+            this.HitTable.Text = this.CreateRecentChangeTable(1);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void CmdLastMonth_Click(object sender, System.EventArgs e)
         {
-            HitTable.Text = this.CreateRecentChangeTable(31);
+            this.HitTable.Text = this.CreateRecentChangeTable(31);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace DotNetNuke.Wiki.Views
             this.LoadLocalization();
             if (!this.IsPostBack)
             {
-                HitTable.Text = this.CreateRecentChangeTable(1);
+                this.HitTable.Text = this.CreateRecentChangeTable(1);
             }
         }
 
@@ -104,10 +104,10 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            TitleLbl.Text = Localization.GetString("RCTitle", this.RouterResourceFile);
-            cmdLast24Hrs.Text = Localization.GetString("RCLast24h", this.RouterResourceFile);
-            cmdLast7Days.Text = Localization.GetString("RCLast7d", this.RouterResourceFile);
-            cmdLastMonth.Text = Localization.GetString("RCLastMonth", this.RouterResourceFile);
+            this.TitleLbl.Text = Localization.GetString("RCTitle", this.RouterResourceFile);
+            this.cmdLast24Hrs.Text = Localization.GetString("RCLast24h", this.RouterResourceFile);
+            this.cmdLast7Days.Text = Localization.GetString("RCLast7d", this.RouterResourceFile);
+            this.cmdLastMonth.Text = Localization.GetString("RCLastMonth", this.RouterResourceFile);
         }
 
         #endregion Methods

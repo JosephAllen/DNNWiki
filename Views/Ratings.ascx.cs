@@ -159,27 +159,27 @@ namespace DotNetNuke.Wiki.Views
         {
             bool save = false;
             save = false;
-            if (rating1.Checked)
+            if (this.rating1.Checked)
             {
                 this.InnerTopic.RatingOneCount = this.InnerTopic.RatingOneCount + 1;
                 save = true;
             }
-            else if (rating2.Checked)
+            else if (this.rating2.Checked)
             {
                 this.InnerTopic.RatingTwoCount = this.InnerTopic.RatingTwoCount + 1;
                 save = true;
             }
-            else if (rating3.Checked)
+            else if (this.rating3.Checked)
             {
                 this.InnerTopic.RatingThreeCount = this.InnerTopic.RatingThreeCount + 1;
                 save = true;
             }
-            else if (rating4.Checked)
+            else if (this.rating4.Checked)
             {
                 this.InnerTopic.RatingFourCount = this.InnerTopic.RatingFourCount + 1;
                 save = true;
             }
-            else if (rating5.Checked)
+            else if (this.rating5.Checked)
             {
                 this.InnerTopic.RatingFiveCount = this.InnerTopic.RatingFiveCount + 1;
                 save = true;
@@ -229,8 +229,8 @@ namespace DotNetNuke.Wiki.Views
             {
                 if (this.InnerTopic.FivePointRatingsRecorded > 0)
                 {
-                    lblAverageRating.Text = this.InnerTopic.FivePointAverage.ToString("#.#");
-                    lblRatingCount.Text = string.Format(
+                    this.lblAverageRating.Text = this.InnerTopic.FivePointAverage.ToString("#.#");
+                    this.lblRatingCount.Text = string.Format(
                         Localization.GetString(
                         "RatingsNumberOf", this.RouterResourceFile),
                         this.InnerTopic.FivePointRatingsRecorded.ToString());
@@ -269,15 +269,15 @@ namespace DotNetNuke.Wiki.Views
 
                         img.Height = Unit.Pixel(Convert.ToInt32(25f * (Convert.ToDouble(currentCount) / Convert.ToDouble(this.InnerTopic.FivePointRatingsRecorded))));
                         img.AlternateText = currentCount.ToString();
-                        RatingsGraphTable.Rows[0].Cells[i].Controls.Add(img);
+                        this.RatingsGraphTable.Rows[0].Cells[i].Controls.Add(img);
                     }
                 }
                 else
                 {
-                    lblAverageRating.Text = Localization.GetString("RatingsNotRatedYet", this.RouterResourceFile);
-                    lblRatingCount.Text = string.Format(Localization.GetString("RatingsNumberOf", this.RouterResourceFile), "0");
+                    this.lblAverageRating.Text = Localization.GetString("RatingsNotRatedYet", this.RouterResourceFile);
+                    this.lblRatingCount.Text = string.Format(Localization.GetString("RatingsNumberOf", this.RouterResourceFile), "0");
 
-                    RatingsGraphTable.Visible = false;
+                    this.RatingsGraphTable.Visible = false;
                 }
             }
         }
@@ -291,8 +291,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void DisplayCanVote()
         {
-            pnlCastVote.Visible = true;
-            pnlVoteCast.Visible = false;
+            this.pnlCastVote.Visible = true;
+            this.pnlVoteCast.Visible = false;
         }
 
         /// <summary>
@@ -300,8 +300,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void DisplayHasVoted()
         {
-            pnlCastVote.Visible = false;
-            pnlVoteCast.Visible = true;
+            this.pnlCastVote.Visible = false;
+            this.pnlVoteCast.Visible = true;
         }
 
         /// <summary>
@@ -309,12 +309,12 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", this.RouterResourceFile);
-            LowRating.Text = Localization.GetString("RatingsLowRating", this.RouterResourceFile);
-            HighRating.Text = Localization.GetString("RatingsHighRating", this.RouterResourceFile);
-            lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", this.RouterResourceFile);
-            lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", this.RouterResourceFile);
-            btnSubmit.Text = Localization.GetString("RatingsSubmitRating", this.RouterResourceFile);
+            this.RatePagelbl.Text = Localization.GetString("RatingsRateThisPage", this.RouterResourceFile);
+            this.LowRating.Text = Localization.GetString("RatingsLowRating", this.RouterResourceFile);
+            this.HighRating.Text = Localization.GetString("RatingsHighRating", this.RouterResourceFile);
+            this.lblAverageRatingMessage.Text = Localization.GetString("RatingsAverageRatingTitle", this.RouterResourceFile);
+            this.lblVoteCastMessage.Text = Localization.GetString("RatingsPageRated", this.RouterResourceFile);
+            this.btnSubmit.Text = Localization.GetString("RatingsSubmitRating", this.RouterResourceFile);
         }
 
         #endregion Methods

@@ -57,9 +57,9 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         {
             this.LocalResourceFile = DotNetNuke.Services.Localization.Localization.GetResourceFile(this, "WikiButton.ascx.resx");
 
-            lnkEdit.Text = Localization.GetString("StartEdit.Text", this.LocalResourceFile);
-            cmdAdd.Text = Localization.GetString("StartAdd", this.LocalResourceFile);
-            txtViewHistory.Text = Localization.GetString("StartViewHistory", this.LocalResourceFile);
+            this.lnkEdit.Text = Localization.GetString("StartEdit.Text", this.LocalResourceFile);
+            this.cmdAdd.Text = Localization.GetString("StartAdd", this.LocalResourceFile);
+            this.txtViewHistory.Text = Localization.GetString("StartViewHistory", this.LocalResourceFile);
 
             this.SetDisplay();
         }
@@ -100,7 +100,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
                 this.lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic) + "&loc=edit");
             }
 
-            cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "&loc=edit&add=true");
+            this.cmdAdd.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "&loc=edit&add=true");
         }
 
         #endregion Methods

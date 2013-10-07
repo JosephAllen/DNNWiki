@@ -7,7 +7,7 @@
 //      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 //      associated documentation files (the "Software"), to deal in the Software without restriction,
 //      including without limitation the rights to use, copy, modify, merge, publish, distribute,
-//      sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+//      sub license, and/or sell copies of the Software, and to permit persons to whom the Software is
 //      furnished to do so, subject to the following conditions:
 //
 //      The above copyright notice and this permission notice shall be included in all copies or
@@ -95,7 +95,7 @@ namespace DotNetNuke.Wiki.Views
             }
             else
             {
-                lblPageCreationError.Text = Localization.GetString("lblPageCreationError", this.LocalResourceFile);
+                this.lblPageCreationError.Text = Localization.GetString("lblPageCreationError", this.LocalResourceFile);
             }
         }
 
@@ -110,7 +110,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void CmdSaveAndContinue_Click(object sender, System.EventArgs e)
         {
-            this.PageTopic = txtPageName.Text.Trim();
+            this.PageTopic = this.txtPageName.Text.Trim();
             this.SaveAndContinue();
             ////Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(Me.tabID, Me.portalSettings, String.Empty, "", "topic=" & WikiMarkup.EncodeTitle(Me.PageTopic)), False)
         }
@@ -147,7 +147,7 @@ namespace DotNetNuke.Wiki.Views
             {
                 if (this.teContent != null)
                 {
-                    teContent.HtmlEncode = false;
+                    this.teContent.HtmlEncode = false;
                 }
 
                 this.LoadTopic();
@@ -184,8 +184,8 @@ namespace DotNetNuke.Wiki.Views
             else
             {
                 // User doesn't have edit rights to this module, load up a message stating so.
-                lblMessage.Text = Localization.GetString("NoEditAccess", this.LocalResourceFile);
-                divWikiEdit.Visible = false;
+                this.lblMessage.Text = Localization.GetString("NoEditAccess", this.LocalResourceFile);
+                this.divWikiEdit.Visible = false;
             }
         }
 
@@ -264,28 +264,28 @@ namespace DotNetNuke.Wiki.Views
 
             if (string.IsNullOrWhiteSpace(this.CurrentTopic.Name))
             {
-                txtPageName.Text = string.Empty;
-                txtPageName.ReadOnly = false;
+                this.txtPageName.Text = string.Empty;
+                this.txtPageName.ReadOnly = false;
             }
             else
             {
-                txtPageName.Text = HttpUtility.HtmlDecode(CurrentTopic.Name.Trim().Replace("[L]", string.Empty));
-                txtPageName.ReadOnly = PageTopic.Equals(WikiModuleBase.WikiHomeName);
+                this.txtPageName.Text = HttpUtility.HtmlDecode(CurrentTopic.Name.Trim().Replace("[L]", string.Empty));
+                this.txtPageName.ReadOnly = PageTopic.Equals(WikiModuleBase.WikiHomeName);
             }
 
             if (!string.IsNullOrWhiteSpace(this.CurrentTopic.Title))
             {
-                txtTitle.Text = HttpUtility.HtmlDecode(CurrentTopic.Title.Replace("[L]", string.Empty));
+                this.txtTitle.Text = HttpUtility.HtmlDecode(CurrentTopic.Title.Replace("[L]", string.Empty));
             }
 
             if (this.CurrentTopic.Description != null)
             {
-                txtDescription.Text = CurrentTopic.Description;
+                this.txtDescription.Text = CurrentTopic.Description;
             }
 
             if (this.CurrentTopic.Keywords != null)
             {
-                txtKeywords.Text = CurrentTopic.Keywords;
+                this.txtKeywords.Text = CurrentTopic.Keywords;
             }
 
             //// TODO: Fix Printer Friendly
@@ -296,7 +296,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void EditPage()
         {
-            // Redirect back to the topic url.
+            // Redirect back to the topic URL.
             this.DisplayTopic();
         }
 
@@ -305,15 +305,15 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", this.LocalResourceFile);
-            AllowRating.Text = Localization.GetString("StartAllowRatings", this.LocalResourceFile);
-            cmdCancel.Text = Localization.GetString("StartCancel", this.LocalResourceFile);
+            this.AllowDiscuss.Text = Localization.GetString("StartAllowDiscuss", this.LocalResourceFile);
+            this.AllowRating.Text = Localization.GetString("StartAllowRatings", this.LocalResourceFile);
+            this.cmdCancel.Text = Localization.GetString("StartCancel", this.LocalResourceFile);
             ////CommentsSec.Text = Localization.GetString("StartCommentsSection", LocalResourceFile)
-            DeleteBtn.Text = Localization.GetString("StartDelete", this.LocalResourceFile);
-            cmdSave.Text = Localization.GetString("StartSave", this.LocalResourceFile);
-            cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", this.LocalResourceFile);
-            WikiTextDirections.Text = Localization.GetString("StartWikiDirections", this.LocalResourceFile);
-            WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", this.LocalResourceFile);
+            this.DeleteBtn.Text = Localization.GetString("StartDelete", this.LocalResourceFile);
+            this.cmdSave.Text = Localization.GetString("StartSave", this.LocalResourceFile);
+            this.cmdSaveAndContinue.Text = Localization.GetString("StartSaveAndContinue", this.LocalResourceFile);
+            this.WikiTextDirections.Text = Localization.GetString("StartWikiDirections", this.LocalResourceFile);
+            this.WikiDirectionsDetails.Text = Localization.GetString("StartWikiDirectionDetails", this.LocalResourceFile);
             ////RatingSec.Text = Localization.GetString("StartRatingSec.Text", LocalResourceFile)
         }
 
@@ -353,7 +353,7 @@ namespace DotNetNuke.Wiki.Views
         private void SaveChanges()
         {
             this.SaveAndContinue();
-            ////redirect to the topic's url
+            ////redirect to the topic's URL
         }
 
         #endregion Methods

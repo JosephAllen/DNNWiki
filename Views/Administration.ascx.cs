@@ -71,7 +71,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void AllowPageRatings_CheckedChanged(object sender, EventArgs e)
         {
-            if (AllowPageComments.Checked)
+            if (this.AllowPageComments.Checked)
             {
                 this.ActivateRatings.Enabled = true;
                 this.ActivateRatings.Checked = true;
@@ -96,7 +96,7 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void AllowPageComments_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (AllowPageComments.Checked)
+            if (this.AllowPageComments.Checked)
             {
                 this.ActivateComments.Enabled = true;
                 this.ActivateComments.Checked = true;
@@ -139,10 +139,10 @@ namespace DotNetNuke.Wiki.Views
 
                     ////Put user code to initialize the page here
 
-                    ContentEditors.DataTextField = "Text";
-                    ContentEditors.DataValueField = "Text";
-                    NotifyRoles.DataTextField = "Text";
-                    NotifyRoles.DataValueField = "Text";
+                    this.ContentEditors.DataTextField = "Text";
+                    this.ContentEditors.DataValueField = "Text";
+                    this.NotifyRoles.DataTextField = "Text";
+                    this.NotifyRoles.DataValueField = "Text";
 
                     if (this.mSettingsModel == null)
                     {
@@ -157,39 +157,39 @@ namespace DotNetNuke.Wiki.Views
 
                     if (!this.IsPostBack)
                     {
-                        DNNSecurityChk.Checked = this.mSettingsModel.ContentEditorRoles.Equals(StrUseDNNSettings);
-                        AllowPageComments.Checked = this.mSettingsModel.AllowDiscussions;
-                        AllowPageRatings.Checked = this.mSettingsModel.AllowRatings;
-                        DefaultCommentsMode.Checked = this.mSettingsModel.DefaultDiscussionMode == true;
-                        DefaultRatingMode.Checked = this.mSettingsModel.DefaultRatingMode == true;
-                        NotifyMethodUserComments.Checked = this.mSettingsModel.CommentNotifyUsers == true;
+                        this.DNNSecurityChk.Checked = this.mSettingsModel.ContentEditorRoles.Equals(StrUseDNNSettings);
+                        this.AllowPageComments.Checked = this.mSettingsModel.AllowDiscussions;
+                        this.AllowPageRatings.Checked = this.mSettingsModel.AllowRatings;
+                        this.DefaultCommentsMode.Checked = this.mSettingsModel.DefaultDiscussionMode == true;
+                        this.DefaultRatingMode.Checked = this.mSettingsModel.DefaultRatingMode == true;
+                        this.NotifyMethodUserComments.Checked = this.mSettingsModel.CommentNotifyUsers == true;
 
-                        NotifyMethodCustomRoles.Checked =
+                        this.NotifyMethodCustomRoles.Checked =
                             !(!string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles) &&
                             this.mSettingsModel.CommentNotifyRoles.StartsWith("UseDNNSettings;") &&
                             !string.IsNullOrWhiteSpace(this.mSettingsModel.CommentNotifyRoles));
 
-                        if (NotifyMethodCustomRoles.Checked)
+                        if (this.NotifyMethodCustomRoles.Checked)
                         {
-                            NotifyMethodEditRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";Edit");
-                            NotifyMethodViewRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";View");
+                            this.NotifyMethodEditRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";Edit");
+                            this.NotifyMethodViewRoles.Checked = this.mSettingsModel.CommentNotifyRoles.Contains(";View");
                         }
 
                         // Call the BindRights method
                         this.BindRights();
 
-                        if (DNNSecurityChk.Checked == true)
+                        if (this.DNNSecurityChk.Checked == true)
                         {
-                            ContentEditors.Visible = false;
-                            WikiSecurity.Visible = false;
+                            this.ContentEditors.Visible = false;
+                            this.WikiSecurity.Visible = false;
                         }
                         else
                         {
-                            ContentEditors.Visible = true;
-                            WikiSecurity.Visible = true;
+                            this.ContentEditors.Visible = true;
+                            this.WikiSecurity.Visible = true;
                         }
 
-                        if (AllowPageComments.Checked)
+                        if (this.AllowPageComments.Checked)
                         {
                             this.ActivateComments.Enabled = true;
                             this.DefaultCommentsMode.Enabled = true;
@@ -202,7 +202,7 @@ namespace DotNetNuke.Wiki.Views
                             this.DefaultCommentsMode.Checked = false;
                         }
 
-                        if (AllowPageRatings.Checked)
+                        if (this.AllowPageRatings.Checked)
                         {
                             this.ActivateRatings.Enabled = true;
                             this.DefaultRatingMode.Enabled = true;
@@ -215,10 +215,10 @@ namespace DotNetNuke.Wiki.Views
                             this.DefaultRatingMode.Checked = false;
                         }
 
-                        if (NotifyMethodCustomRoles.Checked)
+                        if (this.NotifyMethodCustomRoles.Checked)
                         {
-                            NotifyRoles.Visible = true;
-                            lblNotifyRoles.Visible = true;
+                            this.NotifyRoles.Visible = true;
+                            this.lblNotifyRoles.Visible = true;
                             this.NotifyMethodEditRoles.Enabled = false;
                             this.NotifyMethodViewRoles.Enabled = false;
                             this.NotifyMethodViewRoles.Checked = false;
@@ -229,8 +229,8 @@ namespace DotNetNuke.Wiki.Views
                             this.NotifyMethodEditRoles.Enabled = true;
                             this.NotifyMethodViewRoles.Enabled = true;
 
-                            NotifyRoles.Visible = false;
-                            lblNotifyRoles.Visible = false;
+                            this.NotifyRoles.Visible = false;
+                            this.lblNotifyRoles.Visible = false;
                         }
                     }
                 }
@@ -249,15 +249,15 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void DNNSecurityChk_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (DNNSecurityChk.Checked == true)
+            if (this.DNNSecurityChk.Checked == true)
             {
-                ContentEditors.Visible = false;
-                WikiSecurity.Visible = false;
+                this.ContentEditors.Visible = false;
+                this.WikiSecurity.Visible = false;
             }
             else
             {
-                ContentEditors.Visible = true;
-                WikiSecurity.Visible = true;
+                this.ContentEditors.Visible = true;
+                this.WikiSecurity.Visible = true;
             }
         }
 
@@ -269,10 +269,10 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void NotifyMethodCustomRoles_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (NotifyMethodCustomRoles.Checked)
+            if (this.NotifyMethodCustomRoles.Checked)
             {
-                NotifyRoles.Visible = true;
-                lblNotifyRoles.Visible = true;
+                this.NotifyRoles.Visible = true;
+                this.lblNotifyRoles.Visible = true;
 
                 this.NotifyMethodEditRoles.Enabled = false;
                 this.NotifyMethodViewRoles.Enabled = false;
@@ -283,8 +283,8 @@ namespace DotNetNuke.Wiki.Views
             {
                 this.NotifyMethodEditRoles.Enabled = true;
                 this.NotifyMethodViewRoles.Enabled = true;
-                lblNotifyRoles.Visible = false;
-                NotifyRoles.Visible = false;
+                this.lblNotifyRoles.Visible = false;
+                this.NotifyRoles.Visible = false;
             }
         }
 
@@ -323,7 +323,7 @@ namespace DotNetNuke.Wiki.Views
         /// <param name="currentUnitOfWork">The UnitOfWork.</param>
         private void ActivateItems(UnitOfWork currentUnitOfWork)
         {
-            if (ActivateComments.Checked | ActivateRatings.Checked)
+            if (this.ActivateComments.Checked | this.ActivateRatings.Checked)
             {
                 TopicBO topicBo = new TopicBO(currentUnitOfWork);
 
@@ -331,12 +331,12 @@ namespace DotNetNuke.Wiki.Views
 
                 foreach (var topic in alltopics)
                 {
-                    if (topic.AllowDiscussions == false & ActivateComments.Checked)
+                    if (topic.AllowDiscussions == false & this.ActivateComments.Checked)
                     {
                         topic.AllowDiscussions = true;
                     }
 
-                    if (topic.AllowRatings == false & ActivateRatings.Checked)
+                    if (topic.AllowRatings == false & this.ActivateRatings.Checked)
                     {
                         topic.AllowRatings = true;
                     }
@@ -399,11 +399,11 @@ namespace DotNetNuke.Wiki.Views
                     {
                         if (curRole.Equals("View"))
                         {
-                            NotifyMethodViewRoles.Checked = true;
+                            this.NotifyMethodViewRoles.Checked = true;
                         }
                         else if (curRole.Equals("Edit"))
                         {
-                            NotifyMethodEditRoles.Checked = true;
+                            this.NotifyMethodEditRoles.Checked = true;
                         }
                     }
                 }
@@ -453,11 +453,11 @@ namespace DotNetNuke.Wiki.Views
 
             int x = arrAvailableAuthViewRoles.Count; // TODO Do we need this?
             int y = arrAssignedAuthViewRoles.Count; // TODO Do we need this?
-            ContentEditors.Available = arrAvailableAuthViewRoles;
-            ContentEditors.Assigned = arrAssignedAuthViewRoles;
+            this.ContentEditors.Available = arrAvailableAuthViewRoles;
+            this.ContentEditors.Assigned = arrAssignedAuthViewRoles;
 
-            NotifyRoles.Assigned = arrAssignedNotifyRoles;
-            NotifyRoles.Available = arrAvailableNotifyRoles;
+            this.NotifyRoles.Assigned = arrAssignedNotifyRoles;
+            this.NotifyRoles.Available = arrAvailableNotifyRoles;
         }
 
         /// <summary>
@@ -468,14 +468,14 @@ namespace DotNetNuke.Wiki.Views
             using (UnitOfWork currentUnitOfWork = new UnitOfWork())
             {
                 var settingsBo = new SettingBO(currentUnitOfWork);
-                if (DNNSecurityChk.Checked == true)
+                if (this.DNNSecurityChk.Checked == true)
                 {
                     this.mSettingsModel.ContentEditorRoles = StrUseDNNSettings;
                 }
                 else
                 {
                     string list = ";";
-                    foreach (ListItem li in ContentEditors.Assigned)
+                    foreach (ListItem li in this.ContentEditors.Assigned)
                     {
                         list = list + li.Value + ";";
                     }
@@ -483,10 +483,10 @@ namespace DotNetNuke.Wiki.Views
                     this.mSettingsModel.ContentEditorRoles = list;
                 }
 
-                if (NotifyMethodCustomRoles.Checked == false)
+                if (this.NotifyMethodCustomRoles.Checked == false)
                 {
                     this.mSettingsModel.CommentNotifyRoles = StrUseDNNSettings;
-                    if (NotifyMethodEditRoles.Checked == true)
+                    if (this.NotifyMethodEditRoles.Checked == true)
                     {
                         this.mSettingsModel.CommentNotifyRoles = this.mSettingsModel.CommentNotifyRoles + ";Edit";
                     }
@@ -499,7 +499,7 @@ namespace DotNetNuke.Wiki.Views
                 else
                 {
                     string list = ";";
-                    foreach (ListItem li in NotifyRoles.Assigned)
+                    foreach (ListItem li in this.NotifyRoles.Assigned)
                     {
                         list = list + li.Value + ";";
                     }
@@ -507,11 +507,11 @@ namespace DotNetNuke.Wiki.Views
                     this.mSettingsModel.CommentNotifyRoles = list;
                 }
 
-                this.mSettingsModel.AllowDiscussions = AllowPageComments.Checked;
-                this.mSettingsModel.AllowRatings = AllowPageRatings.Checked;
-                this.mSettingsModel.DefaultDiscussionMode = DefaultCommentsMode.Checked;
-                this.mSettingsModel.DefaultRatingMode = DefaultRatingMode.Checked;
-                this.mSettingsModel.CommentNotifyUsers = NotifyMethodUserComments.Checked;
+                this.mSettingsModel.AllowDiscussions = this.AllowPageComments.Checked;
+                this.mSettingsModel.AllowRatings = this.AllowPageRatings.Checked;
+                this.mSettingsModel.DefaultDiscussionMode = this.DefaultCommentsMode.Checked;
+                this.mSettingsModel.DefaultRatingMode = this.DefaultRatingMode.Checked;
+                this.mSettingsModel.CommentNotifyUsers = this.NotifyMethodUserComments.Checked;
 
                 if (this.mSettingsModel.ModuleId == -1)
                 {
