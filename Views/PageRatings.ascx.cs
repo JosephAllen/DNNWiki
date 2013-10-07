@@ -32,7 +32,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Page Ratings Class
     /// </summary>
-    internal partial class PageRatings : WikiModuleBase
+    public partial class PageRatings : WikiModuleBase
     {
         #region Constructor
 

@@ -35,7 +35,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Ratings class based on the Wiki Module Base class
     /// </summary>
-    internal partial class Ratings : WikiModuleBase
+    public partial class Ratings : WikiModuleBase
     {
         #region Constructor
 

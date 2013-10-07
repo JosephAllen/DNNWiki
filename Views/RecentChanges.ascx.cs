@@ -31,7 +31,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Recent changes class based on WikiModuleBase
     /// </summary>
-    internal partial class RecentChanges : WikiModuleBase
+    public partial class RecentChanges : WikiModuleBase
     {
         #region Constructor
 

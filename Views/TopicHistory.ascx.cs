@@ -33,7 +33,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Topic History Control Class
     /// </summary>
-    internal partial class TopicHistory : WikiModuleBase
+    public partial class TopicHistory : WikiModuleBase
     {
         #region Constructor
 

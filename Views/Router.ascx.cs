@@ -36,7 +36,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Router Class based on the WikiModuleBase Class
     /// </summary>
-    internal partial class Router : WikiModuleBase, IActionable
+    public partial class Router : WikiModuleBase, IActionable
     {
         #region Constructor
 

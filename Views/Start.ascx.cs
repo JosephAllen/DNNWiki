@@ -32,7 +32,7 @@ namespace DotNetNuke.Wiki.Views
     /// <summary>
     /// Start Class based on WikiModuleBase
     /// </summary>
-    internal partial class Start : WikiModuleBase
+    public partial class Start : WikiModuleBase
     {
         #region Constructor
 
@@ -53,8 +53,6 @@ namespace DotNetNuke.Wiki.Views
         ////protected System.Web.UI.WebControls.Button m_cmdHistory;
         ////protected PageRatings m_pageRating;
         ////protected Ratings m_ratings;
-
-        private UI.UserControls.SectionHeadControl mWikiTextDirections;
 
         #endregion Properties
 

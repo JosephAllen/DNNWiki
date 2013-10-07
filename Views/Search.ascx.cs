@@ -33,7 +33,7 @@ namespace DotNetNuke.Wiki.Views
     /// Search Class based on the WikiModuleBase class. Allows users to search for topics. Needs to
     /// be rewritten but for now this is OK.
     /// </summary>
-    internal partial class Search : WikiModuleBase
+    public partial class Search : WikiModuleBase
     {
         #region Constructor
 
@@ -48,8 +48,6 @@ namespace DotNetNuke.Wiki.Views
         #endregion Constructor
 
         #region Properties
-
-        private System.Web.UI.WebControls.Label lblPageContent;
 
         #endregion Properties
 

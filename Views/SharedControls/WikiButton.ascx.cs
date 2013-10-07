@@ -31,7 +31,7 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     /// <summary>
     /// Wiki Button Code
     /// </summary>
-    internal partial class WikiButton : WikiModuleBase
+    public partial class WikiButton : WikiModuleBase
     {
         #region Constructor
 
