@@ -203,4 +203,7 @@
   <data name="SubmitButton.Text" xml:space="preserve">
     <value>Post Comment</value>
   </data>
+  <data name="ErrorDeletingTopic.Text" xml:space="preserve">
+    <value>An error ocurred when trying to delete the topic.</value>
+  </data>
 </root>

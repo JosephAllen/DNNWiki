@@ -44,6 +44,8 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
+        public const string SharedResources = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
+
         public const string WikiHomeName = "WikiHomePage";
 
         private const string CSSWikiModuleCssId = "WikiModuleCss";

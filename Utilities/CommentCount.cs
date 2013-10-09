@@ -38,7 +38,6 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
-        private string mSharedResourcesValue = string.Empty;
         private string mTextValue;
         private int mParentIdValue;
 
@@ -94,7 +93,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                     if (this.mTextValue == null)
                     {
-                        writer.Write(string.Format(Localization.GetString("FeedBack.Text", this.mSharedResourcesValue), commentCount));
+                        writer.Write(string.Format(Localization.GetString("FeedBack.Text", WikiModuleBase.SharedResources), commentCount));
                     }
                     else
                     {
@@ -103,7 +102,7 @@ namespace DotNetNuke.Wiki.Utilities
                 }
                 else
                 {
-                    writer.Write(Localization.GetString("NoComments.Text", this.mSharedResourcesValue));
+                    writer.Write(Localization.GetString("NoComments.Text", WikiModuleBase.SharedResources));
                 }
 
                 writer.RenderEndTag();

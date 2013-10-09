@@ -9,7 +9,7 @@
 <div class="License">
     <h3>About the Core Wiki</h3>
     <p class="Owner">
-        <strong>Wiki 04.05.05</strong><br />
+        <strong>Wiki 04.05.06</strong><br />
     </p>
     <p>This version of the Wiki module is compiled against DotNetNuke 7.0.2 and is intended for production use. As always backup everything before installation/upgrade, and always test in a test environment before using in production.</p>
     <h4>Enhancements</h4>

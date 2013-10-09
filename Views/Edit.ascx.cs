@@ -24,6 +24,7 @@
 #endregion Copyright
 
 using DotNetNuke.Security;
+using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
 using DotNetNuke.Wiki.BusinessObjects.Exceptions;
@@ -123,14 +124,22 @@ namespace DotNetNuke.Wiki.Views
         /// data.</param>
         protected void DeleteBtn_Click(object sender, System.EventArgs e)
         {
-            var topicHistoryList = GetHistory();
-            foreach (var th in topicHistoryList)
+            try
             {
-                TopicHistoryBo.Delete(th);
-            }
+                UoW.BeginTransaction();
 
-            TopicBo.Delete(this.CurrentTopic);
-            Response.Redirect(this.HomeURL, true);
+                TopicBo.Delete(this.CurrentTopic);
+
+                UoW.CommitTransaction();
+                Response.Redirect(this.HomeURL, false);
+            }
+            catch (System.Exception exc)
+            {
+                UoW.RollbackTransaction();
+
+                Exceptions.LogException(exc);
+                Messages.ShowError(Localization.GetString("ErrorDeletingTopic", this.LocalResourceFile));
+            }
         }
 
         /// <summary>
@@ -179,7 +188,7 @@ namespace DotNetNuke.Wiki.Views
                 }
 
                 // Add confirmation to the delete button.
-                ClientAPI.AddButtonConfirm(this.DeleteBtn, Localization.GetString("ConfirmDelete", this.LocalResourceFile));
+                ClientAPI.AddButtonConfirm(this.DeleteBtn, Localization.GetString("ConfirmDelete", SharedResources));
             }
             else
             {
