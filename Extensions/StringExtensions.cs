@@ -23,6 +23,9 @@
 
 #endregion Copyright
 
+using System.Text.RegularExpressions;
+using System.Web;
+
 namespace DotNetNuke.Wiki.Extensions
 {
     /// <summary>

@@ -138,7 +138,7 @@ namespace DotNetNuke.Wiki.Views
                 UoW.RollbackTransaction();
 
                 Exceptions.LogException(exc);
-                Messages.ShowError(Localization.GetString("ErrorDeletingTopic", this.LocalResourceFile));
+                this.Messages.ShowError(Localization.GetString("ErrorDeletingTopic", this.LocalResourceFile));
             }
         }
 
@@ -188,7 +188,7 @@ namespace DotNetNuke.Wiki.Views
                 }
 
                 // Add confirmation to the delete button.
-                ClientAPI.AddButtonConfirm(this.DeleteBtn, Localization.GetString("ConfirmDelete", SharedResources));
+                ClientAPI.AddButtonConfirm(this.DeleteBtn, Localization.GetString("ConfirmDelete", WikiModuleBase.SharedResources));
             }
             else
             {
@@ -263,13 +263,8 @@ namespace DotNetNuke.Wiki.Views
                 this.AllowRating.Checked = false;
             }
 
-            this.DeleteBtn.Visible = false;
-            this.DeleteLbl.Visible = false;
-            if (this.CurrentTopic.Name != WikiModuleBase.WikiHomeName)
-            {
-                this.DeleteBtn.Visible = true;
-                this.DeleteLbl.Visible = true;
-            }
+            this.DeleteBtn.Visible =
+            this.DeleteLbl.Visible = this.CurrentTopic.Name != WikiModuleBase.WikiHomeName;
 
             if (string.IsNullOrWhiteSpace(this.CurrentTopic.Name))
             {
@@ -287,17 +282,9 @@ namespace DotNetNuke.Wiki.Views
                 this.txtTitle.Text = HttpUtility.HtmlDecode(CurrentTopic.Title.Replace("[L]", string.Empty));
             }
 
-            if (this.CurrentTopic.Description != null)
-            {
-                this.txtDescription.Text = CurrentTopic.Description;
-            }
+            this.txtDescription.Text = CurrentTopic.Description;
 
-            if (this.CurrentTopic.Keywords != null)
-            {
-                this.txtKeywords.Text = CurrentTopic.Keywords;
-            }
-
-            //// TODO: Fix Printer Friendly
+            this.txtKeywords.Text = CurrentTopic.Keywords;
         }
 
         /// <summary>
@@ -331,6 +318,7 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void SaveAndContinue()
         {
+            SharedEnum.CrudOperation crudOperation = SharedEnum.CrudOperation.Insert;
             try
             {
                 DotNetNuke.Security.PortalSecurity objSec = new DotNetNuke.Security.PortalSecurity();
@@ -341,19 +329,57 @@ namespace DotNetNuke.Wiki.Views
                     this.AllowRating.Checked,
                     objSec.InputFilter(WikiMarkup.DecodeTitle(this.txtTitle.Text.Trim()), PortalSecurity.FilterFlag.NoMarkup),
                     objSec.InputFilter(this.txtDescription.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup),
-                    objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup));
+                    objSec.InputFilter(this.txtKeywords.Text.Trim(), PortalSecurity.FilterFlag.NoMarkup),
+                    out crudOperation);
             }
             catch (TopicValidationException exc)
             {
                 switch (exc.CrudError)
                 {
                     case DotNetNuke.Wiki.BusinessObjects.TopicBO.TopicError.DUPLICATENAME:
+                        this.Messages.ShowWarning(Localization.GetString("WarningDUPLICATENAME", this.LocalResourceFile));
                         break;
 
                     default:
-                        break;
+                        throw exc;
                 }
             }
+
+            this.PostTopicToDNNJournal(crudOperation);
+        }
+
+        /// <summary>
+        /// Posts the topic to DNN journal.
+        /// </summary>
+        /// <param name="crudOperation">The crud operation.</param>
+        private void PostTopicToDNNJournal(SharedEnum.CrudOperation crudOperation)
+        {
+            string summary = string.Empty;
+            SharedEnum.DNNJournalType journalType;
+
+            // depending on the Crud operation, sets the summary and JournalType
+            if (crudOperation == SharedEnum.CrudOperation.Insert)
+            {
+                summary =
+                    Localization.GetString("JournalInsertTopicSummary", this.LocalResourceFile);
+                journalType = SharedEnum.DNNJournalType.Wiki_Add;
+            }
+            else
+            {
+                summary =
+                    Localization.GetString("JournalUpdateTopicSummary", this.LocalResourceFile);
+                journalType = SharedEnum.DNNJournalType.Wiki_Update;
+            }
+
+            // post the topic
+            DNNUtils.PostTopicCommentToJournal(
+                summary.Replace("[TopicName]", this.PageTopic),
+                this.PageTopic,
+                string.Empty,
+                DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic)),
+                this.TabId,
+                this.PageTopic,
+                journalType);
         }
 
         /// <summary>
@@ -362,7 +388,6 @@ namespace DotNetNuke.Wiki.Views
         private void SaveChanges()
         {
             this.SaveAndContinue();
-            ////redirect to the topic's URL
         }
 
         #endregion Methods

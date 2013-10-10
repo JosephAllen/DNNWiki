@@ -419,7 +419,7 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
                 writer.AddAttribute(HtmlTextWriterAttribute.Href, this.BuildDeleteQueryString(commentId));
-                writer.AddAttribute(HtmlTextWriterAttribute.Onclick, BuildDeleteConfirm(Localization.GetString("ConfirmDelete", WikiModuleBase.SharedResources)));
+                writer.AddAttribute(HtmlTextWriterAttribute.Onclick, this.BuildDeleteConfirm(Localization.GetString("ConfirmDelete", WikiModuleBase.SharedResources)));
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
 
                 ////writer.Write("Delete Comment")
@@ -441,7 +441,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// Builds the delete confirm JavaScript function
         /// </summary>
         /// <param name="statement">The statement to show</param>
-        /// <returns></returns>
+        /// <returns>returns the delete confirmation action</returns>
         private string BuildDeleteConfirm(string statement)
         {
             return string.Concat("return confirm('", statement, "');");

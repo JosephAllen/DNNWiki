@@ -24,13 +24,18 @@
 #endregion Copyright
 
 using DotNetNuke.Common;
+using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Host;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Services.Journal;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Mail;
 using DotNetNuke.Wiki.BusinessObjects;
 using DotNetNuke.Wiki.BusinessObjects.Models;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
 
 namespace DotNetNuke.Wiki.Utilities
 {
@@ -48,7 +53,13 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="email">The email.</param>
         /// <param name="comment">The comment.</param>
         /// <param name="ipaddress">The IP Address.</param>
-        public static void SendNotifications(UnitOfWork uow, Topic topic, string name, string email, string comment, string ipaddress)
+        public static void SendNotifications(
+            UnitOfWork uow,
+            Topic topic,
+            string name,
+            string email,
+            string comment,
+            string ipaddress)
         {
             if (topic != null)
             {
@@ -98,6 +109,57 @@ namespace DotNetNuke.Wiki.Utilities
                         Host.SMTPUsername,
                         Host.SMTPPassword,
                         Host.EnableSMTPSSL);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Posts the topic comment to DNN journal.
+        /// </summary>
+        /// <param name="summary">The summary.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="linkToTopic">The link to topic.</param>
+        /// <param name="currentTab">The current tab.</param>
+        /// <param name="topicName">Name of the topic.</param>
+        /// <param name="journalType">Type of the journal.</param>
+        public static void PostTopicCommentToJournal(
+            string summary,
+            string title,
+            string description,
+            string linkToTopic,
+            int currentTab,
+            string topicName,
+            SharedEnum.DNNJournalType journalType)
+        {
+            if (HttpContext.Current != null && HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                UserInfo user = UserController.GetCurrentUserInfo();
+                if (user != null)
+                {
+                    // Post to DotnetNuke Journal
+                    var journalController = JournalController.Instance;
+                    var journalItem = new JournalItem();
+                    journalItem.Summary = summary;
+                    journalItem.PortalId = PortalSettings.Current.PortalId;
+                    journalItem.ProfileId = user.UserID;
+                    journalItem.SocialGroupId = Null.NullInteger;
+                    journalItem.UserId = user.UserID;
+
+                    journalItem.ItemData = new ItemData()
+                    {
+                        Description = description,
+                        Title = title,
+                        Url = linkToTopic
+                    };
+
+                    journalItem.JournalTypeId = (int)journalType;
+                    journalItem.ObjectKey = string.Empty;
+                    journalItem.SecuritySet = "F,";
+                    //// http: //www.dnnsoftware.com/wiki/loc/history/Page/Journal/Revision/11
+
+                    journalItem.Title = topicName;
+                    journalController.SaveJournalItem(journalItem, currentTab); // saving
                 }
             }
         }

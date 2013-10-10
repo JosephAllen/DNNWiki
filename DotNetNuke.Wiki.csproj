@@ -55,6 +55,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\DotNetNuke.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetNuke.Modules.Journal, Version=7.0.6.121, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.Modules.Journal.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetNuke.Web, Version=7.0.3.64, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
@@ -306,7 +310,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\SharedControls\App_LocalResources\WikiMenu.ascx.resx" />
+    <Content Include="Views\SharedControls\App_LocalResources\WikiMenu.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\04.05.02.txt" />
