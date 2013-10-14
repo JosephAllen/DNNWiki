@@ -91,7 +91,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a topic history object</returns>
         internal TopicHistory GetItem(int topicHistoryId)
         {
-            return this.DatabaseContext.ExecuteQuery<TopicHistory>(CommandType.StoredProcedure, "Wiki_TopicHistoryGet", topicHistoryId).FirstOrDefault();
+            return this.DatabaseContext.ExecuteQuery<TopicHistory>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicHistoryGet"), topicHistoryId).FirstOrDefault();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="entity">The entity.</param>
         internal override void RepositoryDelete(ref TopicHistory entity)
         {
-            this.DatabaseContext.Execute(CommandType.StoredProcedure, "Wiki_TopicHistoryDelete", entity.TopicId);
+            this.DatabaseContext.Execute(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicHistoryDelete"), entity.TopicId);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns collection of topics</returns>
         internal IEnumerable<TopicHistory> GetHistoryForTopic(int topicID)
         {
-            return this.DatabaseContext.ExecuteQuery<TopicHistory>(CommandType.StoredProcedure, "Wiki_TopicHistoryGetHistoryForTopic", topicID);
+            return this.DatabaseContext.ExecuteQuery<TopicHistory>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicHistoryGetHistoryForTopic"), topicID);
         }
 
         #endregion Methods

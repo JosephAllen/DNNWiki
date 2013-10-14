@@ -70,6 +70,30 @@ namespace DotNetNuke.Wiki.BusinessObjects
         #region Properties
 
         /// <summary>
+        /// Gets the data base owner.
+        /// </summary>
+        /// <value>The data base owner.</value>
+        internal string DataBaseOwner
+        {
+            get
+            {
+                return "{databaseOwner}";
+            }
+        }
+
+        /// <summary>
+        /// Gets the object qualifier.
+        /// </summary>
+        /// <value>The object qualifier.</value>
+        internal string ObjectQualifier
+        {
+            get
+            {
+                return "{objectQualifier}";
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the database context.
         /// </summary>
         /// <value>The database context.</value>
