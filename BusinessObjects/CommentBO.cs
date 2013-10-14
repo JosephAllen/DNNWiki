@@ -89,7 +89,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="parentId">the parent id</param>
         internal void DeleteComments(int parentId)
         {
-            this.DatabaseContext.Execute(CommandType.Text, "DELETE FROM Wiki_Comment WHERE ParentId=@0", parentId);
+            this.DatabaseContext.Execute(CommandType.Text, string.Concat("DELETE FROM ", this.DataBaseOwner, this.ObjectQualifier, "Wiki_Comment WHERE ParentId=@0"), parentId);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns collection of comments</returns>
         internal IEnumerable<Comment> GetCommentsByParent(int parentid)
         {
-            return this.DatabaseContext.ExecuteQuery<Comment>(CommandType.Text, "SELECT * FROM Wiki_Comments where ParentId=@0 order by Datetime desc", parentid);
+            return this.DatabaseContext.ExecuteQuery<Comment>(CommandType.Text, string.Concat("SELECT * FROM ", this.DataBaseOwner, this.ObjectQualifier, "Wiki_Comments where ParentId=@0 order by Datetime desc"), parentid);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>Returns a integer value representing the count</returns>
         internal int GetCommentCount(int parentId)
         {
-            return this.DatabaseContext.ExecuteScalar<int>(CommandType.Text, "SELECT Count(CommentId) FROM Wiki_Comments where ParentId=@0", parentId);
+            return this.DatabaseContext.ExecuteScalar<int>(CommandType.Text, string.Concat("SELECT Count(CommentId) FROM ", this.DataBaseOwner, this.ObjectQualifier, "Wiki_Comments where ParentId=@0"), parentId);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>Email Address</returns>
         internal IEnumerable<CommentEmails> GetCommentNotifyUsers(int parentId)
         {
-            return this.DatabaseContext.ExecuteQuery<CommentEmails>(CommandType.Text, "select DISTINCT(Email) from Wiki_Comments where ParentId=@0 AND EmailNotify = 1", parentId);
+            return this.DatabaseContext.ExecuteQuery<CommentEmails>(CommandType.Text, string.Concat("select DISTINCT(Email) from ", this.DataBaseOwner, this.ObjectQualifier, "Wiki_Comments where ParentId=@0 AND EmailNotify = 1"), parentId);
         }
 
         #endregion Methods

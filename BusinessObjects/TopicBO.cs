@@ -83,7 +83,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>SQL Dataset</returns>
         internal IEnumerable<Topic> GetAllByModuleChangedWhen(int moduleId, int daysBack)
         {
-            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleChangedWhen", moduleId, daysBack);
+            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicGetAllByModuleChangedWhen"), moduleId, daysBack);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns a Topic</returns>
         internal Topic GetByNameForModule(int moduleId, string name)
         {
-            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetByNameForModule", moduleId, name).FirstOrDefault();
+            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicGetByNameForModule"), moduleId, name).FirstOrDefault();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>returns collection of Topics</returns>
         internal IEnumerable<Topic> GetAllByModuleID(int moduleId)
         {
-            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicGetAllByModuleID", moduleId);
+            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicGetAllByModuleID"), moduleId);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <returns>SQL SQL Dataset</returns>
         internal IEnumerable<Topic> SearchWiki(string searchString, int moduleId)
         {
-            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, "Wiki_TopicSearchWiki", searchString, moduleId);
+            return this.DatabaseContext.ExecuteQuery<Topic>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicSearchWiki"), searchString, moduleId);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// <param name="entity">The entity.</param>
         internal override void RepositoryDelete(ref Topic entity)
         {
-            this.DatabaseContext.Execute(CommandType.StoredProcedure, "Wiki_TopicDelete", entity.TopicID);
+            this.DatabaseContext.Execute(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_TopicDelete"), entity.TopicID);
         }
 
         /// <summary>
