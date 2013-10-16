@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DotNetNuke.Wiki" type="Module" version="04.05.05">
+    <package name="DotNetNuke.Wiki" type="Module" version="05.00.00">
       <friendlyName>Wiki</friendlyName>
       <description>The DotNetNuke Wiki module, more information available at www.dnnsoftware.com</description>
       <owner>
@@ -10,7 +10,7 @@
         <email>training@dnnsoftware.com</email>
       </owner>
       <license src="License.txt"></license>
-      <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
+      <releaseNotes src="ReleaseNotes.htm"></releaseNotes>
       <dependencies>
         <dependency type="CoreVersion">07.00.02</dependency>
       </dependencies>
@@ -122,6 +122,7 @@
             </moduleDefinitions>
           </desktopModule>
         </component>
+
         <component type="Assembly">
           <assemblies>
             <basePath>bin</basePath>
@@ -131,7 +132,55 @@
             </assembly>
           </assemblies>
         </component>
-        <component type="Cleanup" version="04.05.05" fileName="Resources\04.05.02.txt" />
+
+        <component type="File">
+          <files>
+            <basePath>DesktopModules\wiki</basePath>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>01.00.00.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>01.00.01.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>01.00.02.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>01.00.03.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>01.00.04.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>04.00.02.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>04.02.00.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>04.02.01.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>04.05.03.SqlDataProvider</name>
+            </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>04.05.05.SqlDataProvider</name>
+            </file>
+          </files>
+        </component>
+
+        <component type="Cleanup" version="04.05.02" fileName="Resources\CleanUp\Cleanup.04.05.02.txt" />
+        <component type="Cleanup" version="05.00.00" fileName="Resources\CleanUp\Cleanup.05.00.00.txt" />
       </components>
     </package>
   </packages>
