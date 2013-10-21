@@ -55,5 +55,21 @@ namespace DotNetNuke.Wiki.Utilities
             /// </summary>
             Select
         }
+
+        /// <summary>
+        /// Enumeration for the available journal types in DNN
+        /// </summary>
+        public enum DNNJournalType
+        {
+            /// <summary>
+            /// The wiki_ add new topic
+            /// </summary>
+            Wiki_Add = 11,
+
+            /// <summary>
+            /// The wiki_ update existing topic
+            /// </summary>
+            Wiki_Update = 12
+        }
     }
 }

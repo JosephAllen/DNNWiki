@@ -44,6 +44,8 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
+        public const string SharedResources = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
+
         public const string WikiHomeName = "WikiHomePage";
 
         private const string CSSWikiModuleCssId = "WikiModuleCss";
@@ -429,7 +431,16 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="title">The title.</param>
         /// <param name="description">The description.</param>
         /// <param name="keywords">The keywords.</param>
-        protected void SaveTopic(string content, bool allowDiscuss, bool allowRating, string title, string description, string keywords)
+        /// <param name="out_crudOperation">The crud operation performed, only update or
+        /// insert</param>
+        protected void SaveTopic(
+            string content,
+            bool allowDiscuss,
+            bool allowRating,
+            string title,
+            string description,
+            string keywords,
+            out SharedEnum.CrudOperation out_crudOperation)
         {
             TopicHistory topicHistory = new TopicHistory();
             topicHistory.TabID = this.TabId;
@@ -476,6 +487,7 @@ namespace DotNetNuke.Wiki.Utilities
                 this.mTopicObject.Content = content;
 
                 this.TopicBo.Update(this.mTopicObject);
+                out_crudOperation = SharedEnum.CrudOperation.Update;
             }
             else
             {
@@ -505,6 +517,7 @@ namespace DotNetNuke.Wiki.Utilities
                 this.mTopicObject = this.TopicBo.Add(this.mTopicObject);
 
                 this.mTopicIdValue = this.mTopicObject.TopicID;
+                out_crudOperation = SharedEnum.CrudOperation.Insert;
             }
         }
 

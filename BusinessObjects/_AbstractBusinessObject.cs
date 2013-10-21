@@ -77,7 +77,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         {
             get
             {
-                return "{databaseOwner}";
+                return DataProvider.Instance().DatabaseOwner;
             }
         }
 
@@ -89,7 +89,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
         {
             get
             {
-                return "{objectQualifier}";
+                return DataProvider.Instance().ObjectQualifier;
             }
         }
 

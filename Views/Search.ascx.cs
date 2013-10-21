@@ -84,8 +84,8 @@ namespace DotNetNuke.Wiki.Views
         /// </summary>
         private void LoadLocalization()
         {
-            this.Label2.Text = Localization.GetString("SearchTitleBasic", this.RouterResourceFile);
-            this.Label2.Text = Localization.GetString("SearchFieldLabel", this.RouterResourceFile);
+            this.lblHead.Text = Localization.GetString("SearchTitleBasic", this.RouterResourceFile);
+            this.lblSubHead.Text = Localization.GetString("SearchFieldLabel", this.RouterResourceFile);
             this.cmdSearch.Text = Localization.GetString("SearchExec", this.RouterResourceFile);
         }
 

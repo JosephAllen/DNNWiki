@@ -28,6 +28,7 @@ using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Wiki.Utilities;
+using DotNetNuke.Wiki.Views.SharedControls;
 using System;
 using System.Web.UI;
 
@@ -38,6 +39,19 @@ namespace DotNetNuke.Wiki.Views
     /// </summary>
     public partial class Router : WikiModuleBase, IActionable
     {
+        #region Variables
+
+        private const string ControlStart = "Start.ascx";
+        private const string ControlEdit = "Edit.ascx";
+        private const string ControlTopicHistory = "TopicHistory.ascx";
+        private const string ControlSearch = "Search.ascx";
+        private const string ControlRecentChanges = "RecentChanges.ascx";
+        private const string ControlSharedControlsIndex = "SharedControls//Index.ascx";
+        private const string ControlSharedControlsWikiButton = "SharedControls//WikiButton.ascx";
+        private const string ControlSharedControlsWikiMenu = "SharedControls//WikiMenu.ascx";
+
+        #endregion Variables
+
         #region Constructor
 
         /// <summary>
@@ -91,7 +105,7 @@ namespace DotNetNuke.Wiki.Views
             try
             {
                 // Load the menu on the left
-                string leftControl = "SharedControls//WikiMenu.ascx";
+                string leftControl = ControlSharedControlsWikiMenu;
                 WikiModuleBase wikiModuleBase = (WikiModuleBase)TemplateControl.LoadControl(leftControl);
                 wikiModuleBase.ModuleConfiguration = this.ModuleConfiguration;
                 wikiModuleBase.ID = System.IO.Path.GetFileNameWithoutExtension(leftControl);
@@ -103,15 +117,7 @@ namespace DotNetNuke.Wiki.Views
                 wikiContent.ID = System.IO.Path.GetFileNameWithoutExtension(controlToLoad);
                 this.phWikiContent.Controls.Add(wikiContent);
 
-                if (controlToLoad.ToLower().Equals("start.ascx"))
-                {
-                    string buttonControlToLoad = "SharedControls//WikiButton.ascx";
-                    WikiModuleBase wikiButton = (WikiModuleBase)LoadControl(buttonControlToLoad);
-
-                    wikiButton.ModuleConfiguration = this.ModuleConfiguration;
-                    wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
-                    this.phWikiContent.Controls.Add(wikiButton);
-                }
+                this.LoadWikiButtonControl(controlToLoad);
 
                 // Print the Topic
                 foreach (ModuleAction objAction in this.Actions)
@@ -133,42 +139,60 @@ namespace DotNetNuke.Wiki.Views
         #region Methods
 
         /// <summary>
+        /// Loads the Wiki button control.
+        /// </summary>
+        /// <param name="controlToLoad">The control to load.</param>
+        private void LoadWikiButtonControl(string controlToLoad)
+        {
+            bool showOnlyAddTopicControl = false;
+
+            // if the control being loaded is the start or the index, than show the Wiki buttons
+            // control
+            if (controlToLoad.Equals(ControlStart) ||
+                (showOnlyAddTopicControl = controlToLoad.Equals(ControlSharedControlsIndex)))
+            {
+                string buttonControlToLoad = ControlSharedControlsWikiButton;
+                WikiButton wikiButton = (WikiButton)LoadControl(buttonControlToLoad);
+
+                wikiButton.ModuleConfiguration = this.ModuleConfiguration;
+                wikiButton.ID = System.IO.Path.GetFileNameWithoutExtension(buttonControlToLoad);
+                wikiButton.ShowOnlyAddTopicControl = showOnlyAddTopicControl;
+                this.phWikiContent.Controls.Add(wikiButton);
+            }
+        }
+
+        /// <summary>
         /// Gets the control string.
         /// </summary>
         /// <param name="locationString">The location.</param>
         /// <returns>Control Name</returns>
         private string GetControlString(string locationString)
         {
-            if (locationString == null)
-            {
-                return "Start.ascx";
-            }
-            else
+            if (locationString != null)
             {
                 switch (locationString.ToLower())
                 {
                     case "start":
-                        return "Start.ascx";
+                        return ControlStart;
 
                     case "edit":
-                        return "Edit.ascx";
+                        return ControlEdit;
 
                     case "topichistory":
-                        return "topichistory.ascx";
+                        return ControlTopicHistory;
 
                     case "search":
-                        return "search.ascx";
+                        return ControlSearch;
 
                     case "recentchanges":
-                        return "recentchanges.ascx";
+                        return ControlRecentChanges;
 
                     case "index":
-                        return "SharedControls//index.ascx";
-
-                    default:
-                        return "start.ascx";
+                        return ControlSharedControlsIndex;
                 }
             }
+
+            return ControlStart;
         }
 
         #endregion Methods

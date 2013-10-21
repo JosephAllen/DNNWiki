@@ -244,18 +244,6 @@ namespace DotNetNuke.Wiki.Utilities
         }
 
         /// <summary>
-        /// Gets the shared resources.
-        /// </summary>
-        /// <value>The shared resources.</value>
-        public string SharedResources
-        {
-            get
-            {
-                return this.TemplateSourceDirectory + "/" + "App_LocalResources/SharedResources.resx";
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the cancel button.
         /// </summary>
         /// <value>The cancel button.</value>
@@ -343,7 +331,7 @@ namespace DotNetNuke.Wiki.Utilities
                     writer.WriteLine("\tif ( form." + this.txtName.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
 
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAName.Text", this.SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAName.Text", WikiModuleBase.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -353,7 +341,7 @@ namespace DotNetNuke.Wiki.Utilities
                 {
                     writer.WriteLine("\t" + clause + "if ( form." + this.txtEmail.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAnEmailAddress.Text", this.SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterAnEmailAddress.Text", WikiModuleBase.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -363,7 +351,7 @@ namespace DotNetNuke.Wiki.Utilities
                 {
                     writer.WriteLine("\t" + clause + "if ( form." + this.txtComment.ClientID + ".value == \"\" )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterSomeComments.Text", this.SharedResources) + "\");");
+                    writer.WriteLine("\t\talert(\"" + Localization.GetString("EnterSomeComments.Text", WikiModuleBase.SharedResources) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                     clause = "else ";
@@ -373,7 +361,7 @@ namespace DotNetNuke.Wiki.Utilities
                 {
                     writer.WriteLine("\t" + clause + "if ( form." + this.txtComment.ClientID + ".value.length > " + this.mCommentsMaxLengthValue + " )");
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\talert(\"" + string.Format(Localization.GetString("EnterAName.Text", this.SharedResources), this.mCommentsMaxLengthValue) + "\");");
+                    writer.WriteLine("\t\talert(\"" + string.Format(Localization.GetString("EnterAName.Text", WikiModuleBase.SharedResources), this.mCommentsMaxLengthValue) + "\");");
                     writer.WriteLine("\t\treturn false;");
                     writer.WriteLine("\t}");
                 }
@@ -406,7 +394,7 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalRed");
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);
-                writer.Write(Localization.GetString("Failed.Text", this.SharedResources));
+                writer.Write(Localization.GetString("Failed.Text", WikiModuleBase.SharedResources));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();
@@ -416,7 +404,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Name", this.SharedResources));
+            writer.Write(Localization.GetString("Name", WikiModuleBase.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
             this.txtName.RenderControl(writer);
             writer.RenderEndTag();
@@ -428,7 +416,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Email", this.SharedResources));
+            writer.Write(Localization.GetString("Email", WikiModuleBase.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
             this.txtEmail.RenderControl(writer);
             writer.RenderEndTag();
@@ -443,7 +431,7 @@ namespace DotNetNuke.Wiki.Utilities
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
 
             writer.RenderBeginTag(HtmlTextWriterTag.Span);
-            writer.Write(Localization.GetString("Comments", this.SharedResources));
+            writer.Write(Localization.GetString("Comments", WikiModuleBase.SharedResources));
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
             this.txtComment.RenderControl(writer);
             writer.RenderBeginTag(HtmlTextWriterTag.Br);
@@ -490,11 +478,11 @@ namespace DotNetNuke.Wiki.Utilities
             this.txtComment.MaxLength = this.CommentsMaxLength;
             this.SubmitButton = new System.Web.UI.WebControls.LinkButton();
             this.SubmitButton.CssClass = "CommandButton";
-            this.SubmitButton.Text = Localization.GetString("PostComment", this.SharedResources);
+            this.SubmitButton.Text = Localization.GetString("PostComment", WikiModuleBase.SharedResources);
             ////"Post Comment"
             this.CancelButton = new System.Web.UI.WebControls.LinkButton();
             this.CancelButton.CssClass = "CommandButton";
-            this.CancelButton.Text = Localization.GetString("Cancel", this.SharedResources);
+            this.CancelButton.Text = Localization.GetString("Cancel", WikiModuleBase.SharedResources);
             ////"Cancel"
             this.lblParentID = new System.Web.UI.WebControls.Label();
             this.lblParentID.ID = "CurrParent";
@@ -503,7 +491,7 @@ namespace DotNetNuke.Wiki.Utilities
 
             this.chkSubscribeToNotifications = new System.Web.UI.WebControls.CheckBox();
             this.chkSubscribeToNotifications.ID = "EmailNotify";
-            this.chkSubscribeToNotifications.Text = Localization.GetString("CommentsNotification", this.SharedResources);
+            this.chkSubscribeToNotifications.Text = Localization.GetString("CommentsNotification", WikiModuleBase.SharedResources);
 
             ////If EnableNotify = False Then SubscribeToNotifications.Visible = False Else SubscribeToNotifications.Visible = True
 
