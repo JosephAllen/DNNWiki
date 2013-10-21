@@ -315,7 +315,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\04.05.02.txt" />
+    <Content Include="Resources\CleanUp\04.05.02.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SqlDataProvider\04.05.05.SqlDataProvider" />
