@@ -236,6 +236,7 @@
     <Content Include="Resources\Images\RecentChanges.gif" />
     <Content Include="Resources\Images\Search.gif" />
     <Content Include="Resources\Images\ShowNav.gif" />
+    <Content Include="Resources\Js\wiki.js" />
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\ReleaseNotes.htm" />
     <Content Include="Resources\SqlDataProvider\FullInstallSQL.txt" />
@@ -260,9 +261,7 @@
     <Content Include="BuildScripts\ModulePackage.targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Js\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\SqlDataProvider\01.00.00.SqlDataProvider" />
     <Content Include="Resources\SqlDataProvider\01.00.01.SqlDataProvider" />

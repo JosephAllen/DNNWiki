@@ -203,4 +203,16 @@
   <data name="SubmitButton.Text" xml:space="preserve">
     <value>Post Comment</value>
   </data>
+  <data name="ErrorDeletingTopic.Text" xml:space="preserve">
+    <value>An error ocurred when trying to delete the topic.</value>
+  </data>
+  <data name="WarningDUPLICATENAME.Text" xml:space="preserve">
+    <value>There's already a wiki topic with the same name.</value>
+  </data>
+  <data name="JournalInsertTopicSummary.Text" xml:space="preserve">
+    <value>Added new topic [TopicName].</value>
+  </data>
+  <data name="JournalUpdateTopicSummary.Text" xml:space="preserve">
+    <value>Updated topic [TopicName].</value>
+  </data>
 </root>

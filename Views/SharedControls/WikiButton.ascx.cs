@@ -25,6 +25,7 @@
 
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Wiki.Utilities;
+using System;
 
 namespace DotNetNuke.Wiki.Views.SharedControls
 {
@@ -33,6 +34,32 @@ namespace DotNetNuke.Wiki.Views.SharedControls
     /// </summary>
     public partial class WikiButton : WikiModuleBase
     {
+        #region "Properties"
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show only add control.
+        /// </summary>
+        /// <value>true if to show only add control; otherwise, false.</value>
+        public bool ShowOnlyAddTopicControl
+        {
+            get
+            {
+                if (this.ViewState["WikiButton_ShowOnlyAddTopicControl"] != null)
+                {
+                    return Convert.ToBoolean(this.ViewState["WikiButton_ShowOnlyAddTopicControl"]);
+                }
+
+                return false;
+            }
+
+            set
+            {
+                this.ViewState["WikiButton_ShowOnlyAddTopicControl"] = value;
+            }
+        }
+
+        #endregion "Properties"
+
         #region Constructor
 
         /// <summary>
@@ -73,28 +100,17 @@ namespace DotNetNuke.Wiki.Views.SharedControls
         /// </summary>
         private void SetDisplay()
         {
-            this.ViewPipe1.Visible = false;
-            this.ViewPipe2.Visible = false;
-
-            this.EditPipe.Visible = false;
-
             this.cmdAdd.Visible = this.CanEdit;
             this.lnkEdit.Visible = false;
 
-            this.AddPipe.Visible = false;
             this.txtViewHistory.Visible = false;
 
-            if (CurrentTopic.TopicID >= 0 | (Request.QueryString["topic"] != null))
+            if (!this.ShowOnlyAddTopicControl &&
+                (CurrentTopic.TopicID >= 0 || (Request.QueryString["topic"] != null)))
             {
-                this.ViewPipe1.Visible = true;
-                this.ViewPipe2.Visible = true;
-
-                this.EditPipe.Visible = this.CanEdit;
-
                 this.cmdAdd.Visible = this.CanEdit;
                 this.lnkEdit.Visible = this.CanEdit;
 
-                this.AddPipe.Visible = this.CanEdit;
                 this.txtViewHistory.Visible = true;
                 this.txtViewHistory.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, this.PortalSettings, string.Empty, "loc=TopicHistory", "topic=" + WikiMarkup.EncodeTitle(this.PageTopic));
                 this.lnkEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(this.TabId, string.Empty, "topic=" + WikiMarkup.EncodeTitle(this.PageTopic) + "&loc=edit");

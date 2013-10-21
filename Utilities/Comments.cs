@@ -45,8 +45,6 @@ namespace DotNetNuke.Wiki.Utilities
     {
         #region Variables
 
-        private const string SharedResources = "/DesktopModules/Wiki/Views/App_LocalResources/SharedResources.resx";
-
         //// Private _dateFormat As String = "dd/MM/yyyy HH:mm"
         //// TODO: create a module setting for the date format
         private string mDateFormatValue = "dd/MM/yyyy HH:mm";
@@ -339,7 +337,7 @@ namespace DotNetNuke.Wiki.Utilities
                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "NormalBold");
                         writer.RenderBeginTag(HtmlTextWriterTag.Td);
 
-                        writer.Write(Localization.GetString("NoComments.Text", SharedResources));
+                        writer.Write(Localization.GetString("NoComments.Text", WikiModuleBase.SharedResources));
                         dynamic breakcount2 = this.mBreakCountValue;
                         this.mBreakCountValue = 0;
                         writer.RenderEndTag();
@@ -350,7 +348,7 @@ namespace DotNetNuke.Wiki.Utilities
                 }
                 else
                 {
-                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", SharedResources), Localization.GetString("ExampleEmail.Text", SharedResources), Localization.GetString("ExampleComments.Text", SharedResources), DateTime.Now);
+                    this.RenderRow(writer, 1, Localization.GetString("ExampleName.Text", WikiModuleBase.SharedResources), Localization.GetString("ExampleEmail.Text", WikiModuleBase.SharedResources), Localization.GetString("ExampleComments.Text", WikiModuleBase.SharedResources), DateTime.Now);
                 }
             }
         }
@@ -404,11 +402,11 @@ namespace DotNetNuke.Wiki.Utilities
             writer.RenderBeginTag(HtmlTextWriterTag.Td);
             if (this.IsValidDateFormat(this.mDateFormatValue))
             {
-                writer.Write(Localization.GetString("PostedAt", SharedResources) + " " + postDate.ToString(this.mDateFormatValue));
+                writer.Write(Localization.GetString("PostedAt", WikiModuleBase.SharedResources) + " " + postDate.ToString(this.mDateFormatValue));
             }
             else
             {
-                writer.Write(Localization.GetString("PostedAt", SharedResources) + " " + postDate.ToString(CultureInfo.CurrentCulture));
+                writer.Write(Localization.GetString("PostedAt", WikiModuleBase.SharedResources) + " " + postDate.ToString(CultureInfo.CurrentCulture));
             }
 
             writer.RenderEndTag();
@@ -421,10 +419,11 @@ namespace DotNetNuke.Wiki.Utilities
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "Normal");
                 writer.RenderBeginTag(HtmlTextWriterTag.Td);
                 writer.AddAttribute(HtmlTextWriterAttribute.Href, this.BuildDeleteQueryString(commentId));
+                writer.AddAttribute(HtmlTextWriterAttribute.Onclick, this.BuildDeleteConfirm(Localization.GetString("ConfirmDelete", WikiModuleBase.SharedResources)));
                 writer.RenderBeginTag(HtmlTextWriterTag.A);
 
                 ////writer.Write("Delete Comment")
-                writer.Write(Localization.GetString("DeleteComment", SharedResources));
+                writer.Write(Localization.GetString("DeleteComment", WikiModuleBase.SharedResources));
                 writer.RenderEndTag();
                 writer.RenderEndTag();
                 writer.RenderEndTag();
@@ -436,6 +435,16 @@ namespace DotNetNuke.Wiki.Utilities
             writer.Write("<hr align=\"left\" width=\"90%\" size=\"1\" noshade=\"noshade\" />");
             writer.RenderEndTag();
             writer.RenderEndTag();
+        }
+
+        /// <summary>
+        /// Builds the delete confirm JavaScript function
+        /// </summary>
+        /// <param name="statement">The statement to show</param>
+        /// <returns>returns the delete confirmation action</returns>
+        private string BuildDeleteConfirm(string statement)
+        {
+            return string.Concat("return confirm('", statement, "');");
         }
 
         /// <summary>
