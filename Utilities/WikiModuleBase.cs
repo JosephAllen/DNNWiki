@@ -567,7 +567,7 @@ namespace DotNetNuke.Wiki.Utilities
             //// Dim TopicTable As String
             Topic localTopic = new Topic();
             int i = 0;
-            if (topicCollection.Count > 0)
+            if (topicCollection != null && topicCollection.Any())
             {
                 for (i = 0; i <= topicCollection.Count - 1; i++)
                 {
