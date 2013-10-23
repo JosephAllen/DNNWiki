@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DotNetNuke.Wiki" type="Module" version="05.00.00">
+    <package name="DotNetNuke.Wiki" type="Module" version="05.00.01">
       <friendlyName>Wiki</friendlyName>
       <description>The DotNetNuke Wiki module, more information available at www.dnnsoftware.com</description>
       <owner>
@@ -179,8 +179,8 @@
           </files>
         </component>
 
-        <component type="Cleanup" version="04.05.02" fileName="Resources\CleanUp\Cleanup.04.05.02.txt" />
-        <component type="Cleanup" version="05.00.00" fileName="Resources\CleanUp\Cleanup.05.00.00.txt" />
+        <component type="Cleanup" version="05.00.01" fileName="Resources\CleanUp\Cleanup.04.05.02.txt" />
+        <component type="Cleanup" version="05.00.01" fileName="Resources\CleanUp\Cleanup.05.00.00.txt" />
       </components>
     </package>
   </packages>
