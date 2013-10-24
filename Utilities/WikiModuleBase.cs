@@ -647,12 +647,14 @@ namespace DotNetNuke.Wiki.Utilities
             tableText.Append("</th><th>");
             tableText.Append(Localization.GetString("BaseCreateTableModDate", this.RouterResourceFile));
             tableText.Append("</th></tr>");
-            var topicHistoryCollection = this.GetHistory().ToArray();
+
+            var topicHistories = this.GetHistory();
             //// Dim TopicTable As StringBuilder = New StringBuilder(500)
-            TopicHistory history = default(TopicHistory);
+            TopicHistory history = null;
             int i = 0;
-            if (topicHistoryCollection.Any())
+            if (topicHistories != null && topicHistories.Any())
             {
+                var topicHistoryCollection = topicHistories.ToArray();
                 i = topicHistoryCollection.Count();
                 while (i > 0)
                 {
