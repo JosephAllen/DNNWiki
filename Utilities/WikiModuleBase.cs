@@ -576,7 +576,7 @@ namespace DotNetNuke.Wiki.Utilities
                     localTopic.PortalSettings = this.PortalSettings;
 
                     string nameToUse = string.Empty;
-                    if (!localTopic.Title.ToString().Equals(string.Empty))
+                    if (!string.IsNullOrWhiteSpace(localTopic.Title))
                     {
                         nameToUse = localTopic.Title.Replace(WikiModuleBase.WikiHomeName, "Home");
                     }
