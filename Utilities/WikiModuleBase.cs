@@ -668,7 +668,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                     tableText.Append("</a></td>");
                     tableText.Append("<td class=\"Normal\">");
-                    if (!history.Title.ToString().Equals(string.Empty))
+                    if (!string.IsNullOrWhiteSpace(history.Title))
                     {
                         tableText.Append(history.Title.Replace(WikiHomeName, "Home"));
                     }
