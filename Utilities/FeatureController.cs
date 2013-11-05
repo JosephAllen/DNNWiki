@@ -86,7 +86,7 @@ namespace DotNetNuke.Wiki.Utilities
                     string strContent = null;
                     string strDescription = null;
                     string strTitle = null;
-                    if (!topic.Title.Trim().Equals(string.Empty))
+                    if (!string.IsNullOrWhiteSpace(topic.Title))
                     {
                         strTitle = topic.Title;
                     }
@@ -101,7 +101,8 @@ namespace DotNetNuke.Wiki.Utilities
                         strContent += " " + topic.Keywords;
                         strContent += " " + topic.Description;
 
-                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Cache), false), 100, Localization.GetString("Dots", this.mSharedResourceFile));
+                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Cache), false), 100,
+                            Localization.GetString("Dots", this.mSharedResourceFile));
                     }
                     else
                     {
@@ -109,7 +110,8 @@ namespace DotNetNuke.Wiki.Utilities
                         strContent += " " + topic.Keywords;
                         strContent += " " + topic.Description;
 
-                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Content), false), 100, Localization.GetString("Dots", this.mSharedResourceFile));
+                        strDescription = HtmlUtils.Shorten(HtmlUtils.Clean(HttpUtility.HtmlDecode(topic.Content), false), 100,
+                            Localization.GetString("Dots", this.mSharedResourceFile));
                     }
 
                     int userID = 0;

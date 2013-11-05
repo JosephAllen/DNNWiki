@@ -261,7 +261,6 @@
     <Content Include="BuildScripts\ModulePackage.targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\SqlDataProvider\01.00.00.SqlDataProvider" />
     <Content Include="Resources\SqlDataProvider\01.00.01.SqlDataProvider" />

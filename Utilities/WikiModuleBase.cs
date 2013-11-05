@@ -567,7 +567,7 @@ namespace DotNetNuke.Wiki.Utilities
             //// Dim TopicTable As String
             Topic localTopic = new Topic();
             int i = 0;
-            if (topicCollection.Count > 0)
+            if (topicCollection != null && topicCollection.Any())
             {
                 for (i = 0; i <= topicCollection.Count - 1; i++)
                 {
@@ -576,7 +576,7 @@ namespace DotNetNuke.Wiki.Utilities
                     localTopic.PortalSettings = this.PortalSettings;
 
                     string nameToUse = string.Empty;
-                    if (!localTopic.Title.ToString().Equals(string.Empty))
+                    if (!string.IsNullOrWhiteSpace(localTopic.Title))
                     {
                         nameToUse = localTopic.Title.Replace(WikiModuleBase.WikiHomeName, "Home");
                     }
@@ -647,12 +647,14 @@ namespace DotNetNuke.Wiki.Utilities
             tableText.Append("</th><th>");
             tableText.Append(Localization.GetString("BaseCreateTableModDate", this.RouterResourceFile));
             tableText.Append("</th></tr>");
-            var topicHistoryCollection = this.GetHistory().ToArray();
+
+            var topicHistories = this.GetHistory();
             //// Dim TopicTable As StringBuilder = New StringBuilder(500)
-            TopicHistory history = default(TopicHistory);
+            TopicHistory history = null;
             int i = 0;
-            if (topicHistoryCollection.Any())
+            if (topicHistories != null && topicHistories.Any())
             {
+                var topicHistoryCollection = topicHistories.ToArray();
                 i = topicHistoryCollection.Count();
                 while (i > 0)
                 {
@@ -666,7 +668,7 @@ namespace DotNetNuke.Wiki.Utilities
 
                     tableText.Append("</a></td>");
                     tableText.Append("<td class=\"Normal\">");
-                    if (!history.Title.ToString().Equals(string.Empty))
+                    if (!string.IsNullOrWhiteSpace(history.Title))
                     {
                         tableText.Append(history.Title.Replace(WikiHomeName, "Home"));
                     }
