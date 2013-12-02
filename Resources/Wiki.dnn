@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DotNetNuke.Wiki" type="Module" version="05.00.01">
+    <package name="DotNetNuke.Wiki" type="Module" version="06.00.00">
       <friendlyName>Wiki</friendlyName>
       <description>The DotNetNuke Wiki module, more information available at www.dnnsoftware.com</description>
       <owner>
@@ -67,6 +67,11 @@
               <path>Resources\SqlDataProvider</path>
               <name>04.05.03.SqlDataProvider</name>
               <version>04.05.03</version>
+            </script>
+            <script type="Install">
+              <path>Resources\SqlDataProvider</path>
+              <name>06.00.00.SqlDataProvider</name>
+              <version>06.00.00</version>
             </script>
             <script type="UnInstall">
               <path>Resources\SqlDataProvider</path>
@@ -176,11 +181,16 @@
               <path>Resources\SqlDataProvider</path>
               <name>04.05.05.SqlDataProvider</name>
             </file>
+            <file>
+              <path>Resources\SqlDataProvider</path>
+              <name>06.00.00.SqlDataProvider</name>
+            </file>
           </files>
         </component>
 
-        <component type="Cleanup" version="05.00.01" fileName="Resources\CleanUp\Cleanup.04.05.02.txt" />
-        <component type="Cleanup" version="05.00.01" fileName="Resources\CleanUp\Cleanup.05.00.00.txt" />
+        <component type="Cleanup" version="06.00.00" fileName="Resources\CleanUp\Cleanup.04.05.02.txt" />
+        <component type="Cleanup" version="06.00.00" fileName="Resources\CleanUp\Cleanup.05.00.00.txt" />
+        <component type="Cleanup" version="06.00.00" fileName="Resources\CleanUp\Cleanup.06.00.00.txt" />
       </components>
     </package>
   </packages>
