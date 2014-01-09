@@ -89,15 +89,15 @@
     <Compile Include="BusinessObjects\CommentParentBO.cs" />
     <Compile Include="BusinessObjects\Exceptions\CommentParentValidationException.cs" />
     <Compile Include="BusinessObjects\Exceptions\CommentValidationException.cs" />
-    <Compile Include="BusinessObjects\Exceptions\SettingValidationException.cs" />
+    <Compile Include="BusinessObjects\Exceptions\zzSettingValidationException.cs" />
     <Compile Include="BusinessObjects\Exceptions\TopicHistoryValidationException.cs" />
     <Compile Include="BusinessObjects\Exceptions\TopicValidationException.cs" />
     <Compile Include="BusinessObjects\Models\Comment.cs" />
     <Compile Include="BusinessObjects\Models\CommentParent.cs" />
-    <Compile Include="BusinessObjects\Models\Setting.cs" />
+    <Compile Include="BusinessObjects\Models\zzSetting.cs" />
     <Compile Include="BusinessObjects\Models\Topic.cs" />
     <Compile Include="BusinessObjects\Models\TopicHistory.cs" />
-    <Compile Include="BusinessObjects\SettingBO.cs" />
+    <Compile Include="BusinessObjects\zzSettingBO.cs" />
     <Compile Include="BusinessObjects\TopicBO.cs" />
     <Compile Include="BusinessObjects\TopicHistoryBO.cs" />
     <Compile Include="BusinessObjects\_AbstractBusinessObject.cs" />
@@ -125,17 +125,18 @@
     <Compile Include="Utilities\WikiModuleBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Utilities\WikiModuleSettings.cs" />
     <Compile Include="Utilities\WikiModuleSettingsBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Utilities\FeatureController.cs" />
     <Compile Include="Utilities\SharedEnum.cs" />
-    <Compile Include="Views\Administration.ascx.cs">
-      <DependentUpon>Administration.ascx</DependentUpon>
+    <Compile Include="Views\zzAdministration.ascx.cs">
+      <DependentUpon>zzAdministration.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Administration.ascx.designer.cs">
-      <DependentUpon>Administration.ascx</DependentUpon>
+    <Compile Include="Views\zzAdministration.ascx.designer.cs">
+      <DependentUpon>zzAdministration.ascx</DependentUpon>
     </Compile>
     <Compile Include="Views\Edit.ascx.cs">
       <DependentUpon>Edit.ascx</DependentUpon>
@@ -222,6 +223,13 @@
     <Compile Include="Views\TopicHistory.ascx.designer.cs">
       <DependentUpon>TopicHistory.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\WikiSettings.ascx.cs">
+      <DependentUpon>WikiSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\WikiSettings.ascx.designer.cs">
+      <DependentUpon>WikiSettings.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DEVELOPER_README.txt" />
@@ -241,7 +249,7 @@
     <Content Include="Resources\License.txt" />
     <Content Include="Resources\ReleaseNotes.htm" />
     <Content Include="Resources\SqlDataProvider\FullInstallSQL.txt" />
-    <Content Include="Views\Administration.ascx" />
+    <Content Include="Views\zzAdministration.ascx" />
     <Content Include="Views\Edit.ascx" />
     <Content Include="Views\PageRatings.ascx" />
     <Content Include="Views\Ratings.ascx" />
@@ -254,9 +262,12 @@
     <Content Include="Views\SharedControls\WikiMenu.ascx" />
     <Content Include="Views\Start.ascx" />
     <Content Include="Views\TopicHistory.ascx" />
+    <Content Include="Views\WikiSettings.ascx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Wiki.dnn" />
+    <Content Include="Resources\Wiki.dnn">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="BuildScripts\ModulePackage.targets" />
@@ -276,7 +287,7 @@
     <Content Include="Resources\SqlDataProvider\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\App_LocalResources\Administration.ascx.resx">
+    <Content Include="Views\App_LocalResources\WikiSettings.ascx.resx">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
@@ -312,6 +323,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SqlDataProvider\06.00.00.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\App_LocalResources\zzAdministration.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

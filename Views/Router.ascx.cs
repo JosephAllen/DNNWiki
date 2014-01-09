@@ -55,7 +55,7 @@ namespace DotNetNuke.Wiki.Views
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Router"/> class.
+        /// Initializes a new instance of the <see cref="Router" /> class.
         /// </summary>
         public Router()
         {
@@ -81,7 +81,7 @@ namespace DotNetNuke.Wiki.Views
                     string.Empty,
                     string.Empty,
                     string.Empty,
-                    this.EditUrl("Administration"),
+                    this.EditUrl("WikiSettings"),
                     false,
                     Security.SecurityAccessLevel.Admin,
                     true,
@@ -98,8 +98,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Load event of the Router_Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         private void Router_Page_Load(object sender, System.EventArgs e)
         {
             try
@@ -146,8 +147,7 @@ namespace DotNetNuke.Wiki.Views
         {
             bool showOnlyAddTopicControl = false;
 
-            // if the control being loaded is the start or the index, than show the Wiki buttons
-            // control
+            // if the control being loaded is the start or the index, than show the Wiki buttons control
             if (controlToLoad.Equals(ControlStart) ||
                 (showOnlyAddTopicControl = controlToLoad.Equals(ControlSharedControlsIndex)))
             {

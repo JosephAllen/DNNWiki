@@ -42,7 +42,7 @@ namespace DotNetNuke.Wiki.Views
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Edit"/> class.
+        /// Initializes a new instance of the <see cref="Edit" /> class.
         /// </summary>
         public Edit()
         {
@@ -58,8 +58,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Click event of the Cancel control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         protected void CmdCancel_Click(object sender, System.EventArgs e)
         {
             this.CancelChanges();
@@ -69,8 +70,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Click event of the save control. Creates/updates a topic
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         protected void CmdSave_Click(object sender, System.EventArgs e)
         {
             // If we've change the Topic Name we need to create a new topic.
@@ -107,8 +109,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Click event of the Save And Continue control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         protected void CmdSaveAndContinue_Click(object sender, System.EventArgs e)
         {
             this.PageTopic = this.txtPageName.Text.Trim();
@@ -120,8 +123,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Click event of the Delete Button control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         protected void DeleteBtn_Click(object sender, System.EventArgs e)
         {
             try
@@ -146,8 +150,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the Load event of the Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         public new void Page_Load(object sender, System.EventArgs e)
         {
             this.LoadLocalization();
@@ -202,8 +207,9 @@ namespace DotNetNuke.Wiki.Views
         /// Handles the PreRender event of the Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         private void Page_PreRender(object sender, System.EventArgs e)
         {
         }

@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 //--------------------------------------------------------------------------------------------------------
-// <copyright file="SettingBO.cs" company="DNN Corp®">
+// <copyright file="zzSettingBO.cs" company="DNN Corp®">
 //      DNN Corp® - http://www.dnnsoftware.com Copyright (c) 2002-2013 by DNN Corp®
 //
 //      Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -34,7 +34,7 @@ namespace DotNetNuke.Wiki.BusinessObjects
     /// <summary>
     /// The Settings Business Object
     /// </summary>
-    public class SettingBO : _AbstractBusinessObject<Setting, int>
+    public class zzSettingBO : _AbstractBusinessObject<zzSetting, int>
     {
         #region Variables
 
@@ -45,10 +45,10 @@ namespace DotNetNuke.Wiki.BusinessObjects
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SettingBO"/> class.
+        /// Initializes a new instance of the <see cref="zzSettingBO" /> class.
         /// </summary>
         /// <param name="uOw">The Unit of Work.</param>
-        public SettingBO(UnitOfWork uOw)
+        public zzSettingBO(UnitOfWork uOw)
             : base(uOw.Context)
         {
             this.currentUnitOfWork = uOw;
@@ -88,13 +88,13 @@ namespace DotNetNuke.Wiki.BusinessObjects
         /// </summary>
         /// <param name="moduleId">the module id the setting is associated to</param>
         /// <returns>returns a setting</returns>
-        internal Setting GetByModuleID(int moduleId)
+        internal zzSetting GetByModuleID(int moduleId)
         {
-            return this.DatabaseContext.ExecuteQuery<Setting>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_SettingsGetByModuleID"), moduleId).FirstOrDefault();
+            return this.DatabaseContext.ExecuteQuery<zzSetting>(CommandType.StoredProcedure, string.Concat(this.DataBaseOwner, this.ObjectQualifier, "Wiki_SettingsGetByModuleID"), moduleId).FirstOrDefault();
         }
 
         /// <summary>
-        /// Entity_s the evaluate SQL exception.
+        /// Evaluate SQL exception.
         /// </summary>
         /// <param name="exc">The exception.</param>
         /// <param name="crudOperation">The crud operation.</param>

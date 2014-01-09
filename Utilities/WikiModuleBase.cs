@@ -59,7 +59,7 @@ namespace DotNetNuke.Wiki.Utilities
         private int mTopicIdValue;
         private Topic mTopicObject;
         private string mHomeUrlValue;
-        private Setting mWikiSettingsObject;
+        private WikiModuleSettings mWikiModuleSettings;
         private bool mCanEditValue = false;
 
         private UnitOfWork mUnitOfWorkObject;
@@ -71,7 +71,7 @@ namespace DotNetNuke.Wiki.Utilities
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WikiModuleBase"/> class.
+        /// Initializes a new instance of the <see cref="WikiModuleBase" /> class.
         /// </summary>
         public WikiModuleBase()
         {
@@ -108,10 +108,17 @@ namespace DotNetNuke.Wiki.Utilities
         /// Gets or sets the wiki settings.
         /// </summary>
         /// <value>The wiki settings.</value>
-        public Setting WikiSettings
+        public WikiModuleSettings WikiSettings
         {
-            get { return this.mWikiSettingsObject; }
-            set { this.mWikiSettingsObject = value; }
+            get
+            {
+                if (mWikiModuleSettings == null)
+                {
+                    mWikiModuleSettings = new WikiModuleSettings(this.ModuleId);
+                }
+                return this.mWikiModuleSettings;
+            }
+            set { this.mWikiModuleSettings = value; }
         }
 
         /// <summary>
@@ -157,7 +164,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <summary>
         /// Gets or sets a value indicating whether [is admin].
         /// </summary>
-        /// <value><c>true</c> if [is admin]; otherwise, /c>.</value>
+        /// <value><c>true</c> if [is admin]; otherwise, /c&gt;.</value>
         public bool IsAdmin
         {
             get { return this.mIsAdminValue; }
@@ -185,7 +192,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <summary>
         /// Gets a value indicating whether [can edit].
         /// </summary>
-        /// <value><c>true</c> if [can edit]; otherwise, /c>.</value>
+        /// <value><c>true</c> if [can edit]; otherwise, /c&gt;.</value>
         public bool CanEdit
         {
             get { return this.mCanEditValue; }
@@ -266,7 +273,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// page startup.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected void Page_Unload(object sender, EventArgs e)
         {
             if (this.mUnitOfWorkObject != null)
@@ -284,14 +291,20 @@ namespace DotNetNuke.Wiki.Utilities
             {
                 this.mTopicHistoryBoObject = null;
             }
+
+            if (this.WikiSettings != null)
+            {
+                this.WikiSettings = null;
+            }
         }
 
         /// <summary>
         /// Handles the Load event of the Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event
-        /// data.</param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs" /> instance containing the event data.
+        /// </param>
         protected void Page_Load(object sender, System.EventArgs e)
         {
             try
@@ -299,7 +312,7 @@ namespace DotNetNuke.Wiki.Utilities
                 // Include Css files
                 this.AddStylePageHeader(CSSWikiModuleCssId, CSSWikiModuleCssPath);
 
-                // congfigure the URL to the home page (the wiki without any parameters)
+                // configure the URL to the home page (the wiki without any parameters)
                 this.mHomeUrlValue = DotNetNuke.Common.Globals.NavigateURL();
 
                 // Get the pageTopic
@@ -319,11 +332,8 @@ namespace DotNetNuke.Wiki.Utilities
                     this.mPageTopicValue = WikiMarkup.DecodeTitle(this.Request.QueryString["topic"].ToString());
                 }
 
-                // Sets the wikiSettings
-                this.SetWikiSettings();
-
                 // Get the edit rights
-                if (this.mWikiSettingsObject.ContentEditorRoles.Equals("UseDNNSettings"))
+                if (this.WikiSettings.ContentEditorRoles.Equals("UseDNNSettings"))
                 {
                     this.mCanEditValue = this.IsEditable;
                 }
@@ -337,13 +347,13 @@ namespace DotNetNuke.Wiki.Utilities
                             this.mCanEditValue = true;
                             this.mIsAdminValue = true;
                         }
-                        else if (this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
+                        else if (this.WikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1)
                         {
                             this.mCanEditValue = true;
                         }
                         else
                         {
-                            string[] editorRoles = this.mWikiSettingsObject.ContentEditorRoles.Split(
+                            string[] editorRoles = this.WikiSettings.ContentEditorRoles.Split(
                                 new char[] { '|' },
                                 StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                             foreach (string role in editorRoles)
@@ -359,7 +369,8 @@ namespace DotNetNuke.Wiki.Utilities
                     else
                     {
                         // User is NOT logged in
-                        if ((this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) | (this.mWikiSettingsObject.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
+                        if ((this.WikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleAllUsersName + ";") > -1) |
+                            (this.WikiSettings.ContentEditorRoles.IndexOf(";" + DotNetNuke.Common.Globals.glbRoleUnauthUserName + ";") > -1))
                         {
                             this.mCanEditValue = true;
                         }
@@ -431,8 +442,9 @@ namespace DotNetNuke.Wiki.Utilities
         /// <param name="title">The title.</param>
         /// <param name="description">The description.</param>
         /// <param name="keywords">The keywords.</param>
-        /// <param name="out_crudOperation">The crud operation performed, only update or
-        /// insert</param>
+        /// <param name="out_crudOperation">
+        /// The crud operation performed, only update or insert
+        /// </param>
         protected void SaveTopic(
             string content,
             bool allowDiscuss,
@@ -442,9 +454,8 @@ namespace DotNetNuke.Wiki.Utilities
             string keywords,
             out SharedEnum.CrudOperation out_crudOperation)
         {
-            TopicHistory topicHistory = new TopicHistory();
-            topicHistory.TabID = this.TabId;
-            topicHistory.PortalSettings = this.PortalSettings;
+            TopicHistory topicHistory = new TopicHistory() { TabID = this.TabId, PortalSettings = this.PortalSettings };
+
             if (this.mTopicObject.TopicID != 0)
             {
                 if (!content.Equals(this.mTopicObject.Content) | !title.Equals(this.mTopicObject.Title) | !description.Equals(this.mTopicObject.Description) | !keywords.Equals(this.mTopicObject.Keywords))
@@ -554,7 +565,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// Creates the table.
         /// </summary>
         /// <param name="topicCollection">The topic collection.</param>
-        /// <returns>html for the topics</returns>
+        /// <returns>HTML for the topics</returns>
         protected string CreateTable(List<Topic> topicCollection)
         {
             System.Text.StringBuilder tableHTML = new System.Text.StringBuilder("<table><tr><th>");
@@ -615,7 +626,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// Creates the recent change table.
         /// </summary>
         /// <param name="daysBack">The days back.</param>
-        /// <returns>html for the recent changes table</returns>
+        /// <returns>HTML for the recent changes table</returns>
         protected string CreateRecentChangeTable(int daysBack)
         {
             return this.CreateTable(this.GetRecentlyChanged(daysBack).ToList());
@@ -625,7 +636,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// Creates the search table.
         /// </summary>
         /// <param name="searchString">The search string.</param>
-        /// <returns>html for the search results table</returns>
+        /// <returns>HTML for the search results table</returns>
         protected string CreateSearchTable(string searchString)
         {
             return this.CreateTable(this.Search(searchString).ToList());
@@ -634,7 +645,7 @@ namespace DotNetNuke.Wiki.Utilities
         /// <summary>
         /// Creates the history table.
         /// </summary>
-        /// <returns>html for the history table</returns>
+        /// <returns>HTML for the history table</returns>
         protected string CreateHistoryTable()
         {
             System.Text.StringBuilder tableText = new System.Text.StringBuilder(1000);
@@ -697,22 +708,6 @@ namespace DotNetNuke.Wiki.Utilities
 
             tableText.Append("</table>");
             return tableText.ToString();
-        }
-
-        /// <summary>
-        /// Sets the wiki settings entity
-        /// </summary>
-        private void SetWikiSettings()
-        {
-            // if (wikiSettings == null) {
-            SettingBO wikiController = new SettingBO(this.UoW);
-            this.mWikiSettingsObject = wikiController.GetByModuleID(this.ModuleId);
-            if (this.mWikiSettingsObject == null)
-            {
-                this.mWikiSettingsObject = new Setting();
-                this.mWikiSettingsObject.ContentEditorRoles = "UseDNNSettings";
-            }
-            //// }
         }
 
         /// <summary>

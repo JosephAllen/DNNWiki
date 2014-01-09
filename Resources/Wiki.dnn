@@ -112,10 +112,10 @@
                     <viewOrder>0</viewOrder>
                   </moduleControl>
                   <moduleControl>
-                    <controlKey>Administration</controlKey>
-                    <controlSrc>DesktopModules/Wiki/Views/Administration.ascx</controlSrc>
+                    <controlKey>WikiSettings</controlKey>
+                    <controlSrc>DesktopModules/Wiki/Views/WikiSettings.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle>Administration</controlTitle>
+                    <controlTitle>WikiSettings</controlTitle>
                     <controlType>Edit</controlType>
                     <iconFile />
                     <helpUrl />

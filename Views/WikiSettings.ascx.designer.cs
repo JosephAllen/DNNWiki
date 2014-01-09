@@ -10,7 +10,7 @@
 namespace DotNetNuke.Wiki.Views {
     
     
-    public partial class Administration {
+    public partial class WikiSettings {
         
         /// <summary>
         /// SecuritySettings control.

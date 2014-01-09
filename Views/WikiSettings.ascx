@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Administration.ascx.cs" Inherits="DotNetNuke.Wiki.Views.Administration" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="WikiSettings.ascx.cs" Inherits="DotNetNuke.Wiki.Views.WikiSettings" %>
 
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="DualListControl" Src="~/controls/DualListControl.ascx" %>

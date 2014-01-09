@@ -38,7 +38,7 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
     [PrimaryKey("SettingId", AutoIncrement = true)]
     //// Configure caching using PetaPoco
     [Cacheable("Wiki_Settings", CacheItemPriority.Default, 20)]
-    public class Setting
+    public class zzSetting
     {
         #region "Variables"
 
@@ -83,13 +83,13 @@ namespace DotNetNuke.Wiki.BusinessObjects.Models
         /// <summary>
         /// Gets or sets a value indicating whether [allow discussions].
         /// </summary>
-        /// <value><c>true</c> if [allow discussions]; otherwise, /c>.</value>
+        /// <value><c>true</c> if [allow discussions]; otherwise, /c&gt;.</value>
         public bool AllowDiscussions { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [allow ratings].
         /// </summary>
-        /// <value><c>true</c> if [allow ratings]; otherwise, /c>.</value>
+        /// <value><c>true</c> if [allow ratings]; otherwise, /c&gt;.</value>
         public bool AllowRatings { get; set; }
 
         /// <summary>

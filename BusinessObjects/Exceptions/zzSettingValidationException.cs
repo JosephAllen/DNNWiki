@@ -24,24 +24,20 @@
 #endregion Copyright
 
 using DotNetNuke.Wiki.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace DotNetNuke.Wiki.BusinessObjects.Exceptions
 {
     /// <summary>
     /// Setting Validation Exception for handling SQL Errors
     /// </summary>
-    public class SettingValidationException : _AbstractValidationException<SettingBO.SettingError>
+    public class zzSettingValidationException : _AbstractValidationException<zzSettingBO.SettingError>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SettingValidationException"/> class.
+        /// Initializes a new instance of the <see cref="SettingValidationException" /> class.
         /// </summary>
         /// <param name="crudOperation">The crud operation.</param>
         /// <param name="crudError">The crud error.</param>
-        public SettingValidationException(SharedEnum.CrudOperation crudOperation, SettingBO.SettingError crudError)
+        public zzSettingValidationException(SharedEnum.CrudOperation crudOperation, zzSettingBO.SettingError crudError)
             : base(crudOperation, crudError)
         {
         }
